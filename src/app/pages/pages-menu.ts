@@ -2,7 +2,7 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'Inicio',
+    title: 'Início',
     icon: 'home-outline',
     link: '/pages/home',
     home: true,
