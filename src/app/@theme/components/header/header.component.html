@@ -3,21 +3,16 @@
     <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
       <nb-icon icon="menu-2-outline"></nb-icon>
     </a>
-    <a class="logo" href="#" (click)="navigateHome()">ngx-<span>admin</span></a>
+    <a class="logo" href="#" (click)="navigateHome()">SS <span>Consultório</span></a>
   </div>
-  <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
-    <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
-  </nb-select>
 </div>
 
 <div class="header-container">
   <nb-actions size="small">
 
-    <nb-action class="control-item">
+    <!-- <nb-action class="control-item">
       <nb-search type="rotate-layout"></nb-search>
-    </nb-action>
-    <nb-action class="control-item" icon="email-outline"></nb-action>
-    <nb-action class="control-item" icon="bell-outline"></nb-action>
+    </nb-action> -->
     <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
       <nb-user [nbContextMenu]="userMenu"
                [onlyPicture]="userPictureOnly"
@@ -25,5 +20,17 @@
                [picture]="user?.picture">
       </nb-user>
     </nb-action>
+    <nb-action class="control-item" (click)="open2(dialog)" icon="log-out-outline"></nb-action>
   </nb-actions>
 </div>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Atenção</nb-card-header>
+    <nb-card-body>{{ data }}</nb-card-body>
+    <nb-card-footer>
+      <button style="margin-right: 10px;" nbButton (click)="ref.close()">Não</button>
+      <button nbButton status="warning" (click)="ref.close()">Sim</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
