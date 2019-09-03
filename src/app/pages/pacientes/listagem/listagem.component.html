@@ -6,62 +6,15 @@
 
     <nb-card-body>
         <div class="mb-4 d-flex">
-            <div class="">
-                <input nbInput class="search" type="text" [(ngModel)]="search" (ngModelChange)="onSearch(search)"
-                    placeholder="Busque algo...">
+            <div>
+                <ngx-input-simple [feedback]="false" [(ngModel)]="search" (ngModelChange)="onSearch(search)" placeholder="Busque alguem...">
+                </ngx-input-simple>
             </div>
             <div class="ml-auto">
-                <button nbButton outline status="primary">
-                    <nb-icon icon="plus-circle-outline"></nb-icon>
-                </button>
+                <button nbButton (click)="adicionarPaciente()" status="primary">Adicionar Paciente</button>
             </div>
         </div>
-        <ng2-smart-table [settings]="settings" [source]="source" (delete)="deletar($event)"
-            (edit)="editar($event)">
+        <ng2-smart-table (rowSelect)="teste($event)" [settings]="settings" [source]="source" (delete)="deletar($event)" (edit)="editar($event)">
         </ng2-smart-table>
     </nb-card-body>
 </nb-card>
-
-<ng-template #dialogEditar let-data let-ref="dialogRef">
-    <nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary" nbSpinnerMessage="Carregando...">
-        <nb-card-header>Editar paciente</nb-card-header>
-        <nb-card-body>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="inputFirstName" class="label">First Name</label>
-                        <input type="text" nbInput fullWidth id="inputFirstName" placeholder="First Name">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="inputFirstName" class="label">First Name</label>
-                        <input type="text" nbInput fullWidth id="inputFirstName" placeholder="First Name">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="inputFirstName" class="label">First Name</label>
-                        <input type="text" nbInput fullWidth id="inputFirstName" placeholder="First Name">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    {{isLoading}}
-                    <input nbInput class="search" type="text" placeholder="Nome">
-                </div>
-                <div class="col-sm-4">
-                    <input nbInput class="search" type="text" placeholder="Nome">
-                </div>
-                <div class="col-sm-4">
-                    <input nbInput class="search" type="text" placeholder="Nome">
-                </div>
-            </div>
-        </nb-card-body>
-        <nb-card-footer>
-            <button class="mr-3" nbButton status="danger" (click)="ref.close()">Cancelar</button>
-            <button nbButton status="warning" (click)="ref.close()">Editar</button>
-        </nb-card-footer>
-    </nb-card>
-</ng-template>

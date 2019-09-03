@@ -1,4 +1,4 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   NbActionsModule,
@@ -43,8 +43,10 @@ import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
 import { FormatterService } from './services/formatter.service';
 import { ValidatorService } from './services/validator.service';
-import { InputComponent } from './components/input/input.component';
+import { InputSimpleComponent } from './components/input-simple/input-simple.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputMaskComponent } from './components/input-mask/input-mask.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -61,7 +63,7 @@ const NB_MODULES = [
   NbEvaIconsModule,
   NbDialogModule.forRoot(),
   NbCardModule,
-  NbInputModule
+  NbInputModule,
 ];
 const COMPONENTS = [
   HeaderComponent,
@@ -71,7 +73,8 @@ const COMPONENTS = [
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
-  InputComponent
+  InputSimpleComponent,
+  InputMaskComponent,
 ];
 const PIPES = [
   CapitalizePipe,
@@ -86,10 +89,11 @@ const PIPES = [
     CommonModule,
     ...NB_MODULES,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskModule.forRoot(),
   ],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
-  declarations: [...COMPONENTS, ...PIPES],
+  declarations: [...COMPONENTS, ...PIPES]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

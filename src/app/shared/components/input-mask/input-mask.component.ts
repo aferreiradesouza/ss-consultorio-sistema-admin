@@ -4,11 +4,13 @@ import { FormatterService } from '../../services/formatter.service';
 import { ValidatorService } from '../../services/validator.service';
 
 @Component({
-    selector: 'ngx-input',
-    templateUrl: './input.component.html'
+    selector: 'ngx-input-mask',
+    templateUrl: './input-mask.component.html',
+    styleUrls: ['./input-mask.component.scss']
 })
-export class InputComponent implements OnInit, ControlValueAccessor {
-    public readonly validTypes = ['password', 'text', 'email', 'number', 'month', 'date', 'datetime', 'cpf', 'cnpjcpf', 'cc', 'tel', 'ddd'];
+export class InputMaskComponent implements OnInit, ControlValueAccessor {
+    // tslint:disable-next-line: max-line-length
+    public readonly validTypes = ['password', 'text', 'email', 'number', 'month', 'date', 'datetime', 'cpf', 'cnpjcpf', 'cc', 'tel', 'cel', 'ddd', 'idade'];
     public onChangeFn!: (valid: string) => void;
     public onTouched!: () => void;
 
@@ -24,7 +26,9 @@ export class InputComponent implements OnInit, ControlValueAccessor {
         email: 'Email inválido',
         maxLength: 'Máximo de X caracteres',
         tel: 'Telefone inválido',
-        ddd: 'DDD inválido'
+        cel: 'Celular inválido',
+        ddd: 'DDD inválido',
+        idade: 'Digite uma idade válida'
     };
 
     @Input() label?: string;
@@ -34,6 +38,8 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     @Input() placeholder: string = '';
     @Input() required: boolean = false;
     @Input() maxLength: number = 0;
+    @Input() dropCharacters = true;
+    @Input() feedback = true;
 
     @Output() blur = new EventEmitter();
 
@@ -88,9 +94,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     }
 
     public onChange(value: string): void {
-
         this.onChangeFn(value);
-        console.log(this.getErrorMessage())
         this.validate(value);
 
     }
@@ -104,10 +108,13 @@ export class InputComponent implements OnInit, ControlValueAccessor {
         errors.date = this.type === 'date' ? !this.validator.isValidDate(value) : false;
         errors.datetime = this.type === 'datetime' ? !this.validator.isValidDateTime(value) : false;
         errors.month = this.type === 'month' ? !this.validator.isValidMonth(value) : false;
-        errors.number = this.type === 'number' ? !this.validator.isValidNumber(value) : false;
         errors.email = this.type === 'email' ? !this.validator.isValidEmail(value) : false;
-        errors.tel = this.type === 'tel' ? !this.validator.isValidPhone(value) : false;
+        errors.tel = this.type === 'tel' ? !this.validator.isValidTel(value) : false;
+        errors.cel = this.type === 'cel' ? !this.validator.isValidCel(value) : false;
         errors.ddd = this.type === 'ddd' ? !this.validator.isValidDdd(value) : false;
+        errors.idade = this.type === 'idade' ? !this.validator.isValidAge(value) : false;
+        errors.cep = this.type === 'cep' ? !this.validator.isValidCep(value) : false;
+        errors.dataNascimento = this.type === 'dataNascimento' ? !this.validator.isValidDataNascimento(value) : false;
 
         if (this.maxLength !== 0 && typeof this.maxLength === 'number') {
             errors.maxLength = (value.length > this.maxLength);
@@ -127,6 +134,59 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     public shouldDisplayError(): boolean {
         const control = this.controlDir.control;
         return (control.invalid && control.touched);
+    }
+
+    feedbackInput() {
+        const control = this.controlDir.control;
+        if (!control.dirty && !control.touched) {
+            if (this.shouldDisplayError()) {
+                return 'danger';
+            } else if (!control.dirty && !control.touched) {
+                return null;
+            } else {
+                return 'success';
+            }
+        } else if (this.shouldDisplayError() || this.control.invalid) {
+            return 'danger';
+        } else {
+            if (control.invalid) {
+                return 'danger';
+            }
+            return 'success';
+        }
+    }
+
+    public getMask(): string {
+        switch (this.type) {
+            case 'month':
+                return this.formatter.masks.month;
+            case 'date':
+                return this.formatter.masks.date;
+            case 'datetime':
+                return this.formatter.masks.datetime;
+            case 'dataNascimento':
+                return this.formatter.masks.date;
+            case 'cpf':
+                return this.formatter.masks.cpf;
+            case 'cnpj':
+                return this.formatter.masks.cnpj;
+            case 'cc':
+                return this.formatter.masks.cc;
+            case 'number':
+                return this.formatter.masks.number;
+            case 'idade':
+                return this.formatter.masks.number;
+            case 'tel':
+                return this.formatter.masks.telDDD;
+            case 'cel':
+                return this.formatter.masks.celDDD;
+            case 'cep':
+                return this.formatter.masks.cep;
+            case 'percent':
+                return undefined;
+        }
+
+        return undefined;
     }
 
     public getErrorMessage(): string {

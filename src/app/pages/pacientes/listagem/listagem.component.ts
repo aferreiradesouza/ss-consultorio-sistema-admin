@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { Router } from '@angular/router';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { EditarPacientesComponent } from '../editar/editar.component';
+import { FormatterService } from '../../../shared/services/formatter.service';
 
 @Component({
   selector: 'ngx-listagem-pacientes',
@@ -38,21 +39,24 @@ export class ListagemPacientesComponent {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number'
-      },
       firstName: {
         title: 'Nome',
         type: 'string'
+      },
+      age: {
+        title: 'Idade',
+        type: 'number'
       },
       email: {
         title: 'E-mail',
         type: 'string'
       },
-      age: {
-        title: 'Age',
-        type: 'number'
+      telefone: {
+        title: 'Telefone',
+        type: 'number',
+        valuePrepareFunction: (tel) => {
+          return this.formatterService.phoneFormat(tel);
+        }
       },
     },
   };
@@ -62,8 +66,10 @@ export class ListagemPacientesComponent {
   constructor(
     private service: SmartTableData,
     public router: Router,
-    private dialogService: NbDialogService) {
-    const data = this.service.getData();
+    private dialogService: NbDialogService,
+    private toastrService: NbToastrService,
+    public formatterService: FormatterService) {
+    const data: any[] = this.service.getData();
     console.log(data);
     this.source.load(data);
   }
@@ -82,15 +88,19 @@ export class ListagemPacientesComponent {
     } else {
       this.source.setFilter([
         {
-          field: 'id',
-          search: query
-        },
-        {
           field: 'firstName',
           search: query
         },
         {
           field: 'email',
+          search: query
+        },
+        {
+          field: 'telefone',
+          search: query
+        },
+        {
+          field: 'idade',
           search: query
         }
       ], false);
@@ -98,7 +108,11 @@ export class ListagemPacientesComponent {
   }
 
   deletar(event) {
-    console.log(event)
+    console.log(event);
+  }
+
+  adicionarPaciente() {
+    this.router.navigateByUrl('/pacientes/adicionar');
   }
 
   async editar(event) {
@@ -106,9 +120,23 @@ export class ListagemPacientesComponent {
       EditarPacientesComponent,
       {
         context: {
-          id: event.data.id
+          id: event.data.id,
+          dados: event.data
         },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false
+      }).onClose.subscribe(response => {
+        if (response) {
+          const position: any = 'bottom-right';
+          // tslint:disable-next-line: max-line-length
+          this.toastrService.show('', `Paciente alterado com sucesso`, { status: 'success', duration: 3000, position });
+        }
       });
+  }
+
+  teste(event) {
+    console.log(event);
   }
 
 }

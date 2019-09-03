@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+// tslint:disable-next-line: max-line-length
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService, NbDialogService } from '@nebular/theme';
 
 import { UserData } from '../../../@core/data/users';

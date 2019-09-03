@@ -11,7 +11,8 @@ export class FormatterService {
     public readonly DATE_FORMAT = 'DD/MM/YYYY';
     public readonly DATETIME_FORMAT = 'DD/MM/YYYY HH:mm';
     public readonly regexpObj = /\{([\w\:\.]+|)\}/g;
-    public readonly phoneRegex = /^(\d{3})(\d{4,5})(\d{3,4})$/;
+    public readonly phoneRegex = /^(\d{2})(\d{4,5})(\d{4})$/;
+    public readonly cepRegex = /^(\d{5})(\d{3})$/;
 
     // Masks for ngx-mask package
     public readonly masks = {
@@ -22,7 +23,13 @@ export class FormatterService {
         'cpf': '000.000.000-00',
         'cnpj': '00.000.000/0000-00',
         'cnpjcpf': ['000.000.000-00', '00.000.000/0000-00'],
-        'cc': '0000000000-0'
+        'cc': '0000000000-0',
+        'number': '9*',
+        'percent': '000,00',
+        'telDDD': '(00) 0000-0000',
+        'celDDD': '(00) 00000-0000',
+        'cep': '00.000-000',
+        'idade': '9*'
     };
 
     constructor() { }
@@ -54,6 +61,13 @@ export class FormatterService {
         return `${prefix} ${r}`;
     }
 
+    public percent(value: number | string, prefix: string = '', sufix: string = '%'): string {
+        value = value || 0;
+        const v = parseFloat(value.toString()).toFixed(1);
+        const r = v.replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        return `${prefix ? prefix : ''} ${r} ${sufix}`;
+    }
+
     public date(value: string): string {
         if (value === '') {
             return '';
@@ -75,6 +89,7 @@ export class FormatterService {
 
     public cpfCnpj(value: string): string {
         if (value.length === 11) {
+            // tslint:disable-next-line: max-line-length
             return `${value.substring(0, 3)}.${value.substring(3, 6)}.${value.substring(6, 9)}-${value.substring(9, 11)}`;
         } else if (value.length === 14) {
             // tslint:disable-next-line max-line-length
@@ -127,6 +142,27 @@ export class FormatterService {
         }
 
         return `(${result[1]}) ${result[2]}-${result[3]}`;
+    }
+
+    public cepFormat(value: string) {
+        if (value === '') {
+            return '';
+        }
+
+        const result = this.cepRegex.exec(value);
+        if (!result) {
+            console.warn(`[formatter.cepFormat] Invalid value ${value}`);
+            return value;
+        }
+
+        return `${result[1]}-${result[2]}`;
+    }
+
+    public formatPercent(value: string) {
+        if (value.toString().indexOf('%') > -1) {
+            return value.toString();
+        }
+        return `${value}%`;
     }
 
     public get(obj: object, path: string): string {

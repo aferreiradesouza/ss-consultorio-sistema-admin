@@ -57,6 +57,7 @@
             "production": {
               "optimization": true,
               "outputHashing": "all",
+              "baseHref": "https://aferreiradesouza.github.io/ss-consultorio-sistema-admin/",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,

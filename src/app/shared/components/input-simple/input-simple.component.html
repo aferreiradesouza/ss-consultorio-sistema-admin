@@ -1,0 +1,6 @@
+<div class="form-group">
+    <label for="inputFirstName" class="label" *ngIf="label">{{label}} <span *ngIf="required">*</span></label>
+    <input #input type="text" nbInput fullWidth id="inputFirstName" [placeholder]="placeholder" [formControl]="_model"
+        (input)="onChange($event.target.value)" (blur)="onBlur($event.target.value)">
+    <div class="feedbackError mt-2" *ngIf="shouldDisplayError()">{{ getErrorMessage() }}</div>
+</div>

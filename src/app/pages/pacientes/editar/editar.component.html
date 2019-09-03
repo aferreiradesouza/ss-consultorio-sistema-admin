@@ -4,26 +4,40 @@
     <form [formGroup]="form">
       <div class="row">
         <div class="col-sm-12">
-          <ngx-input label="Nome Completo" formControlName="nome" [required]="true" placeholder="Fulano"></ngx-input>
+          <ngx-input-simple label="Nome Completo" formControlName="nome" [required]="true" placeholder="Fulano">
+          </ngx-input-simple>
         </div>
         <div class="col-sm-6">
-          <ngx-input label="CPF" formControlName="cpf" [required]="true" placeholder="000.000.000-00"></ngx-input>
+          <ngx-input-mask label="CPF" formControlName="cpf" type="cpf" [required]="true" placeholder="000.000.000-00"
+          [dropCharacters]="false"></ngx-input-mask>
         </div>
         <div class="col-sm-6">
-          <ngx-input label="E-mail" type="email" formControlName="email" [required]="true"
-            placeholder="fulano@gmail.com"></ngx-input>
+          <ngx-input-simple label="E-mail" type="email" formControlName="email" [required]="true"
+            placeholder="fulano@gmail.com"></ngx-input-simple>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-4">
-          <ngx-input label="Data de nascimento" type="date" formControlName="nascimento" [required]="true" placeholder="00/00/0000">
-          </ngx-input>
+          <ngx-input-mask label="Idade" type="idade" formControlName="idade" [required]="true"
+            placeholder="65" [dropCharacters]="false">
+          </ngx-input-mask>
+        </div>
+        <div class="col-sm-4">
+          <ngx-input-mask label="Celular" type="cel" formControlName="celular" [required]="true"
+            placeholder="(00) 00000-0000" [dropCharacters]="true">
+          </ngx-input-mask>
+        </div>
+        <div class="col-sm-4">
+          <ngx-input-mask label="Telefone" type="tel" formControlName="telefone"
+            placeholder="(00) 0000-0000" [dropCharacters]="true">
+          </ngx-input-mask>
         </div>
       </div>
     </form>
+    <label class="label mb-0">* Campos obrigatórios</label>
   </nb-card-body>
   <nb-card-footer>
-    <button class="mr-3" nbButton status="danger" (click)="ref.close()">Cancelar</button>
-    <button nbButton status="warning" (click)="ref.close()">Editar</button>
+    <button class="mr-3" nbButton status="danger" (click)="dismiss()">Cancelar</button>
+    <button nbButton status="primary" (click)="editar()" [attr.disabled]="!form.valid ? true : undefined">Editar</button>
   </nb-card-footer>
 </nb-card>

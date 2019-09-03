@@ -1,5 +1,14 @@
 import { NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbDialogModule, NbSpinnerModule } from '@nebular/theme';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbIconModule,
+  NbInputModule,
+  NbDialogModule,
+  NbSpinnerModule,
+  NbToastrService,
+  NbToastrModule
+} from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { PacientesRoutingModule } from './pacientes-routing.module';
@@ -17,8 +26,9 @@ const NB_MODULES = [
   NbIconModule,
   NbInputModule,
   NbDialogModule.forRoot(),
-  NbSpinnerModule
-]
+  NbSpinnerModule,
+  NbToastrModule
+];
 
 @NgModule({
   imports: [

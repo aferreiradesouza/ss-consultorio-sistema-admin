@@ -11,6 +11,8 @@ export class SmartTableService extends SmartTableData {
     username: '@mdo',
     email: 'mdo@gmail.com',
     age: '28',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 2,
     firstName: 'Jacob',
@@ -18,6 +20,8 @@ export class SmartTableService extends SmartTableData {
     username: '@fat',
     email: 'fat@yandex.ru',
     age: '45',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 3,
     firstName: 'Larry',
@@ -25,6 +29,8 @@ export class SmartTableService extends SmartTableData {
     username: '@twitter',
     email: 'twitter@outlook.com',
     age: '18',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 4,
     firstName: 'John',
@@ -32,6 +38,8 @@ export class SmartTableService extends SmartTableData {
     username: '@snow',
     email: 'snow@gmail.com',
     age: '20',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 5,
     firstName: 'Jack',
@@ -39,6 +47,8 @@ export class SmartTableService extends SmartTableData {
     username: '@jack',
     email: 'jack@yandex.ru',
     age: '30',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 6,
     firstName: 'Ann',
@@ -46,6 +56,8 @@ export class SmartTableService extends SmartTableData {
     username: '@ann',
     email: 'ann@gmail.com',
     age: '21',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 7,
     firstName: 'Barbara',
@@ -53,6 +65,8 @@ export class SmartTableService extends SmartTableData {
     username: '@barbara',
     email: 'barbara@yandex.ru',
     age: '43',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 8,
     firstName: 'Sevan',
@@ -60,6 +74,8 @@ export class SmartTableService extends SmartTableData {
     username: '@sevan',
     email: 'sevan@outlook.com',
     age: '13',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 9,
     firstName: 'Ruben',
@@ -67,6 +83,8 @@ export class SmartTableService extends SmartTableData {
     username: '@ruben',
     email: 'ruben@gmail.com',
     age: '22',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 10,
     firstName: 'Karen',
@@ -74,6 +92,8 @@ export class SmartTableService extends SmartTableData {
     username: '@karen',
     email: 'karen@yandex.ru',
     age: '33',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 11,
     firstName: 'Mark',
@@ -81,6 +101,8 @@ export class SmartTableService extends SmartTableData {
     username: '@mark',
     email: 'mark@gmail.com',
     age: '38',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 12,
     firstName: 'Jacob',
@@ -88,6 +110,8 @@ export class SmartTableService extends SmartTableData {
     username: '@jacob',
     email: 'jacob@yandex.ru',
     age: '48',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 13,
     firstName: 'Haik',
@@ -95,6 +119,8 @@ export class SmartTableService extends SmartTableData {
     username: '@haik',
     email: 'haik@outlook.com',
     age: '48',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 14,
     firstName: 'Garegin',
@@ -102,6 +128,8 @@ export class SmartTableService extends SmartTableData {
     username: '@garegin',
     email: 'garegin@gmail.com',
     age: '40',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     id: 15,
     firstName: 'Krikor',
@@ -109,6 +137,8 @@ export class SmartTableService extends SmartTableData {
     username: '@krikor',
     email: 'krikor@yandex.ru',
     age: '32',
+    telefone: '21976364737',
+    cpf: '12345678950',
   }, {
     'id': 16,
     'firstName': 'Francisca',
@@ -116,6 +146,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Gibson',
     'email': 'franciscagibson@comtours.com',
     'age': 11,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 17,
     'firstName': 'Tillman',
@@ -123,6 +155,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Snow',
     'email': 'tillmansnow@comtours.com',
     'age': 34,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 18,
     'firstName': 'Jimenez',
@@ -130,6 +164,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Bryant',
     'email': 'jimenezbryant@comtours.com',
     'age': 45,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 19,
     'firstName': 'Sandoval',
@@ -137,6 +173,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Mcbride',
     'email': 'sandovalmcbride@comtours.com',
     'age': 32,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 20,
     'firstName': 'Griffin',
@@ -144,6 +182,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Charles',
     'email': 'griffincharles@comtours.com',
     'age': 19,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 21,
     'firstName': 'Cora',
@@ -151,6 +191,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Caldwell',
     'email': 'coracaldwell@comtours.com',
     'age': 27,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 22,
     'firstName': 'Cindy',
@@ -158,6 +200,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Velez',
     'email': 'cindyvelez@comtours.com',
     'age': 24,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 23,
     'firstName': 'Frieda',
@@ -165,6 +209,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Craig',
     'email': 'friedacraig@comtours.com',
     'age': 45,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 24,
     'firstName': 'Cote',
@@ -172,6 +218,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Rowe',
     'email': 'coterowe@comtours.com',
     'age': 20,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 25,
     'firstName': 'Trujillo',
@@ -179,6 +227,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Valenzuela',
     'email': 'trujillovalenzuela@comtours.com',
     'age': 16,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 26,
     'firstName': 'Pruitt',
@@ -186,6 +236,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Sloan',
     'email': 'pruittsloan@comtours.com',
     'age': 44,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 27,
     'firstName': 'Sutton',
@@ -193,6 +245,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Black',
     'email': 'suttonblack@comtours.com',
     'age': 42,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 28,
     'firstName': 'Marion',
@@ -200,6 +254,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Espinoza',
     'email': 'marionespinoza@comtours.com',
     'age': 47,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 29,
     'firstName': 'Newman',
@@ -207,6 +263,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Keith',
     'email': 'newmankeith@comtours.com',
     'age': 15,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 30,
     'firstName': 'Boyle',
@@ -214,6 +272,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Summers',
     'email': 'boylesummers@comtours.com',
     'age': 32,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 31,
     'firstName': 'Haynes',
@@ -221,6 +281,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Mckenzie',
     'email': 'haynesmckenzie@comtours.com',
     'age': 15,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 32,
     'firstName': 'Miller',
@@ -228,6 +290,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Young',
     'email': 'milleryoung@comtours.com',
     'age': 55,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 33,
     'firstName': 'Johnston',
@@ -235,13 +299,17 @@ export class SmartTableService extends SmartTableData {
     'username': '@Knight',
     'email': 'johnstonknight@comtours.com',
     'age': 29,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 34,
     'firstName': 'Lena',
     'lastName': 'Pitts',
     'username': '@Forbes',
     'email': 'lenaforbes@comtours.com',
-    'age': 25,
+    'age': '21976364737',
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 35,
     'firstName': 'Terrie',
@@ -249,6 +317,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Branch',
     'email': 'terriebranch@comtours.com',
     'age': 37,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 36,
     'firstName': 'Louise',
@@ -256,6 +326,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Kirby',
     'email': 'louisekirby@comtours.com',
     'age': 44,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 37,
     'firstName': 'David',
@@ -263,6 +335,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Sanders',
     'email': 'davidsanders@comtours.com',
     'age': 26,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 38,
     'firstName': 'Holden',
@@ -270,6 +344,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Mckinney',
     'email': 'holdenmckinney@comtours.com',
     'age': 11,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 39,
     'firstName': 'Baker',
@@ -277,6 +353,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Montoya',
     'email': 'bakermontoya@comtours.com',
     'age': 47,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 40,
     'firstName': 'Belinda',
@@ -284,6 +362,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Calderon',
     'email': 'belindacalderon@comtours.com',
     'age': 21,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 41,
     'firstName': 'Pearson',
@@ -291,6 +371,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Clements',
     'email': 'pearsonclements@comtours.com',
     'age': 42,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 42,
     'firstName': 'Alyce',
@@ -298,6 +380,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Daugherty',
     'email': 'alycedaugherty@comtours.com',
     'age': 55,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 43,
     'firstName': 'Valencia',
@@ -305,6 +389,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Olsen',
     'email': 'valenciaolsen@comtours.com',
     'age': 20,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 44,
     'firstName': 'Leach',
@@ -312,6 +398,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Humphrey',
     'email': 'leachhumphrey@comtours.com',
     'age': 28,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 45,
     'firstName': 'Moss',
@@ -319,6 +407,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Fitzpatrick',
     'email': 'mossfitzpatrick@comtours.com',
     'age': 51,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 46,
     'firstName': 'Jeanne',
@@ -326,6 +416,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Ward',
     'email': 'jeanneward@comtours.com',
     'age': 59,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 47,
     'firstName': 'Wilma',
@@ -333,6 +425,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Kidd',
     'email': 'wilmakidd@comtours.com',
     'age': 53,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 48,
     'firstName': 'Beatrice',
@@ -340,6 +434,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Gilbert',
     'email': 'beatricegilbert@comtours.com',
     'age': 39,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 49,
     'firstName': 'Whitaker',
@@ -347,6 +443,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Mcdonald',
     'email': 'whitakermcdonald@comtours.com',
     'age': 35,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 50,
     'firstName': 'Rebekah',
@@ -354,6 +452,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Gross',
     'email': 'rebekahgross@comtours.com',
     'age': 40,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 51,
     'firstName': 'Earline',
@@ -361,6 +461,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Woodward',
     'email': 'earlinewoodward@comtours.com',
     'age': 52,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 52,
     'firstName': 'Moran',
@@ -368,6 +470,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Johns',
     'email': 'moranjohns@comtours.com',
     'age': 20,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 53,
     'firstName': 'Nanette',
@@ -375,13 +479,17 @@ export class SmartTableService extends SmartTableData {
     'username': '@Cooke',
     'email': 'nanettecooke@comtours.com',
     'age': 55,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 54,
     'firstName': 'Dalton',
     'lastName': 'Walker',
     'username': '@Hendricks',
     'email': 'daltonhendricks@comtours.com',
-    'age': 25,
+    'age': '21976364737',
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 55,
     'firstName': 'Bennett',
@@ -389,6 +497,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Pena',
     'email': 'bennettpena@comtours.com',
     'age': 13,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 56,
     'firstName': 'Kellie',
@@ -396,6 +506,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Weiss',
     'email': 'kellieweiss@comtours.com',
     'age': 48,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 57,
     'firstName': 'Hobbs',
@@ -403,6 +515,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Sanford',
     'email': 'hobbssanford@comtours.com',
     'age': 28,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 58,
     'firstName': 'Mcguire',
@@ -410,6 +524,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Roman',
     'email': 'mcguireroman@comtours.com',
     'age': 38,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 59,
     'firstName': 'Rodriquez',
@@ -417,6 +533,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Harper',
     'email': 'rodriquezharper@comtours.com',
     'age': 20,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }, {
     'id': 60,
     'firstName': 'Lou',
@@ -424,6 +542,8 @@ export class SmartTableService extends SmartTableData {
     'username': '@Sanchez',
     'email': 'lousanchez@comtours.com',
     'age': 16,
+    'telefone': '21976364737',
+    'cpf': '12345678950'
   }];
 
   getData() {

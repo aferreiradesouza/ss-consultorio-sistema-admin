@@ -6,13 +6,15 @@ import { Injectable } from '@angular/core';
 export class ValidatorService {
     private emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     private numberRegex = /^\d+(\.\d+)$/;
-    private telRegex = /(^\d{8,9}$)|(^$)/;
+    private telRegex = /(^\d{10}$)|(^$)/;
+    private celRegex = /(^\d{11}$)|(^$)/;
     private dddRegex = /(^\d{1,2}$)|(^$)/;
     private cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
-    private cnpjRegex  = /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/;
+    private cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/;
     private dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
     private datetimeRegex = /^\d{2}\/\d{2}\/\d{4} \d{2}\:\d{2}$/;
     private monthRegex = /^\d{2}\/\d{4}/;
+    private cepRegex = /^\d{2}\.\d{3}\-\d{3}$/;
 
     public isValidEmail(email: string): boolean {
         return this.emailRegex.test(email);
@@ -26,8 +28,12 @@ export class ValidatorService {
         return this.dddRegex.test(value);
     }
 
-    public isValidPhone(value: string): boolean {
+    public isValidTel(value: string): boolean {
         return this.telRegex.test(value);
+    }
+
+    public isValidCel(value: string): boolean {
+        return this.celRegex.test(value);
     }
 
     public isValidCpf(value: string): boolean {
@@ -52,5 +58,36 @@ export class ValidatorService {
 
     public isValidMonth(value: string): boolean {
         return this.monthRegex.test(value);
+    }
+
+    public isValidAge(value: string): boolean {
+        const lengthAge = value.length > 2 ? false : true;
+
+        return lengthAge;
+    }
+
+    public isValidCep(value: string): boolean {
+        return this.cepRegex.test(value);
+    }
+
+    public isValidDataNascimento(value: string): boolean {
+        const arrData = value.split('/');
+
+        const dia_aniversario = parseFloat(arrData[0]);
+        const mes_aniversario = parseFloat(arrData[1]);
+        const ano_aniversario = parseFloat(arrData[2]);
+
+        const d = new Date,
+            ano_atual = d.getFullYear(),
+            mes_atual = d.getMonth() + 1,
+            dia_atual = d.getDate();
+
+        let quantos_anos = ano_atual - ano_aniversario;
+
+        if (mes_atual < mes_aniversario || mes_atual === mes_aniversario && dia_atual < dia_aniversario) {
+            quantos_anos--;
+        }
+
+        return quantos_anos >= 0;
     }
 }
