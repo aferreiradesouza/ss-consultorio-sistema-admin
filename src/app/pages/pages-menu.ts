@@ -35,6 +35,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: 'Listagem de pacientes',
         link: '/pacientes/listagem',
       },
+      {
+        title: 'Adicionar paciente',
+        link: '/pacientes/adicionar',
+      }
     ]
   },
   {

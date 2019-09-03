@@ -429,4 +429,12 @@ export class SmartTableService extends SmartTableData {
   getData() {
     return this.data;
   }
+
+  async getID(id: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        return resolve(this.data.find(e => e.id === id));
+      }, 3000);
+    });
+  }
 }
