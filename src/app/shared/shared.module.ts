@@ -14,6 +14,7 @@ import {
   NbThemeModule,
   NbDialogModule,
   NbCardModule,
+  NbInputModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -40,6 +41,10 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import { FormatterService } from './services/formatter.service';
+import { ValidatorService } from './services/validator.service';
+import { InputComponent } from './components/input/input.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -55,7 +60,8 @@ const NB_MODULES = [
   NbIconModule,
   NbEvaIconsModule,
   NbDialogModule.forRoot(),
-  NbCardModule
+  NbCardModule,
+  NbInputModule
 ];
 const COMPONENTS = [
   HeaderComponent,
@@ -65,6 +71,7 @@ const COMPONENTS = [
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  InputComponent
 ];
 const PIPES = [
   CapitalizePipe,
@@ -75,7 +82,12 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ...NB_MODULES],
+  imports: [
+    CommonModule,
+    ...NB_MODULES,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })
@@ -84,6 +96,8 @@ export class SharedModule {
     return <ModuleWithProviders>{
       ngModule: SharedModule,
       providers: [
+        FormatterService,
+        ValidatorService,
         ...NbThemeModule.forRoot(
           {
             name: 'default',

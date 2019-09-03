@@ -1,0 +1,29 @@
+<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary">
+  <nb-card-header>Editar paciente</nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-sm-12">
+          <ngx-input label="Nome Completo" formControlName="nome" [required]="true" placeholder="Fulano"></ngx-input>
+        </div>
+        <div class="col-sm-6">
+          <ngx-input label="CPF" formControlName="cpf" [required]="true" placeholder="000.000.000-00"></ngx-input>
+        </div>
+        <div class="col-sm-6">
+          <ngx-input label="E-mail" type="email" formControlName="email" [required]="true"
+            placeholder="fulano@gmail.com"></ngx-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <ngx-input label="Data de nascimento" type="date" formControlName="nascimento" [required]="true" placeholder="00/00/0000">
+          </ngx-input>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="mr-3" nbButton status="danger" (click)="ref.close()">Cancelar</button>
+    <button nbButton status="warning" (click)="ref.close()">Editar</button>
+  </nb-card-footer>
+</nb-card>

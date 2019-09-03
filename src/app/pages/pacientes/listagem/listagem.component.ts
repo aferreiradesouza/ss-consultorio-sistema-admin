@@ -3,6 +3,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { Router } from '@angular/router';
 import { NbDialogService } from '@nebular/theme';
+import { EditarPacientesComponent } from '../editar/editar.component';
 
 @Component({
   selector: 'ngx-listagem-pacientes',
@@ -100,14 +101,14 @@ export class ListagemPacientesComponent {
     console.log(event)
   }
 
-  async editar(event, dialog) {
+  async editar(event) {
     this.dialogService.open(
-      dialog,
-      { context: 'Você realmente deseja sair?' });
-    this.isLoading = true;
-    await this.service.getID(event.data.id).then(response => {
-      this.isLoading = false;
-    })
+      EditarPacientesComponent,
+      {
+        context: {
+          id: event.data.id
+        },
+      });
   }
 
 }

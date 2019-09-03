@@ -1,0 +1,6 @@
+<div class="form-group">
+    <label for="inputFirstName" class="label" *ngIf="label">{{label}}</label>
+    <input type="text" nbInput fullWidth id="inputFirstName" [placeholder]="placeholder" [(ngModel)]="_model"
+        (ngModelChange)="onChange(_model)">
+    <div *ngIf="shouldDisplayError()">{{ getErrorMessage() }}</div>
+</div>

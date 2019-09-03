@@ -5,8 +5,9 @@ import { SharedModule } from '../../shared/shared.module';
 import { PacientesRoutingModule } from './pacientes-routing.module';
 import { ListagemPacientesComponent } from './listagem/listagem.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdicionarPacientesComponent } from './adicionar/adicionar.component';
+import { EditarPacientesComponent } from './editar/editar.component';
 
 const NB_MODULES = [
   NbCardModule,
@@ -24,11 +25,16 @@ const NB_MODULES = [
     ...NB_MODULES,
     SharedModule,
     PacientesRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     ListagemPacientesComponent,
-    AdicionarPacientesComponent
+    AdicionarPacientesComponent,
+    EditarPacientesComponent
+  ],
+  entryComponents: [
+    EditarPacientesComponent
   ]
 })
 export class PacientesModule { }

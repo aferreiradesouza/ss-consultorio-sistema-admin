@@ -17,7 +17,7 @@
             </div>
         </div>
         <ng2-smart-table [settings]="settings" [source]="source" (delete)="deletar($event)"
-            (edit)="editar($event, dialogEditar)">
+            (edit)="editar($event)">
         </ng2-smart-table>
     </nb-card-body>
 </nb-card>
@@ -60,7 +60,7 @@
             </div>
         </nb-card-body>
         <nb-card-footer>
-            <button class="mr-4" nbButton (click)="ref.close()">Não</button>
+            <button class="mr-3" nbButton status="danger" (click)="ref.close()">Cancelar</button>
             <button nbButton status="warning" (click)="ref.close()">Editar</button>
         </nb-card-footer>
     </nb-card>
