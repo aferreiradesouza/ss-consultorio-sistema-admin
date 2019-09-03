@@ -13,7 +13,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Agenda do dia',
-        link: '/pages/layout/stepper',
+        link: '/pages/medico/agenda-do-dia',
       },
     ]
   },
@@ -23,7 +23,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Calendário',
-        link: '/pages/layout/stepper',
+        link: '/pages/recepcionista/calendario',
       },
     ]
   },
@@ -33,14 +33,14 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Listagem de pacientes',
-        link: '/pages/layout/stepper',
+        link: '/pages/pacientes/listagem',
       },
     ]
   },
   {
-    title: 'Configuração',
+    title: 'Configurações',
     icon: 'settings-2-outline',
-    link: '/pages/dashboard',
+    link: '/pages/configuracoes',
   },
   // {
   //   title: 'E-commerce',
