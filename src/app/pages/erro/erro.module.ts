@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { NbButtonModule, NbCardModule } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
-import { MiscellaneousRoutingModule } from './miscellaneous-routing.module';
-import { MiscellaneousComponent } from './miscellaneous.component';
+import { ErroRoutingModule } from './erro-routing.module';
+import { ErroComponent } from './erro.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
@@ -11,11 +11,11 @@ import { NotFoundComponent } from './not-found/not-found.component';
     SharedModule,
     NbCardModule,
     NbButtonModule,
-    MiscellaneousRoutingModule,
+    ErroRoutingModule,
   ],
   declarations: [
-    MiscellaneousComponent,
+    ErroComponent,
     NotFoundComponent,
   ],
 })
-export class MiscellaneousModule { }
+export class ErroModule { }

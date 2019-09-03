@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MiscellaneousComponent } from './miscellaneous.component';
+import { ErroComponent } from './erro.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: MiscellaneousComponent,
+    component: ErroComponent,
     children: [
       {
         path: '404',
@@ -21,5 +21,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MiscellaneousRoutingModule {
+export class ErroRoutingModule {
 }

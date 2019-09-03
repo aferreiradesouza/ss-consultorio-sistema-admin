@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ngx-miscellaneous',
+  selector: 'ngx-erro',
   template: `
     <router-outlet></router-outlet>
   `,
 })
-export class MiscellaneousComponent {
+export class ErroComponent {
 }

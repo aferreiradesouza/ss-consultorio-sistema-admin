@@ -2,7 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
-import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { NotFoundComponent } from './erro/not-found/not-found.component';
 
 const routes: Routes = [{
   path: '',
@@ -19,9 +19,9 @@ const routes: Routes = [{
         .then(m => m.HomeModule),
     },
     {
-      path: 'miscellaneous',
-      loadChildren: () => import('./miscellaneous/miscellaneous.module')
-        .then(m => m.MiscellaneousModule),
+      path: 'erro',
+      loadChildren: () => import('./erro/erro.module')
+        .then(m => m.ErroModule),
     },
     {
       path: 'configuracoes',
