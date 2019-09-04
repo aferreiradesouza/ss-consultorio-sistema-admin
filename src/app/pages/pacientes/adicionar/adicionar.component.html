@@ -15,11 +15,14 @@
                     <ngx-input-mask label="CPF" formControlName="cpf" type="cpf" [required]="true"
                         placeholder="000.000.000-00" [dropCharacters]="false"></ngx-input-mask>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <ngx-input-mask label="Data de nascimento" type="date" formControlName="nascimento"
                         [required]="true" placeholder="00/00/0000" [dropCharacters]="false"></ngx-input-mask>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
+                    <ngx-input-simple label="Idade" formControlName="idade" placeholder="00"></ngx-input-simple>
+                </div>
+                <div class="col-sm-3">
                     <ngx-input-simple label="Sexo" formControlName="sexo" [required]="true" placeholder="00/00/0000">
                     </ngx-input-simple>
                 </div>
@@ -54,8 +57,7 @@
                     </ngx-input-simple>
                 </div>
                 <div class="col-sm-4">
-                    <ngx-input-simple [required]="true" label="Número" formControlName="numero"
-                        placeholder="000">
+                    <ngx-input-simple [required]="true" label="Número" formControlName="numero" placeholder="000">
                     </ngx-input-simple>
                 </div>
             </div>
@@ -83,11 +85,11 @@
             </div>
         </form>
         <label class="label mb-0">* Campos obrigatórios</label>
-        <!-- {{form.value | json}} -->
     </nb-card-body>
     <nb-card-footer>
-        <button class="mr-3" nbButton status="danger" (click)="dismiss()">Voltar</button>
-        <button nbButton status="primary" (click)="editar()"
-            [attr.disabled]="!form.valid ? true : undefined">Adicionar paciente</button>
+        <div class="d-flex justify-content-end">
+            <button nbButton status="primary" (click)="editar()"
+                [attr.disabled]="!form.valid ? true : undefined">Adicionar paciente</button>
+        </div>
     </nb-card-footer>
 </nb-card>

@@ -31,7 +31,6 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
     };
 
     @Input() label?: string;
-    @Input() disabled: boolean = false;
     @Input() type = 'text';
     @Input() name: string;
     @Input() placeholder: string = '';
@@ -67,6 +66,7 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
         this._model.clearValidators();
         this._model.updateValueAndValidity();
         this.validate(this._model.value);
+        this.shouldDisabled();
         this._model.valueChanges.subscribe(e => {
             this.onChange(e);
         });
@@ -93,15 +93,16 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
         this.feedbackInput();
     }
 
-
-    setDisabledState(disabled: boolean) {
-        this.disabled = disabled;
-    }
-
     public onChange(value: string): void {
         this.onChangeFn(value);
         this.validate(value);
         this.feedbackInput();
+    }
+
+    shouldDisabled() {
+        if(this.control.disabled) {
+            this._model.disable()
+        }
     }
 
     public validate(value: string) {

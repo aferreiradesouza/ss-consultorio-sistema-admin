@@ -23,6 +23,7 @@ export class AdicionarPacientesComponent implements OnInit {
     numero: new FormControl(''),
     bairro: new FormControl(''),
     cidade: new FormControl(''),
+    idade: new FormControl({value: '', disabled: true}),
   })
 
   constructor(private service: SmartTableData) {
