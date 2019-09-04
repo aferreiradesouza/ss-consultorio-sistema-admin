@@ -21,7 +21,7 @@ export class ListagemPacientesComponent {
       columnTitle: 'Ações',
       edit: true,
       delete: true,
-      position: 'right',
+      position: 'right'
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',

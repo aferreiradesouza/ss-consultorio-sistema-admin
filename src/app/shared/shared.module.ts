@@ -24,6 +24,7 @@ import {
   HeaderComponent,
   SearchInputComponent,
   TinyMCEComponent,
+  TextAreaSimpleComponent,
 } from './components';
 import {
   CapitalizePipe,
@@ -75,6 +76,7 @@ const COMPONENTS = [
   TwoColumnsLayoutComponent,
   InputSimpleComponent,
   InputMaskComponent,
+  TextAreaSimpleComponent
 ];
 const PIPES = [
   CapitalizePipe,

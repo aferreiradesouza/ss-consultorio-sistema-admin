@@ -10,7 +10,7 @@ import { ValidatorService } from '../../services/validator.service';
 })
 export class InputMaskComponent implements OnInit, ControlValueAccessor {
     // tslint:disable-next-line: max-line-length
-    public readonly validTypes = ['password', 'text', 'email', 'number', 'month', 'date', 'datetime', 'cpf', 'cnpjcpf', 'cc', 'tel', 'cel', 'ddd', 'idade'];
+    public readonly validTypes = ['password', 'cep', 'text', 'email', 'number', 'month', 'date', 'datetime', 'cpf', 'cnpjcpf', 'cc', 'tel', 'cel', 'ddd', 'idade'];
     public onChangeFn!: (valid: string) => void;
     public onTouched!: () => void;
 
@@ -28,7 +28,8 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
         tel: 'Telefone inválido',
         cel: 'Celular inválido',
         ddd: 'DDD inválido',
-        idade: 'Digite uma idade válida'
+        idade: 'Digite uma idade válida',
+        cep: 'CEP inválido'
     };
 
     @Input() label?: string;
@@ -60,7 +61,7 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
 
     ngOnInit() {
         if (this.validTypes.indexOf(this.type) === -1) {
-            throw new Error('[ss-input] Invalid type ' + this.type);
+            throw new Error('[ngx-input-simple] Invalid type ' + this.type);
         }
 
         const control = this.controlDir.control;
