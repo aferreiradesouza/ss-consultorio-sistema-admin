@@ -39,11 +39,11 @@ export class ListagemPacientesComponent {
       confirmDelete: true,
     },
     columns: {
-      firstName: {
+      nome: {
         title: 'Nome',
         type: 'string'
       },
-      age: {
+      idade: {
         title: 'Idade',
         type: 'number'
       },
@@ -51,8 +51,8 @@ export class ListagemPacientesComponent {
         title: 'E-mail',
         type: 'string'
       },
-      telefone: {
-        title: 'Telefone',
+      celular: {
+        title: 'Celular',
         type: 'number',
         valuePrepareFunction: (tel) => {
           return this.formatterService.phoneFormat(tel);
@@ -88,7 +88,7 @@ export class ListagemPacientesComponent {
     } else {
       this.source.setFilter([
         {
-          field: 'firstName',
+          field: 'nome',
           search: query
         },
         {
@@ -96,7 +96,7 @@ export class ListagemPacientesComponent {
           search: query
         },
         {
-          field: 'telefone',
+          field: 'celular',
           search: query
         },
         {
@@ -125,12 +125,14 @@ export class ListagemPacientesComponent {
         },
         closeOnEsc: true,
         autoFocus: false,
-        closeOnBackdropClick: false
+        closeOnBackdropClick: false,
+        hasScroll: true
       }).onClose.subscribe(response => {
         if (response) {
           const position: any = 'bottom-right';
           // tslint:disable-next-line: max-line-length
-          this.toastrService.show('', `Paciente alterado com sucesso`, { status: 'success', duration: 3000, position });
+          this.toastrService.show('', `Paciente alterado com sucesso`,
+          { status: 'success', duration: 3000, position });
         }
       });
   }

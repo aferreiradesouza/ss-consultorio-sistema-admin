@@ -100,8 +100,8 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
     }
 
     shouldDisabled() {
-        if(this.control.disabled) {
-            this._model.disable()
+        if (this.control.disabled) {
+            this._model.disable();
         }
     }
 

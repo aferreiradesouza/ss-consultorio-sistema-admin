@@ -12,11 +12,20 @@ export class EditarPacientesComponent implements OnInit {
   public isLoading: boolean;
   public form = new FormGroup({
     nome: new FormControl(''),
-    email: new FormControl(''),
+    nascimento: new FormControl(''),
     cpf: new FormControl(''),
-    idade: new FormControl(''),
+    sexo: new FormControl(''),
+    observacao: new FormControl(''),
+    email: new FormControl(''),
+    telefone: new FormControl(''),
     celular: new FormControl(''),
-    telefone: new FormControl('')
+    logradouro: new FormControl(''),
+    cep: new FormControl(''),
+    complemento: new FormControl(''),
+    numero: new FormControl(''),
+    bairro: new FormControl(''),
+    cidade: new FormControl(''),
+    idade: new FormControl({ value: '', disabled: true }),
   });
 
   @Input() id: number;
@@ -46,12 +55,21 @@ export class EditarPacientesComponent implements OnInit {
       this.isLoading = false;
     });
     this.form.patchValue({
-      nome: user.firstName,
-      email: user.email,
+      nome: user.nome,
+      nascimento: user.dataNascimento,
       cpf: user.cpf,
-      idade: user.age,
-      celular: user.telefone,
-      telefone: ''
+      sexo: user.sexo,
+      observacao: '',
+      email: user.email,
+      telefone: user.telefone,
+      celular: user.celular,
+      logradouro: user.logradouro,
+      cep: user.cep,
+      complemento: user.complemento,
+      numero: user.numero,
+      bairro: user.bairro,
+      cidade: user.cidade,
+      idade: user.idade,
     });
   }
 }

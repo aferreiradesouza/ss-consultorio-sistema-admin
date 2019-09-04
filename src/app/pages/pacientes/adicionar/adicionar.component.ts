@@ -24,12 +24,12 @@ export class AdicionarPacientesComponent implements OnInit {
     bairro: new FormControl(''),
     cidade: new FormControl(''),
     idade: new FormControl({value: '', disabled: true}),
-  })
+  });
 
   constructor(private service: SmartTableData) {
   }
 
   async ngOnInit() {
-    console.log(await this.service.getID(1))
+    console.log(await this.service.getID(1));
   }
 }
