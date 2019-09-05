@@ -7,7 +7,8 @@ import {
   NbDialogModule,
   NbSpinnerModule,
   NbToastrService,
-  NbToastrModule
+  NbToastrModule,
+  NbLayoutModule
 } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -30,7 +31,8 @@ const NB_MODULES = [
   NbInputModule,
   NbDialogModule.forRoot(),
   NbSpinnerModule,
-  NbToastrModule
+  NbToastrModule,
+  NbLayoutModule
 ];
 
 @NgModule({

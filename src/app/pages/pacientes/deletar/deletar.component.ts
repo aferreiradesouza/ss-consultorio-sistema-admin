@@ -20,6 +20,7 @@ export class DeletarPacientesComponent implements OnInit {
     private service: SmartTableData) { }
 
   async ngOnInit() {
+    await this.obterUsuário();
   }
 
   dismiss() {
@@ -28,5 +29,15 @@ export class DeletarPacientesComponent implements OnInit {
 
   deletar() {
     this.ref.close(true);
+  }
+
+  async obterUsuário() {
+    let user;
+    this.isLoading = true;
+    await this.service.getID(this.id).then(response => {
+      user = response;
+      this.isLoading = false;
+    });
+    console.log(user);
   }
 }

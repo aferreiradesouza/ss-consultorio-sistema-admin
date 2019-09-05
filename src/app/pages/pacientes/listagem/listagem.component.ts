@@ -143,7 +143,7 @@ export class ListagemPacientesComponent {
         if (response) {
           const position: any = 'bottom-right';
           // tslint:disable-next-line: max-line-length
-          this.toastrService.show('', `Paciente deletado com sucesso`,
+          this.toastrService.show('', `Paciente excluido com sucesso`,
             { status: 'danger', duration: 3000, position });
         }
       });
