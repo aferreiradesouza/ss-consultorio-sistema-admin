@@ -6,7 +6,7 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'ngx-editar-pacientes',
-  templateUrl: 'editar.component.html',
+  templateUrl: 'editar.component.html'
 })
 export class EditarPacientesComponent implements OnInit {
 
@@ -48,7 +48,7 @@ export class EditarPacientesComponent implements OnInit {
           this.form.get('idade').setValue(idade);
         }, 0);
       }
-    })
+    });
   }
 
   dismiss() {

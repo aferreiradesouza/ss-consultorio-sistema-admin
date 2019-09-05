@@ -4,7 +4,6 @@
 }
 
 :host /deep/ tbody tr td.ng2-smart-actions {
-    width: 151px;
     text-align: center;
 }
 
@@ -13,6 +12,7 @@
   width: 50px;
   text-align: center;
   font-size: 1.1em;
+  border-right: none !important;
 }
 
 :host /deep/ ng2-st-tbody-custom a.ng2-smart-action .nb-edit:hover {
@@ -23,6 +23,6 @@
   color: #ff0000 !important;
 }
 
-:host /deep/ ng2-st-tbody-custom a.ng2-smart-action .nb-gear:hover {
-  color: #ffd000 !important;
+:host /deep/ ng2-st-tbody-custom a.ng2-smart-action .nb-person:hover {
+  color: #059b00 !important;
 }

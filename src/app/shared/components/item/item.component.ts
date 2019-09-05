@@ -9,11 +9,11 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ItemComponent implements OnInit {
 
     @Input() label: string;
-    @Input() value: any;
+    @Input() value?: any;
 
     constructor() { }
 
-    ngOnInit() { 
+    ngOnInit() {
 
     }
 }

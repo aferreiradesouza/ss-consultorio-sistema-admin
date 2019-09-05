@@ -1,11 +1,75 @@
-<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary">
-  <nb-card-header>Perfil do paciente</nb-card-header>
+<nb-card size="medium" [nbSpinner]="isLoading" nbSpinnerStatus="primary" accent="primary">
+  <nb-card-header>
+    <h5>{{user?.nome ? user.nome + ' ' + user.ultimoNome : '-'}}</h5>
+  </nb-card-header>
   <nb-card-body>
     <div class="fix-modal">
-      Perfil
+      <div class="card-row">
+        <div class="card-col">
+          <nb-card size="medium" status="primary" accent="primary">
+            <nb-card-header>Histórico de atendimento</nb-card-header>
+          </nb-card>
+        </div>
+        <div class="card-col">
+          <h6>INFORMAÇÕES</h6>
+          <div class="row">
+            <div class="col-sm-12">
+              <ngx-item label="E-mail" [value]="user?.email"></ngx-item>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <ngx-item label="CPF" [value]="user?.cpf | cpf"></ngx-item>
+            </div>
+            <div class="col-sm-6">
+              <ngx-item label="Sexo" [value]="user?.sexo === 'M' ? 'Masculino' : 'Feminino'"></ngx-item>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <ngx-item label="Data de nascimento" [value]="user?.dataNascimento | date: 'YYYY-MM-DD'"></ngx-item>
+            </div>
+            <div class="col-sm-6">
+              <ngx-item label="Idade" [value]="user?.idade"></ngx-item>
+            </div>
+          </div>
+          <h6 class="mt-2">CONTATO</h6>
+          <div class="row">
+            <div class="col-sm-6">
+              <ngx-item label="Telefone" [value]="user?.telefone | telefone"></ngx-item>
+            </div>
+            <div class="col-sm-6">
+              <ngx-item label="Celular" [value]="user?.celular | telefone"></ngx-item>
+            </div>
+          </div>
+          <h6 class="mt-2">ENDEREÇO</h6>
+          <div class="row">
+            <div class="col-sm-12">
+              <ngx-item label="Endereço" [value]="user?.logradouro + ', ' + user?.numero"></ngx-item>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <ngx-item label="CEP" [value]="user?.cep"></ngx-item>
+            </div>
+            <div class="col-sm-6">
+              <ngx-item label="Complemento" [value]="user?.complemento"></ngx-item>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <ngx-item label="Bairro" [value]="user?.bairro"></ngx-item>
+            </div>
+            <div class="col-sm-6">
+              <ngx-item label="Cidade" [value]="user?.cidade"></ngx-item>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </nb-card-body>
   <nb-card-footer>
-    <button nbButton status="primary" (click)="dismiss()">Voltar</button>
+    <button class="mr-3" nbButton status="danger" (click)="dismiss()">Cancelar</button>
+    <button nbButton status="primary" (click)="editar()">Editar</button>
   </nb-card-footer>
 </nb-card>

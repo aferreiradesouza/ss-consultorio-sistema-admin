@@ -27,7 +27,7 @@ export class ListagemPacientesComponent {
       custom: [
         {
           name: 'perfil',
-          title: '<i class="nb-gear"></i>'
+          title: '<i class="nb-person"></i>'
         },
         {
           name: 'edit',
@@ -188,7 +188,7 @@ export class ListagemPacientesComponent {
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
-      })
+      });
   }
 
   customAction(event) {

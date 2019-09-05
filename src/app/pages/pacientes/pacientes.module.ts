@@ -6,9 +6,9 @@ import {
   NbInputModule,
   NbDialogModule,
   NbSpinnerModule,
-  NbToastrService,
   NbToastrModule,
-  NbLayoutModule
+  NbLayoutModule,
+  NbTooltipModule
 } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
