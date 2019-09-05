@@ -24,7 +24,7 @@ import {
   HeaderComponent,
   SearchInputComponent,
   TinyMCEComponent,
-  TextAreaSimpleComponent,
+  TextAreaSimpleComponent
 } from './components';
 import {
   CapitalizePipe,

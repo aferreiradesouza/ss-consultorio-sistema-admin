@@ -14,7 +14,7 @@
                 <button nbButton (click)="adicionarPaciente()" status="primary">Adicionar Paciente</button>
             </div>
         </div>
-        <ng2-smart-table (rowSelect)="teste($event)" [settings]="settings" [source]="source" (delete)="deletar($event)" (edit)="editar($event)">
+        <ng2-smart-table [settings]="settings" [source]="source" (custom)="customAction($event)">
         </ng2-smart-table>
     </nb-card-body>
 </nb-card>

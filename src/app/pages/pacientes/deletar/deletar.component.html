@@ -1,0 +1,12 @@
+<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary">
+  <nb-card-header>Editar paciente</nb-card-header>
+  <nb-card-body>
+    <div class="fix-modal">
+      Deletar
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="mr-3" nbButton status="primary" (click)="dismiss()">Cancelar</button>
+    <button nbButton status="danger" (click)="deletar()">Deletar</button>
+  </nb-card-footer>
+</nb-card>

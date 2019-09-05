@@ -257,6 +257,24 @@ export class SmartTableService extends SmartTableData {
     bairro: 'Irajá',
     cidade: 'Rio de Janeiro'
   }, {
+    id: 99,
+    nome: 'Arthur',
+    ultimoNome: 'Ferreira',
+    usuario: '@arsouza',
+    email: 'arthur@gmail.com',
+    idade: '21',
+    celular: '21976364737',
+    telefone: '2133810462',
+    cpf: '12345678950',
+    logradouro: 'Rua José Machado',
+    dataNascimento: '1997-11-20',
+    sexo: 'M',
+    numero: '123',
+    cep: '21361360',
+    complemento: 'casa 4',
+    bairro: 'Irajá',
+    cidade: 'Rio de Janeiro'
+  }, {
     id: 15,
     nome: 'Krikor',
     ultimoNome: 'Bedros',

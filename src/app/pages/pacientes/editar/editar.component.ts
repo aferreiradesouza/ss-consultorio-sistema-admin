@@ -2,6 +2,7 @@ import { Component, Input, OnInit, AfterViewInit, AfterViewChecked } from '@angu
 import { NbDialogRef } from '@nebular/theme';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { FormGroup, FormControl } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'ngx-editar-pacientes',
@@ -37,6 +38,17 @@ export class EditarPacientesComponent implements OnInit {
 
   async ngOnInit() {
     await this.preencherFormulario();
+
+    this.form.get('nascimento').valueChanges.subscribe(val => {
+      if (val.length === 10) {
+        setTimeout(() => {
+          const hoje = moment();
+          const dataNascimento = moment(this.form.value.nascimento, 'DD/MM/YYYY').format('YYYY-MM-DD');
+          const idade = hoje.diff(dataNascimento, 'years', false);
+          this.form.get('idade').setValue(idade);
+        }, 0);
+      }
+    })
   }
 
   dismiss() {
@@ -56,7 +68,7 @@ export class EditarPacientesComponent implements OnInit {
     });
     this.form.patchValue({
       nome: user.nome,
-      nascimento: user.dataNascimento,
+      nascimento: moment(user.dataNascimento, 'YYYY-MM-DD').format('DD/MM/YYYY'),
       cpf: user.cpf,
       sexo: user.sexo,
       observacao: '',

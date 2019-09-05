@@ -1,0 +1,28 @@
+:host /deep/ ng2-st-tbody-edit-delete {
+  display: flex !important;
+  height: 0 !important;
+}
+
+:host /deep/ tbody tr td.ng2-smart-actions {
+    width: 151px;
+    text-align: center;
+}
+
+:host /deep/ ng2-st-tbody-custom a.ng2-smart-action.ng2-smart-action-custom-custom {
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  font-size: 1.1em;
+}
+
+:host /deep/ ng2-st-tbody-custom a.ng2-smart-action .nb-edit:hover {
+  color: #201dd3;
+}
+
+:host /deep/ ng2-st-tbody-custom a.ng2-smart-action .nb-trash:hover {
+  color: #ff0000 !important;
+}
+
+:host /deep/ ng2-st-tbody-custom a.ng2-smart-action .nb-gear:hover {
+  color: #ffd000 !important;
+}

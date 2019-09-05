@@ -5,10 +5,14 @@ import { Router } from '@angular/router';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { EditarPacientesComponent } from '../editar/editar.component';
 import { FormatterService } from '../../../shared/services/formatter.service';
+import { LinkColComponent } from '../../../shared/components/custom-table/link-col.component';
+import { DeletarPacientesComponent } from '../deletar/deletar.component';
+import { PerfilPacientesComponent } from '../perfil/perfil.component';
 
 @Component({
   selector: 'ngx-listagem-pacientes',
   templateUrl: './listagem.component.html',
+  styleUrls: ['listagem.component.scss']
 })
 export class ListagemPacientesComponent {
   public search = '';
@@ -19,25 +23,40 @@ export class ListagemPacientesComponent {
     mode: 'external',
     actions: {
       columnTitle: 'Ações',
-      edit: true,
-      delete: true,
-      position: 'right'
+      position: 'right',
+      custom: [
+        {
+          name: 'perfil',
+          title: '<i class="nb-gear"></i>'
+        },
+        {
+          name: 'edit',
+          title: '<i class="nb-edit"></i>'
+        },
+        {
+          name: 'delete',
+          title: '<i class="nb-trash"></i>'
+        }
+      ],
+      add: false,
+      edit: false,
+      delete: false
     },
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-      confirmSave: true
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },
+    // add: {
+    //   addButtonContent: '<i class="nb-plus"></i>',
+    //   createButtonContent: '<i class="nb-checkmark"></i>',
+    //   cancelButtonContent: '<i class="nb-close"></i>',
+    // },
+    // edit: {
+    //   editButtonContent: '<i class="nb-edit"></i>',
+    //   saveButtonContent: '<i class="nb-checkmark"></i>',
+    //   cancelButtonContent: '<i class="nb-close"></i>',
+    //   confirmSave: true
+    // },
+    // delete: {
+    //   deleteButtonContent: '<i class="nb-trash"></i>',
+    //   confirmDelete: true,
+    // },
     columns: {
       nome: {
         title: 'Nome',
@@ -108,7 +127,26 @@ export class ListagemPacientesComponent {
   }
 
   deletar(event) {
-    console.log(event);
+    console.log('a');
+    this.dialogService.open(
+      DeletarPacientesComponent,
+      {
+        context: {
+          id: event.data.id,
+          dados: event.data
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }).onClose.subscribe(response => {
+        if (response) {
+          const position: any = 'bottom-right';
+          // tslint:disable-next-line: max-line-length
+          this.toastrService.show('', `Paciente deletado com sucesso`,
+            { status: 'danger', duration: 3000, position });
+        }
+      });
   }
 
   adicionarPaciente() {
@@ -116,6 +154,7 @@ export class ListagemPacientesComponent {
   }
 
   async editar(event) {
+    console.log('a');
     this.dialogService.open(
       EditarPacientesComponent,
       {
@@ -132,13 +171,34 @@ export class ListagemPacientesComponent {
           const position: any = 'bottom-right';
           // tslint:disable-next-line: max-line-length
           this.toastrService.show('', `Paciente alterado com sucesso`,
-          { status: 'success', duration: 3000, position });
+            { status: 'success', duration: 3000, position });
         }
       });
   }
 
-  teste(event) {
-    console.log(event);
+  verPerfil(event) {
+    this.dialogService.open(
+      PerfilPacientesComponent,
+      {
+        context: {
+          id: event.data.id,
+          dados: event.data
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      })
+  }
+
+  customAction(event) {
+    if (event.action === 'edit') {
+      this.editar(event);
+    } else if (event.action === 'delete') {
+      this.deletar(event);
+    } else {
+      this.verPerfil(event);
+    }
   }
 
 }
