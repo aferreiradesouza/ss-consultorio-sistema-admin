@@ -25,7 +25,8 @@ import {
   SearchInputComponent,
   TinyMCEComponent,
   TextAreaSimpleComponent,
-  ItemComponent
+  ItemComponent,
+  TimeLineComponent
 } from './components';
 import {
   CapitalizePipe,
@@ -81,7 +82,8 @@ const COMPONENTS = [
   InputSimpleComponent,
   InputMaskComponent,
   TextAreaSimpleComponent,
-  ItemComponent
+  ItemComponent,
+  TimeLineComponent
 ];
 const PIPES = [
   CapitalizePipe,

@@ -177,18 +177,7 @@ export class ListagemPacientesComponent {
   }
 
   verPerfil(event) {
-    this.dialogService.open(
-      PerfilPacientesComponent,
-      {
-        context: {
-          id: event.data.id,
-          dados: event.data
-        },
-        closeOnEsc: true,
-        autoFocus: false,
-        closeOnBackdropClick: false,
-        hasScroll: true
-      });
+    this.router.navigateByUrl(`/pacientes/perfil?id=${event.data.id}`);
   }
 
   customAction(event) {

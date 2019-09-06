@@ -8,7 +8,8 @@ import {
   NbSpinnerModule,
   NbToastrModule,
   NbLayoutModule,
-  NbTooltipModule
+  NbTooltipModule,
+  NbTabsetModule
 } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -32,7 +33,8 @@ const NB_MODULES = [
   NbDialogModule.forRoot(),
   NbSpinnerModule,
   NbToastrModule,
-  NbLayoutModule
+  NbLayoutModule,
+  NbTabsetModule
 ];
 
 @NgModule({
@@ -54,7 +56,6 @@ const NB_MODULES = [
   entryComponents: [
     EditarPacientesComponent,
     DeletarPacientesComponent,
-    PerfilPacientesComponent,
     LinkColComponent
   ]
 })
