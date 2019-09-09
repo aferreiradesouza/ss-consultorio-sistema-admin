@@ -9,7 +9,9 @@ import {
   NbToastrModule,
   NbLayoutModule,
   NbTooltipModule,
-  NbTabsetModule
+  NbTabsetModule,
+  NbActionsModule,
+  NbSelectModule
 } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -34,7 +36,10 @@ const NB_MODULES = [
   NbSpinnerModule,
   NbToastrModule,
   NbLayoutModule,
-  NbTabsetModule
+  NbTabsetModule,
+  NbActionsModule,
+  NbTooltipModule,
+  NbSelectModule
 ];
 
 @NgModule({

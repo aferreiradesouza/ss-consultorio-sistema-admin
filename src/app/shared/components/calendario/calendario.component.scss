@@ -1,0 +1,193 @@
+@import "../../styles/themes.scss";
+
+$width-dia: calc(100% / 5);
+$width-hora: 0%;
+$height-ceil: 72px;
+$color-grid: rgb(187, 187, 187);
+$hour-count: 48;
+
+.no-padding-bottom {
+  padding-bottom: 0px !important;
+}
+
+.header {
+  position: sticky;
+  width: 100%;
+  height: 80px;
+  top: 0;
+  z-index: 3;
+  padding-right: 5px;
+
+  > div {
+    height: calc(100% - 20px);
+
+    > .eixo-hora-header {
+      width: $width-hora;
+      max-width: $width-hora;
+      position: relative;
+    }
+
+    > .dataSemana {
+      width: $width-dia;
+      max-width: $width-dia;
+      position: relative;
+
+      > span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -100%);
+        font-size: 12px;
+        padding: 5px 13.1px;
+
+        &.active {
+          background-color: #3366ff;
+          color: #fff;
+          border-top-right-radius: 5px;
+          border-top-left-radius: 5px;
+        }
+      }
+
+      > .dia {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -5%);
+        padding: 5px 12.6px;
+        font-size: 20px;
+
+        &.active {
+          background-color: #3366ff;
+          color: #fff;
+          border-bottom-right-radius: 5px;
+          border-bottom-left-radius: 5px;
+        }
+      }
+    }
+  }
+
+  > .decorator {
+    width: 100%;
+    height: 20px;
+    display: flex;
+
+    > .eixo-hora-header-decorator {
+      width: $width-hora;
+      max-width: $width-hora;
+      height: 100%;
+      border-bottom: 1px solid $color-grid;
+      box-sizing: content-box;
+    }
+
+    > .decorator-cell {
+      width: $width-dia;
+      max-width: $width-dia;
+      height: 100%;
+      border-bottom: 2px solid $color-grid;
+      border-left: 1px solid $color-grid;
+      border-right: 1px solid $color-grid;
+      box-sizing: content-box;
+
+      &:first-child {
+        border-left: 2px solid $color-grid !important;
+      }
+    }
+  }
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  max-height: calc(100vh - 250px);
+  overflow-y: scroll;
+
+  > .corpo {
+    width: 100%;
+    // height: calc(#{$height-ceil} * #{$hour-count});
+    display: flex;
+    position: relative;
+
+    > .grid {
+      width: calc(100% - (#{$width-hora} - 10px));
+      height: $height-ceil;
+      position: absolute;
+      border-bottom: 1px solid $color-grid;
+      left: calc(#{$width-hora} - 10px);
+    }
+
+    > .eixo-dia {
+      width: $width-dia;
+      max-width: $width-dia;
+      height: 100%;
+      // border-left: 1px solid $color-grid;
+      box-sizing: content-box;
+      z-index: 2;
+      position: relative;
+
+      > .agendamento {
+        min-height: 45px;
+        box-sizing: content-box;
+        border-bottom: 2px solid $color-grid;
+        border-right: 1px solid $color-grid;
+        border-left: 1px solid $color-grid;
+
+        > .card-agendamento-header {
+          display: flex;
+          padding: 12px 10px 10px 10px;
+
+          > .hora {
+            padding: 0px 6px;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: nb-theme(color-primary-200);
+            font-size: 10px;
+            margin-right: 10px;
+            border-radius: 4px;
+          }
+        }
+
+        > .card-agendamento-content {
+          width: 100%;
+          text-align: center;
+          padding-top: 6px;
+
+          > .detalhe {
+            width: calc(100% - 20px);
+            background-color: #3366ff;
+            color: #fff;
+            margin: 0px 10px 5px;
+            text-align: initial;
+            font-size: 14px;
+            padding-left: 5px;
+            border-radius: 5px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+        }
+
+        > .encaixe {
+          width: 100%;
+          height: 12px;
+          font-size: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-left: 7px;
+          color: #000;
+          background-color: #ccc;
+        }
+      }
+
+      > .livre {
+        background-color: nb-theme(color-success-100);
+      }
+
+      > .disabled {
+        background-color: $color-grid;
+      }
+    }
+  }
+}

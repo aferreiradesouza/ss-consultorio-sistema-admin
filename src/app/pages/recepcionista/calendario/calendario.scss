@@ -1,0 +1,92 @@
+@import "../../../shared/styles/themes.scss";
+
+.header {
+  overflow-x: hidden;
+  white-space: nowrap;
+  align-items: center;
+  height: 400px;
+  overflow-y: hidden;
+  transition: all .5s;
+
+  &.minimized {
+    height: 92px;
+  }
+
+  > .data {
+    width: 50%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3366ff;
+    color: white;
+    border-radius: 5px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    box-shadow: 0 0.5rem 1rem 0 rgba(44, 51, 73, 0.1);
+  }
+
+  > .filtro {
+    width: 50%;
+    height: 100%;
+    position: relative;
+    padding-right: 5px;
+    padding-left: 5px;
+
+
+    > .button-filtro {
+        position: absolute;
+        bottom: 20px;
+        width: calc(100% - 10px);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+  }
+
+  > .statusCalendario {
+    width: 50%;
+    height: 100%;
+
+    > .changeDia {
+      padding: 0 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    > .changeMes {
+      padding: 0 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    > .linhaLegenda {
+        display: flex;
+
+        > .item-livre {
+            height: 24px;
+            width: 24px;
+            background-color: nb-theme(color-success-100);
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        > .value-livre {
+            font-size: 15px;
+        }
+    }
+  }
+
+  > nb-icon:hover {
+    cursor: pointer;
+  }
+}
+
+.icon-large {
+  font-size: 50px;
+}
+
+.icon-small {
+  font-size: 40px;
+}

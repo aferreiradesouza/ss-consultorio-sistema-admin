@@ -1,0 +1,43 @@
+<div class="header">
+    <div class="d-flex">
+        <div class="eixo-hora-header"></div>
+        <div class="dataSemana" *ngFor="let item of dias; let i = index">
+            <span [ngClass]="{'active' : item.diaCompleta === dataAtual}">{{item.data.curto.toUpperCase()}}</span>
+            <div class="dia" [ngClass]="{'active' : item.diaCompleta === dataAtual}">
+                {{item.dia}}
+            </div>
+        </div>
+    </div>
+    <div class="decorator">
+        <div class="eixo-hora-header-decorator"></div>
+        <div class="decorator-cell" *ngFor="let dia of obterArray(5); let i = index"></div>
+    </div>
+</div>
+<div class="wrapper">
+    <div class="corpo">
+        <!-- <div class="grid" [ngStyle]="{'top': 72 * i+'px'}" *ngFor="let hora of obterHoras(); let i = index">
+            </div> -->
+        <div class="eixo-dia" *ngFor="let dia of dias; let i = index">
+            <div class="agendamento" *ngFor="let item of obterAgendamentos(i)"
+                [ngClass]="obterClassesAgendamento(item)">
+                <ng-container *ngIf="item.status === 'Livre'">
+                    <div class="card-agendamento-header">
+                        <div class="hora">{{item.hora}}</div>
+                        <button class="ml-auto" nbButton size="tiny" status="success">Marcar</button>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="item.status !== 'Livre'">
+                    <div class="card-agendamento-header no-padding-bottom">
+                        <div class="hora">{{item.hora}}</div>
+                    </div>
+                    <div class="card-agendamento-content">
+                        <div class="detalhe">{{item.marcacao.nome}}</div>
+                    </div>
+                </ng-container>
+                <div class="encaixe" *ngIf="dia.maximoEncaixes > 0 && item.status !== 'Livre'">
+                    Encaixe
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

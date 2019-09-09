@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
 import { SmartTableData } from '../../../@core/data/smart-table';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 
 @Component({
@@ -15,7 +15,6 @@ export class EditarPacientesComponent implements OnInit {
     nome: new FormControl(''),
     nascimento: new FormControl(''),
     cpf: new FormControl(''),
-    sexo: new FormControl(''),
     observacao: new FormControl(''),
     email: new FormControl(''),
     telefone: new FormControl(''),
@@ -28,6 +27,8 @@ export class EditarPacientesComponent implements OnInit {
     cidade: new FormControl(''),
     idade: new FormControl({ value: '', disabled: true }),
   });
+
+  public sexo = new FormControl('', [Validators.required]);
 
   @Input() id: number;
   @Input() dados: any;
@@ -49,6 +50,16 @@ export class EditarPacientesComponent implements OnInit {
         }, 0);
       }
     });
+  }
+
+  getStatusSexo() {
+    if (this.sexo.valid && this.sexo.dirty) {
+      return 'success';
+    } else if (!this.sexo.valid && this.sexo.dirty) {
+      return 'danger';
+    } else {
+      return undefined;
+    }
   }
 
   dismiss() {
@@ -83,5 +94,6 @@ export class EditarPacientesComponent implements OnInit {
       cidade: user.cidade,
       idade: user.idade,
     });
+    this.sexo.setValue(user.sexo);
   }
 }
