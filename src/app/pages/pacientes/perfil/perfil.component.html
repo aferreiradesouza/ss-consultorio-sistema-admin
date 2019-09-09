@@ -6,28 +6,96 @@
   <nb-card-body>
     <div class="row">
       <div class="col-12 col-lg-4 col-md-5 col-sm-12">
-        <nb-card status="primary" size="medium">
+        <nb-card status="primary" size="small">
           <nb-card-header>
             Histórico de atendimento
           </nb-card-header>
           <nb-card-body>
-            <ngx-timeline></ngx-timeline>
+            <ngx-timeline [data]="timeline"></ngx-timeline>
           </nb-card-body>
         </nb-card>
       </div>
       <div class="col-12 col-lg-8 col-md-7 col-sm-12">
+        <nb-card>
+          <nb-card-body>
+            <nb-actions size="small" fullWidth>
+              <nb-action (click)="deletar(dialog)" icon="trash-2-outline" nbTooltip="Excluir Paciente"
+                nbTooltipPlacement="bottom" nbTooltipStatus="danger"></nb-action>
+              <nb-action (click)="editar()" icon="edit-outline" nbTooltip="Editar Paciente" nbTooltipPlacement="bottom"
+                nbTooltipStatus="success"></nb-action>
+            </nb-actions>
+          </nb-card-body>
+        </nb-card>
         <nb-tabset fullWidth>
-          <nb-tab tabTitle="Pessoal" tabIcon="person-outline">
-            Informações pessoais
+          <nb-tab tabTitle="Pessoal">
+            <div class="row">
+              <div class="col-sm-12">
+                <ngx-item label="E-mail" [value]="user?.email"></ngx-item>
+              </div>
+              <div class="col-sm-6">
+                <ngx-item label="CPF" [value]="user?.cpf | cpf"></ngx-item>
+              </div>
+              <div class="col-sm-6">
+                <ngx-item label="Sexo" [value]="user?.sexo === 'M' ? 'Masculino' : 'Feminino'"></ngx-item>
+              </div>
+              <div class="col-sm-6">
+                <ngx-item label="Data de nascimento" [value]="user?.dataNascimento | date:'YYYY-MM-DD'"></ngx-item>
+              </div>
+              <div class="col-sm-6">
+                <ngx-item label="Idade" [value]="user?.idade"></ngx-item>
+              </div>
+            </div>
           </nb-tab>
-          <nb-tab tabTitle="Contato" tabIcon="phone-outline">
-            Informações de contato
+          <nb-tab tabTitle="Contato">
+            <div class="row">
+              <div class="col-sm-6">
+                <ngx-item label="Celular" [value]="user?.celular | telefone"></ngx-item>
+              </div>
+              <div class="col-sm-6">
+                <ngx-item label="Telefone" [value]="user?.telefone | telefone"></ngx-item>
+              </div>
+            </div>
           </nb-tab>
-          <nb-tab tabTitle="Endereço" tabIcon="home-outline">
-            Informações de endereço
+          <nb-tab tabTitle="Endereço">
+            <div class="row">
+              <div class="col-sm-10">
+                <ngx-item label="Endereço" [value]="user?.logradouro"></ngx-item>
+              </div>
+              <div class="col-sm-2">
+                <ngx-item label="Número" [value]="user?.numero"></ngx-item>
+              </div>
+              <div class="col-sm-6">
+                <ngx-item label="Bairro" [value]="user?.bairro"></ngx-item>
+              </div>
+              <div class="col-sm-6">
+                <ngx-item label="Complemento" [value]="user?.complemento"></ngx-item>
+              </div>
+              <div class="col-sm-6">
+                <ngx-item label="CEP" [value]="user?.cep | cep"></ngx-item>
+              </div>
+              <div class="col-sm-6">
+                <ngx-item label="Cidade" [value]="user?.cidade"></ngx-item>
+              </div>
+            </div>
           </nb-tab>
         </nb-tabset>
+      </div>
+      <div class="col-12">
+        <h5>Dados de pagamentos</h5>
+        <ng2-smart-table [settings]="settings" [source]="source">
+        </ng2-smart-table>
       </div>
     </div>
   </nb-card-body>
 </nb-card>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Atenção</nb-card-header>
+    <nb-card-body>{{ data }}</nb-card-body>
+    <nb-card-footer>
+      <button class="mr-4" nbButton (click)="ref.close(false)">Não</button>
+      <button nbButton status="danger" (click)="ref.close(true)">Sim</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

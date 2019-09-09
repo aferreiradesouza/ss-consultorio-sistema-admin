@@ -15,6 +15,9 @@ import {
   NbDialogModule,
   NbCardModule,
   NbInputModule,
+  NbListModule,
+  NbCalendarRangeModule,
+  NbCalendarModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -26,7 +29,8 @@ import {
   TinyMCEComponent,
   TextAreaSimpleComponent,
   ItemComponent,
-  TimeLineComponent
+  TimeLineComponent,
+  CalendarioComponent
 } from './components';
 import {
   CapitalizePipe,
@@ -53,6 +57,8 @@ import { InputSimpleComponent } from './components/input-simple/input-simple.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputMaskComponent } from './components/input-mask/input-mask.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { CepPipe } from './pipes/cep.pipe';
+import { CalendarioService } from './services/calendarios.service';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -70,6 +76,10 @@ const NB_MODULES = [
   NbDialogModule.forRoot(),
   NbCardModule,
   NbInputModule,
+  NbListModule,
+  FormsModule,
+  NbCalendarRangeModule,
+  NbCalendarModule
 ];
 const COMPONENTS = [
   HeaderComponent,
@@ -83,7 +93,8 @@ const COMPONENTS = [
   InputMaskComponent,
   TextAreaSimpleComponent,
   ItemComponent,
-  TimeLineComponent
+  TimeLineComponent,
+  CalendarioComponent
 ];
 const PIPES = [
   CapitalizePipe,
@@ -93,7 +104,8 @@ const PIPES = [
   NumberWithCommasPipe,
   CpfPipe,
   DatePipe,
-  TelefonePipe
+  TelefonePipe,
+  CepPipe
 ];
 
 @NgModule({
@@ -114,6 +126,7 @@ export class SharedModule {
       providers: [
         FormatterService,
         ValidatorService,
+        CalendarioService,
         ...NbThemeModule.forRoot(
           {
             name: 'default',

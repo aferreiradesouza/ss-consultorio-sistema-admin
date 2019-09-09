@@ -19,7 +19,7 @@ ul.timeline > li {
 }
 ul.timeline > li:before {
     content: ' ';
-    background: #3366ff;
+    background: #fff;
     display: inline-block;
     position: absolute;
     border-radius: 50%;
@@ -28,4 +28,14 @@ ul.timeline > li:before {
     width: 20px;
     height: 20px;
     z-index: 400;
+}
+
+.item {
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.center {
+    display: flex;
+    align-items: center;
 }

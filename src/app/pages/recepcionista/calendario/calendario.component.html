@@ -1,5 +1,106 @@
-<div class="row">
-    <div class="col-xxl-5">
-        Calendário
-    </div>
-</div>
+<nb-card accent="primary">
+    <nb-card-header>
+        <div class="d-flex header" [ngClass]="{'minimized': !isOpen}">
+            <nb-icon (click)="toggle()" pack="fa" class="mr-4" [icon]="isOpen ? 'times' : 'bars'"></nb-icon>
+            <ng-container>
+                <nb-calendar class="mr-4" [(date)]="date" [showHeader]="false" *ngIf="isOpen && option === 'Dia'">
+                </nb-calendar>
+                <nb-calendar-range class="mr-4" [(range)]="range" [showHeader]="false"
+                    *ngIf="isOpen && option === 'Semana'" (rangeChange)="handleRangeChange($event)">
+                </nb-calendar-range>
+            </ng-container>
+            <div class="data mr-4" *ngIf="!isOpen">
+                <ng-container *ngIf="option === 'Dia'">
+                    Data selecionada: {{date | date:'YYYY-MM-DD'}}
+                </ng-container>
+                <ng-container *ngIf="option === 'Semana'">
+                    <ng-container *ngIf="range?.start">
+                        Data início: {{range.start | date:'YYYY-MM-DD'}}<br>
+                        Data fim: {{range.end | date:'YYYY-MM-DD'}}<br>
+                    </ng-container>
+                    <ng-container *ngIf="!range?.start">
+                        Selecione uma data
+                    </ng-container>
+                </ng-container>
+            </div>
+            <div class="statusCalendario mr-4">
+                <ng-container *ngIf="isOpen">
+                    <label class="label d-block mt-4">Visão</label>
+                    <nb-select fullWidth placeholder="NgModel" [(ngModel)]="option">
+                        <nb-option value="Dia">Dia</nb-option>
+                        <nb-option value="Semana">Semana</nb-option>
+                    </nb-select>
+                    <div class="changeDia mt-4">
+                        <button nbButton status="primary" ghost>
+                            <nb-icon icon="chevron-left-outline"></nb-icon>
+                        </button>
+                        <div>Dias</div>
+                        <button nbButton status="primary" ghost>
+                            <nb-icon icon="chevron-right-outline"></nb-icon>
+                        </button>
+                    </div>
+                    <div class="changeMes">
+                        <button nbButton status="primary" ghost>
+                            <nb-icon icon="chevron-left-outline"></nb-icon>
+                        </button>
+                        <div>Semana</div>
+                        <button nbButton status="primary" ghost>
+                            <nb-icon icon="chevron-right-outline"></nb-icon>
+                        </button>
+                    </div>
+                    <label class="label">Legenda</label>
+                    <div class="linhaLegenda">
+                        <div class="item-livre"></div>
+                        <div class="value-livre align-center ml-4">Livre</div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!isOpen">
+                    <div class="changeMes mt-4">
+                        <button nbButton status="primary" ghost>
+                            <nb-icon icon="chevron-left-outline"></nb-icon>
+                        </button>
+                        <div>{{option === 'Dia' ? 'Dias' : 'Semana'}}</div>
+                        <button nbButton status="primary" ghost>
+                            <nb-icon icon="chevron-right-outline"></nb-icon>
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="filtro" [ngClass]="{'align-center': !isOpen}">
+                <ng-container *ngIf="isOpen">
+                    <label class="label d-block mt-4">Médicos</label>
+                    <nb-select fullWidth placeholder="Selecione" [(ngModel)]="medico">
+                        <nb-option value="André Domarco">André Domarco</nb-option>
+                        <nb-option value="Rafael Silveira">Rafael Silveira</nb-option>
+                    </nb-select>
+                    <label class="label d-block mt-3">Lugares</label>
+                    <nb-select fullWidth placeholder="Selecione" [(ngModel)]="lugares">
+                        <nb-option value="Nova América">Nova América</nb-option>
+                        <nb-option value="Madureira">Madureira</nb-option>
+                    </nb-select>
+                    <label class="label d-block mt-3">Especialidade</label>
+                    <nb-select fullWidth placeholder="Selecione" [(ngModel)]="lugares">
+                        <nb-option value="Nova América">Nova América</nb-option>
+                        <nb-option value="Madureira">Madureira</nb-option>
+                    </nb-select>
+                    <button class="d-block button-filtro" nbButton fullWidth status="primary">Filtrar</button>
+                </ng-container>
+                <ng-container *ngIf="!isOpen">
+                    <div class="row">
+                        <div class="col-sm">
+                            <label class="label d-block mt-2">Médico</label>
+                            <span>{{medico}}</span>
+                        </div>
+                        <div class="col-sm">
+                            <label class="label d-block mt-2">Lugar</label>
+                            <span>{{lugares}}</span>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <ngx-calendario [data]="data"></ngx-calendario>
+    </nb-card-body>
+</nb-card>

@@ -6,3 +6,4 @@ export * from './number-with-commas.pipe';
 export * from './cpf.pipe';
 export * from './date.pipe';
 export * from './telefone.pipe';
+export * from './cep.pipe';

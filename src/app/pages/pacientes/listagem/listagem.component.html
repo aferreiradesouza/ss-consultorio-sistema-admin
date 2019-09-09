@@ -11,7 +11,7 @@
                 </ngx-input-simple>
             </div>
             <div class="ml-auto">
-                <button nbButton (click)="adicionarPaciente()" status="primary">Adicionar Paciente</button>
+                <button nbButton hero (click)="adicionarPaciente()" status="primary">Adicionar Paciente</button>
             </div>
         </div>
         <ng2-smart-table [settings]="settings" [source]="source" (custom)="customAction($event)">

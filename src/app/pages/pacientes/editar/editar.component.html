@@ -1,5 +1,7 @@
 <nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary" size="large" accent="success">
-  <nb-card-header><h5>Editar paciente</h5></nb-card-header>
+  <nb-card-header>
+    <h5>Editar paciente</h5>
+  </nb-card-header>
   <nb-card-body>
     <div class="fix-modal no-scroll-y">
       <form [formGroup]="form">
@@ -21,8 +23,12 @@
             <ngx-input-simple label="Idade" formControlName="idade" placeholder="00"></ngx-input-simple>
           </div>
           <div class="col-sm-3">
-            <ngx-input-simple label="Sexo" formControlName="sexo" [required]="true" placeholder="00/00/0000">
-            </ngx-input-simple>
+            <label class="label d-block">Sexo *</label>
+            <nb-select fullWidth placeholder="Masculino" [status]="getStatusSexo()" [formControl]="sexo">
+              <nb-option value="M">Masculino</nb-option>
+              <nb-option value="F">Feminino</nb-option>
+              <nb-option value="O">Outros</nb-option>
+            </nb-select>
           </div>
         </div>
         <div class="row">
@@ -88,6 +94,6 @@
     <label class="label d-block">* Campos obrigatórios</label>
     <button class="mr-3" nbButton status="danger" (click)="dismiss()">Cancelar</button>
     <button nbButton status="primary" (click)="editar()"
-      [attr.disabled]="!form.valid ? true : undefined">Editar</button>
+      [attr.disabled]="!form.valid || !sexo.valid ? true : undefined">Editar</button>
   </nb-card-footer>
 </nb-card>

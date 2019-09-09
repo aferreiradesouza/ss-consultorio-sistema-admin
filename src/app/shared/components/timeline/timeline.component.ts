@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
     selector: 'ngx-timeline',
@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class TimeLineComponent implements OnInit {
+
+    @Input() data: any[];
+
     constructor() { }
 
     ngOnInit() { }
