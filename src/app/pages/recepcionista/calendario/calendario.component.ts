@@ -1,92 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NbCalendarRange, NbIconLibraries } from '@nebular/theme';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
+import { CalendarioComponent } from '../../../shared/components';
+import { CalendarioData } from '../../../@core/data/calendario';
 
 @Component({
   selector: 'ngx-calendario-recepcionista',
   templateUrl: './calendario.component.html',
   styleUrls: ['./calendario.scss']
 })
-export class CalendarioComponent {
-  public data = [
-    {
-      data: '2019-09-06', maximoEncaixes: 5, agendamentos: [
-        { hora: '08:00', status: 'Livre', marcacao: null },
-        { hora: '08:30', status: 'Ocupado', marcacao: { nome: 'Arthur Ferreiraddddddddddddddd', cpf: '' } },
-        { hora: '09:00', status: 'Ocupado', marcacao: { nome: 'Arthur Ferreira', cpf: '' } },
-        { hora: '09:30', status: 'Livre', marcacao: null },
-        { hora: '10:00', status: 'Ocupado', marcacao: { nome: 'Arthur Ferreira', cpf: '' } },
-        { hora: '10:00', status: 'Livre', marcacao: null },
-        { hora: '10:00', status: 'Ocupado', marcacao: { nome: 'Arthur Ferreira', cpf: '' } },
-        { hora: '10:00', status: 'Livre', marcacao: null },
-        { hora: '10:00', status: 'Ocupado', marcacao: { nome: 'Arthur Ferreira', cpf: '' } },
-        { hora: '10:00', status: 'Livre', marcacao: null },
-      ]
-    },
-    {
-      data: '2019-09-07', maximoEncaixes: 5, agendamentos: [
-        { hora: '10:00', status: 'Livre', marcacao: null },
-        { hora: '10:30', status: 'Livre', marcacao: null },
-        { hora: '11:00', status: 'Livre', marcacao: null },
-        { hora: '11:30', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-      ]
-    },
-    {
-      data: '2019-09-08', maximoEncaixes: 5, agendamentos: [
-        { hora: '10:00', status: 'Livre', marcacao: null },
-        { hora: '10:30', status: 'Livre', marcacao: null },
-        { hora: '11:00', status: 'Livre', marcacao: null },
-        { hora: '11:30', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-      ]
-    },
-    {
-      data: '2019-09-09', maximoEncaixes: 5, agendamentos: [
-        { hora: '10:00', status: 'Livre', marcacao: null },
-        { hora: '10:30', status: 'Livre', marcacao: null },
-        { hora: '11:00', status: 'Livre', marcacao: null },
-        { hora: '11:30', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '11:00', status: 'Livre', marcacao: null },
-        { hora: '11:30', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '11:00', status: 'Livre', marcacao: null },
-        { hora: '11:30', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-        { hora: '11:00', status: 'Livre', marcacao: null },
-        { hora: '11:30', status: 'Livre', marcacao: null },
-        { hora: '12:00', status: 'Livre', marcacao: null },
-      ]
-    },
-    {
-      data: '2019-09-10', maximoEncaixes: 0, agendamentos: [
-        { hora: '10:00', status: 'Livre', marcacao: null },
-        { hora: '10:30', status: 'Ocupado', marcacao: { nome: 'Arthur Ferreira', cpf: '' } },
-        { hora: '11:00', status: 'Ocupado', marcacao: { nome: 'Arthur Ferreira', cpf: '' } },
-        { hora: '11:30', status: 'Ocupado', marcacao: { nome: 'Arthur Ferreira', cpf: '' } },
-        { hora: '12:00', status: 'Ocupado', marcacao: { nome: 'Arthur Ferreira', cpf: '' } },
-      ]
-    },
-  ];
+export class CalendarioRecepcaoComponent {
 
+  public data: any[];
   public date = new Date();
+  public dataAtual = new Date();
   public isOpen = true;
   public options = [
     { value: 'Dia', label: 'Dia' },
@@ -97,11 +25,15 @@ export class CalendarioComponent {
   public medico = 'André Domarco';
   public lugares = 'Nova América';
 
+  @ViewChild(CalendarioComponent, {static: false}) calendario: CalendarioComponent;
+
   constructor(iconsLibrary: NbIconLibraries,
-    public calendarioService: CalendarioService) {
+    public calendarioService: CalendarioService,
+    public calendarioMock: CalendarioData) {
     iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('far', { packClass: 'far', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('ion', { iconClassPrefix: 'ion' });
+    this.data = this.calendarioMock.getData();
   }
 
   handleRangeChange(event) {
@@ -132,5 +64,12 @@ export class CalendarioComponent {
 
   getIconHeader() {
     return this.isOpen ? 'close-outline' : 'menu-2-outline';
+  }
+
+  changeMesPainel(type: string) {
+    this.calendario.changeMes(type);
+  }
+
+  disabledButton() {
   }
 }

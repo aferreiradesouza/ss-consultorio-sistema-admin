@@ -1,9 +1,9 @@
 <div class="header">
     <div class="d-flex">
         <div class="eixo-hora-header"></div>
-        <div class="dataSemana" *ngFor="let item of dias; let i = index">
-            <span [ngClass]="{'active' : item.diaCompleta === dataAtual}">{{item.data.curto.toUpperCase()}}</span>
-            <div class="dia" [ngClass]="{'active' : item.diaCompleta === dataAtual}">
+        <div class="dataSemana" *ngFor="let item of dados[index]; let i = index">
+            <span [ngClass]="{'active' : item.diaCompleta === dataAtualFormatada}">{{item.data.curto.toUpperCase()}}</span>
+            <div class="dia" [ngClass]="{'active' : item.diaCompleta === dataAtualFormatada}">
                 {{item.dia}}
             </div>
         </div>
@@ -17,8 +17,8 @@
     <div class="corpo">
         <!-- <div class="grid" [ngStyle]="{'top': 72 * i+'px'}" *ngFor="let hora of obterHoras(); let i = index">
             </div> -->
-        <div class="eixo-dia" *ngFor="let dia of dias; let i = index">
-            <div class="agendamento" *ngFor="let item of obterAgendamentos(i)"
+        <div class="eixo-dia" *ngFor="let dia of dados[index];">
+            <div class="agendamento" *ngFor="let item of dia.agendamentos"
                 [ngClass]="obterClassesAgendamento(item)">
                 <ng-container *ngIf="item.status === 'Livre'">
                     <div class="card-agendamento-header">

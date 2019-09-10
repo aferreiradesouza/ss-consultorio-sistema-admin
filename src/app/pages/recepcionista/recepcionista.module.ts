@@ -15,7 +15,7 @@ import {
 
 import { SharedModule } from '../../shared/shared.module';
 import { RecepcionistaRoutingModule } from './recepcionista-routing.module';
-import { CalendarioComponent } from './calendario/calendario.component';
+import { CalendarioRecepcaoComponent } from './calendario/calendario.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -36,7 +36,7 @@ import { FormsModule } from '@angular/forms';
     NbSelectModule
   ],
   declarations: [
-    CalendarioComponent
+    CalendarioRecepcaoComponent
   ]
 })
 export class RecepcionistaModule { }

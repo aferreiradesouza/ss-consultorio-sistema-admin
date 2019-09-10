@@ -74,9 +74,24 @@ export class CalendarioService {
                 dia: moment(date.data, 'YYYY-MM-DD').format('DD'),
                 data: this.formatarDay(moment(date.data, 'YYYY-MM-DD').day()),
                 diaCompleta: date.data,
-                maximoEncaixes: date.maximoEncaixes
+                maximoEncaixes: date.maximoEncaixes,
+                agendamentos: date.agendamentos
             };
         });
+    }
+
+    getIntervalDate(start, end): string[] {
+        const arr = [];
+        // Get "next" monday
+        const tmp = start;
+        if (tmp.isAfter(start, 'd')) {
+            arr.push(tmp.format('YYYY-MM-DD'));
+        }
+        while (tmp.isBefore(end)) {
+            arr.push(tmp.format('YYYY-MM-DD'));
+            tmp.add(1, 'days');
+        }
+        return arr;
     }
 
     hourToDecimal(hora) {
@@ -93,5 +108,24 @@ export class CalendarioService {
     const minutes = Math.floor((decimalTime / 60));
     return `${hours.toString().length === 1 ?
         `${0}${hours}` : hours}:${minutes.toString().length === 1 ? `0${minutes}` : `${minutes}`}`;
+    }
+
+    montarDados(data: any[]): any[] {
+        const maxLength = Math.ceil(data.length / 5);
+        let response: any[] = this.criarArray(maxLength);
+        let ind = 0;
+        for (let index = 0; index < maxLength; index++) {
+            const repeat = index + 1 === maxLength ? data.length % 5 : 5;
+            const array = [];
+            for (let i = 0; i < repeat; i++) {
+                array.push(data[ind]);
+                ind += 1;
+            }
+            response[index] = array;
+        }
+        response = response.map(element => {
+            return this.montarDias(element);
+        });
+        return response;
     }
 }
