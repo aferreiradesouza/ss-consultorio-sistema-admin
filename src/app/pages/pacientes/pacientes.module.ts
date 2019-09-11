@@ -29,7 +29,6 @@ const NB_MODULES = [
   NbCardModule,
   NbButtonModule,
   Ng2SmartTableModule,
-  NbCardModule,
   NbIconModule,
   NbInputModule,
   NbDialogModule.forRoot(),

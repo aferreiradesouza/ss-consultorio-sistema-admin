@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { NbCalendarRange, NbIconLibraries } from '@nebular/theme';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
@@ -10,20 +10,18 @@ import { CalendarioData } from '../../../@core/data/calendario';
   templateUrl: './calendario.component.html',
   styleUrls: ['./calendario.scss']
 })
-export class CalendarioRecepcaoComponent {
+export class CalendarioRecepcaoComponent implements OnInit {
 
   public data: any[];
   public date = new Date();
   public dataAtual = new Date();
   public isOpen = true;
-  public options = [
-    { value: 'Dia', label: 'Dia' },
-    { value: 'Semana', label: 'Semana' },
-  ];
   public range: NbCalendarRange<Date>;
-  public option = 'Semana';
-  public medico = 'André Domarco';
-  public lugares = 'Nova América';
+  public isLoading = false;
+  public visao = '1';
+  public medico = '1';
+  public lugar = '1';
+  public especialidade = '1';
 
   @ViewChild(CalendarioComponent, {static: false}) calendario: CalendarioComponent;
 
@@ -33,7 +31,14 @@ export class CalendarioRecepcaoComponent {
     iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('far', { packClass: 'far', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('ion', { iconClassPrefix: 'ion' });
-    this.data = this.calendarioMock.getData();
+  }
+
+  async ngOnInit() {
+    this.isLoading = true;
+    await this.calendarioMock.getDataWithLoading().then(response => {
+      this.isLoading = false;
+      this.data = response;
+    });
   }
 
   handleRangeChange(event) {

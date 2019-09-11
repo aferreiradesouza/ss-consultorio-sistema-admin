@@ -10,7 +10,8 @@ import {
   NbCalendarModule,
   NbRadioModule,
   NbCalendarRangeModule,
-  NbSelectModule
+  NbSelectModule,
+  NbSpinnerModule
 } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     NbButtonModule,
     RecepcionistaRoutingModule,
     NbSidebarModule,
+    NbSpinnerModule,
     NbLayoutModule,
     NbIconModule,
     NbActionsModule,

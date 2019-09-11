@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment';
 import { CalendarioService } from '../../services/calendarios.service';
+import { NbIconLibraries } from '@nebular/theme';
 
 @Component({
     selector: 'ngx-calendario',
@@ -22,8 +23,11 @@ export class CalendarioComponent implements OnInit {
 
     @Input() data: any[];
 
-    constructor(public calendarioService: CalendarioService) {
+    constructor(public calendarioService: CalendarioService, iconsLibrary: NbIconLibraries) {
         this.minDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
+        iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
+        iconsLibrary.registerFontPack('far', { packClass: 'far', iconClassPrefix: 'fa' });
+        iconsLibrary.registerFontPack('ion', { iconClassPrefix: 'ion' });
     }
 
     ngOnInit() {
@@ -46,7 +50,8 @@ export class CalendarioComponent implements OnInit {
     obterClassesAgendamento(item) {
         if (typeof item === 'number') { return ['disabled']; }
         const ret = [];
-        if (item.status === 'Livre') { ret.push('livre'); }
+        if (item.status === 'Livre') { ret.push('livre'); } else { ret.push('padding-top-10'); }
+        if (item.status === 'Encaixe') { ret.push('encaixe-background'); }
         return ret;
     }
 

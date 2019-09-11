@@ -2,9 +2,11 @@
     <div class="d-flex">
         <div class="eixo-hora-header"></div>
         <div class="dataSemana" *ngFor="let item of dados[index]; let i = index">
-            <span [ngClass]="{'active' : item.diaCompleta === dataAtualFormatada}">{{item.data.curto.toUpperCase()}}</span>
-            <div class="dia" [ngClass]="{'active' : item.diaCompleta === dataAtualFormatada}">
-                {{item.dia}}
+            <div class="group" [ngClass]="{'active' : item.diaCompleta === dataAtualFormatada}">
+                <span>{{item.data.curto.toUpperCase()}}</span>
+                <div class="dia">
+                    {{item.dia}}
+                </div>
             </div>
         </div>
     </div>
@@ -18,8 +20,7 @@
         <!-- <div class="grid" [ngStyle]="{'top': 72 * i+'px'}" *ngFor="let hora of obterHoras(); let i = index">
             </div> -->
         <div class="eixo-dia" *ngFor="let dia of dados[index];">
-            <div class="agendamento" *ngFor="let item of dia.agendamentos"
-                [ngClass]="obterClassesAgendamento(item)">
+            <div class="agendamento" *ngFor="let item of dia.agendamentos" [ngClass]="obterClassesAgendamento(item)">
                 <ng-container *ngIf="item.status === 'Livre'">
                     <div class="card-agendamento-header">
                         <div class="hora">{{item.hora}}</div>
@@ -27,16 +28,32 @@
                     </div>
                 </ng-container>
                 <ng-container *ngIf="item.status !== 'Livre'">
-                    <div class="card-agendamento-header no-padding-bottom">
+                    <!-- <div class="card-agendamento-header no-padding-bottom">
                         <div class="hora">{{item.hora}}</div>
                     </div>
                     <div class="card-agendamento-content">
                         <div class="detalhe">{{item.marcacao.nome}}</div>
+                    </div> -->
+                    <div class="card-marcacao">
+                        <div class="linha">
+                            <div class="hora">{{item.hora}}</div>
+                            <div class="w-100">
+                                <nb-actions size="tiny" fullWidth>
+                                    <nb-action icon="info-outline" nbTooltip="Informações da Consulta"
+                                        nbTooltipPlacement="top" nbTooltipStatus="info"></nb-action>
+                                    <nb-action icon="play-circle-outline" nbTooltip="Alterar Status"
+                                        nbTooltipPlacement="top" nbTooltipStatus="primary"></nb-action>
+                                </nb-actions>
+                            </div>
+                        </div>
+                        <div class="status em-atendimento">
+                            Em atendimento
+                        </div>
+                    </div>
+                    <div class="encaixe" *ngIf="dia.maximoEncaixes > 0">
+                        <button fullWidth nbButton size="tiny" status="warning">Encaixe</button>
                     </div>
                 </ng-container>
-                <div class="encaixe" *ngIf="dia.maximoEncaixes > 0 && item.status !== 'Livre'">
-                    Encaixe
-                </div>
             </div>
         </div>
     </div>

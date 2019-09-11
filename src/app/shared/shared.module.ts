@@ -18,6 +18,7 @@ import {
   NbListModule,
   NbCalendarRangeModule,
   NbCalendarModule,
+  NbTooltipModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -59,6 +60,14 @@ import { InputMaskComponent } from './components/input-mask/input-mask.component
 import { NgxMaskModule } from 'ngx-mask';
 import { CepPipe } from './pipes/cep.pipe';
 import { CalendarioService } from './services/calendarios.service';
+import { EspecialidadeEnum } from './enums/especialidade.enum';
+import { EspecialidadePipe } from './pipes/especialidade.pipe';
+import { MedicoEnum } from './enums/medico.enum';
+import { MedicoPipe } from './pipes/medico.pipe';
+import { LugarPipe } from './pipes/lugar.pipe';
+import { LugarEnum } from './enums/lugar.enum';
+import { VisaoPipe } from './pipes/visao.pipe';
+import { VisaoEnum } from './enums/visao.enum';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -79,7 +88,8 @@ const NB_MODULES = [
   NbListModule,
   FormsModule,
   NbCalendarRangeModule,
-  NbCalendarModule
+  NbCalendarModule,
+  NbTooltipModule
 ];
 const COMPONENTS = [
   HeaderComponent,
@@ -105,7 +115,18 @@ const PIPES = [
   CpfPipe,
   DatePipe,
   TelefonePipe,
-  CepPipe
+  CepPipe,
+  EspecialidadePipe,
+  MedicoPipe,
+  LugarPipe,
+  VisaoPipe,
+];
+
+const ENUMS = [
+  EspecialidadeEnum,
+  MedicoEnum,
+  LugarEnum,
+  VisaoEnum
 ];
 
 @NgModule({
@@ -127,6 +148,7 @@ export class SharedModule {
         FormatterService,
         ValidatorService,
         CalendarioService,
+        ...ENUMS,
         ...NbThemeModule.forRoot(
           {
             name: 'default',
