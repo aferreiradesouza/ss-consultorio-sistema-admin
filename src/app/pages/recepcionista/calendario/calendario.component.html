@@ -26,11 +26,11 @@
             <div class="statusCalendario mr-4">
                 <ng-container *ngIf="isOpen">
                     <label class="label d-block mt-4">Visão</label>
-                    <nb-select fullWidth placeholder="NgModel" [(ngModel)]="visao">
+                    <nb-select fullWidth [(ngModel)]="visao">
                         <nb-option value="1">Dia</nb-option>
                         <nb-option value="2">Semana</nb-option>
                     </nb-select>
-                    <div class="changeDia mt-4">
+                    <div class="changeDia mt-4" *ngIf="visao === '1'">
                         <button nbButton status="primary" ghost>
                             <nb-icon icon="chevron-left-outline"></nb-icon>
                         </button>
@@ -39,7 +39,7 @@
                             <nb-icon icon="chevron-right-outline"></nb-icon>
                         </button>
                     </div>
-                    <div class="changeMes">
+                    <div class="changeMes mt-4" *ngIf="visao === '2'">
                         <button (click)="changeMesPainel('anterior')" [attr.disabled]="disabledButton()" nbButton
                             status="primary" ghost>
                             <nb-icon icon="chevron-left-outline"></nb-icon>

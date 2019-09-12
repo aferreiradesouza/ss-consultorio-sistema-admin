@@ -49,6 +49,13 @@
                         <div class="status em-atendimento">
                             Em atendimento
                         </div>
+                        <div class="info-pessoal">
+                            <div class="align-center">{{item.marcacao.nome}}</div>
+                            <!-- <div class="align-center">{{item.marcacao.celular | telefone}}</div> -->
+                            <div class="tipo-consulta">
+                                Revisão
+                            </div>
+                        </div>
                     </div>
                     <div class="encaixe" *ngIf="dia.maximoEncaixes > 0">
                         <button fullWidth nbButton size="tiny" status="warning">Encaixe</button>
