@@ -1,0 +1,83 @@
+@import "../../styles/themes.scss";
+
+.header {
+  width: 100%;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.campo {
+  display: flex;
+
+  > .hora {
+    padding: 2px 5px;
+    width: fit-content;
+    background-color: nb-theme(color-primary-200);
+    color: #000;
+    border-radius: 5px;
+    margin-right: 15px;
+  }
+
+  > .button {
+    border-left: 1px solid nb-theme(color-primary-200);
+    padding-left: 15px;
+  }
+
+  > .paciente {
+    border-left: 1px solid nb-theme(color-primary-200);
+    padding-left: 15px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+  }
+
+  > .status {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    padding: 0px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+  }
+
+  > nb-actions > .typeConsulta {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    padding: 0px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-right: 10px;
+    background-color: nb-theme(color-primary-100)
+  }
+}
+.encaixe {
+  background-color: nb-theme(color-warning-200);
+}
+
+.livre {
+  background-color: nb-theme(color-success-100);
+}
+
+.em-espera {
+  background-color : nb-theme(color-warning-600);
+  color: nb-theme(color-basic-100);
+}
+
+.nao-confirmado {
+  background-color : nb-theme(color-warning-600);
+  color: nb-theme(color-basic-100);
+}
+
+.confirmado {
+  background-color : nb-theme(color-success-600);
+  color: nb-theme(color-basic-100);
+}
+
+.em-atendimento {
+  background-color : nb-theme(color-danger-600);
+  color: nb-theme(color-basic-100);
+}
+

@@ -2,7 +2,7 @@
     <div class="d-flex">
         <div class="eixo-hora-header"></div>
         <div class="dataSemana" *ngFor="let item of dados[index]; let i = index">
-            <div class="group" [ngClass]="{'active' : item.diaCompleta === dataAtualFormatada}">
+            <div class="group" (click)="selecionarData(item)" [ngClass]="{'active' : item.diaCompleta === dataAtualFormatada}">
                 <span>{{item.data.curto.toUpperCase()}}</span>
                 <div class="dia">
                     {{item.dia}}

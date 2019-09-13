@@ -68,6 +68,7 @@ import { LugarPipe } from './pipes/lugar.pipe';
 import { LugarEnum } from './enums/lugar.enum';
 import { VisaoPipe } from './pipes/visao.pipe';
 import { VisaoEnum } from './enums/visao.enum';
+import { CalendarioDoDiaComponent } from './components/calendario-do-dia/calendario-do-dia.component';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -104,7 +105,8 @@ const COMPONENTS = [
   TextAreaSimpleComponent,
   ItemComponent,
   TimeLineComponent,
-  CalendarioComponent
+  CalendarioComponent,
+  CalendarioDoDiaComponent
 ];
 const PIPES = [
   CapitalizePipe,

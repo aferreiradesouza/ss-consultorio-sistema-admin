@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 import { CalendarioComponent } from '../../../shared/components';
 import { CalendarioData } from '../../../@core/data/calendario';
+import { CalendarioDoDiaComponent } from '../../../shared/components/calendario-do-dia/calendario-do-dia.component';
 
 @Component({
   selector: 'ngx-calendario-recepcionista',
@@ -14,16 +15,17 @@ export class CalendarioRecepcaoComponent implements OnInit {
 
   public data: any[];
   public date = new Date();
-  public dataAtual = new Date();
   public isOpen = true;
   public range: NbCalendarRange<Date>;
   public isLoading = false;
-  public visao = '1';
+  public visao = '2';
   public medico = '1';
   public lugar = '1';
   public especialidade = '1';
+  public dataEvent: any;
 
   @ViewChild(CalendarioComponent, {static: false}) calendario: CalendarioComponent;
+  @ViewChild(CalendarioDoDiaComponent, {static: false}) calendarioDoDia: CalendarioDoDiaComponent;
 
   constructor(iconsLibrary: NbIconLibraries,
     public calendarioService: CalendarioService,
@@ -75,6 +77,13 @@ export class CalendarioRecepcaoComponent implements OnInit {
     this.calendario.changeMes(type);
   }
 
-  disabledButton() {
+  dataSelecionada(evento) {
+    this.visao = '1';
+    this.dataEvent = evento;
+    console.log(evento);
+  }
+
+  changeDiaPainel(type: string) {
+    this.calendarioDoDia.changeDia(type);
   }
 }

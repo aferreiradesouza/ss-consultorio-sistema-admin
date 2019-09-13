@@ -1,0 +1,40 @@
+<nb-card class="mb-0" status="primary" accent="primary">
+    <nb-card-header>
+        <div class="header">
+            {{formatarData(dataSelecionada)}}
+        </div>
+    </nb-card-header>
+    <nb-list>
+        <nb-list-item *ngFor="let item of dataSelecionada.agendamentos"
+            [ngClass]="{'livre' : item.status === 'Livre', 'encaixe' : item.status === 'Encaixe'}">
+            <div class="campo">
+                <ng-container *ngIf="item.status === 'Livre'">
+                    <div class="hora">
+                        {{item.hora}}
+                    </div>
+                    <div class="button">
+                        <button nbButton size="tiny" status="success">Marcar</button>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="item.status !== 'Livre'">
+                    <div class="hora">
+                        {{item.hora}}
+                    </div>
+                    <div class="paciente">
+                        {{item.marcacao.nome}}
+                    </div>
+                    <div class="status em-atendimento">
+                        Em Atendimento
+                    </div>
+                    <nb-actions class="ml-auto" size="small">
+                        <nb-action class="typeConsulta">Revisão</nb-action>
+                        <nb-action icon="info-outline" nbTooltip="Informações da Consulta" nbTooltipPlacement="top"
+                            nbTooltipStatus="info"></nb-action>
+                        <nb-action icon="play-circle-outline" nbTooltip="Alterar Status" nbTooltipPlacement="top"
+                            nbTooltipStatus="primary"></nb-action>
+                    </nb-actions>
+                </ng-container>
+            </div>
+        </nb-list-item>
+    </nb-list>
+</nb-card>

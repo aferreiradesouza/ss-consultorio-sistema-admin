@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { CalendarioService } from '../../services/calendarios.service';
 import { NbIconLibraries } from '@nebular/theme';
@@ -22,6 +22,8 @@ export class CalendarioComponent implements OnInit {
     public dados: any[];
 
     @Input() data: any[];
+
+    @Output() dataSelecionada = new EventEmitter();
 
     constructor(public calendarioService: CalendarioService, iconsLibrary: NbIconLibraries) {
         this.minDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
@@ -71,5 +73,9 @@ export class CalendarioComponent implements OnInit {
     }
 
     isNumber(val) { return typeof val === 'number'; }
+
+    selecionarData(data: any) {
+        this.dataSelecionada.emit(data);
+    }
 }
 
