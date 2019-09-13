@@ -28,33 +28,30 @@
                     </div>
                 </ng-container>
                 <ng-container *ngIf="item.status !== 'Livre'">
-                    <!-- <div class="card-agendamento-header no-padding-bottom">
-                        <div class="hora">{{item.hora}}</div>
-                    </div>
-                    <div class="card-agendamento-content">
-                        <div class="detalhe">{{item.marcacao.nome}}</div>
-                    </div> -->
                     <div class="card-marcacao">
                         <div class="linha">
                             <div class="hora">{{item.hora}}</div>
                             <div class="w-100">
-                                <nb-actions size="tiny" fullWidth>
-                                    <nb-action icon="info-outline" nbTooltip="Informações da Consulta"
-                                        nbTooltipPlacement="top" nbTooltipStatus="info"></nb-action>
-                                    <nb-action icon="play-circle-outline" nbTooltip="Alterar Status"
+                                <nb-actions size="tiny" class="ml-auto">
+                                    <nb-action class="status-descricao" nbTooltip="Em Atendimento"
+                                    nbTooltipPlacement="top" nbTooltipStatus="danger">
+                                    <span class="text-truncate">Em Atendimentodawdawd</span>
+                                    </nb-action>
+                                    <nb-action class="alterar-status-icon" icon="play-circle-outline" nbTooltip="Alterar Status"
                                         nbTooltipPlacement="top" nbTooltipStatus="primary"></nb-action>
                                 </nb-actions>
                             </div>
                         </div>
-                        <div class="status em-atendimento">
+                        <!-- <div class="icon-status em-atendimento" nbTooltip="Em Atendimento"
+                        nbTooltipPlacement="top" nbTooltipStatus="danger"></div> -->
+                        <!-- <div class="status em-atendimento">
                             Em atendimento
-                        </div>
+                        </div> -->
                         <div class="info-pessoal">
-                            <div class="align-center">{{item.marcacao.nome}}</div>
-                            <!-- <div class="align-center">{{item.marcacao.celular | telefone}}</div> -->
-                            <div class="tipo-consulta">
-                                Revisão
-                            </div>
+                            <div class="text-truncate nome" nbTooltip="Detalhes da consulta"
+                            nbTooltipPlacement="bottom" nbTooltipStatus="info">{{item.marcacao.nome}}</div>
+                            <nb-icon icon="radio-button-on" nbTooltip="Revisão"
+                            nbTooltipPlacement="left" nbTooltipStatus="primary"></nb-icon>
                         </div>
                     </div>
                     <div class="encaixe" *ngIf="dia.maximoEncaixes > 0">

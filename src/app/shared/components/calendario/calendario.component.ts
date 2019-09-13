@@ -35,7 +35,6 @@ export class CalendarioComponent implements OnInit {
     ngOnInit() {
         this.dias = this.calendarioService.montarDias(this.data);
         this.dados = this.calendarioService.montarDados(this.data);
-        console.log(this.dados);
         this.semana = this.calendarioService.criarArray(5);
     }
 
@@ -69,7 +68,6 @@ export class CalendarioComponent implements OnInit {
             }
             this.index -= 1;
         }
-        console.log(type);
     }
 
     isNumber(val) { return typeof val === 'number'; }

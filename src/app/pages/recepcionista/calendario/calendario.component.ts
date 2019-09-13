@@ -22,7 +22,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public medico = '1';
   public lugar = '1';
   public especialidade = '1';
-  public dataEvent: any;
+  public dataEvent: any = moment().toDate();
+  public filter: any;
 
   @ViewChild(CalendarioComponent, {static: false}) calendario: CalendarioComponent;
   @ViewChild(CalendarioDoDiaComponent, {static: false}) calendarioDoDia: CalendarioDoDiaComponent;
@@ -40,6 +41,9 @@ export class CalendarioRecepcaoComponent implements OnInit {
     await this.calendarioMock.getDataWithLoading().then(response => {
       this.isLoading = false;
       this.data = response;
+      this.filter = (date) => {
+        return this.data.map(e => e.data).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
+      };
     });
   }
 
@@ -53,8 +57,9 @@ export class CalendarioRecepcaoComponent implements OnInit {
     }
   }
 
-  dataatual() {
-    this.date = new Date();
+  changeDia(event) {
+    this.visao = '1';
+    this.dataEvent = moment(event).format('YYYY-MM-DD');
   }
 
   toggle() {
@@ -79,8 +84,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
 
   dataSelecionada(evento) {
     this.visao = '1';
-    this.dataEvent = evento;
-    console.log(evento);
+    this.dataEvent = moment(evento.diaCompleta).toDate();
   }
 
   changeDiaPainel(type: string) {

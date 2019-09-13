@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import * as moment from 'moment';
 import { CalendarioService } from '../../services/calendarios.service';
 import { NbIconLibraries } from '@nebular/theme';
@@ -9,9 +9,10 @@ import { NbIconLibraries } from '@nebular/theme';
     styleUrls: ['./calendario-do-dia.component.scss']
 })
 
-export class CalendarioDoDiaComponent implements OnInit {
+export class CalendarioDoDiaComponent implements OnInit, OnChanges {
 
     public index: number;
+    public dataExtenso: string;
 
     @Input() data: any[];
     @Input() dataSelecionada: any;
@@ -22,12 +23,22 @@ export class CalendarioDoDiaComponent implements OnInit {
         iconsLibrary.registerFontPack('ion', { iconClassPrefix: 'ion' });
     }
 
-    ngOnInit() {
-        this.index = this.data.map(e => e.data).indexOf(this.dataSelecionada.diaCompleta);
-        console.log(this.index);
+    ngOnChanges(change) {
+        if (change.dataSelecionada) {
+            this.index = this.data.map(e => e.data).indexOf(moment(change.dataSelecionada.currentValue).format('YYYY-MM-DD'));
+            this.dataSelecionada = this.calendarioService.montarDias([this.data[this.index]])[0];
+            this.dataExtenso = this.formatarData;
+        }
     }
 
-    formatarData(data) {
+    ngOnInit() {
+        this.index = this.data.map(e => e.data).indexOf(moment(this.dataSelecionada.diaCompleta).format('YYYY-MM-DD'));
+        this.dataSelecionada = this.calendarioService.montarDias([this.data[this.index]])[0];
+        this.dataExtenso = this.formatarData;
+    }
+
+    get formatarData() {
+        const data = this.dataSelecionada;
         const dia = data.diaCompleta;
         return `${data.dia}
                 de ${this.calendarioService.formatarMes(moment(dia).month()).extenso}
@@ -48,7 +59,7 @@ export class CalendarioDoDiaComponent implements OnInit {
             this.index -= 1;
         }
         this.dataSelecionada = this.calendarioService.montarDias([this.data[this.index]])[0];
-        console.log(type);
+        this.dataExtenso = this.formatarData;
     }
 
 }

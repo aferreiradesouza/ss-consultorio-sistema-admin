@@ -3,11 +3,12 @@
         <div class="d-flex header" [ngClass]="{'minimized': !isOpen}">
             <nb-icon (click)="toggle()" pack="fa" class="mr-4" [icon]="isOpen ? 'times' : 'bars'"></nb-icon>
             <ng-container>
-                <nb-calendar class="mr-4" [(date)]="date" [showHeader]="false" *ngIf="isOpen && visao === '1'">
+                <nb-calendar (dateChange)="changeDia($event)" [filter]="filter" class="mr-4" [(date)]="dataEvent"
+                    [showHeader]="false">
                 </nb-calendar>
-                <nb-calendar-range class="mr-4" [(range)]="range" [showHeader]="false" *ngIf="isOpen && visao === '2'"
+                <!-- <nb-calendar-range class="mr-4" [(range)]="range" [showHeader]="false" *ngIf="isOpen && visao === '2'"
                     (rangeChange)="handleRangeChange($event)">
-                </nb-calendar-range>
+                </nb-calendar-range> -->
             </ng-container>
             <div class="data mr-4" *ngIf="!isOpen">
                 <ng-container *ngIf="visao === '1'">
@@ -60,13 +61,13 @@
                 </ng-container>
                 <ng-container *ngIf="!isOpen">
                     <div class="changeMes mt-4">
-                        <button (click)="visao === '1' ? changeDiaPainel('anterior') : changeMesPainel('anterior')" nbButton
-                            status="primary" ghost>
+                        <button (click)="visao === '1' ? changeDiaPainel('anterior') : changeMesPainel('anterior')"
+                            nbButton status="primary" ghost>
                             <nb-icon icon="chevron-left-outline"></nb-icon>
                         </button>
                         <div>{{visao | visao}}</div>
-                        <button (click)="visao === '1' ? changeDiaPainel('proximo') : changeMesPainel('proximo')" nbButton
-                            status="primary" ghost>
+                        <button (click)="visao === '1' ? changeDiaPainel('proximo') : changeMesPainel('proximo')"
+                            nbButton status="primary" ghost>
                             <nb-icon icon="chevron-right-outline"></nb-icon>
                         </button>
                     </div>
@@ -113,7 +114,8 @@
         </div>
     </nb-card-header>
     <nb-card-body *ngIf="data">
-        <ngx-calendario-do-dia *ngIf="visao === '1' && dataEvent" [data]="data" [dataSelecionada]="dataEvent"></ngx-calendario-do-dia>
+        <ngx-calendario-do-dia *ngIf="visao === '1' && dataEvent" [data]="data" [dataSelecionada]="dataEvent">
+        </ngx-calendario-do-dia>
         <span *ngIf="visao === '1' && !dataEvent">Selecione uma data!</span>
         <ngx-calendario *ngIf="visao === '2'" (dataSelecionada)="dataSelecionada($event)" [data]="data">
         </ngx-calendario>
