@@ -11,13 +11,25 @@ import {
   NbRadioModule,
   NbCalendarRangeModule,
   NbSelectModule,
-  NbSpinnerModule
+  NbSpinnerModule,
+  NbDatepickerModule
 } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { RecepcionistaRoutingModule } from './recepcionista-routing.module';
 import { CalendarioRecepcaoComponent } from './calendario/calendario.component';
 import { FormsModule } from '@angular/forms';
+import { LegendasComponent } from './legendas/legendas.component';
+import { AgendarConsultaComponent } from './agendar-consulta/agendar-consulta.component';
+import { AlterarStatusComponent } from './alterar-status/alterar-status.component';
+import { DetalhesConsultaComponent } from './detalhes-consulta/detalhes-consulta.component';
+
+const MODAIS = [
+  LegendasComponent,
+  AgendarConsultaComponent,
+  AlterarStatusComponent,
+  DetalhesConsultaComponent
+];
 
 @NgModule({
   imports: [
@@ -35,10 +47,15 @@ import { FormsModule } from '@angular/forms';
     NbRadioModule,
     FormsModule,
     NbCalendarRangeModule,
-    NbSelectModule
+    NbSelectModule,
+    NbDatepickerModule.forRoot()
   ],
   declarations: [
-    CalendarioRecepcaoComponent
+    CalendarioRecepcaoComponent,
+    ...MODAIS
+  ],
+  entryComponents: [
+    ...MODAIS
   ]
 })
 export class RecepcionistaModule { }

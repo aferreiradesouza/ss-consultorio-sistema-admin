@@ -24,6 +24,9 @@ export class CalendarioComponent implements OnInit {
     @Input() data: any[];
 
     @Output() dataSelecionada = new EventEmitter();
+    @Output() agendarConsulta = new EventEmitter();
+    @Output() alterarStatus = new EventEmitter();
+    @Output() infoConsulta = new EventEmitter();
 
     constructor(public calendarioService: CalendarioService, iconsLibrary: NbIconLibraries) {
         this.minDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
@@ -74,6 +77,18 @@ export class CalendarioComponent implements OnInit {
 
     selecionarData(data: any) {
         this.dataSelecionada.emit(data);
+    }
+
+    agendar(dados) {
+        this.agendarConsulta.emit(dados);
+    }
+
+    alterarStatusConsulta(data) {
+        this.alterarStatus.emit(data);
+    }
+
+    verConsulta(data) {
+        this.infoConsulta.emit(data);
     }
 }
 

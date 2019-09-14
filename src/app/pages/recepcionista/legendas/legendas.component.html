@@ -1,0 +1,33 @@
+<nb-card>
+  <nb-card-header>Legendas</nb-card-header>
+  <nb-card-body>
+    <div class="row" style="width: 500px;">
+      <div class="col">
+        <label class="label">Tipo de Atendimento</label>
+        <div class="linhaLegenda mt-2">
+          <div class="item livre"></div>
+          <div class="value align-center ml-4">Livre</div>
+        </div>
+        <div class="linhaLegenda mt-2">
+          <div class="item encaixe"></div>
+          <div class="value align-center ml-4">Encaixe</div>
+        </div>
+        <label class="label mt-4">Status do Atendimento</label>
+        <div class="linhaLegenda mt-2">
+          <div class="item em-atendimento"></div>
+          <div class="value align-center ml-4">Em Atendimento</div>
+        </div>
+      </div>
+      <div class="col">
+        <label class="label">Tipo de Atendimento</label>
+        <div class="linhaLegenda mt-2">
+          <nb-icon class="icon revisao" icon="radio-button-on"></nb-icon>
+          <div class="value align-center ml-4">Revisão</div>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton status="basic" (click)="dismiss()">Voltar</button>
+  </nb-card-footer>
+</nb-card>

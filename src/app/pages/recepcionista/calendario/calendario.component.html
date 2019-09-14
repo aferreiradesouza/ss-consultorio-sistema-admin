@@ -3,25 +3,16 @@
         <div class="d-flex header" [ngClass]="{'minimized': !isOpen}">
             <nb-icon (click)="toggle()" pack="fa" class="mr-4" [icon]="isOpen ? 'times' : 'bars'"></nb-icon>
             <ng-container>
-                <nb-calendar (dateChange)="changeDia($event)" [filter]="filter" class="mr-4" [(date)]="dataEvent"
-                    [showHeader]="false">
+                <nb-calendar *ngIf="isOpen" (dateChange)="changeDia($event)" [filter]="filter" class="mr-4"
+                    [(date)]="dataEvent" [showHeader]="false">
                 </nb-calendar>
                 <!-- <nb-calendar-range class="mr-4" [(range)]="range" [showHeader]="false" *ngIf="isOpen && visao === '2'"
                     (rangeChange)="handleRangeChange($event)">
                 </nb-calendar-range> -->
             </ng-container>
             <div class="data mr-4" *ngIf="!isOpen">
-                <ng-container *ngIf="visao === '1'">
-                    Data selecionada: {{date | date:'YYYY-MM-DD'}}
-                </ng-container>
-                <ng-container *ngIf="visao === '2'">
-                    <ng-container *ngIf="range?.start">
-                        Data início: {{range.start | date:'YYYY-MM-DD'}}<br>
-                        Data fim: {{range.end | date:'YYYY-MM-DD'}}<br>
-                    </ng-container>
-                    <ng-container *ngIf="!range?.start">
-                        Selecione uma data
-                    </ng-container>
+                <ng-container>
+                    Data selecionada: {{dataEvent | date:'YYYY-MM-DD'}}
                 </ng-container>
             </div>
             <div class="statusCalendario mr-4">
@@ -49,7 +40,7 @@
                             <nb-icon icon="chevron-right-outline"></nb-icon>
                         </button>
                     </div>
-                    <label class="label">Legenda</label>
+                    <!-- <label class="label">Legenda</label>
                     <div class="linhaLegenda mt-2">
                         <div class="item livre"></div>
                         <div class="value align-center ml-4">Livre</div>
@@ -57,7 +48,9 @@
                     <div class="linhaLegenda mt-2">
                         <div class="item encaixe"></div>
                         <div class="value align-center ml-4">Encaixe</div>
-                    </div>
+                    </div> -->
+                    <button class="legenda-button" (click)="mostrarLegendas()" nbButton status="info"
+                        fullWidth>Legendas</button>
                 </ng-container>
                 <ng-container *ngIf="!isOpen">
                     <div class="changeMes mt-4">
@@ -117,7 +110,8 @@
         <ngx-calendario-do-dia *ngIf="visao === '1' && dataEvent" [data]="data" [dataSelecionada]="dataEvent">
         </ngx-calendario-do-dia>
         <span *ngIf="visao === '1' && !dataEvent">Selecione uma data!</span>
-        <ngx-calendario *ngIf="visao === '2'" (dataSelecionada)="dataSelecionada($event)" [data]="data">
+        <ngx-calendario (infoConsulta)="infoConsulta($event)" (alterarStatus)="alterarStatus($event)" (agendarConsulta)="agendar($event)"
+            *ngIf="visao === '2'" (dataSelecionada)="dataSelecionada($event)" [data]="data">
         </ngx-calendario>
     </nb-card-body>
 </nb-card>

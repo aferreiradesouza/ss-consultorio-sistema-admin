@@ -24,7 +24,7 @@
                 <ng-container *ngIf="item.status === 'Livre'">
                     <div class="card-agendamento-header">
                         <div class="hora">{{item.hora}}</div>
-                        <button class="ml-auto" nbButton size="tiny" status="success">Marcar</button>
+                        <button (click)="agendar(item)" class="ml-auto" nbButton size="tiny" status="success">Marcar</button>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="item.status !== 'Livre'">
@@ -35,9 +35,9 @@
                                 <nb-actions size="tiny" class="ml-auto">
                                     <nb-action class="status-descricao" nbTooltip="Em Atendimento"
                                     nbTooltipPlacement="top" nbTooltipStatus="danger">
-                                    <span class="text-truncate">Em Atendimentodawdawd</span>
+                                    <span class="text-truncate">Em Atendimento</span>
                                     </nb-action>
-                                    <nb-action class="alterar-status-icon" icon="play-circle-outline" nbTooltip="Alterar Status"
+                                    <nb-action (click)="alterarStatusConsulta(item)" class="alterar-status-icon" icon="play-circle-outline" nbTooltip="Alterar Status"
                                         nbTooltipPlacement="top" nbTooltipStatus="primary"></nb-action>
                                 </nb-actions>
                             </div>
@@ -48,7 +48,7 @@
                             Em atendimento
                         </div> -->
                         <div class="info-pessoal">
-                            <div class="text-truncate nome" nbTooltip="Detalhes da consulta"
+                            <div class="text-truncate nome" (click)="verConsulta(item)" nbTooltip="Detalhes da consulta"
                             nbTooltipPlacement="bottom" nbTooltipStatus="info">{{item.marcacao.nome}}</div>
                             <nb-icon icon="radio-button-on" nbTooltip="Revisão"
                             nbTooltipPlacement="left" nbTooltipStatus="primary"></nb-icon>

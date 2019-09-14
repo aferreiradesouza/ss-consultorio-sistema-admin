@@ -45,6 +45,12 @@
   > .statusCalendario {
     width: 50%;
     height: 100%;
+    position: relative;
+
+    > .legenda-button {
+      position: absolute;
+      bottom: 20px;
+    }
 
     > .changeDia {
       padding: 0 1rem 1.5rem;

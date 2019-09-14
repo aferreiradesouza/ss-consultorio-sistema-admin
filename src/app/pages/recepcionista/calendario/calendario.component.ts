@@ -1,15 +1,19 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { NbCalendarRange, NbIconLibraries } from '@nebular/theme';
+import { NbCalendarRange, NbIconLibraries, NbDialogService } from '@nebular/theme';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 import { CalendarioComponent } from '../../../shared/components';
 import { CalendarioData } from '../../../@core/data/calendario';
 import { CalendarioDoDiaComponent } from '../../../shared/components/calendario-do-dia/calendario-do-dia.component';
+import { LegendasComponent } from '../legendas/legendas.component';
+import { AgendarConsultaComponent } from '../agendar-consulta/agendar-consulta.component';
+import { AlterarStatusComponent } from '../alterar-status/alterar-status.component';
+import { DetalhesConsultaComponent } from '../detalhes-consulta/detalhes-consulta.component';
 
 @Component({
   selector: 'ngx-calendario-recepcionista',
   templateUrl: './calendario.component.html',
-  styleUrls: ['./calendario.scss']
+  styleUrls: ['./calendario.component.scss']
 })
 export class CalendarioRecepcaoComponent implements OnInit {
 
@@ -25,12 +29,13 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public dataEvent: any = moment().toDate();
   public filter: any;
 
-  @ViewChild(CalendarioComponent, {static: false}) calendario: CalendarioComponent;
-  @ViewChild(CalendarioDoDiaComponent, {static: false}) calendarioDoDia: CalendarioDoDiaComponent;
+  @ViewChild(CalendarioComponent, { static: false }) calendario: CalendarioComponent;
+  @ViewChild(CalendarioDoDiaComponent, { static: false }) calendarioDoDia: CalendarioDoDiaComponent;
 
   constructor(iconsLibrary: NbIconLibraries,
     public calendarioService: CalendarioService,
-    public calendarioMock: CalendarioData) {
+    public calendarioMock: CalendarioData,
+    private dialogService: NbDialogService) {
     iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('far', { packClass: 'far', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('ion', { iconClassPrefix: 'ion' });
@@ -89,5 +94,62 @@ export class CalendarioRecepcaoComponent implements OnInit {
 
   changeDiaPainel(type: string) {
     this.calendarioDoDia.changeDia(type);
+  }
+
+  async mostrarLegendas() {
+    this.dialogService.open(
+      LegendasComponent,
+      {
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }
+    );
+  }
+
+  agendar(data) {
+    this.dialogService.open(
+      AgendarConsultaComponent,
+      {
+        context: {
+          dados: data
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }
+    );
+  }
+
+  alterarStatus(data) {
+    this.dialogService.open(
+      AlterarStatusComponent,
+      {
+        context: {
+          dados: data
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }
+    );
+  }
+
+  infoConsulta(data) {
+    this.dialogService.open(
+      DetalhesConsultaComponent,
+      {
+        context: {
+          dados: data
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }
+    );
   }
 }
