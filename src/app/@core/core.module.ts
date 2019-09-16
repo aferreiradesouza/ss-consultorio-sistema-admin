@@ -161,11 +161,11 @@ export class CoreModule {
   }
 
   static forRoot(): ModuleWithProviders {
-    return <ModuleWithProviders>{
+    return {
       ngModule: CoreModule,
       providers: [
         ...NB_CORE_PROVIDERS,
       ],
-    };
+    } as ModuleWithProviders;
   }
 }
