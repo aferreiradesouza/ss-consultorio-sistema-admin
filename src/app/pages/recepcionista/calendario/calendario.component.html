@@ -18,15 +18,15 @@
             <div class="statusCalendario mr-4">
                 <ng-container *ngIf="isOpen">
                     <label class="label d-block mt-4">Visão</label>
-                    <nb-select fullWidth [(ngModel)]="visao">
-                        <nb-option value="1">Dia</nb-option>
-                        <nb-option value="2">Semana</nb-option>
+                    <nb-select fullWidth [(ngModel)]="visao" (ngModelChange)="atualizarIndex($event)">
+                        <nb-option value="1">Do dia</nb-option>
+                        <nb-option value="2">Próximos 5 dias</nb-option>
                     </nb-select>
                     <div class="changeDia mt-4" *ngIf="visao === '1'">
                         <button (click)="changeDiaPainel('anterior')" nbButton status="primary" ghost>
                             <nb-icon icon="chevron-left-outline"></nb-icon>
                         </button>
-                        <div>Dias</div>
+                        <div>Dia</div>
                         <button (click)="changeDiaPainel('proximo')" nbButton status="primary" ghost>
                             <nb-icon icon="chevron-right-outline"></nb-icon>
                         </button>
@@ -35,7 +35,7 @@
                         <button (click)="changeMesPainel('anterior')" nbButton status="primary" ghost>
                             <nb-icon icon="chevron-left-outline"></nb-icon>
                         </button>
-                        <div>Semana</div>
+                        <div>Próximos 5 dias</div>
                         <button (click)="changeMesPainel('proximo')" nbButton status="primary" ghost>
                             <nb-icon icon="chevron-right-outline"></nb-icon>
                         </button>

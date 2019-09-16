@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { NbCalendarRange, NbIconLibraries, NbDialogService } from '@nebular/theme';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
@@ -17,7 +17,7 @@ import { CalendarCustomDayCellComponent } from './day-cell.component';
   styleUrls: ['./calendario.component.scss'],
   entryComponents: [CalendarCustomDayCellComponent]
 })
-export class CalendarioRecepcaoComponent implements OnInit {
+export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
 
   public data: any[];
   public date = new Date();
@@ -52,12 +52,16 @@ export class CalendarioRecepcaoComponent implements OnInit {
       this.filter = (date) => {
         return this.data.map(e => e.data).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
       };
+      this.obterIndexData();
     });
   }
 
+  ngAfterViewInit() {
+  }
+
   changeDia(event) {
-    this.visao = '1';
     this.dataEvent = moment(event).format('YYYY-MM-DD');
+    this.obterIndexData();
   }
 
   toggle() {
@@ -83,10 +87,30 @@ export class CalendarioRecepcaoComponent implements OnInit {
   dataSelecionada(evento) {
     this.visao = '1';
     this.dataEvent = moment(evento.diaCompleta).toDate();
+    this.obterIndexData();
+  }
+
+  atualizarIndex(evento) {
+    if (evento === '2') {
+      this.obterIndexData();
+    }
+  }
+
+  private obterIndexData(): void {
+    let index = null;
+    this.data.forEach((element, i) => {
+      if (element.data === moment(this.dataEvent).format('YYYY-MM-DD')) {
+        index = i;
+      }
+    });
+    setTimeout(() => {
+      this.calendario.index = Math.floor(index / 5);
+    }, 0);
   }
 
   changeDiaPainel(type: string) {
     this.calendarioDoDia.changeDia(type);
+    this.obterIndexData();
   }
 
   async mostrarLegendas() {
