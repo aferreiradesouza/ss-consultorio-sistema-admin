@@ -23,6 +23,7 @@ import { LegendasComponent } from './legendas/legendas.component';
 import { AgendarConsultaComponent } from './agendar-consulta/agendar-consulta.component';
 import { AlterarStatusComponent } from './alterar-status/alterar-status.component';
 import { DetalhesConsultaComponent } from './detalhes-consulta/detalhes-consulta.component';
+import { CalendarCustomDayCellComponent } from './calendario/day-cell.component';
 
 const MODAIS = [
   LegendasComponent,
@@ -52,6 +53,7 @@ const MODAIS = [
   ],
   declarations: [
     CalendarioRecepcaoComponent,
+    CalendarCustomDayCellComponent,
     ...MODAIS
   ],
   entryComponents: [

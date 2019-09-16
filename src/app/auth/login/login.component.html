@@ -1,1 +1,19 @@
-Login
+<div class="wrapper">
+    <nb-card>
+        <nb-card-body>
+            <div class="logo">
+                <img src="../../../assets/images/ss.png">
+            </div>
+            <div class="form" [formGroup]="form">
+                <ngx-input-simple label="E-mail" type="email" formControlName="email" [required]="true"
+                    placeholder="exemplo@exemplo.com">
+                </ngx-input-simple>
+                <ngx-input-simple label="Senha" type="password" formControlName="senha" [required]="true"
+                    placeholder="***********">
+                </ngx-input-simple>
+                <div class="esqueciSenha ml-auto">Esqueci minha senha!</div>
+                <button nbButton fullWidth status="primary" [disabled]="!form.valid">LOGAR</button>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

@@ -16,6 +16,8 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
 
     @Input() data: any[];
     @Input() dataSelecionada: any;
+    @Input() verDiasLivre = true;
+    @Input() showHeader = true;
 
     constructor(public calendarioService: CalendarioService, iconsLibrary: NbIconLibraries) {
         iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
@@ -60,6 +62,15 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
         }
         this.dataSelecionada = this.calendarioService.montarDias([this.data[this.index]])[0];
         this.dataExtenso = this.formatarData;
+    }
+
+    getDatas(data) {
+        return data.filter(e => {
+            if (e.status === 'Livre') {
+                return this.verDiasLivre;
+            }
+            return true;
+        });
     }
 
 }

@@ -124,6 +124,7 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
         }
         const hasError = Object.keys(errors).some(key => errors[key]);
         this._model.setErrors(hasError ? errors : null);
+        this.control.setErrors(hasError ? errors : null);
     }
 
     public getType(): string {
@@ -169,7 +170,7 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
             return '';
         }
 
-        const key = Object.keys(this.control.errors).find(k => this._model.errors[k]);
+        const key = Object.keys(this._model.errors).find(k => this._model.errors[k]);
 
         if (key === 'maxLength') {
             return this.messages.maxLength.replace('X', this.maxLength.toString());

@@ -1,0 +1,35 @@
+@import "../../shared/styles/themes.scss";
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  > nb-card > nb-card-body {
+    > .logo {
+      display: flex;
+      min-width: 250px;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid nb-theme(color-basic-disabled);
+
+      > img {
+        height: 50px;
+        margin-bottom: 25px;
+      }
+    }
+
+    > .form {
+        margin-top: 25px;
+
+        > .esqueciSenha {
+            color: nb-theme(color-primary-400);
+            font-size: 11px;
+            font-weight: bold;
+            width: fit-content;
+            margin-bottom: 1rem
+        }
+    }
+  }
+}

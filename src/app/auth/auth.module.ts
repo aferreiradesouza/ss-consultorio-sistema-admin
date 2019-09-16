@@ -13,7 +13,7 @@ import {
   NbLayoutModule,
 } from '@nebular/theme';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from './auth.component';
 import { LoginComponent } from './login/login.component';
@@ -32,6 +32,7 @@ import { LoginComponent } from './login/login.component';
     RouterModule,
     FormsModule,
     NbIconModule,
+    ReactiveFormsModule,
     AuthRoutingModule
   ],
   declarations: [

@@ -1,5 +1,9 @@
-<div class="row">
-    <div class="col-xxl-5">
-        Agenda do dia
-    </div>
-</div>
+<nb-card status="primary" [nbSpinner]="isLoading" nbSpinnerStatus="primary">
+    <nb-card-header>
+        <h5>{{formatarHeader()}}</h5>
+    </nb-card-header>
+    <nb-card-body>
+        <ngx-calendario-do-dia [showHeader]="false" [verDiasLivre]="false" *ngIf="data" [data]="data" [dataSelecionada]="dataEvent">
+        </ngx-calendario-do-dia>
+    </nb-card-body>
+</nb-card>

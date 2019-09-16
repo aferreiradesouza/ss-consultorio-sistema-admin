@@ -9,11 +9,13 @@ import { LegendasComponent } from '../legendas/legendas.component';
 import { AgendarConsultaComponent } from '../agendar-consulta/agendar-consulta.component';
 import { AlterarStatusComponent } from '../alterar-status/alterar-status.component';
 import { DetalhesConsultaComponent } from '../detalhes-consulta/detalhes-consulta.component';
+import { CalendarCustomDayCellComponent } from './day-cell.component';
 
 @Component({
   selector: 'ngx-calendario-recepcionista',
   templateUrl: './calendario.component.html',
-  styleUrls: ['./calendario.component.scss']
+  styleUrls: ['./calendario.component.scss'],
+  entryComponents: [CalendarCustomDayCellComponent]
 })
 export class CalendarioRecepcaoComponent implements OnInit {
 
@@ -28,6 +30,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public especialidade = '1';
   public dataEvent: any = moment().toDate();
   public filter: any;
+  public dayCellComponent = CalendarCustomDayCellComponent;
 
   @ViewChild(CalendarioComponent, { static: false }) calendario: CalendarioComponent;
   @ViewChild(CalendarioDoDiaComponent, { static: false }) calendarioDoDia: CalendarioDoDiaComponent;
@@ -50,16 +53,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
         return this.data.map(e => e.data).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
       };
     });
-  }
-
-  handleRangeChange(event) {
-    if (!event.end) {
-      this.range = {
-        start: moment(event.start)
-          .subtract(this.calendarioService.getSubtractDay(moment(event.start).day()), 'd').toDate(),
-        end: moment(event.start).add(this.calendarioService.getAddDay(moment(event.start).day()), 'd').toDate()
-      };
-    }
   }
 
   changeDia(event) {
