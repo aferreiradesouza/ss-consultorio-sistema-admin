@@ -1,17 +1,16 @@
 <nb-card>
-
     <nb-card-header>
-        Listagem de Pacientes
+        Usuários
     </nb-card-header>
-
     <nb-card-body>
         <div class="mb-4 d-flex">
             <div class="w-100 mr-4">
-                <ngx-input-simple [feedback]="false" [(ngModel)]="search" (ngModelChange)="onSearch(search)" placeholder="Busque alguem...">
+                <ngx-input-simple [feedback]="false" [(ngModel)]="search" (ngModelChange)="onSearch(search)"
+                    placeholder="Busque alguem...">
                 </ngx-input-simple>
             </div>
             <div class="ml-auto">
-                <button nbButton hero (click)="adicionarPaciente()" status="primary">Adicionar Paciente</button>
+                <button nbButton hero status="primary">Adicionar Usuário</button>
             </div>
         </div>
         <ng2-smart-table [settings]="settings" [source]="source" (custom)="customAction($event)">
