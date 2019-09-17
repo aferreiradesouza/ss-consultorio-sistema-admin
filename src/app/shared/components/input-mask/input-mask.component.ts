@@ -97,7 +97,6 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
     public onChange(value: string): void {
         this.onChangeFn(value);
         this.validate(value);
-
     }
 
     public validate(value: string) {
@@ -121,7 +120,14 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
             errors.maxLength = (value.length > this.maxLength);
         }
         const hasError = Object.keys(errors).some(key => errors[key]);
-        this.controlDir.control.setErrors(hasError ? errors : null);
+        (value);
+        if (this.required) {
+            this.controlDir.control.setErrors(hasError ? errors : null);
+        } else {
+            if (value) {
+                this.controlDir.control.setErrors(hasError ? errors : null);
+            }
+        }
     }
 
     public getType(): string {

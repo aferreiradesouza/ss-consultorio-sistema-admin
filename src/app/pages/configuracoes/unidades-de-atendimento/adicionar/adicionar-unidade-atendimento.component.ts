@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
     selector: 'ngx-adicionar-unidade-atendimento',
@@ -7,6 +8,18 @@ import { NbDialogRef } from '@nebular/theme';
 })
 
 export class AdicionarUnidadeAtendimentoComponent implements OnInit {
+    form = new FormGroup({
+        nome: new FormControl(''),
+        telefone: new FormControl(''),
+        cep: new FormControl(''),
+        logradouro: new FormControl(''),
+        numero: new FormControl(''),
+        complemento: new FormControl(''),
+        bairro: new FormControl(''),
+        cidade: new FormControl(''),
+        estado: new FormControl(''),
+        status: new FormControl(true)
+    });
     public isLoading: boolean;
 
     @Input() id: number;
@@ -22,7 +35,7 @@ export class AdicionarUnidadeAtendimentoComponent implements OnInit {
         this.ref.close(false);
     }
 
-    editar() {
+    adicionar() {
         this.ref.close(true);
     }
 }

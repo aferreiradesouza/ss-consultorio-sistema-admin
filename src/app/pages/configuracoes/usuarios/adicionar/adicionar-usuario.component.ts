@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
     selector: 'ngx-adicionar-usuario',
@@ -7,6 +8,14 @@ import { NbDialogRef } from '@nebular/theme';
 })
 
 export class AdicionarUsuarioComponent implements OnInit {
+    public form = new FormGroup({
+        nome: new FormControl(''),
+        email: new FormControl(''),
+        nomeAbreviado: new FormControl('')
+    });
+
+    perfis = new FormControl([], [Validators.required]);
+
     public isLoading: boolean;
 
     @Input() id: number;
@@ -22,7 +31,20 @@ export class AdicionarUsuarioComponent implements OnInit {
         this.ref.close(false);
     }
 
-    editar() {
+    adicionar() {
         this.ref.close(true);
+    }
+
+    showErrorSelect() {
+        const control = this.perfis;
+        if (!control.valid) {
+            if (control.touched && control.dirty) {
+                return 'danger';
+            } else {
+                return undefined;
+            }
+        } else {
+            return 'success';
+        }
     }
 }

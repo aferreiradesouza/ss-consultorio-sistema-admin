@@ -30,6 +30,5 @@ export class AdicionarPacientesComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log(await this.service.getID(1));
   }
 }

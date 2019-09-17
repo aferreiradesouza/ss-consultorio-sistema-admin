@@ -38,6 +38,5 @@ export class DeletarPacientesComponent implements OnInit {
       user = response;
       this.isLoading = false;
     });
-    console.log(user);
   }
 }

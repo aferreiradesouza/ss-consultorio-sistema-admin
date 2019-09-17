@@ -19,7 +19,7 @@ export class AgendarConsultaComponent implements OnInit {
     protected ref: NbDialogRef<AgendarConsultaComponent>) { }
 
   ngOnInit() {
-    console.log(this.dados);
+    (this.dados);
   }
 
   dismiss() {

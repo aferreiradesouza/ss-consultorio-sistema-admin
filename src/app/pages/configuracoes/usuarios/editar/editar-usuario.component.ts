@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NbDialogRef } from '@nebular/theme';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
     selector: 'ngx-editar-usuario',
@@ -7,6 +8,13 @@ import { NbDialogRef } from '@nebular/theme';
 })
 
 export class EditarUsuarioComponent implements OnInit {
+    public form = new FormGroup({
+        nome: new FormControl(''),
+        email: new FormControl(''),
+        nomeAbreviado: new FormControl('')
+    });
+
+    perfis = new FormControl([], [Validators.required]);
 
     public isLoading: boolean;
 
@@ -17,6 +25,11 @@ export class EditarUsuarioComponent implements OnInit {
         protected ref: NbDialogRef<EditarUsuarioComponent>) { }
 
     ngOnInit() {
+        this.isLoading = true;
+        setTimeout(() => {
+            this.isLoading = false;
+            this.preencherPasso();
+        }, 1000);
     }
 
     dismiss() {
@@ -25,5 +38,27 @@ export class EditarUsuarioComponent implements OnInit {
 
     editar() {
         this.ref.close(true);
+    }
+
+    preencherPasso() {
+        this.form.patchValue({
+            nome: 'Arthur',
+            email: 'arthur@gmail.com',
+            nomeAbreviado: 'arthurfds'
+        });
+        this.perfis.setValue(['adminsitracao', 'estoque']);
+    }
+
+    showErrorSelect() {
+        const control = this.perfis;
+        if (!control.valid) {
+            if (control.touched && control.dirty) {
+                return 'danger';
+            } else {
+                return undefined;
+            }
+        } else {
+            return 'success';
+        }
     }
 }

@@ -89,7 +89,7 @@ export class ListagemPacientesComponent {
     private toastrService: NbToastrService,
     public formatterService: FormatterService) {
     const data: any[] = this.service.getData();
-    console.log(data);
+    (data);
     this.source.load(data);
   }
 
@@ -127,7 +127,7 @@ export class ListagemPacientesComponent {
   }
 
   deletar(event) {
-    console.log('a');
+    ('a');
     this.dialogService.open(
       DeletarPacientesComponent,
       {
@@ -154,7 +154,7 @@ export class ListagemPacientesComponent {
   }
 
   async editar(event) {
-    console.log('a');
+    ('a');
     this.dialogService.open(
       EditarPacientesComponent,
       {

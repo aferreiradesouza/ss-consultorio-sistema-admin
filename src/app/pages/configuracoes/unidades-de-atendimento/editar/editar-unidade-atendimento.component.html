@@ -1,8 +1,57 @@
-<nb-card>
+<nb-card status="primary" [nbSpinner]="isLoading" size="medium" nbSpinnerStatus="primary">
     <nb-card-header>
-        Editar Profissional
+        Editar Unidade de Atendimento
     </nb-card-header>
-    <nb-card-body>
-        <button nbButton status="primary" (click)="dismiss()">Voltar</button>
+    <nb-card-body [formGroup]="form">
+        <div class="row">
+            <div class="col-sm-6">
+                <ngx-input-simple label="Nome" formControlName="nome" [required]="true">
+                </ngx-input-simple>
+            </div>
+            <div class="col-sm-3">
+                <ngx-input-mask label="Telefone" type="tel" formControlName="telefone" [dropCharacters]="true">
+                </ngx-input-mask>
+            </div>
+            <div class="col-sm-3">
+                <ngx-input-mask label="Cep" [dropCharacters]="false" type="cep" formControlName="cep">
+                </ngx-input-mask>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <ngx-input-simple label="Logradouro" formControlName="logradouro">
+                </ngx-input-simple>
+            </div>
+            <div class="col-sm-2">
+                <ngx-input-simple label="Número" formControlName="numero">
+                </ngx-input-simple>
+            </div>
+            <div class="col-sm-6">
+                <ngx-input-simple label="Complemento" formControlName="complemento">
+                </ngx-input-simple>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <ngx-input-simple label="Bairro" formControlName="bairro">
+                </ngx-input-simple>
+            </div>
+            <div class="col-sm-4">
+                <ngx-input-simple label="Cidade" formControlName="cidade">
+                </ngx-input-simple>
+            </div>
+            <div class="col-sm-3">
+                <ngx-input-simple label="Estado" formControlName="estado">
+                </ngx-input-simple>
+            </div>
+            <div class="col-sm-2 align-center">
+                <nb-checkbox class="mt-2" status="primary" formControlName="status">Unidade Ativa</nb-checkbox>
+            </div>
+        </div>
     </nb-card-body>
+    <nb-card-footer>
+        <label class="label mb-2 d-block">* Campos obrigatórios</label>
+        <button nbButton status="basica" class="mr-4" (click)="dismiss()">Voltar</button>
+        <button nbButton status="primary" (click)="editar()" [disabled]="!form.valid">Editar</button>
+    </nb-card-footer>
 </nb-card>

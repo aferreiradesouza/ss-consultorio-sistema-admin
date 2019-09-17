@@ -95,7 +95,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   teste() {
-    console.log('teste');
+    ('teste');
   }
 
   open2(dialog: TemplateRef<any>) {

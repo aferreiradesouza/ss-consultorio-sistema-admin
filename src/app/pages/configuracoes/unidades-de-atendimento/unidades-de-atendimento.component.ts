@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ConsultoriosData } from '../../../@core/data/consultorios';
 import { FormatterService } from '../../../shared/services/formatter.service';
+import { NbDialogService } from '@nebular/theme';
+import { PerfilUnidadeAtendimentoComponent } from './perfil/perfil-unidade-atendimento.component';
+import { EditarUnidadeAtendimentoComponent } from './editar/editar-unidade-atendimento.component';
+import { AdicionarUnidadeAtendimentoComponent } from './adicionar/adicionar-unidade-atendimento.component';
 
 @Component({
   selector: 'ngx-unidades-de-atendimento',
@@ -60,7 +64,8 @@ export class UnidadesDeAtendimentoComponent {
 
   constructor(
     public consultoriosService: ConsultoriosData,
-    public formatterService: FormatterService) {
+    public formatterService: FormatterService,
+    public dialogService: NbDialogService) {
     const data: any[] = this.consultoriosService.getData();
     this.source.load(data);
   }
@@ -83,6 +88,47 @@ export class UnidadesDeAtendimentoComponent {
           search: query
         },
       ], false);
+    }
+  }
+
+  adicionar() {
+    this.dialogService.open(
+      AdicionarUnidadeAtendimentoComponent,
+      {
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      });
+  }
+
+  editar() {
+    this.dialogService.open(
+      EditarUnidadeAtendimentoComponent,
+      {
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      });
+  }
+
+  perfil() {
+    this.dialogService.open(
+      PerfilUnidadeAtendimentoComponent,
+      {
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      });
+  }
+
+  customAction(evento) {
+    if (evento.action === 'edit') {
+      this.editar();
+    } else if (evento.action === 'perfil') {
+      this.perfil();
     }
   }
 }

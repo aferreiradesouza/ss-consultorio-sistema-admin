@@ -19,7 +19,7 @@ export class AlterarStatusComponent implements OnInit {
     protected ref: NbDialogRef<AlterarStatusComponent>) { }
 
   ngOnInit() {
-    console.log(this.dados);
+    (this.dados);
   }
 
   dismiss() {

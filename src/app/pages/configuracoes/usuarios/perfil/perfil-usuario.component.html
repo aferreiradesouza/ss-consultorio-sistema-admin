@@ -1,8 +1,40 @@
-<nb-card>
+<nb-card status="primary" size="small">
     <nb-card-header>
-        Perfil Profissional
+        Perfil do Usuário
     </nb-card-header>
     <nb-card-body>
-        <button nbButton status="primary" (click)="dismiss()">Voltar</button>
+        <div class="row" [formGroup]="form">
+            <div class="col-sm-4">
+                <ngx-input-simple label="Nome" formControlName="nome" placeholder="Fulano">
+                </ngx-input-simple>
+            </div>
+            <div class="col-sm-4">
+                <ngx-input-mask label="E-mail" type="email" formControlName="email"
+                    placeholder="Fulano">
+                </ngx-input-mask>
+            </div>
+            <div class="col-sm-4">
+                <ngx-input-simple label="Nome abreviado" formControlName="nomeAbreviado"
+                    placeholder="Fulano">
+                </ngx-input-simple>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="label d-block">Perfil de Usuário</label>
+                <nb-select class="w-100" multiple placeholder="Selecione"
+                    [formControl]="perfis">
+                    <nb-option value="adminsitracao">Administração</nb-option>
+                    <nb-option value="estoque">Estoque</nb-option>
+                    <nb-option value="faturamento">Faturamento</nb-option>
+                    <nb-option value="financeiro">Financeiro</nb-option>
+                    <nb-option value="medico">Médico</nb-option>
+                    <nb-option value="recepcao">Recepção</nb-option>
+                </nb-select>
+            </div>
+        </div>
     </nb-card-body>
+    <nb-card-footer>
+        <button class="mr-4" nbButton status="basic" (click)="dismiss()">Voltar</button>
+    </nb-card-footer>
 </nb-card>

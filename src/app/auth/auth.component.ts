@@ -17,7 +17,6 @@ export class AuthComponent {
   }
 
   back() {
-    console.log('teste');
     return false;
   }
 }

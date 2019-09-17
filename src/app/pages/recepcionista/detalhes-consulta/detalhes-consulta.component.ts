@@ -19,7 +19,7 @@ export class DetalhesConsultaComponent implements OnInit {
     protected ref: NbDialogRef<DetalhesConsultaComponent>) { }
 
   ngOnInit() {
-    console.log(this.dados);
+    (this.dados);
   }
 
   dismiss() {

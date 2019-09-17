@@ -10,7 +10,7 @@
                 </ngx-input-simple>
             </div>
             <div class="ml-auto">
-                <button nbButton hero status="primary">Adicionar Unidade</button>
+                <button (click)="adicionar()" nbButton hero status="primary">Adicionar Unidade de Atendimento</button>
             </div>
         </div>
         <ng2-smart-table [settings]="settings" [source]="source" (custom)="customAction($event)">

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbDialogModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbSelectModule, NbCheckboxModule, NbSpinnerModule } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ConfiguracoesRoutingModule } from './configuracoes-routing.module';
@@ -7,7 +7,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ProfissionaisDeSaudeComponent } from './profissionais-de-saude/profissionais-de-saude.component';
 import { UnidadesDeAtendimentoComponent } from './unidades-de-atendimento/unidades-de-atendimento.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditarProfissionalComponent } from './profissionais-de-saude/editar/editar-profissional.component';
 import { AdicionarProfissionalComponent } from './profissionais-de-saude/adicionar/adicionar-profissional.component';
 import { PerfilProfissionalComponent } from './profissionais-de-saude/perfil/perfil-profissional.component';
@@ -41,6 +41,9 @@ const NB_MODULES = [
   NbButtonModule,
   Ng2SmartTableModule,
   NbDialogModule.forRoot(),
+  NbSelectModule,
+  NbCheckboxModule,
+  NbSpinnerModule
 ];
 
 @NgModule({
@@ -48,6 +51,7 @@ const NB_MODULES = [
     SharedModule,
     ConfiguracoesRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     ...NB_MODULES
   ],
   declarations: [

@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { UsuariosData } from '../../../@core/data/usuarios';
+import { NbDialogService } from '@nebular/theme';
+import { AdicionarUsuarioComponent } from './adicionar/adicionar-usuario.component';
+import { EditarUsuarioComponent } from './editar/editar-usuario.component';
+import { PerfilUsuarioComponent } from './perfil/perfil-usuario.component';
 
 @Component({
   selector: 'ngx-usuarios',
@@ -57,7 +61,8 @@ export class UsuariosComponent {
   };
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(public usuariosService: UsuariosData) {
+  constructor(public usuariosService: UsuariosData,
+    public dialogService: NbDialogService) {
     const data: any[] = this.usuariosService.getData();
     this.source.load(data);
   }
@@ -76,6 +81,47 @@ export class UsuariosComponent {
           search: query
         },
       ], false);
+    }
+  }
+
+  adicionar() {
+    this.dialogService.open(
+      AdicionarUsuarioComponent,
+      {
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      });
+  }
+
+  editar() {
+    this.dialogService.open(
+      EditarUsuarioComponent,
+      {
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      });
+  }
+
+  perfil() {
+    this.dialogService.open(
+      PerfilUsuarioComponent,
+      {
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      });
+  }
+
+  customAction(evento) {
+    if (evento.action === 'edit') {
+      this.editar();
+    } else if (evento.action === 'perfil') {
+      this.perfil();
     }
   }
 }
