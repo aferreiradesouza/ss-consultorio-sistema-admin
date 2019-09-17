@@ -78,11 +78,6 @@
                         <nb-option value="1">Nova América</nb-option>
                         <nb-option value="2">Madureira</nb-option>
                     </nb-select>
-                    <label class="label d-block mt-3">Especialidade</label>
-                    <nb-select fullWidth placeholder="Selecione" [(ngModel)]="especialidade">
-                        <nb-option value="1">Clínico Geral</nb-option>
-                        <nb-option value="2">Cardiologista</nb-option>
-                    </nb-select>
                     <button class="d-block button-filtro" nbButton fullWidth status="primary">Filtrar</button>
                 </ng-container>
                 <ng-container *ngIf="!isOpen">
@@ -95,10 +90,6 @@
                             <div class="mt-2">
                                 <label class="label">Lugar</label>
                                 <span class="ml-4">{{lugar | lugar}}</span>
-                            </div>
-                            <div class="mt-2">
-                                <label class="label">Especialidade</label>
-                                <span class="ml-4">{{especialidade | especialidade}}</span>
                             </div>
                         </div>
                     </div>

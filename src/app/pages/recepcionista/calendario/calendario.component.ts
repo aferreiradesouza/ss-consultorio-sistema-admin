@@ -47,12 +47,12 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   async ngOnInit() {
     this.isLoading = true;
     await this.calendarioMock.getDataWithLoading().then(response => {
-      this.isLoading = false;
       this.data = response;
       this.filter = (date) => {
         return this.data.map(e => e.data).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
       };
       this.obterIndexData();
+      this.isLoading = false;
     });
   }
 

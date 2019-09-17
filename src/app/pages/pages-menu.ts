@@ -56,10 +56,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Unidades de atendimento',
         link: '/configuracoes/unidades-de-atendimento',
-      },
-      {
-        title: 'Backup',
-        link: '/configuracoes/backup',
       }
     ]
   },

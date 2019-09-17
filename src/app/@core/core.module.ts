@@ -52,9 +52,13 @@ import { VisitorsAnalyticsService } from './mock/visitors-analytics.service';
 import { SecurityCamerasService } from './mock/security-cameras.service';
 import { MockDataModule } from './mock/mock-data.module';
 import { CalendarioData } from './data/calendario';
-import { CalendarioMockService } from './mock/calendario';
+import { CalendarioMockService } from './mock/calendario.service';
 import { UsuariosData } from './data/usuarios';
 import { UsuariosMockService } from './mock/usuarios.service';
+import { ConsultoriosData } from './data/consultorios';
+import { ConsultoriosMockService } from './mock/consultorios.service';
+import { ProfissionalMockService } from './mock/profissionais.service';
+import { ProfissionalData } from './data/profissional';
 
 const socialLinks = [
   {
@@ -79,7 +83,9 @@ const DATA_SERVICES = [
   { provide: ElectricityData, useClass: ElectricityService },
   { provide: SmartTableData, useClass: SmartTableService },
   { provide: CalendarioData, useClass: CalendarioMockService },
+  { provide: ConsultoriosData, useClass: ConsultoriosMockService },
   { provide: UsuariosData, useClass: UsuariosMockService},
+  { provide: ProfissionalData, useClass: ProfissionalMockService},
   { provide: UserActivityData, useClass: UserActivityService },
   { provide: OrdersChartData, useClass: OrdersChartService },
   { provide: ProfitChartData, useClass: ProfitChartService },

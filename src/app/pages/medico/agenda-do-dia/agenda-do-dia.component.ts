@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarioMockService } from '../../../@core/mock/calendario';
+import { CalendarioMockService } from '../../../@core/mock/calendario.service';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 

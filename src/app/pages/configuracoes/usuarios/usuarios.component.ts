@@ -50,7 +50,7 @@ export class UsuariosComponent {
         title: 'Status',
         type: 'string',
         valuePrepareFunction: (value) => {
-          return value ? 'Sim' : 'Não';
+          return value ? 'Ativo' : 'Inativo';
         }
       },
     },
