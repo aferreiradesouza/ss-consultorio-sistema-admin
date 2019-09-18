@@ -69,6 +69,8 @@ import { LugarEnum } from './enums/lugar.enum';
 import { VisaoPipe } from './pipes/visao.pipe';
 import { VisaoEnum } from './enums/visao.enum';
 import { CalendarioDoDiaComponent } from './components/calendario-do-dia/calendario-do-dia.component';
+import { AjaxService } from './services/ajax.service';
+import { PacientesService } from './services/pacientes.service';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -150,6 +152,8 @@ export class SharedModule {
         FormatterService,
         ValidatorService,
         CalendarioService,
+        AjaxService,
+        PacientesService,
         ...ENUMS,
         ...NbThemeModule.forRoot(
           {

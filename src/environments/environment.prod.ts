@@ -1,8 +1,4 @@
-/**
- * @license
- * Copyright Akveo. All Rights Reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- */
 export const environment = {
+  urlBase: 'http://54.165.201.177:2001/api/',
   production: true,
 };

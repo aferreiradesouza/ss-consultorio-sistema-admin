@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary" >
 
     <nb-card-header>
         Listagem de Pacientes
@@ -14,7 +14,7 @@
                 <button nbButton hero (click)="adicionarPaciente()" status="primary">Adicionar Paciente</button>
             </div>
         </div>
-        <ng2-smart-table [settings]="settings" [source]="source" (custom)="customAction($event)">
+        <ng2-smart-table *ngIf="pacientes" [settings]="settings" [source]="source" (custom)="customAction($event)">
         </ng2-smart-table>
     </nb-card-body>
 </nb-card>

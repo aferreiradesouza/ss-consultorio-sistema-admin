@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { Router } from '@angular/router';
@@ -8,13 +8,16 @@ import { FormatterService } from '../../../shared/services/formatter.service';
 import { LinkColComponent } from '../../../shared/components/custom-table/link-col.component';
 import { DeletarPacientesComponent } from '../deletar/deletar.component';
 import { PerfilPacientesComponent } from '../perfil/perfil.component';
+import { PacientesService } from '../../../shared/services/pacientes.service';
+import { ListagemPacientes } from '../../../shared/interface';
+import * as moment from 'moment';
 
 @Component({
   selector: 'ngx-listagem-pacientes',
   templateUrl: './listagem.component.html',
   styleUrls: ['listagem.component.scss']
 })
-export class ListagemPacientesComponent {
+export class ListagemPacientesComponent implements OnInit {
   public search = '';
   public isLoading = false;
   settings = {
@@ -62,9 +65,12 @@ export class ListagemPacientesComponent {
         title: 'Nome',
         type: 'string'
       },
-      idade: {
+      dataNascimento: {
         title: 'Idade',
-        type: 'number'
+        type: 'number',
+        valuePrepareFunction: (data) => {
+          return moment().diff(moment(data), 'y');
+        }
       },
       email: {
         title: 'E-mail',
@@ -81,16 +87,26 @@ export class ListagemPacientesComponent {
   };
 
   source: LocalDataSource = new LocalDataSource();
-
+  pacientes: any;
   constructor(
     private service: SmartTableData,
     public router: Router,
     private dialogService: NbDialogService,
     private toastrService: NbToastrService,
-    public formatterService: FormatterService) {
-    const data: any[] = this.service.getData();
-    (data);
-    this.source.load(data);
+    public formatterService: FormatterService,
+    public pacientesService: PacientesService) {
+  }
+
+  async ngOnInit() {
+    this.isLoading = true;
+    await this.pacientesService.obterPacientes().then(response => {
+      this.pacientes = response;
+      const data = <any>response;
+      this.source.load(data.objeto);
+      this.isLoading = false;
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   onDeleteConfirm(event): void {
