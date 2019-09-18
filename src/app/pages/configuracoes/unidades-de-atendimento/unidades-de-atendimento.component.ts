@@ -24,7 +24,7 @@ export class UnidadesDeAtendimentoComponent {
       custom: [
         {
           name: 'perfil',
-          title: '<i class="nb-person"></i>'
+          title: '<i class="nb-search"></i>'
         },
         {
           name: 'edit',
