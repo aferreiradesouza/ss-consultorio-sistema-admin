@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Self, ElementRef, ViewChild, Optional, Output
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatterService } from '../../services/formatter.service';
 import { ValidatorService } from '../../services/validator.service';
+import { NbButtonComponent } from '@nebular/theme';
 
 @Component({
     selector: 'ngx-input-mask',
@@ -41,9 +42,9 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
     @Input() maxLength: number = 0;
     @Input() dropCharacters = true;
     @Input() feedback = true;
+    @Input() autocomplete = true;
 
     @Output() blur = new EventEmitter();
-
     public _model = '';
 
     constructor(
@@ -144,6 +145,9 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
     }
 
     feedbackInput() {
+        if (!this.feedback) {
+            return undefined;
+        }
         const control = this.controlDir.control;
         if (!control.dirty && !control.touched) {
             if (this.shouldDisplayError()) {
@@ -197,7 +201,7 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
     }
 
     public getErrorMessage(): string {
-        if (!this.shouldDisplayError()) {
+        if (!this.shouldDisplayError() || !this.feedback) {
             return '';
         }
 

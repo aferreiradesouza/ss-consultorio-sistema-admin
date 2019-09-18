@@ -2,60 +2,58 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { timeout } from 'rxjs/operators';
 import { reject } from 'q';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AjaxService {
 
-    public token = '443AA87BA954950A5B4514417CF0F40C1238C0A25DABFF3ECB8EE17EF61A4E638E8A0FF67534DAF21059DC9C3EE4E7143200A729EFBABB4D16C46F48FD62002A';
-
+    public token: string;
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        public storageService: LocalStorageService
     ) { }
 
     public async get<T>(
         url: string,
         params: { [param: string]: string | string[] } = {}
     ) {
-        const token = this.token;
+        const token = this.storageService.has('token') ? this.storageService.get('token') : null;
         const headers = {
             'Content-Type': 'application/json; charset=UTF-8',
-            Authorization: 'bearer ' + token
+            Authorization: 'bearer ' + token,
+            'sistema': 'sim'
         };
 
         return this.http
             .get<T>(url, { params, headers })
             .pipe(timeout(15000))
-            .toPromise()
-            .catch(error => {
-                reject(error);
-            });
+            .toPromise();
     }
     public async post<T>(url: string, body: any = {}) {
-        const token = this.token;
+        const token = this.storageService.has('token') ? this.storageService.get('token') : null;
         const options = {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
-                Authorization: 'bearer ' + token
+                Authorization: 'bearer ' + token,
+                'sistema': 'sim'
             }
         };
 
         return this.http
             .post<T>(url, body, options)
             .pipe(timeout(15000))
-            .toPromise()
-            .catch(error => {
-                reject(error);
-            });
+            .toPromise();
     }
 
     public async put<T>(url: string, body: any = {}) {
-        const token = this.token;
+        const token = this.storageService.has('token') ? this.storageService.get('token') : null;
         const options = {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
-                Authorization: 'bearer ' + token
+                Authorization: 'bearer ' + token,
+                'sistema': 'sim'
             }
         };
 

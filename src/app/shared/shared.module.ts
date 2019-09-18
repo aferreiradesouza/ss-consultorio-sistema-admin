@@ -71,6 +71,9 @@ import { VisaoEnum } from './enums/visao.enum';
 import { CalendarioDoDiaComponent } from './components/calendario-do-dia/calendario-do-dia.component';
 import { AjaxService } from './services/ajax.service';
 import { PacientesService } from './services/pacientes.service';
+import { AutenticacaoService } from './services/autenticacao.service';
+import { LocalStorageService } from './services/local-storage.service';
+import { AuthGuard } from './guard/auth.guard';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -154,6 +157,9 @@ export class SharedModule {
         CalendarioService,
         AjaxService,
         PacientesService,
+        AutenticacaoService,
+        LocalStorageService,
+        AuthGuard,
         ...ENUMS,
         ...NbThemeModule.forRoot(
           {

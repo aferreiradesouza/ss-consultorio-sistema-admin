@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbMenuModule } from '@nebular/theme';
+import { NbMenuModule, NbSpinnerModule } from '@nebular/theme';
 
 import { SharedModule } from '../shared/shared.module';
 import { AuthRoutingModule } from './auth-routing.module';
@@ -33,7 +33,8 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     NbIconModule,
     ReactiveFormsModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    NbSpinnerModule
   ],
   declarations: [
     AuthComponent,

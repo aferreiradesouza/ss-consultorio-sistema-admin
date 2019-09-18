@@ -1,49 +1,83 @@
-export interface ListagemPacientes {
+interface DefaultHttpResponse {
     mensagens: string[];
-    objeto: Array<{
-        id: number;
-        nome: string;
-        celular: string;
-        email: string;
-        dataNascimento: string;
-        dataDesativacao: string;
-        ativo: true
-    }>;
     autorizado: boolean;
     codigo: string;
     tempoLevado: string;
     sucesso: boolean;
 }
 
+export interface IObterPaciente extends DefaultHttpResponse {
+    objeto: ListagemPacientes[];
+}
+
+export interface IObterInfoPaciente extends DefaultHttpResponse {
+    objeto: Paciente;
+}
+
+export interface IEditarPaciente extends DefaultHttpResponse {
+    objeto: boolean | string[];
+}
+
+export interface ILogar extends DefaultHttpResponse {
+    objeto: Login;
+}
+
+export interface IVerificarToken extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface Login {
+    id: number;
+    nome: string;
+    cpf: string;
+    ehMedico: boolean;
+    crm: string;
+    celular: string;
+    telefone: string;
+    email: string;
+    urlFoto: string;
+    ehAdministrador: boolean;
+    dataNascimento: string;
+    dataCadastro: string;
+    dataDesativacao: string;
+    token: string;
+    codigoSms: string;
+    nuncaConfirmouSms: boolean;
+    ativo: boolean;
+}
+
+export interface ListagemPacientes {
+    id: number;
+    nome: string;
+    celular: string;
+    email: string;
+    dataNascimento: string;
+    dataDesativacao: string;
+    ativo: true;
+}
+
 export interface Paciente {
-    mensagens: string[];
-    objeto: {
-        id: number;
-        nome: string;
-        cpf: string;
-        celular: string;
-        telefone: string;
-        observacao: string;
-        email: string;
-        sexo: string;
-        urlFoto: string;
-        cep: string;
-        logradouro: string;
-        numero: string;
-        complemento: string;
-        bairro: string;
-        cidade: string;
-        estado: string;
-        dataNascimento: string;
-        dataCadastro: string;
-        dataDesativacao: string;
-        ativo: boolean;
-        consultas: Array<Consulta>
-    };
-    autorizado: boolean;
-    codigo: string;
-    tempoLevado: string;
-    sucesso: boolean;
+    id: number;
+    nome: string;
+    cpf: string;
+    celular: string;
+    telefone: string;
+    observacao: string;
+    email: string;
+    sexo: string;
+    urlFoto: string;
+    cep: string;
+    logradouro: string;
+    numero: string;
+    complemento: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+    dataNascimento: string;
+    dataCadastro: string;
+    dataDesativacao: string;
+    ativo: boolean;
+    consultas: Array<Consulta>;
 }
 
 export interface Consulta {

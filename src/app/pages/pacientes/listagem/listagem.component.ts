@@ -99,13 +99,15 @@ export class ListagemPacientesComponent implements OnInit {
 
   async ngOnInit() {
     this.isLoading = true;
+    await this.obterListagem();
+    this.isLoading = false;
+  }
+
+  async obterListagem(): Promise<void> {
     await this.pacientesService.obterPacientes().then(response => {
       this.pacientes = response;
-      const data = <any>response;
+      const data = response;
       this.source.load(data.objeto);
-      this.isLoading = false;
-    }).catch(err => {
-      console.log(err);
     });
   }
 
@@ -143,7 +145,6 @@ export class ListagemPacientesComponent implements OnInit {
   }
 
   deletar(event) {
-    ('a');
     this.dialogService.open(
       DeletarPacientesComponent,
       {
@@ -170,7 +171,6 @@ export class ListagemPacientesComponent implements OnInit {
   }
 
   async editar(event) {
-    ('a');
     this.dialogService.open(
       EditarPacientesComponent,
       {
@@ -182,13 +182,28 @@ export class ListagemPacientesComponent implements OnInit {
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
-      }).onClose.subscribe(response => {
-        if (response) {
+      }).onClose.subscribe(async (response: { sucesso: boolean, value: any }) => {
+        if (response.sucesso) {
           const position: any = 'bottom-right';
-          // tslint:disable-next-line: max-line-length
-          this.toastrService.show('', `Paciente alterado com sucesso`,
-            { status: 'success', duration: 3000, position });
+          this.isLoading = true;
+          const resp = await this.editarPaciente(response.value);
+          if (resp.sucesso) {
+            this.toastrService.show('', `Paciente alterado com sucesso`,
+              { status: 'success', duration: 3000, position });
+            await this.obterListagem();
+          } else {
+            this.toastrService.show('', resp.mensagem,
+              { status: 'danger', duration: 3000, position });
+          }
+          this.isLoading = false;
         }
+      });
+  }
+
+  async editarPaciente(data): Promise<{sucesso: boolean, mensagem?: string[] | boolean}> {
+    return await this.pacientesService.editarPacientes(data)
+      .then(response => {
+        return {sucesso: response.sucesso, mensagem: response.sucesso ? null : response.objeto };
       });
   }
 

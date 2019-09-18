@@ -3,6 +3,8 @@ import { NbDialogRef } from '@nebular/theme';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
+import { PacientesService } from '../../../shared/services/pacientes.service';
+import { Paciente } from '../../../shared/interface';
 
 @Component({
   selector: 'ngx-editar-pacientes',
@@ -29,13 +31,14 @@ export class EditarPacientesComponent implements OnInit {
   });
 
   public sexo = new FormControl('', [Validators.required]);
-
+  public user: Paciente;
   @Input() id: number;
   @Input() dados: any;
 
   constructor(
     protected ref: NbDialogRef<EditarPacientesComponent>,
-    private service: SmartTableData) { }
+    private service: SmartTableData,
+    public pacienteService: PacientesService) { }
 
   async ngOnInit() {
     await this.preencherFormulario();
@@ -67,33 +70,52 @@ export class EditarPacientesComponent implements OnInit {
   }
 
   editar() {
-    this.ref.close(true);
+    const user = {
+      id: this.user.id,
+      nome: this.form.value.nome,
+      cpf: this.form.value.cpf,
+      celular: this.form.value.celular,
+      telefone: this.form.value.telefone,
+      observacao: this.form.value.observacao || null,
+      email: this.form.value.email,
+      sexo: this.form.value.sexo,
+      urlFoto: this.form.value.urlFoto,
+      cep: this.form.value.cep,
+      logradouro: this.form.value.logradouro,
+      numero: this.form.value.numero,
+      complemento: this.form.value.complemento,
+      bairro: this.form.value.bairro,
+      cidade: this.form.value.cidade,
+      estado: this.form.value.estado,
+      dataNascimento: this.form.value.nascimento,
+      ativo: true,
+    };
+    this.ref.close({ sucesso: true, value: user });
   }
 
   async preencherFormulario(): Promise<void> {
-    let user;
     this.isLoading = true;
-    await this.service.getID(this.id).then(response => {
-      user = response;
+    await this.pacienteService.obterInfoPaciente(this.id).then(response => {
+      this.user = response.objeto;
       this.isLoading = false;
     });
     this.form.patchValue({
-      nome: user.nome,
-      nascimento: moment(user.dataNascimento, 'YYYY-MM-DD').format('DD/MM/YYYY'),
-      cpf: user.cpf,
-      sexo: user.sexo,
-      observacao: '',
-      email: user.email,
-      telefone: user.telefone,
-      celular: user.celular,
-      logradouro: user.logradouro,
-      cep: user.cep,
-      complemento: user.complemento,
-      numero: user.numero,
-      bairro: user.bairro,
-      cidade: user.cidade,
-      idade: user.idade,
+      nome: this.user.nome,
+      nascimento: moment(this.user.dataNascimento, 'YYYY-MM-DD').format('DD/MM/YYYY'),
+      cpf: this.user.cpf,
+      sexo: this.user.sexo,
+      observacao: this.user.observacao,
+      email: this.user.email,
+      telefone: this.user.telefone,
+      celular: this.user.celular,
+      logradouro: this.user.logradouro,
+      cep: this.user.cep,
+      complemento: this.user.complemento,
+      numero: this.user.numero,
+      bairro: this.user.bairro,
+      cidade: this.user.cidade,
+      idade: moment().diff(moment(this.user.dataNascimento), 'y'),
     });
-    this.sexo.setValue(user.sexo);
+    this.sexo.setValue(this.user.sexo);
   }
 }
