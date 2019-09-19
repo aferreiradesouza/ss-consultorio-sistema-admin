@@ -29,7 +29,7 @@ export class LocalStorageService {
         this.set(key, JSON.stringify(value));
     }
 
-    public remove(key: string) {
+    public remove(key: StorageKey) {
         localStorage.removeItem(key);
     }
 }

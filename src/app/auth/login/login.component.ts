@@ -29,22 +29,26 @@ export class LoginComponent {
       usuario: dados.cpf.replace(new RegExp(/[.\-]/, 'g'), ''),
       senha: dados.senha
     };
+    this.loading = true;
     const response = await this.realizarLogin(form);
     if (!response.sucesso) {
+      this.loading = false;
       this.msgErro = response.mensagem[0];
     } else {
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/home').catch(() => {
+        this.loading = false;
+      });
     }
   }
 
   async realizarLogin(dados): Promise<{sucesso: boolean, mensagem: string[]}> {
-    this.loading = true;
     this.msgErro = '';
     return await this.autenticacaoService.login(dados)
       .then(response => {
-        this.loading = false;
-        this.localStorage.setJson('login', response.objeto);
-        this.localStorage.set('token', response.objeto.token);
+        if (response.sucesso) {
+          this.localStorage.setJson('login', response.objeto);
+          this.localStorage.set('token', response.objeto.token);
+        }
         return {sucesso: response.sucesso, mensagem: response.sucesso ? null : response.mensagens};
       });
   }

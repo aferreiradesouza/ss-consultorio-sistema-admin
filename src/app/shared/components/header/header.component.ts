@@ -6,6 +6,8 @@ import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -39,38 +41,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
 
   constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private userService: UserData,
-              private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService,
-              private dialogService: NbDialogService) {
+    private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private userService: UserData,
+    private layoutService: LayoutService,
+    private breakpointService: NbMediaBreakpointsService,
+    private dialogService: NbDialogService,
+    private storageService: LocalStorageService,
+    public router: Router) {
   }
 
   ngOnInit() {
-    this.currentTheme = this.themeService.currentTheme;
-
-    this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.nick);
-
-    const { xl } = this.breakpointService.getBreakpointsMap();
-    this.themeService.onMediaQueryChange()
-      .pipe(
-        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
-
-    this.themeService.onThemeChange()
-      .pipe(
-        map(({ name }) => name),
-        takeUntil(this.destroy$),
-      )
-      .subscribe(themeName => this.currentTheme = themeName);
+    this.user = this.storageService.getJson('login');
   }
 
   ngOnDestroy() {
@@ -94,13 +79,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  teste() {
-    ('teste');
+  close() {
+    console.log('teste');
   }
 
   open2(dialog: TemplateRef<any>) {
     this.dialogService.open(
       dialog,
-      { context: 'Você realmente deseja sair?' });
+      { context: 'Você realmente deseja sair?' }).onClose.subscribe(response => {
+        if (response) {
+          this.router.navigateByUrl('/auth/login');
+          this.storageService.remove('login');
+          this.storageService.remove('token');
+        }
+      });
+
   }
 }
