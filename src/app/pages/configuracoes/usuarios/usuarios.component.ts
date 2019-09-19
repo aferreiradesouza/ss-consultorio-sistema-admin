@@ -1,17 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { UsuariosData } from '../../../@core/data/usuarios';
 import { NbDialogService } from '@nebular/theme';
 import { AdicionarUsuarioComponent } from './adicionar/adicionar-usuario.component';
 import { EditarUsuarioComponent } from './editar/editar-usuario.component';
 import { PerfilUsuarioComponent } from './perfil/perfil-usuario.component';
+import { ConfiguracoesService } from '../../../shared/services/configuracoes.service';
+import { ListagemUsuario } from '../../../shared/interface';
 
 @Component({
   selector: 'ngx-usuarios',
   templateUrl: './usuarios.component.html',
   styleUrls: ['usuarios.component.scss']
 })
-export class UsuariosComponent {
+export class UsuariosComponent implements OnInit {
+  public isLoading = false;
+  public usuarios: ListagemUsuario[] = null;
   public search = '';
   settings = {
     noDataMessage: 'Sem dados',
@@ -43,18 +47,14 @@ export class UsuariosComponent {
         title: 'Nome',
         type: 'string'
       },
-      email: {
-        title: 'E-mail',
-        type: 'string'
-      },
-      adm: {
+      ehAdministrador: {
         title: 'Administrador',
         type: 'string',
         valuePrepareFunction: (value) => {
           return value ? 'Sim' : 'Não';
         }
       },
-      status: {
+      ativo: {
         title: 'Status',
         type: 'string',
         valuePrepareFunction: (value) => {
@@ -66,9 +66,19 @@ export class UsuariosComponent {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(public usuariosService: UsuariosData,
-    public dialogService: NbDialogService) {
+    public dialogService: NbDialogService,
+    public configuracoesService: ConfiguracoesService) {
     const data: any[] = this.usuariosService.getData();
     this.source.load(data);
+  }
+
+  async ngOnInit() {
+    this.isLoading = true;
+    await this.configuracoesService.obterListagem().then(response => {
+      this.usuarios = response.objeto;
+      this.source.load(this.usuarios);
+    });
+    this.isLoading = false;
   }
 
   onSearch(query: string = '') {
@@ -78,10 +88,6 @@ export class UsuariosComponent {
       this.source.setFilter([
         {
           field: 'nome',
-          search: query
-        },
-        {
-          field: 'email',
           search: query
         },
       ], false);

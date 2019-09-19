@@ -38,6 +38,10 @@ export interface IMudarSenha extends DefaultHttpResponse {
     objeto: Login;
 }
 
+export interface IListagemUsuario extends DefaultHttpResponse {
+    objeto: ListagemUsuario[];
+}
+
 export interface Login {
     id: number;
     nome: string;
@@ -101,4 +105,14 @@ export interface Consulta {
     formaPagamento: string;
     valor: string;
     especialidade: string;
+}
+
+export interface ListagemUsuario {
+    id: number;
+    nome: string;
+    ehMedico: boolean;
+    urlFoto: string;
+    ehAdministrador: boolean;
+    dataDesativacao: string;
+    ativo: boolean;
 }
