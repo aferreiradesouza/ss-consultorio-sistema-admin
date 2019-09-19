@@ -8,15 +8,23 @@
                 <nb-list>
                     <nb-list-item class="p-2 center">
                         <nb-icon icon="calendar-outline"></nb-icon>
-                        <span class="item">{{ item.data }}</span>
+                        <span class="item">{{ item.data | date:'YYYY-MM-DD' }}, {{item.hora}}</span>
                     </nb-list-item>
                     <nb-list-item class="p-2 center">
-                            <nb-icon icon="pin-outline"></nb-icon>
-                        <span class="item">{{ item.local }}</span>
+                        <nb-icon icon="pin-outline"></nb-icon>
+                        <span class="item">{{ item.consultorio }}</span>
                     </nb-list-item>
                     <nb-list-item class="p-2 center">
-                            <nb-icon icon="briefcase-outline"></nb-icon>
-                        <span class="item">{{ item.tipo }}</span>
+                        <nb-icon icon="briefcase-outline"></nb-icon>
+                        <span class="item">{{ item.especialidade }}</span>
+                    </nb-list-item>
+                    <nb-list-item class="p-2 center">
+                        <nb-icon icon="credit-card-outline"></nb-icon>
+                        <span class="item">{{ item.formaPagamento }}</span>
+                    </nb-list-item>
+                    <nb-list-item class="p-2 center">
+                        <nb-icon icon="pricetags-outline"></nb-icon>
+                        <span class="item">{{ item.valor | currency: 'R$' }}</span>
                     </nb-list-item>
                 </nb-list>
             </nb-card-body>

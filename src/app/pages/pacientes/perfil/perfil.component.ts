@@ -5,6 +5,8 @@ import { NbMenuService, NbToastrService, NbDialogService } from '@nebular/theme'
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditarPacientesComponent } from '../editar/editar.component';
 import { LocalDataSource } from 'ng2-smart-table';
+import { PacientesService } from '../../../shared/services/pacientes.service';
+import { Paciente } from '../../../shared/interface';
 
 
 @Component({
@@ -21,12 +23,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 export class PerfilPacientesComponent implements OnInit {
 
   public isLoading: boolean;
-  public user: any;
-  public timeline = [
-    { data: '01/09/2019', local: 'Nova América', tipo: 'Clínico Geral', medico: 'André Domarco' },
-    { data: '03/09/2019', local: 'Nova América', tipo: 'Clínico geral', medico: 'Rafael Silveira' },
-    { data: '05/09/2019', local: 'Nova América', tipo: 'Clínico geral', medico: 'André Domarco' },
-  ];
+  public user: Paciente;
   source: LocalDataSource = new LocalDataSource();
   settings = {
     noDataMessage: 'Sem dados',
@@ -60,20 +57,21 @@ export class PerfilPacientesComponent implements OnInit {
     private service: SmartTableData, public menuService: NbMenuService,
     private dialogService: NbDialogService,
     private toastrService: NbToastrService,
+    private pacienteService: PacientesService,
     public router: Router) { }
 
   async ngOnInit() {
+    this.isLoading = true;
     this.menuService.collapseAll();
     await this.obterUsuario();
     this.source.load(this.formaPagamentos);
+    this.isLoading = false;
   }
 
   async obterUsuario() {
-    this.isLoading = true;
     const id = parseInt(this.route.snapshot.queryParams.id, 10);
-    await this.service.getID(id).then(response => {
-      this.user = response;
-      this.isLoading = false;
+    await this.pacienteService.obterInfoPaciente(id).then(response => {
+      this.user = response.objeto;
     });
   }
 
@@ -90,12 +88,27 @@ export class PerfilPacientesComponent implements OnInit {
         closeOnBackdropClick: false,
         hasScroll: true
       }).onClose.subscribe(async response => {
-        if (response) {
+        if (response.sucesso) {
+          this.isLoading = true;
           const position: any = 'bottom-right';
-          this.toastrService.show('', `Paciente alterado com sucesso`,
-            { status: 'success', duration: 3000, position });
-          await this.obterUsuario();
+          const resp = await this.editarPaciente(response.value);
+          if (resp.sucesso) {
+            this.toastrService.show('', `Paciente alterado com sucesso`,
+              { status: 'success', duration: 3000, position });
+            await this.obterUsuario();
+          } else {
+            this.toastrService.show('', resp.mensagem,
+              { status: 'danger', duration: 3000, position });
+          }
+          this.isLoading = false;
         }
+      });
+  }
+
+  async editarPaciente(data): Promise<{sucesso: boolean, mensagem?: string[] | boolean}> {
+    return await this.pacienteService.editarPacientes(data)
+      .then(response => {
+        return {sucesso: response.sucesso, mensagem: response.sucesso ? null : response.objeto };
       });
   }
 
@@ -111,5 +124,10 @@ export class PerfilPacientesComponent implements OnInit {
           this.router.navigateByUrl('/pacientes/listagem');
         }
       });
+  }
+
+  getIdade() {
+    if (!this.user) { return; }
+    return moment().diff(moment(this.user.dataNascimento), 'y');
   }
 }

@@ -22,13 +22,17 @@ export class UsuariosComponent {
       position: 'right',
       custom: [
         {
+          name: 'prontuario',
+          title: '<i class="nb-compose"></i>'
+        },
+        {
           name: 'perfil',
           title: '<i class="nb-person"></i>'
         },
         {
           name: 'edit',
           title: '<i class="nb-edit"></i>'
-        },
+        }
       ],
       add: false,
       edit: false,

@@ -56,6 +56,28 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Unidades de atendimento',
         link: '/configuracoes/unidades-de-atendimento',
+      },
+      {
+        title: 'Cadastros',
+        link: '/configuracoes/unidades-de-atendimento',
+        children: [
+          {
+            title: 'Prontuários',
+            link: '/configuracoes/unidades-de-atendimento',
+          },
+          {
+            title: 'Modelos de documentos',
+            link: '/configuracoes/unidades-de-atendimento',
+          },
+          {
+            title: 'Configuração dos documentos',
+            link: '/configuracoes/unidades-de-atendimento',
+          },
+          {
+            title: 'Assinatura digital',
+            link: '/configuracoes/unidades-de-atendimento',
+          },
+        ]
       }
     ]
   },

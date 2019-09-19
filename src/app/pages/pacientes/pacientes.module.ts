@@ -11,7 +11,8 @@ import {
   NbTooltipModule,
   NbTabsetModule,
   NbActionsModule,
-  NbSelectModule
+  NbSelectModule,
+  NbCheckboxModule
 } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -38,7 +39,8 @@ const NB_MODULES = [
   NbTabsetModule,
   NbActionsModule,
   NbTooltipModule,
-  NbSelectModule
+  NbSelectModule,
+  NbCheckboxModule
 ];
 
 @NgModule({

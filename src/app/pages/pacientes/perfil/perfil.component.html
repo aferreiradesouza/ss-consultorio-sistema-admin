@@ -1,7 +1,7 @@
 <nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary">
   <nb-card-header>
     <section>PACIENTE</section>
-    <h1>{{user?.nome ? user?.nome + ' ' + user?.ultimoNome : '-'}}</h1>
+    <h1>{{user?.nome}}</h1>
   </nb-card-header>
   <nb-card-body>
     <div class="row">
@@ -11,7 +11,7 @@
             Histórico de atendimento
           </nb-card-header>
           <nb-card-body>
-            <ngx-timeline [data]="timeline"></ngx-timeline>
+            <ngx-timeline *ngIf="user" [data]="user.consultas"></ngx-timeline>
           </nb-card-body>
         </nb-card>
       </div>
@@ -42,7 +42,7 @@
                 <ngx-item label="Data de nascimento" [value]="user?.dataNascimento | date:'YYYY-MM-DD'"></ngx-item>
               </div>
               <div class="col-sm-6">
-                <ngx-item label="Idade" [value]="user?.idade"></ngx-item>
+                <ngx-item label="Idade" [value]="getIdade()"></ngx-item>
               </div>
             </div>
           </nb-tab>
@@ -79,11 +79,6 @@
             </div>
           </nb-tab>
         </nb-tabset>
-      </div>
-      <div class="col-12">
-        <h5>Dados de pagamentos</h5>
-        <ng2-smart-table [settings]="settings" [source]="source">
-        </ng2-smart-table>
       </div>
     </div>
   </nb-card-body>

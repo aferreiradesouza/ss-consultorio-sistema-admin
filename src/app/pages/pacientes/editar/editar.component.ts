@@ -28,6 +28,7 @@ export class EditarPacientesComponent implements OnInit {
     bairro: new FormControl(''),
     cidade: new FormControl(''),
     idade: new FormControl({ value: '', disabled: true }),
+    status: new FormControl(false)
   });
 
   public sexo = new FormControl('', [Validators.required]);
@@ -66,7 +67,7 @@ export class EditarPacientesComponent implements OnInit {
   }
 
   dismiss() {
-    this.ref.close(false);
+    this.ref.close({ sucesso: false });
   }
 
   editar() {
@@ -88,7 +89,7 @@ export class EditarPacientesComponent implements OnInit {
       cidade: this.form.value.cidade,
       estado: this.form.value.estado,
       dataNascimento: this.form.value.nascimento,
-      ativo: true,
+      ativo: this.form.value.status,
     };
     this.ref.close({ sucesso: true, value: user });
   }
@@ -115,6 +116,7 @@ export class EditarPacientesComponent implements OnInit {
       bairro: this.user.bairro,
       cidade: this.user.cidade,
       idade: moment().diff(moment(this.user.dataNascimento), 'y'),
+      status: this.user.ativo
     });
     this.sexo.setValue(this.user.sexo);
   }

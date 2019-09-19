@@ -22,13 +22,16 @@
           <div class="col-sm-2">
             <ngx-input-simple label="Idade" formControlName="idade" placeholder="00"></ngx-input-simple>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-2">
             <label class="label d-block">Sexo *</label>
             <nb-select fullWidth placeholder="Masculino" [status]="getStatusSexo()" [formControl]="sexo">
               <nb-option value="M">Masculino</nb-option>
               <nb-option value="F">Feminino</nb-option>
               <nb-option value="O">Outros</nb-option>
             </nb-select>
+          </div>
+          <div class="col-sm-1 align-center">
+              <nb-checkbox class="mt-2" status="primary" formControlName="status">Ativo</nb-checkbox>
           </div>
         </div>
         <div class="row">
