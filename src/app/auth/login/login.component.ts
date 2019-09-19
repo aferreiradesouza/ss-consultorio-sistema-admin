@@ -37,6 +37,7 @@ export class LoginComponent {
     } else {
       this.router.navigateByUrl('/home').catch(() => {
         this.loading = false;
+        this.msgErro = 'Algo de errado aconteceu, tente novamente mais tarde!';
       });
     }
   }
@@ -50,6 +51,12 @@ export class LoginComponent {
           this.localStorage.set('token', response.objeto.token);
         }
         return {sucesso: response.sucesso, mensagem: response.sucesso ? null : response.mensagens};
+      }).catch(() => {
+        return {sucesso: false, mensagem: ['Sistema indisponível.']};
       });
+  }
+
+  recuperarSenha() {
+    this.router.navigateByUrl('/auth/recuperar-senha');
   }
 }

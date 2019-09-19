@@ -37,6 +37,7 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
     @Input() required: boolean = false;
     @Input() maxLength: number = 0;
     @Input() feedback: boolean = true;
+    @Input() autocomplete = true;
 
     @Output() blur = new EventEmitter();
 

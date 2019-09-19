@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
@@ -49,7 +50,7 @@ export class ValidatorService {
     }
 
     public isValidDate(value: string): boolean {
-        return this.dateRegex.test(value);
+        return this.dateRegex.test(value) && moment(value, 'DD/MM/YYYY').isValid();
     }
 
     public isValidDateTime(value: string): boolean {

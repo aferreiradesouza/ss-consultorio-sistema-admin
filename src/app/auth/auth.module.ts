@@ -17,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from './auth.component';
 import { LoginComponent } from './login/login.component';
+import { RecuperarSenhaComponent } from './recuperar-senha/recuperar-senha.component';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { LoginComponent } from './login/login.component';
   ],
   declarations: [
     AuthComponent,
-    LoginComponent
+    LoginComponent,
+    RecuperarSenhaComponent
   ],
 })
 export class AuthModule {

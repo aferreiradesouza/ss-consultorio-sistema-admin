@@ -4,7 +4,8 @@
             <div class="logo">
                 <img src="../../../assets/images/ss.png">
             </div>
-            <div class="form" [formGroup]="form">
+            <h4 class="align-center mt-3">Entrar</h4>
+            <form (ngSubmit)="logar()" class="form" [formGroup]="form">
                 <nb-alert status="danger" *ngIf="msgErro">
                     {{msgErro}}
                 </nb-alert>
@@ -14,9 +15,9 @@
                 <ngx-input-simple label="Senha" type="password" formControlName="senha" [required]="true"
                     placeholder="***********">
                 </ngx-input-simple>
-                <div class="esqueciSenha ml-auto">Esqueci minha senha!</div>
-                <button (click)="logar()" nbButton fullWidth status="primary" [disabled]="!form.valid">ENTRAR</button>
-            </div>
+                <div class="esqueciSenha ml-auto" (click)="recuperarSenha()">Esqueci minha senha!</div>
+                <button type="submit" nbButton fullWidth status="primary" [disabled]="!form.valid">ENTRAR</button>
+            </form>
         </nb-card-body>
     </nb-card>
 </div>

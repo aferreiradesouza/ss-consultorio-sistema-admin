@@ -1,0 +1,68 @@
+<div class="wrapper">
+    <nb-card [nbSpinner]="loading" nbSpinnerStatus="primary">
+        <nb-card-body>
+            <div class="logo">
+                <img src="../../../assets/images/ss.png">
+            </div>
+            <h4 class="align-center mt-3">Recuperar senha</h4>
+
+            <!-- PASSO 1 -->
+
+            <form (ngSubmit)="gerarSms()" class="form" [formGroup]="form" *ngIf="passo === 1">
+                <nb-alert status="danger" *ngIf="msgErro">
+                    {{msgErro}}
+                </nb-alert>
+                <ngx-input-mask [autocomplete]="false" label="CPF" type="cpf" formControlName="cpf" [required]="true"
+                    placeholder="000.000.000-00" [dropCharacters]="false">
+                </ngx-input-mask>
+                <ngx-input-mask label="Data de nascimento" type="date" formControlName="nascimento" [required]="true"
+                    placeholder="00/00/0000" [dropCharacters]="false"></ngx-input-mask>
+                <label class="label d-block mb-2">* Campos obrigatórios</label>
+                <button type="submit" nbButton fullWidth status="primary" [disabled]="!form.valid">ENVIAR SMS</button>
+            </form>
+
+            <!-- PASSO 2 -->
+
+            <form (ngSubmit)="confirmarCodigo()" [formGroup]="formCodigo" *ngIf="passo === 2">
+                <nb-alert status="success" *ngIf="mensagemEnviada">
+                    Um SMS de confirmação foi enviado para: {{celular | telefone}}
+                </nb-alert>
+                <nb-alert status="danger" *ngIf="msgErro">
+                    {{msgErro}}
+                </nb-alert>
+                <nb-alert [status]="codigoEnviado?.sucesso ? 'success' : 'danger'" *ngIf="codigoEnviado">
+                    {{codigoEnviado?.mensagem}}
+                </nb-alert>
+                <ngx-input-simple [autocomplete]="false" label="Código" type="text" maxLength="6"
+                    formControlName="codigo" [required]="true" placeholder="******">
+                </ngx-input-simple>
+                <button class="mb-3" (click)="reEnviarSms()" nbButton fullWidth ghost type="button" size="small" status="primary">Enviar código novamente</button>
+                <button type="submit" nbButton fullWidth status="primary" [disabled]="!formCodigo.valid">Confirmar
+                    Código</button>
+            </form>
+
+            <!-- PASSO 3 -->
+
+            <form (ngSubmit)="mudarSenha()" [formGroup]="formSenha" *ngIf="passo === 3">
+                <nb-alert status="danger" *ngIf="msgErro">
+                    {{msgErro}}
+                </nb-alert>
+                <ngx-input-simple [autocomplete]="false" label="Nova senha" type="password" formControlName="senha"
+                    [required]="true" placeholder="******">
+                </ngx-input-simple>
+                <ngx-input-simple [autocomplete]="false" label="Confirmação a nova senha" type="password"
+                    formControlName="confSenha" [required]="true" placeholder="******">
+                </ngx-input-simple>
+                <label class="label d-block mb-2">* Campos obrigatórios</label>
+                <button type="submit" nbButton fullWidth status="primary" [disabled]="!shouldDisableButton()">ENVIAR
+                    NOVA SENHA</button>
+            </form>
+
+            <!-- PASSO 4 -->
+
+            <nb-alert status="success" *ngIf="passo === 4">
+                Senha alterada com sucesso! Você está sendo redirecionado...
+            </nb-alert>
+        </nb-card-body>
+    </nb-card>
+</div>

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AuthComponent } from './auth.component';
 import { LoginComponent } from './login/login.component';
+import { RecuperarSenhaComponent } from './recuperar-senha/recuperar-senha.component';
 
 const routes: Routes = [{
   path: '',
@@ -16,6 +17,10 @@ const routes: Routes = [{
     {
       path: 'login',
       component: LoginComponent
+    },
+    {
+      path: 'recuperar-senha',
+      component: RecuperarSenhaComponent
     }
   ],
 }];

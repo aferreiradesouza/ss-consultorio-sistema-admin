@@ -26,6 +26,18 @@ export interface IVerificarToken extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface IGerarSms extends DefaultHttpResponse {
+    objeto: string;
+}
+
+export interface IConfirmarCodigo extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface IMudarSenha extends DefaultHttpResponse {
+    objeto: Login;
+}
+
 export interface Login {
     id: number;
     nome: string;
