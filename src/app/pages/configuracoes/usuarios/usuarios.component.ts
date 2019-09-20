@@ -7,11 +7,13 @@ import { EditarUsuarioComponent } from './editar/editar-usuario.component';
 import { PerfilUsuarioComponent } from './perfil/perfil-usuario.component';
 import { ConfiguracoesService } from '../../../shared/services/configuracoes.service';
 import { ListagemUsuario } from '../../../shared/interface';
+import { UserCellComponent } from './userCell.component';
 
 @Component({
   selector: 'ngx-usuarios',
   templateUrl: './usuarios.component.html',
-  styleUrls: ['usuarios.component.scss']
+  styleUrls: ['usuarios.component.scss'],
+  entryComponents: [UserCellComponent]
 })
 export class UsuariosComponent implements OnInit {
   public isLoading = false;
@@ -45,7 +47,8 @@ export class UsuariosComponent implements OnInit {
     columns: {
       nome: {
         title: 'Nome',
-        type: 'string'
+        type: 'custom',
+        renderComponent: UserCellComponent
       },
       ehAdministrador: {
         title: 'Administrador',

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbDialogModule, NbSelectModule, NbCheckboxModule, NbSpinnerModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbSelectModule, NbCheckboxModule, NbSpinnerModule, NbUserModule } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ConfiguracoesRoutingModule } from './configuracoes-routing.module';
@@ -17,6 +17,7 @@ import { PerfilUsuarioComponent } from './usuarios/perfil/perfil-usuario.compone
 import { AdicionarUnidadeAtendimentoComponent } from './unidades-de-atendimento/adicionar/adicionar-unidade-atendimento.component';
 import { EditarUnidadeAtendimentoComponent } from './unidades-de-atendimento/editar/editar-unidade-atendimento.component';
 import { PerfilUnidadeAtendimentoComponent } from './unidades-de-atendimento/perfil/perfil-unidade-atendimento.component';
+import { UserCellComponent } from './usuarios/userCell.component';
 
 const PAGES = [
   UsuariosComponent,
@@ -43,7 +44,8 @@ const NB_MODULES = [
   NbDialogModule.forRoot(),
   NbSelectModule,
   NbCheckboxModule,
-  NbSpinnerModule
+  NbSpinnerModule,
+  NbUserModule
 ];
 
 @NgModule({
@@ -55,6 +57,7 @@ const NB_MODULES = [
     ...NB_MODULES
   ],
   declarations: [
+    UserCellComponent,
     ...PAGES,
     ...MODAIS
   ],
