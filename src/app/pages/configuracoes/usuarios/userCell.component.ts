@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'ngx-channel-attribute-renderer',
-  template: `<nb-user [picture]="rowData.urlFoto" [name]="rowData.nome" [title]="rowData.ehMedico ? 'Médico' : undefined"></nb-user>`
+  template: `<nb-user [picture]="rowData.urlFoto" [name]="rowData.nome"></nb-user>`
 })
 export class UserCellComponent {
 

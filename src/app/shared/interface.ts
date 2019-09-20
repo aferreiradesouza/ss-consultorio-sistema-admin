@@ -42,6 +42,14 @@ export interface IListagemUsuario extends DefaultHttpResponse {
     objeto: ListagemUsuario[];
 }
 
+export interface IInfoUsuario extends DefaultHttpResponse {
+    objeto: Usuario;
+}
+
+export interface IAlterarUsuario extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
 export interface Login {
     id: number;
     nome: string;
@@ -114,6 +122,23 @@ export interface ListagemUsuario {
     ehMedico: boolean;
     urlFoto: string;
     ehAdministrador: boolean;
+    dataDesativacao: string;
+    ativo: boolean;
+}
+
+export interface Usuario {
+    id: number;
+    nome: string;
+    cpf: string;
+    ehMedico: boolean;
+    crm: string;
+    celular: string;
+    telefone: string;
+    email: string;
+    urlFoto: string;
+    ehAdministrador: boolean;
+    dataNascimento: string;
+    dataCadastro: string;
     dataDesativacao: string;
     ativo: boolean;
 }

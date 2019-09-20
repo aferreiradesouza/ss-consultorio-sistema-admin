@@ -45,7 +45,8 @@ const NB_MODULES = [
   NbSelectModule,
   NbCheckboxModule,
   NbSpinnerModule,
-  NbUserModule
+  NbUserModule,
+  NbCheckboxModule
 ];
 
 @NgModule({

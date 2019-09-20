@@ -31,6 +31,7 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   public dataEvent: any = moment().toDate();
   public filter: any;
   public dayCellComponent = CalendarCustomDayCellComponent;
+  public group: any[];
 
   @ViewChild(CalendarioComponent, { static: false }) calendario: CalendarioComponent;
   @ViewChild(CalendarioDoDiaComponent, { static: false }) calendarioDoDia: CalendarioDoDiaComponent;
@@ -53,6 +54,7 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
       };
       this.obterIndexData();
       this.isLoading = false;
+      this.obterGrupoHoje();
     });
   }
 
@@ -61,6 +63,7 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
 
   changeDia(event) {
     this.dataEvent = moment(event).format('YYYY-MM-DD');
+    this.obterGrupoClick();
     this.obterIndexData();
   }
 
@@ -81,7 +84,48 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   }
 
   changeMesPainel(type: string) {
-    this.calendario.changeMes(type);
+    let i = 0;
+    if (type === 'proximo') {
+      const index = this.data.map(e => e.data).indexOf(moment(this.dataEvent).format('YYYY-MM-DD'));
+      this.group = this.data.filter((e, ind) => {
+        if (index <= ind ) {
+          const iformatado = i++;
+          return (this.data[index + iformatado] && iformatado <= 4) && (index + iformatado === ind);
+        } else {
+          return false;
+        }
+      });
+      console.log(this.group);
+    }
+    // this.calendario.changeMes(type);
+  }
+
+  obterGrupoHoje() {
+    let i = 0;
+    const index = this.data.map(e => e.data).indexOf(moment(this.dataEvent).format('YYYY-MM-DD'));
+    this.group = this.data.filter((e, ind) => {
+      if (index <= ind) {
+        const iformatado = i++;
+        return (this.data[index + iformatado] && iformatado <= 4) && (index + iformatado === ind);
+      } else {
+        return false;
+      }
+    });
+    console.log(this.group);
+  }
+
+  obterGrupoClick() {
+    let i = -2;
+    const index = this.data.map(e => e.data).indexOf(moment(this.dataEvent).format('YYYY-MM-DD'));
+    this.group = this.data.filter((e, ind) => {
+      if (index - 2 <= ind) {
+        const iformatado = i++;
+        return (this.data[index + iformatado] && iformatado <= 2) && (index + iformatado === ind);
+      } else {
+        return false;
+      }
+    });
+    console.log(this.group);
   }
 
   dataSelecionada(evento) {

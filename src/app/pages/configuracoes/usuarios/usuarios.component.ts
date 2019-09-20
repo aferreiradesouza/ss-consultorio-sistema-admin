@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { UsuariosData } from '../../../@core/data/usuarios';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { AdicionarUsuarioComponent } from './adicionar/adicionar-usuario.component';
 import { EditarUsuarioComponent } from './editar/editar-usuario.component';
 import { PerfilUsuarioComponent } from './perfil/perfil-usuario.component';
@@ -70,14 +70,19 @@ export class UsuariosComponent implements OnInit {
 
   constructor(public usuariosService: UsuariosData,
     public dialogService: NbDialogService,
-    public configuracoesService: ConfiguracoesService) {
+    public configuracoesService: ConfiguracoesService,
+    private toastrService: NbToastrService) {
     const data: any[] = this.usuariosService.getData();
     this.source.load(data);
   }
 
   async ngOnInit() {
+    await this.obterListagem();
+  }
+
+  async obterListagem(): Promise<void> {
     this.isLoading = true;
-    await this.configuracoesService.obterListagem().then(response => {
+    await this.configuracoesService.obterListagemUsuarios().then(response => {
       this.usuarios = response.objeto;
       this.source.load(this.usuarios);
     });
@@ -108,33 +113,50 @@ export class UsuariosComponent implements OnInit {
       });
   }
 
-  editar() {
+  editar(event) {
     this.dialogService.open(
       EditarUsuarioComponent,
       {
+        context: {
+          id: event.data.id,
+          dados: event.data
+        },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
+      }).onClose.subscribe(async (resp: { sucesso: boolean, mensagem: string }) => {
+        const position: any = 'bottom-right';
+        this.toastrService.show('', resp.mensagem,
+          { status: resp.sucesso ? 'success' : 'danger', duration: 3000, position });
+        if (resp.sucesso) { await this.obterListagem(); }
       });
   }
 
-  perfil() {
+  perfil(event) {
     this.dialogService.open(
       PerfilUsuarioComponent,
       {
+        context: {
+          id: event.data.id,
+          dados: event.data
+        },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
+      }).onClose.subscribe(async (resp: { sucesso: boolean, mensagem: string }) => {
+        const position: any = 'bottom-right';
+        this.toastrService.show('', resp.mensagem,
+          { status: resp.sucesso ? 'success' : 'danger', duration: 3000, position });
       });
   }
 
   customAction(evento) {
     if (evento.action === 'edit') {
-      this.editar();
+      this.editar(evento);
     } else if (evento.action === 'perfil') {
-      this.perfil();
+      this.perfil(evento);
     }
   }
 }

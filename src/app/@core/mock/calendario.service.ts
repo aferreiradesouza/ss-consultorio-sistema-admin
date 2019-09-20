@@ -331,7 +331,7 @@ export class CalendarioMockService extends CalendarioData {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         return resolve(this.data);
-      }, 3000);
+      }, 100);
     });
   }
 

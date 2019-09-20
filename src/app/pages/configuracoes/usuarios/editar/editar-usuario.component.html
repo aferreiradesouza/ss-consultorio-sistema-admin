@@ -1,9 +1,9 @@
-<nb-card [nbSpinner]="isLoading" size="small" nbSpinnerStatus="primary" status="primary">
+<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary" status="primary" size="small">
     <nb-card-header>
         Editar Usuário
     </nb-card-header>
-    <nb-card-body>
-        <div class="row" [formGroup]="form">
+    <nb-card-body [formGroup]="form">
+        <div class="row">
             <div class="col-sm-4">
                 <ngx-input-simple label="Nome" type="text" formControlName="nome" placeholder="Fulano"
                     [required]="true">
@@ -32,6 +32,9 @@
                     <nb-option value="medico">Médico</nb-option>
                     <nb-option value="recepcao">Recepção</nb-option>
                 </nb-select>
+            </div>
+            <div class="col-sm-1 align-center">
+                <nb-checkbox class="mt-4" status="primary" formControlName="status">Ativo</nb-checkbox>
             </div>
         </div>
     </nb-card-body>
