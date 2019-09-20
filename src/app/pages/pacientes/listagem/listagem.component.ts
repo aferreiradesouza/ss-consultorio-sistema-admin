@@ -105,6 +105,9 @@ export class ListagemPacientesComponent implements OnInit {
 
   async obterListagem(): Promise<void> {
     await this.pacientesService.obterPacientes().then(response => {
+      response.objeto.forEach(e => {
+        e.cpf = e.cpf.replace(new RegExp(/[.\-]/, 'g'), '');
+      });
       this.pacientes = response;
       const data = response;
       this.source.load(data.objeto);
@@ -126,6 +129,10 @@ export class ListagemPacientesComponent implements OnInit {
       this.source.setFilter([
         {
           field: 'nome',
+          search: query
+        },
+        {
+          field: 'cpf',
           search: query
         },
         {

@@ -65,6 +65,7 @@ export interface Login {
 export interface ListagemPacientes {
     id: number;
     nome: string;
+    cpf: string;
     celular: string;
     email: string;
     dataNascimento: string;
