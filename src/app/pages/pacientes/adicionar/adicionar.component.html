@@ -1,8 +1,11 @@
-<nb-card>
+<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary">
     <nb-card-header>
         Adicionar paciente
     </nb-card-header>
     <nb-card-body>
+        <nb-alert *ngIf="status" [status]="status === 'sucesso' ? 'success' : 'danger'">
+            {{this.msgAlert}}
+        </nb-alert>
         <form [formGroup]="form">
             <h6 class="mb-2">INFORMAÇÕES PESSOAIS</h6>
             <div class="row">
@@ -17,14 +20,19 @@
                 </div>
                 <div class="col-sm-3">
                     <ngx-input-mask label="Data de nascimento" type="date" formControlName="nascimento"
-                        [required]="true" placeholder="00/00/0000" [dropCharacters]="false"></ngx-input-mask>
+                        placeholder="00/00/0000" [dropCharacters]="false"></ngx-input-mask>
                 </div>
                 <div class="col-sm-2">
-                    <ngx-input-simple label="Idade" formControlName="idade" placeholder="00"></ngx-input-simple>
+                    <ngx-input-mask label="Idade" type="idade" formControlName="idade" placeholder="00">
+                    </ngx-input-mask>
                 </div>
                 <div class="col-sm-3">
-                    <ngx-input-simple label="Sexo" formControlName="sexo" [required]="true" placeholder="00/00/0000">
-                    </ngx-input-simple>
+                    <label class="label d-block">Sexo</label>
+                    <nb-select fullWidth placeholder="Selecione" [status]="getStatusSexo()" [formControl]="sexo">
+                        <nb-option value="M">Masculino</nb-option>
+                        <nb-option value="F">Feminino</nb-option>
+                        <nb-option value="O">Outros</nb-option>
+                    </nb-select>
                 </div>
             </div>
             <div class="row">
@@ -36,8 +44,7 @@
             <h6 class="my-3">INFORMAÇÕES DE CONTATO</h6>
             <div class="row">
                 <div class="col-sm-12">
-                    <ngx-input-simple label="E-mail" formControlName="email" type="email" [required]="true"
-                        placeholder="Fulano">
+                    <ngx-input-simple label="E-mail" formControlName="email" type="email" placeholder="Fulano">
                     </ngx-input-simple>
                 </div>
                 <div class="col-sm-6">
@@ -51,45 +58,46 @@
             </div>
             <h6 class="my-3">INFORMAÇÕES DE ENDEREÇO</h6>
             <div class="row">
-                <div class="col-sm-8">
-                    <ngx-input-simple label="Endereço" formControlName="logradouro" type="text" [required]="true"
-                        placeholder="logradouro">
-                    </ngx-input-simple>
-                </div>
-                <div class="col-sm-4">
-                    <ngx-input-simple [required]="true" label="Número" formControlName="numero" placeholder="000">
-                    </ngx-input-simple>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-sm-6">
                     <ngx-input-mask label="CEP" type="cep" [dropCharacters]="false" formControlName="cep"
-                        [required]="true" placeholder="00.000-000">
+                        placeholder="00.000-000">
                     </ngx-input-mask>
                 </div>
                 <div class="col-sm-6">
-                    <ngx-input-simple [required]="true" label="Complemento" formControlName="complemento"
-                        placeholder="Casa 203">
+                    <ngx-input-simple label="Endereço" formControlName="logradouro" type="text"
+                        placeholder="logradouro">
                     </ngx-input-simple>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
-                    <ngx-input-simple [required]="true" label="Bairro" formControlName="bairro">
+                <div class="col-sm-4">
+                    <ngx-input-simple label="Número" formControlName="numero" placeholder="000">
                     </ngx-input-simple>
                 </div>
-                <div class="col-sm-6">
-                    <ngx-input-simple [required]="true" label="Cidade" formControlName="cidade">
+                <div class="col-sm-8">
+                    <ngx-input-simple label="Complemento" formControlName="complemento" placeholder="Casa 203">
+                    </ngx-input-simple>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <ngx-input-simple label="Bairro" formControlName="bairro">
+                    </ngx-input-simple>
+                </div>
+                <div class="col-sm-4">
+                    <ngx-input-simple label="Cidade" formControlName="cidade">
+                    </ngx-input-simple>
+                </div>
+                <div class="col-sm-4">
+                    <ngx-input-simple label="UF" formControlName="uf" maxLength="2">
                     </ngx-input-simple>
                 </div>
             </div>
         </form>
-        <label class="label mb-0">* Campos obrigatórios</label>
     </nb-card-body>
     <nb-card-footer>
-        <div class="d-flex justify-content-end">
-            <button nbButton status="primary" [attr.disabled]="!form.valid ? true : undefined">Adicionar
-                paciente</button>
-        </div>
+        <label class="label d-block mb-2">* Campos obrigatórios</label>
+        <button (click)="adicionar()" nbButton status="primary" [disabled]="!form.valid">Adicionar
+            paciente</button>
     </nb-card-footer>
 </nb-card>

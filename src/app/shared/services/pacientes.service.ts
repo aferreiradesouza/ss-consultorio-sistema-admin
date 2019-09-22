@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AjaxService } from './ajax.service';
 import { environment } from '../../../environments/environment';
-import { IObterPaciente, IObterInfoPaciente, IEditarPaciente } from '../interface';
+import { IObterPaciente, IObterInfoPaciente, IEditarPaciente, IAdicionarPaciente, IExcluirPaciente } from '../interface';
 
 @Injectable()
 export class PacientesService {
@@ -21,5 +21,15 @@ export class PacientesService {
     async editarPacientes(data) {
         const url = `${environment.urlBase}admin/paciente/alterarPerfil`;
         return await this.ajax.post<IEditarPaciente>(url, data);
+    }
+
+    async adicionarPaciente(data) {
+        const url = `${environment.urlBase}admin/paciente/criar`;
+        return await this.ajax.post<IAdicionarPaciente>(url, data);
+    }
+
+    async excluirPaciente(id: number) {
+        const url = `${environment.urlBase}admin/paciente/${id}`;
+        return await this.ajax.delete<IExcluirPaciente>(url);
     }
 }

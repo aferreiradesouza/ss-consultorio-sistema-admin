@@ -69,12 +69,15 @@ export class ListagemPacientesComponent implements OnInit {
         title: 'Idade',
         type: 'number',
         valuePrepareFunction: (data) => {
-          return moment().diff(moment(data), 'y');
+          return data ? moment().diff(moment(data), 'y') : '-';
         }
       },
       email: {
         title: 'E-mail',
-        type: 'string'
+        type: 'string',
+        valuePrepareFunction: (data) => {
+          return data || '-';
+        }
       },
       celular: {
         title: 'Celular',
@@ -164,12 +167,25 @@ export class ListagemPacientesComponent implements OnInit {
         closeOnBackdropClick: false,
         hasScroll: true
       }).onClose.subscribe(response => {
-        if (response) {
-          const position: any = 'bottom-right';
-          // tslint:disable-next-line: max-line-length
-          this.toastrService.show('', `Paciente excluido com sucesso`,
-            { status: 'danger', duration: 3000, position });
+        const position: any = 'bottom-right';
+        this.isLoading = true;
+        if (response.confirm) {
+          this.pacientesService.excluirPaciente(response.id).then(async resp => {
+            if (resp.sucesso) {
+              this.toastrService.show('', `Paciente excluido com sucesso`,
+                { status: 'danger', duration: 3000, position });
+              this.search = '';
+              await this.obterListagem();
+            } else {
+              this.toastrService.show('', resp.mensagens[0],
+                { status: 'danger', duration: 3000, position });
+            }
+          }).catch(err => {
+            this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde!',
+              { status: 'danger', duration: 3000, position });
+          });
         }
+        this.isLoading = false;
       });
   }
 
@@ -193,24 +209,28 @@ export class ListagemPacientesComponent implements OnInit {
         if (response.sucesso) {
           const position: any = 'bottom-right';
           this.isLoading = true;
-          const resp = await this.editarPaciente(response.value);
-          if (resp.sucesso) {
-            this.toastrService.show('', `Paciente alterado com sucesso`,
-              { status: 'success', duration: 3000, position });
-            await this.obterListagem();
-          } else {
-            this.toastrService.show('', resp.mensagem,
+          await this.editarPaciente(response.value).then(async resp => {
+            if (resp.sucesso) {
+              this.toastrService.show('', `Paciente alterado com sucesso`,
+                { status: 'success', duration: 3000, position });
+              await this.obterListagem();
+            } else {
+              this.toastrService.show('', resp.mensagem,
+                { status: 'danger', duration: 3000, position });
+            }
+          }).catch(err => {
+            this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
               { status: 'danger', duration: 3000, position });
-          }
+          });
           this.isLoading = false;
         }
       });
   }
 
-  async editarPaciente(data): Promise<{sucesso: boolean, mensagem?: string[] | boolean}> {
+  async editarPaciente(data): Promise<{ sucesso: boolean, mensagem?: string[] | boolean }> {
     return await this.pacientesService.editarPacientes(data)
       .then(response => {
-        return {sucesso: response.sucesso, mensagem: response.sucesso ? null : response.objeto };
+        return { sucesso: response.sucesso, mensagem: response.sucesso ? null : response.objeto };
       });
   }
 

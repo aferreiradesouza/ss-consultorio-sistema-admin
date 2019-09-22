@@ -16,8 +16,8 @@
               [dropCharacters]="false"></ngx-input-mask>
           </div>
           <div class="col-sm-3">
-            <ngx-input-mask label="Data de nascimento" type="date" formControlName="nascimento" [required]="true"
-              placeholder="00/00/0000" [dropCharacters]="false"></ngx-input-mask>
+            <ngx-input-mask label="Data de nascimento" type="date" formControlName="nascimento" placeholder="00/00/0000"
+              [dropCharacters]="false"></ngx-input-mask>
           </div>
           <div class="col-sm-2">
             <ngx-input-simple label="Idade" formControlName="idade" placeholder="00"></ngx-input-simple>
@@ -31,7 +31,7 @@
             </nb-select>
           </div>
           <div class="col-sm-1 align-center">
-              <nb-checkbox class="mt-2" status="primary" formControlName="status">Ativo</nb-checkbox>
+            <nb-checkbox class="mt-2" status="primary" formControlName="status">Ativo</nb-checkbox>
           </div>
         </div>
         <div class="row">
@@ -43,8 +43,7 @@
         <h6 class="my-3">INFORMAÇÕES DE CONTATO</h6>
         <div class="row">
           <div class="col-sm-12">
-            <ngx-input-simple label="E-mail" formControlName="email" type="email" [required]="true"
-              placeholder="Fulano">
+            <ngx-input-simple label="E-mail" formControlName="email" type="email" placeholder="Fulano">
             </ngx-input-simple>
           </div>
           <div class="col-sm-6">
@@ -58,35 +57,37 @@
         </div>
         <h6 class="my-3">INFORMAÇÕES DE ENDEREÇO</h6>
         <div class="row">
-          <div class="col-sm-8">
-            <ngx-input-simple label="Endereço" formControlName="logradouro" type="text" [required]="true"
-              placeholder="logradouro">
-            </ngx-input-simple>
-          </div>
-          <div class="col-sm-4">
-            <ngx-input-simple [required]="true" label="Número" formControlName="numero" placeholder="000">
-            </ngx-input-simple>
-          </div>
-        </div>
-        <div class="row">
           <div class="col-sm-6">
-            <ngx-input-mask label="CEP" type="cep" [dropCharacters]="false" formControlName="cep" [required]="true"
+            <ngx-input-mask label="CEP" type="cep" [dropCharacters]="false" formControlName="cep"
               placeholder="00.000-000">
             </ngx-input-mask>
           </div>
           <div class="col-sm-6">
-            <ngx-input-simple [required]="true" label="Complemento" formControlName="complemento"
-              placeholder="Casa 203">
+            <ngx-input-simple label="Endereço" formControlName="logradouro" type="text" placeholder="logradouro">
             </ngx-input-simple>
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-6">
-            <ngx-input-simple [required]="true" label="Bairro" formControlName="bairro">
+          <div class="col-sm-4">
+            <ngx-input-simple label="Número" formControlName="numero" placeholder="000">
             </ngx-input-simple>
           </div>
-          <div class="col-sm-6">
-            <ngx-input-simple [required]="true" label="Cidade" formControlName="cidade">
+          <div class="col-sm-8">
+            <ngx-input-simple label="Complemento" formControlName="complemento" placeholder="Casa 203">
+            </ngx-input-simple>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <ngx-input-simple label="Bairro" formControlName="bairro">
+            </ngx-input-simple>
+          </div>
+          <div class="col-sm-4">
+            <ngx-input-simple label="Cidade" formControlName="cidade">
+            </ngx-input-simple>
+          </div>
+          <div class="col-sm-4">
+            <ngx-input-simple label="UF" formControlName="uf" maxLength="2">
             </ngx-input-simple>
           </div>
         </div>
@@ -95,7 +96,7 @@
   </nb-card-body>
   <nb-card-footer>
     <label class="label d-block">* Campos obrigatórios</label>
-    <button class="mr-3" nbButton status="danger" (click)="dismiss()">Cancelar</button>
+    <button class="mr-3" nbButton status="basic" (click)="dismiss()">Voltar</button>
     <button nbButton status="primary" (click)="editar()"
       [attr.disabled]="!form.valid || !sexo.valid ? true : undefined">Editar</button>
   </nb-card-footer>

@@ -20,23 +20,13 @@ export class DeletarPacientesComponent implements OnInit {
     private service: SmartTableData) { }
 
   async ngOnInit() {
-    await this.obterUsuário();
   }
 
   dismiss() {
-    this.ref.close(false);
+    this.ref.close({confirm: false, id: this.id});
   }
 
   deletar() {
-    this.ref.close(true);
-  }
-
-  async obterUsuário() {
-    let user;
-    this.isLoading = true;
-    await this.service.getID(this.id).then(response => {
-      user = response;
-      this.isLoading = false;
-    });
+    this.ref.close({confirm: true, id: this.id});
   }
 }

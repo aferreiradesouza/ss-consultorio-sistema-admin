@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { PacientesService } from '../../../shared/services/pacientes.service';
 import { Paciente } from '../../../shared/interface';
+import { UtilService } from '../../../shared/services/util.service';
 
 @Component({
   selector: 'ngx-editar-pacientes',
@@ -27,11 +28,12 @@ export class EditarPacientesComponent implements OnInit {
     numero: new FormControl(''),
     bairro: new FormControl(''),
     cidade: new FormControl(''),
+    uf: new FormControl(''),
     idade: new FormControl({ value: '', disabled: true }),
     status: new FormControl(false)
   });
 
-  public sexo = new FormControl('', [Validators.required]);
+  public sexo = new FormControl('');
   public user: Paciente;
   @Input() id: number;
   @Input() dados: any;
@@ -39,7 +41,8 @@ export class EditarPacientesComponent implements OnInit {
   constructor(
     protected ref: NbDialogRef<EditarPacientesComponent>,
     private service: SmartTableData,
-    public pacienteService: PacientesService) { }
+    public pacienteService: PacientesService,
+    private utilService: UtilService) { }
 
   async ngOnInit() {
     await this.preencherFormulario();
@@ -52,6 +55,18 @@ export class EditarPacientesComponent implements OnInit {
           const idade = hoje.diff(dataNascimento, 'years', false);
           this.form.get('idade').setValue(idade);
         }, 0);
+      }
+    });
+
+    this.form.get('cep').valueChanges.subscribe(async (val: string) => {
+      if (val && val.length === 10) {
+        val = val.replace(new RegExp(/[./-]/, 'g'), '');
+        await this.utilService.buscarCep(val).then(response => {
+          this.form.get('bairro').setValue(response.objeto.bairro);
+          this.form.get('logradouro').setValue(response.objeto.logradouro);
+          this.form.get('cidade').setValue(response.objeto.municipio);
+          this.form.get('uf').setValue(response.objeto.uf);
+        });
       }
     });
   }
@@ -71,25 +86,25 @@ export class EditarPacientesComponent implements OnInit {
   }
 
   editar() {
+    const form = this.form.value;
     const user = {
-      id: this.user.id,
-      nome: this.form.value.nome,
-      cpf: this.form.value.cpf,
-      celular: this.form.value.celular,
-      telefone: this.form.value.telefone,
-      observacao: this.form.value.observacao || null,
-      email: this.form.value.email,
-      sexo: this.form.value.sexo,
-      urlFoto: this.form.value.urlFoto,
-      cep: this.form.value.cep,
-      logradouro: this.form.value.logradouro,
-      numero: this.form.value.numero,
-      complemento: this.form.value.complemento,
-      bairro: this.form.value.bairro,
-      cidade: this.form.value.cidade,
-      estado: this.form.value.estado,
-      dataNascimento: this.form.value.nascimento,
-      ativo: this.form.value.status,
+      id: this.user.id || null,
+      nome: form.nome || null,
+      cpf: form.cpf ? form.cpf.replace(new RegExp(/[./-]/, 'g'), '') : null,
+      celular: form.celular || null,
+      telefone: form.telefone || null,
+      observacao: form.observacao || null,
+      email: form.email || null,
+      sexo: this.sexo.value || null,
+      cep: form.cep ? form.cep.replace(new RegExp(/[./-]/, 'g'), '') : null,
+      logradouro: form.logradouro || null,
+      numero: form.numero || null,
+      complemento: form.complemento || null,
+      bairro: form.bairro || null,
+      cidade: form.cidade || null,
+      estado: form.uf || null,
+      dataNascimento: form.nascimento ? moment(form.nascimento, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
+      ativo: form.status,
     };
     this.ref.close({ sucesso: true, value: user });
   }
@@ -115,8 +130,9 @@ export class EditarPacientesComponent implements OnInit {
       numero: this.user.numero,
       bairro: this.user.bairro,
       cidade: this.user.cidade,
-      idade: moment().diff(moment(this.user.dataNascimento), 'y'),
-      status: this.user.ativo
+      idade: this.user.dataNascimento ? moment().diff(moment(this.user.dataNascimento), 'y') : '00',
+      status: this.user.ativo,
+      uf: this.user.estado
     });
     this.sexo.setValue(this.user.sexo);
   }

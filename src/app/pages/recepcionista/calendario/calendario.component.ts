@@ -28,7 +28,7 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   public medico = '1';
   public lugar = '1';
   public especialidade = '1';
-  public dataEvent: any = moment().toDate();
+  public dataEvent: any = moment('2019-09-16').toDate();
   public filter: any;
   public dayCellComponent = CalendarCustomDayCellComponent;
   public group: any[];
@@ -84,13 +84,16 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   }
 
   changeMesPainel(type: string) {
-    let i = 0;
     if (type === 'proximo') {
-      const index = this.data.map(e => e.data).indexOf(moment(this.dataEvent).format('YYYY-MM-DD'));
+      const index = this.obterIndex(this.group[4].data);
+      const totalIndex = this.data.length - 1;
+      console.log(totalIndex);
+      let min = 1;
+      const max = 5;
       this.group = this.data.filter((e, ind) => {
-        if (index <= ind ) {
-          const iformatado = i++;
-          return (this.data[index + iformatado] && iformatado <= 4) && (index + iformatado === ind);
+        if ((index < ind) && index + 5 <= totalIndex) {
+          const iformatado = min++;
+          return (this.data[index + iformatado] && iformatado <= max) && (index + iformatado === ind + (min === 1 ? min : 0) );
         } else {
           return false;
         }
@@ -101,12 +104,13 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   }
 
   obterGrupoHoje() {
-    let i = 0;
-    const index = this.data.map(e => e.data).indexOf(moment(this.dataEvent).format('YYYY-MM-DD'));
+    const index = this.obterIndex(this.dataEvent);
+    let min = 0;
+    const max = 4;
     this.group = this.data.filter((e, ind) => {
       if (index <= ind) {
-        const iformatado = i++;
-        return (this.data[index + iformatado] && iformatado <= 4) && (index + iformatado === ind);
+        const iformatado = min++;
+        return (this.data[index + iformatado] && iformatado <= max) && (index + iformatado === ind);
       } else {
         return false;
       }
@@ -114,18 +118,40 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
     console.log(this.group);
   }
 
+  isValidDate(index: number): boolean {
+    console.log(this.data[index]);
+    return !!this.data[index];
+  }
+
+  obterIndex(data): number {
+    return this.data.map(e => e.data).indexOf(moment(data).format('YYYY-MM-DD'));
+  }
+
   obterGrupoClick() {
-    let i = -2;
-    const index = this.data.map(e => e.data).indexOf(moment(this.dataEvent).format('YYYY-MM-DD'));
-    this.group = this.data.filter((e, ind) => {
+    const index = this.obterIndex(this.dataEvent);
+    let min = -2;
+    let max = 2;
+    if (index - 2 < 0) {
+      min = 0;
+      max = 4;
+      if (index - 1 === 0) {
+        min = -1;
+        max = 3;
+      }
+    }
+    this.group = this.obterGrupo(min, max, index);
+    console.log(this.group);
+  }
+
+  obterGrupo(min: number, max: number, index: number): any[] {
+    return this.data.filter((e, ind) => {
       if (index - 2 <= ind) {
-        const iformatado = i++;
-        return (this.data[index + iformatado] && iformatado <= 2) && (index + iformatado === ind);
+        const iformatado = min++;
+        return (this.data[index + iformatado] && iformatado <= max) && (index + iformatado === ind);
       } else {
         return false;
       }
     });
-    console.log(this.group);
   }
 
   dataSelecionada(evento) {

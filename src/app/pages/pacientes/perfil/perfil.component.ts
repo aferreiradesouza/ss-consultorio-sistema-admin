@@ -116,12 +116,22 @@ export class PerfilPacientesComponent implements OnInit {
     this.dialogService.open(
       dialog,
       { context: 'Deseja realmente excluir esse paciente?' })
-      .onClose.subscribe(response => {
-        if (response) {
-          const position: any = 'bottom-right';
-          this.toastrService.show('', `Paciente excluído com sucesso`,
-            { status: 'danger', duration: 3000, position });
-          this.router.navigateByUrl('/pacientes/listagem');
+      .onClose.subscribe(async resp => {
+        const position: any = 'bottom-right';
+        if (resp) {
+          await this.pacienteService.excluirPaciente(this.user.id).then(response => {
+            if (response.sucesso) {
+              this.toastrService.show('', `Paciente excluído com sucesso`,
+                { status: 'success', duration: 3000, position });
+              this.router.navigateByUrl('/pacientes/listagem');
+            } else {
+              this.toastrService.show('', response.mensagens[0],
+                { status: 'danger', duration: 3000, position });
+            }
+          }).catch(err => {
+            this.toastrService.show('', 'Sistema indiponível no momento, tente novamente mais tarde.',
+              { status: 'danger', duration: 3000, position });
+          });
         }
       });
   }

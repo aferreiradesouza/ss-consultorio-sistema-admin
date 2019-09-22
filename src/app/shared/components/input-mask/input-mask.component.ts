@@ -121,7 +121,6 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
             errors.maxLength = (value.length > this.maxLength);
         }
         const hasError = Object.keys(errors).some(key => errors[key]);
-        (value);
         if (this.required) {
             this.controlDir.control.setErrors(hasError ? errors : null);
         } else {

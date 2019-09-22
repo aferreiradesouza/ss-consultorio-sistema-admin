@@ -85,11 +85,11 @@
 </nb-card>
 
 <ng-template #dialog let-data let-ref="dialogRef">
-  <nb-card>
+  <nb-card status="danger">
     <nb-card-header>Atenção</nb-card-header>
     <nb-card-body>{{ data }}</nb-card-body>
     <nb-card-footer>
-      <button class="mr-4" nbButton (click)="ref.close(false)">Não</button>
+      <button class="mr-4" status="basic" nbButton (click)="ref.close(false)">Não</button>
       <button nbButton status="danger" (click)="ref.close(true)">Sim</button>
     </nb-card-footer>
   </nb-card>

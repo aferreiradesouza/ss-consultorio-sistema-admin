@@ -50,6 +50,31 @@ export interface IAlterarUsuario extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface IAdicionarPaciente extends DefaultHttpResponse {
+    objeto: Paciente;
+}
+
+export interface IExcluirPaciente extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface IInfoEndereco extends DefaultHttpResponse {
+    objeto: Endereco;
+}
+
+export interface Endereco {
+    cep: string;
+    logradouro: string;
+    complemento: string;
+    bairro: string;
+    localidade: string;
+    uf: string;
+    unidade: string;
+    ibge: string;
+    gia: string;
+    municipio: string;
+}
+
 export interface Login {
     id: number;
     nome: string;

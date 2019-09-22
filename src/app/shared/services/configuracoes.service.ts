@@ -18,7 +18,7 @@ export class ConfiguracoesService {
         return await this.ajax.get<IInfoUsuario>(url);
     }
 
-    async alterarUsuario(data: Usuario) {
+    async alterarUsuario(data) {
         const url = `${environment.urlBase}admin/usuario/alterarPerfil`;
         return await this.ajax.post<IAlterarUsuario>(url, data);
     }

@@ -124,8 +124,15 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
             errors.maxLength = (value.length > this.maxLength);
         }
         const hasError = Object.keys(errors).some(key => errors[key]);
-        this._model.setErrors(hasError ? errors : null);
-        this.control.setErrors(hasError ? errors : null);
+        if (this.required) {
+            this.controlDir.control.setErrors(hasError ? errors : null);
+            this._model.setErrors(hasError ? errors : null);
+        } else {
+            if (value) {
+                this.controlDir.control.setErrors(hasError ? errors : null);
+                this._model.setErrors(hasError ? errors : null);
+            }
+        }
     }
 
     public getType(): string {

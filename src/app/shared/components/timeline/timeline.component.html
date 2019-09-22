@@ -1,4 +1,4 @@
-<ul class="timeline">
+<ul class="timeline" *ngIf="data.length > 0">
     <li *ngFor="let item of data">
         <nb-card status="basic">
             <nb-card-header>
@@ -20,14 +20,18 @@
                     </nb-list-item>
                     <nb-list-item class="p-2 center">
                         <nb-icon icon="credit-card-outline"></nb-icon>
-                        <span class="item">{{ item.formaPagamento }}</span>
+                        <span class="item">{{ item.formaPagamento }} - {{ item.valor | currency: 'R$' }}</span>
                     </nb-list-item>
                     <nb-list-item class="p-2 center">
-                        <nb-icon icon="pricetags-outline"></nb-icon>
-                        <span class="item">{{ item.valor | currency: 'R$' }}</span>
+                        <nb-icon icon="clock-outline"></nb-icon>
+                        <span class="item">{{ item.tipoConsulta || '-' }}</span>
                     </nb-list-item>
                 </nb-list>
             </nb-card-body>
         </nb-card>
     </li>
 </ul>
+
+<ng-container *ngIf="data.length === 0">
+    Não tem nenhum histórico
+</ng-container>

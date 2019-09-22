@@ -31,6 +31,24 @@ export class AjaxService {
             .pipe(timeout(15000))
             .toPromise();
     }
+
+    public async delete<T>(
+        url: string,
+        params: { [param: string]: string | string[] } = {}
+    ) {
+        const token = this.storageService.has('token') ? this.storageService.get('token') : null;
+        const headers = {
+            'Content-Type': 'application/json; charset=UTF-8',
+            Authorization: 'bearer ' + token,
+            'sistema': 'sim'
+        };
+
+        return this.http
+            .delete<T>(url, { params, headers })
+            .pipe(timeout(15000))
+            .toPromise();
+    }
+
     public async post<T>(url: string, body: any = {}) {
         const token = this.storageService.has('token') ? this.storageService.get('token') : null;
         const options = {

@@ -77,16 +77,16 @@ export class UsuariosComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.isLoading = true;
     await this.obterListagem();
+    this.isLoading = false;
   }
 
   async obterListagem(): Promise<void> {
-    this.isLoading = true;
     await this.configuracoesService.obterListagemUsuarios().then(response => {
       this.usuarios = response.objeto;
       this.source.load(this.usuarios);
     });
-    this.isLoading = false;
   }
 
   onSearch(query: string = '') {
@@ -126,6 +126,9 @@ export class UsuariosComponent implements OnInit {
         closeOnBackdropClick: false,
         hasScroll: true
       }).onClose.subscribe(async (resp: { sucesso: boolean, mensagem: string }) => {
+        if (resp.sucesso === null) {
+          return;
+        }
         const position: any = 'bottom-right';
         this.toastrService.show('', resp.mensagem,
           { status: resp.sucesso ? 'success' : 'danger', duration: 3000, position });
@@ -146,6 +149,9 @@ export class UsuariosComponent implements OnInit {
         closeOnBackdropClick: false,
         hasScroll: true
       }).onClose.subscribe(async (resp: { sucesso: boolean, mensagem: string }) => {
+        if (resp.sucesso === null) {
+          return;
+        }
         const position: any = 'bottom-right';
         this.toastrService.show('', resp.mensagem,
           { status: resp.sucesso ? 'success' : 'danger', duration: 3000, position });

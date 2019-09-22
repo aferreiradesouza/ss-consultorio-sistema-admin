@@ -1,12 +1,12 @@
 <nb-card [nbSpinner]="isLoading" nbSpinnerStatus="danger" status="danger">
   <nb-card-header>Excluir paciente</nb-card-header>
   <nb-card-body>
-    <div class="fix-modal modal-editar">
-      dwad
+    <div>
+        Deseja realmente excluir esse paciente?
     </div>
   </nb-card-body>
   <nb-card-footer>
-    <button class="mr-3" nbButton status="primary" (click)="dismiss()">Cancelar</button>
+    <button class="mr-3" nbButton status="basic" (click)="dismiss()">Cancelar</button>
     <button nbButton status="danger" (click)="deletar()">Excluir</button>
   </nb-card-footer>
 </nb-card>

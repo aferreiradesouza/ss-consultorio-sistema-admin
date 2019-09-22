@@ -76,6 +76,7 @@ import { LocalStorageService } from './services/local-storage.service';
 import { AuthGuard } from './guard/auth.guard';
 import { SessionStorageService } from './services/session-storage.service';
 import { ConfiguracoesService } from './services/configuracoes.service';
+import { UtilService } from './services/util.service';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -163,6 +164,7 @@ export class SharedModule {
         LocalStorageService,
         SessionStorageService,
         ConfiguracoesService,
+        UtilService,
         AuthGuard,
         ...ENUMS,
         ...NbThemeModule.forRoot(
