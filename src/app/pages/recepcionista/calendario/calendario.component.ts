@@ -10,6 +10,7 @@ import { AgendarConsultaComponent } from '../agendar-consulta/agendar-consulta.c
 import { AlterarStatusComponent } from '../alterar-status/alterar-status.component';
 import { DetalhesConsultaComponent } from '../detalhes-consulta/detalhes-consulta.component';
 import { CalendarCustomDayCellComponent } from './day-cell.component';
+import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 
 @Component({
   selector: 'ngx-calendario-recepcionista',
@@ -25,10 +26,10 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   public range: NbCalendarRange<Date>;
   public isLoading = false;
   public visao = '2';
-  public medico = '1';
-  public lugar = '1';
+  public medico = 1;
+  public lugar = 1;
   public especialidade = '1';
-  public dataEvent: any = moment('2019-09-16').toDate();
+  public dataEvent: any = moment('2019-09-18').toDate();
   public filter: any;
   public dayCellComponent = CalendarCustomDayCellComponent;
   public group: any[];
@@ -39,7 +40,8 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   constructor(iconsLibrary: NbIconLibraries,
     public calendarioService: CalendarioService,
     public calendarioMock: CalendarioData,
-    private dialogService: NbDialogService) {
+    private dialogService: NbDialogService,
+    private recepcionistaService: RecepcionistaService) {
     iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('far', { packClass: 'far', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('ion', { iconClassPrefix: 'ion' });
@@ -47,10 +49,16 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
 
   async ngOnInit() {
     this.isLoading = true;
-    await this.calendarioMock.getDataWithLoading().then(response => {
-      this.data = response;
+    const data = {
+      idMedico: this.medico,
+      idConsultorio: this.lugar,
+      dataInicial: `${moment().year()}-01-01`,
+      dataFinal: `${moment().year()}-12-31`,
+    };
+    await this.recepcionistaService.obterConsultas(data).then(response => {
+      this.data = response.objeto;
       this.filter = (date) => {
-        return this.data.map(e => e.data).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
+        return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
       };
       this.obterIndexData();
       this.isLoading = false;
@@ -105,6 +113,7 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
 
   obterGrupoHoje() {
     const index = this.obterIndex(this.dataEvent);
+    console.log(index);
     let min = 0;
     const max = 4;
     this.group = this.data.filter((e, ind) => {
@@ -124,7 +133,7 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   }
 
   obterIndex(data): number {
-    return this.data.map(e => e.data).indexOf(moment(data).format('YYYY-MM-DD'));
+    return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(data).format('YYYY-MM-DD'));
   }
 
   obterGrupoClick() {

@@ -70,6 +70,21 @@ export interface IDeletarUsuario extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface IObterConsulta extends DefaultHttpResponse {
+    objeto: Array<{
+        data: string;
+        totalEncaixesPermitidos: number;
+        horarios: HorarioConsulta[]
+    }>;
+}
+
+export interface HorarioConsulta {
+    hora: string;
+    bloqueado: boolean;
+    observacaoBloqueio: string;
+    consulta: string;
+}
+
 export interface Endereco {
     cep: string;
     logradouro: string;

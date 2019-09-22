@@ -77,6 +77,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { SessionStorageService } from './services/session-storage.service';
 import { ConfiguracoesService } from './services/configuracoes.service';
 import { UtilService } from './services/util.service';
+import { RecepcionistaService } from './services/recepcionista.service';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -164,6 +165,7 @@ export class SharedModule {
         LocalStorageService,
         SessionStorageService,
         ConfiguracoesService,
+        RecepcionistaService,
         UtilService,
         AuthGuard,
         ...ENUMS,
