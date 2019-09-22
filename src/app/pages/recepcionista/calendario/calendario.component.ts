@@ -55,8 +55,8 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
       dataInicial: `${moment().year()}-01-01`,
       dataFinal: `${moment().year()}-12-31`,
     };
-    await this.recepcionistaService.obterConsultas(data).then(response => {
-      this.data = response.objeto;
+    await this.calendarioMock.getDataWithLoading().then(response => {
+      this.data = response;
       this.filter = (date) => {
         return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
       };
