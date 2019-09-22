@@ -93,7 +93,6 @@ export class EditarUsuarioComponent implements OnInit {
         }).catch(err => {
             this.dismiss({ sucesso: false, mensagem: 'Não foi possível realizar a alteração, tente novamente mais tarde!' });
         });
-        this.isLoading = false;
     }
 
     preencherPasso(user: Usuario) {

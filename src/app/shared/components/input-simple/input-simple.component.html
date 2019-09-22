@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label for="inputFirstName" class="label" *ngIf="label">{{label}} <span *ngIf="required">*</span></label>
+    <label class="label" *ngIf="label">{{label}} <span *ngIf="required">*</span></label>
     <input [autocomplete]="!autocomplete ? 'off' : true" #input [type]="getType()" nbInput fullWidth [placeholder]="placeholder" [formControl]="_model"
         (input)="onChange($event.target.value)" (blur)="onBlur($event.target.value)" [attr.maxLength]="maxLength > 0 ? maxLength : undefined">
     <div class="feedbackError mt-2" *ngIf="shouldDisplayError()">{{ getErrorMessage() }}</div>

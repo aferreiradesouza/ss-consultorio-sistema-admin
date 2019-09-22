@@ -8,6 +8,7 @@ import { PerfilUsuarioComponent } from './perfil/perfil-usuario.component';
 import { ConfiguracoesService } from '../../../shared/services/configuracoes.service';
 import { ListagemUsuario } from '../../../shared/interface';
 import { UserCellComponent } from './userCell.component';
+import { DeletarUsuarioComponent } from './deletar/deletar.component';
 
 @Component({
   selector: 'ngx-usuarios',
@@ -28,16 +29,16 @@ export class UsuariosComponent implements OnInit {
       position: 'right',
       custom: [
         {
-          name: 'prontuario',
-          title: '<i class="nb-compose"></i>'
-        },
-        {
           name: 'perfil',
           title: '<i class="nb-person"></i>'
         },
         {
           name: 'edit',
           title: '<i class="nb-edit"></i>'
+        },
+        {
+          name: 'delete',
+          title: '<i class="nb-trash"></i>'
         }
       ],
       add: false,
@@ -110,6 +111,18 @@ export class UsuariosComponent implements OnInit {
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
+      }).onClose.subscribe(async (resp: { sucesso: boolean, mensagem: string }) => {
+        if (resp.sucesso === null) {
+          return;
+        }
+        const position: any = 'bottom-right';
+        this.toastrService.show('', resp.mensagem,
+          { status: resp.sucesso ? 'success' : 'danger', duration: 3000, position });
+        if (resp.sucesso) {
+          this.isLoading = true;
+          await this.obterListagem();
+          this.isLoading = false;
+        }
       });
   }
 
@@ -132,7 +145,11 @@ export class UsuariosComponent implements OnInit {
         const position: any = 'bottom-right';
         this.toastrService.show('', resp.mensagem,
           { status: resp.sucesso ? 'success' : 'danger', duration: 3000, position });
-        if (resp.sucesso) { await this.obterListagem(); }
+        if (resp.sucesso) {
+          this.isLoading = true;
+          await this.obterListagem();
+          this.isLoading = false;
+        }
       });
   }
 
@@ -158,11 +175,40 @@ export class UsuariosComponent implements OnInit {
       });
   }
 
+  excluir(event) {
+    this.dialogService.open(
+      DeletarUsuarioComponent,
+      {
+        context: {
+          id: event.data.id,
+          dados: event.data
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }).onClose.subscribe(async (resp: { sucesso: boolean, mensagem: any }) => {
+        if (resp.sucesso === null) {
+          return;
+        }
+        const position: any = 'bottom-right';
+        this.toastrService.show('', resp.mensagem,
+          { status: resp.sucesso ? 'success' : 'danger', duration: 3000, position });
+        if (resp.sucesso) {
+          this.isLoading = true;
+          await this.obterListagem();
+          this.isLoading = false;
+        }
+      });
+  }
+
   customAction(evento) {
     if (evento.action === 'edit') {
       this.editar(evento);
     } else if (evento.action === 'perfil') {
       this.perfil(evento);
+    } else if (evento.action === 'delete') {
+      this.excluir(evento);
     }
   }
 }

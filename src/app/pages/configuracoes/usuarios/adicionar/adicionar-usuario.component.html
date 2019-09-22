@@ -1,43 +1,78 @@
-<nb-card status="primary" size="small">
+<nb-card status="primary" size="medium" [nbSpinner]="isLoading" nbSpinnerStatus="primary" >
     <nb-card-header>
         Adicionar Usuário
     </nb-card-header>
-    <nb-card-body>
-        <div class="row" [formGroup]="form">
-            <div class="col-sm-4">
-                <ngx-input-simple label="Nome" formControlName="nome" [required]="true" placeholder="Fulano">
-                </ngx-input-simple>
+    <nb-card-body [formGroup]="form">
+        <div class="fix-modal">
+            <div class="row">
+                <div class="col-sm-4">
+                    <ngx-input-simple label="Nome" [required]="true" type="text" formControlName="nome"
+                        placeholder="Fulano">
+                    </ngx-input-simple>
+                </div>
+                <div class="col-sm-3">
+                    <ngx-input-simple label="E-mail" formControlName="email" type="email" placeholder="Fulano">
+                    </ngx-input-simple>
+                </div>
+                <div class="col-sm-3">
+                    <ngx-input-mask label="CPF" [required]="true" placeholder="000.000.000-00" formControlName="cpf"
+                        type="cpf" [dropCharacters]="false">
+                    </ngx-input-mask>
+                </div>
+                <div class="col-sm-2">
+                    <ngx-input-simple label="CRM" formControlName="crm" type="text">
+                    </ngx-input-simple>
+                </div>
             </div>
-            <div class="col-sm-4">
-                <ngx-input-mask label="E-mail" type="email" formControlName="email" [required]="true"
-                    placeholder="exemplo@exemplo.com">
-                </ngx-input-mask>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="label d-block">Perfil de Usuário</label>
+                    <nb-select class="w-100" [status]="showErrorSelect()" multiple placeholder="Selecione"
+                        [formControl]="perfis">
+                        <nb-option value="administracao">Administração</nb-option>
+                        <nb-option value="medico">Médico</nb-option>
+                    </nb-select>
+                </div>
+                <div class="col-sm-3">
+                    <ngx-input-mask label="Telefone Residencial" formControlName="telefone" type="tel">
+                    </ngx-input-mask>
+                </div>
+                <div class="col-sm-3">
+                    <ngx-input-mask label="Telefone Celular" [required]="true" formControlName="celular" type="cel">
+                    </ngx-input-mask>
+                </div>
+                <div class="col-sm-2 align-center">
+                    <nb-checkbox class="mt-2" status="primary" formControlName="status">Ativo</nb-checkbox>
+                </div>
             </div>
-            <div class="col-sm-4">
-                <ngx-input-simple label="Nome abreviado" formControlName="nomeAbreviado" [required]="true"
-                    placeholder="Fulano">
-                </ngx-input-simple>
+            <div class="row">
+                <div class="col-sm-4">
+                    <ngx-input-mask label="Data de nascimento" [required]="true" type="date"
+                        formControlName="nascimento" placeholder="00/00/0000" [dropCharacters]="false"></ngx-input-mask>
+                </div>
+                <div class="col-sm-2">
+                    <ngx-input-simple label="Idade" formControlName="idade"></ngx-input-simple>
+                </div>
+                <div class="col-sm-6">
+                    <ngx-input-simple label="URL da foto" formControlName="urlFoto"></ngx-input-simple>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <label class="label d-block">Perfil de Usuário *</label>
-                <nb-select class="w-100" [status]="showErrorSelect()" multiple placeholder="Selecione"
-                    [formControl]="perfis">
-                    <nb-option value="adminsitracao">Administração</nb-option>
-                    <nb-option value="estoque">Estoque</nb-option>
-                    <nb-option value="faturamento">Faturamento</nb-option>
-                    <nb-option value="financeiro">Financeiro</nb-option>
-                    <nb-option value="medico">Médico</nb-option>
-                    <nb-option value="recepcao">Recepção</nb-option>
-                </nb-select>
+            <div class="row">
+                <div class="col-sm-6">
+                    <ngx-input-simple label="Senha" type="password" [required]="true" formControlName="senha">
+                    </ngx-input-simple>
+                </div>
+                <div class="col-sm-6">
+                    <ngx-input-simple label="Confirmar senha" type="password" [required]="true"
+                        formControlName="confSenha"></ngx-input-simple>
+                </div>
             </div>
         </div>
     </nb-card-body>
     <nb-card-footer>
         <label class="label mb-2 d-block">* Campos obrigatórios</label>
-        <button class="mr-4" nbButton status="basic" (click)="dismiss()">Voltar</button>
+        <button class="mr-4" nbButton status="basic" (click)="dismiss({sucesso: null, mensagem: null})">Voltar</button>
         <button nbButton status="primary" (click)="adicionar()"
-            [disabled]="!form.valid || !perfis.valid">Adicionar</button>
+            [disabled]="!disabledButton()">Adicionar</button>
     </nb-card-footer>
 </nb-card>

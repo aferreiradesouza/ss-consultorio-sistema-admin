@@ -62,6 +62,14 @@ export interface IInfoEndereco extends DefaultHttpResponse {
     objeto: Endereco;
 }
 
+export interface IAdicionarUsuario extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface IDeletarUsuario extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
 export interface Endereco {
     cep: string;
     logradouro: string;

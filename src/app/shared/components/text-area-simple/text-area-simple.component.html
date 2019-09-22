@@ -1,6 +1,6 @@
 <div class="form-group">
-    <label for="inputFirstName" class="label" *ngIf="label">{{label}} <span *ngIf="required">*</span></label>
-    <textarea #input type="text" nbInput fullWidth id="inputFirstName" [placeholder]="placeholder" [formControl]="_model"
+    <label class="label" *ngIf="label">{{label}} <span *ngIf="required">*</span></label>
+    <textarea #input type="text" nbInput fullWidth [placeholder]="placeholder" [formControl]="_model"
         (input)="onChange($event.target.value)" (blur)="onBlur($event.target.value)"></textarea>
     <div class="feedbackError mt-2" *ngIf="shouldDisplayError()">{{ getErrorMessage() }}</div>
 </div>

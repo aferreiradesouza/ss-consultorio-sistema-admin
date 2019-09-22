@@ -18,6 +18,7 @@ import { AdicionarUnidadeAtendimentoComponent } from './unidades-de-atendimento/
 import { EditarUnidadeAtendimentoComponent } from './unidades-de-atendimento/editar/editar-unidade-atendimento.component';
 import { PerfilUnidadeAtendimentoComponent } from './unidades-de-atendimento/perfil/perfil-unidade-atendimento.component';
 import { UserCellComponent } from './usuarios/userCell.component';
+import { DeletarUsuarioComponent } from './usuarios/deletar/deletar.component';
 
 const PAGES = [
   UsuariosComponent,
@@ -34,7 +35,8 @@ const MODAIS = [
   PerfilUsuarioComponent,
   AdicionarUnidadeAtendimentoComponent,
   EditarUnidadeAtendimentoComponent,
-  PerfilUnidadeAtendimentoComponent
+  PerfilUnidadeAtendimentoComponent,
+  DeletarUsuarioComponent
 ];
 
 const NB_MODULES = [
