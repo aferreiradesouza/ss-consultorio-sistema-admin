@@ -70,8 +70,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
         }
       }
       this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
-      console.log(this.dataEvent);
-      // this.obterIndexData();
       this.obterGrupoHoje();
       this.isLoading = false;
     });
@@ -81,7 +79,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
     this.dataEvent = moment(event).format('YYYY-MM-DD');
     this.obterGrupoClick();
     this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
-    // this.obterIndexData();
   }
 
   toggle() {
@@ -178,27 +175,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
     console.log(this.dataCalendarioDia);
   }
 
-  atualizarIndex(evento) {
-    if (evento === '2') {
-      // this.obterIndexData();
-    }
-  }
-
-  private obterIndexData(): void {
-    let index = null;
-    this.data.forEach((element, i) => {
-      if (element.data === moment(this.dataEvent).format('YYYY-MM-DD')) {
-        index = i;
-      }
-    });
-    setTimeout(() => {
-      this.calendario.index = Math.floor(index / 5);
-    }, 0);
-  }
-
   changeDiaPainel(type: string) {
     this.calendarioDoDia.changeDia(type);
-    // this.obterIndexData();
   }
 
   async mostrarLegendas() {
