@@ -13,6 +13,7 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
 
     public index: number;
     public dataExtenso: string;
+    public info: any;
 
     @Input() data: any[];
     @Input() dataSelecionada: any;
@@ -26,22 +27,22 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(change) {
-        if (change.dataSelecionada) {
-            this.index = this.data.map(e => e.data).indexOf(moment(change.dataSelecionada.currentValue).format('YYYY-MM-DD'));
-            this.dataSelecionada = this.calendarioService.montarDias([this.data[this.index]])[0];
+        console.log(change);
+        if (change.data) {
+            this.info = this.calendarioService.montarDias([change.data.currentValue])[0];
             this.dataExtenso = this.formatarData;
         }
     }
 
     ngOnInit() {
-        this.index = this.data.map(e => e.data).indexOf(moment(this.dataSelecionada.diaCompleta).format('YYYY-MM-DD'));
-        this.dataSelecionada = this.calendarioService.montarDias([this.data[this.index]])[0];
+        this.info = this.calendarioService.montarDias([this.data])[0];
         this.dataExtenso = this.formatarData;
     }
 
     get formatarData() {
-        const data = this.dataSelecionada;
+        const data = this.info;
         const dia = data.diaCompleta;
+        console.log(data, dia);
         return `${data.dia}
                 de ${this.calendarioService.formatarMes(moment(dia).month()).extenso}
                 de ${moment(dia).format('YYYY')},
@@ -60,13 +61,13 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
             }
             this.index -= 1;
         }
-        this.dataSelecionada = this.calendarioService.montarDias([this.data[this.index]])[0];
+        this.info = this.calendarioService.montarDias([this.data[this.index]])[0];
         this.dataExtenso = this.formatarData;
     }
 
     getDatas(data) {
         return data.filter(e => {
-            if (e.status === 'Livre') {
+            if (!e.consulta) {
                 return this.verDiasLivre;
             }
             return true;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
 import * as moment from 'moment';
 import { CalendarioService } from '../../services/calendarios.service';
 import { NbIconLibraries } from '@nebular/theme';
@@ -9,7 +9,7 @@ import { NbIconLibraries } from '@nebular/theme';
     styleUrls: ['./calendario.component.scss']
 })
 
-export class CalendarioComponent implements OnInit {
+export class CalendarioComponent implements OnInit, OnChanges {
     public dataAtual = moment();
     public dataAtualFormatada = moment().format('YYYY-MM-DD');
     public posicaoPaleta;
@@ -37,8 +37,12 @@ export class CalendarioComponent implements OnInit {
 
     ngOnInit() {
         this.dias = this.calendarioService.montarDias(this.data);
-        this.dados = this.calendarioService.montarDados(this.data);
-        this.semana = this.calendarioService.criarArray(5);
+    }
+
+    ngOnChanges(changes) {
+        if (changes.data && !changes.data.firstChange) {
+            this.dias = this.calendarioService.montarDias(changes.data.currentValue);
+        }
     }
 
     obterArray(num) {
@@ -54,8 +58,8 @@ export class CalendarioComponent implements OnInit {
     obterClassesAgendamento(item) {
         if (typeof item === 'number') { return ['disabled']; }
         const ret = [];
-        if (item.status === 'Livre') { ret.push('livre'); } else { ret.push('padding-top-10'); }
-        if (item.status === 'Encaixe') { ret.push('encaixe-background'); }
+        if (!item.consulta && !item.bloqueado) { ret.push('livre'); } else { ret.push('padding-top-10'); }
+        if (item.consulta && item.consulta.ehEncaixe && !item.bloqueado) { ret.push('encaixe-background'); }
         return ret;
     }
 

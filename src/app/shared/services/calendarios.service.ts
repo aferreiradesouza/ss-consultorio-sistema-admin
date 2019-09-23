@@ -69,13 +69,14 @@ export class CalendarioService {
     }
 
     montarDias(data) {
+        console.log(data);
         return data.map((date, index) => {
             return  {
                 dia: moment(date.data, 'YYYY-MM-DD').format('DD'),
                 data: this.formatarDay(moment(date.data, 'YYYY-MM-DD').day()),
                 diaCompleta: date.data,
-                maximoEncaixes: date.maximoEncaixes,
-                agendamentos: date.agendamentos
+                totalEncaixesPermitidos: date.totalEncaixesPermitidos,
+                horarios: date.horarios
             };
         });
     }

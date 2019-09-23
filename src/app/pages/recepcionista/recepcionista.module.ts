@@ -24,12 +24,14 @@ import { AgendarConsultaComponent } from './agendar-consulta/agendar-consulta.co
 import { AlterarStatusComponent } from './alterar-status/alterar-status.component';
 import { DetalhesConsultaComponent } from './detalhes-consulta/detalhes-consulta.component';
 import { CalendarCustomDayCellComponent } from './calendario/day-cell.component';
+import { BloqueioComponent } from './bloqueio/bloqueio.component';
 
 const MODAIS = [
   LegendasComponent,
   AgendarConsultaComponent,
   AlterarStatusComponent,
-  DetalhesConsultaComponent
+  DetalhesConsultaComponent,
+  BloqueioComponent
 ];
 
 @NgModule({

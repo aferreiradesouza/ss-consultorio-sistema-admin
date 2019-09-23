@@ -48,6 +48,7 @@
                     </div> -->
                     <button class="legenda-button" (click)="mostrarLegendas()" nbButton status="info"
                         fullWidth>Legendas</button>
+                    <button class="bloqueio-button" (click)="bloqueio()" nbButton status="basic" fullWidth>Bloqueios</button>
                 </ng-container>
                 <ng-container *ngIf="!isOpen">
                     <div class="changeMes mt-4">
@@ -94,12 +95,13 @@
             </div>
         </div>
     </nb-card-header>
-    <nb-card-body *ngIf="data">
-        <ngx-calendario-do-dia *ngIf="visao === '1' && dataEvent" [data]="data" [dataSelecionada]="dataEvent">
+    <nb-card-body *ngIf="group">
+        <ngx-calendario-do-dia *ngIf="visao === '1' && dataEvent" [data]="dataCalendarioDia" [dataSelecionada]="dataEvent">
         </ngx-calendario-do-dia>
         <span *ngIf="visao === '1' && !dataEvent">Selecione uma data!</span>
-        <ngx-calendario (infoConsulta)="infoConsulta($event)" (alterarStatus)="alterarStatus($event)" (agendarConsulta)="agendar($event)"
-            *ngIf="visao === '2'" (dataSelecionada)="dataSelecionada($event)" [data]="data">
+        <ngx-calendario (infoConsulta)="infoConsulta($event)" (alterarStatus)="alterarStatus($event)"
+            (agendarConsulta)="agendar($event)" *ngIf="visao === '2'" (dataSelecionada)="dataSelecionada($event)"
+            [data]="group">
         </ngx-calendario>
     </nb-card-body>
 </nb-card>

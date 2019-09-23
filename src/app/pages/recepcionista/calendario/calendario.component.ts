@@ -11,6 +11,7 @@ import { AlterarStatusComponent } from '../alterar-status/alterar-status.compone
 import { DetalhesConsultaComponent } from '../detalhes-consulta/detalhes-consulta.component';
 import { CalendarCustomDayCellComponent } from './day-cell.component';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
+import { BloqueioComponent } from '../bloqueio/bloqueio.component';
 
 @Component({
   selector: 'ngx-calendario-recepcionista',
@@ -18,7 +19,7 @@ import { RecepcionistaService } from '../../../shared/services/recepcionista.ser
   styleUrls: ['./calendario.component.scss'],
   entryComponents: [CalendarCustomDayCellComponent]
 })
-export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
+export class CalendarioRecepcaoComponent implements OnInit {
 
   public data: any[];
   public date = new Date();
@@ -29,10 +30,11 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   public medico = 1;
   public lugar = 1;
   public especialidade = '1';
-  public dataEvent: any = moment('2019-09-18').toDate();
+  public dataEvent: any = moment().toDate();
   public filter: any;
   public dayCellComponent = CalendarCustomDayCellComponent;
   public group: any[];
+  public dataCalendarioDia: any;
 
   @ViewChild(CalendarioComponent, { static: false }) calendario: CalendarioComponent;
   @ViewChild(CalendarioDoDiaComponent, { static: false }) calendarioDoDia: CalendarioDoDiaComponent;
@@ -60,19 +62,26 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
       this.filter = (date) => {
         return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
       };
-      this.obterIndexData();
-      this.isLoading = false;
+      const event = this.data.filter(e => moment(e.data).month() === moment().month());
+      for (const e of event) {
+        if (moment(e.data).diff(moment(), 'days') >= 0) {
+          this.dataEvent = moment(e.data).toDate();
+          break;
+        }
+      }
+      this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+      console.log(this.dataEvent);
+      // this.obterIndexData();
       this.obterGrupoHoje();
+      this.isLoading = false;
     });
-  }
-
-  ngAfterViewInit() {
   }
 
   changeDia(event) {
     this.dataEvent = moment(event).format('YYYY-MM-DD');
     this.obterGrupoClick();
-    this.obterIndexData();
+    this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+    // this.obterIndexData();
   }
 
   toggle() {
@@ -95,13 +104,12 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
     if (type === 'proximo') {
       const index = this.obterIndex(this.group[4].data);
       const totalIndex = this.data.length - 1;
-      console.log(totalIndex);
       let min = 1;
       const max = 5;
       this.group = this.data.filter((e, ind) => {
         if ((index < ind) && index + 5 <= totalIndex) {
           const iformatado = min++;
-          return (this.data[index + iformatado] && iformatado <= max) && (index + iformatado === ind + (min === 1 ? min : 0) );
+          return (this.data[index + iformatado] && iformatado <= max) && (index + iformatado === ind + (min === 1 ? min : 0));
         } else {
           return false;
         }
@@ -166,12 +174,13 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   dataSelecionada(evento) {
     this.visao = '1';
     this.dataEvent = moment(evento.diaCompleta).toDate();
-    this.obterIndexData();
+    this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+    console.log(this.dataCalendarioDia);
   }
 
   atualizarIndex(evento) {
     if (evento === '2') {
-      this.obterIndexData();
+      // this.obterIndexData();
     }
   }
 
@@ -189,7 +198,7 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
 
   changeDiaPainel(type: string) {
     this.calendarioDoDia.changeDia(type);
-    this.obterIndexData();
+    // this.obterIndexData();
   }
 
   async mostrarLegendas() {
@@ -237,6 +246,21 @@ export class CalendarioRecepcaoComponent implements OnInit, AfterViewInit {
   infoConsulta(data) {
     this.dialogService.open(
       DetalhesConsultaComponent,
+      {
+        context: {
+          dados: data
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }
+    );
+  }
+
+  bloqueio(data) {
+    this.dialogService.open(
+      BloqueioComponent,
       {
         context: {
           dados: data
