@@ -48,7 +48,8 @@
                     </div> -->
                     <button class="legenda-button" (click)="mostrarLegendas()" nbButton status="info"
                         fullWidth>Legendas</button>
-                    <button class="bloqueio-button" (click)="bloqueio()" nbButton status="basic" fullWidth>Bloqueios</button>
+                    <button class="bloqueio-button" (click)="bloqueio()" nbButton status="basic"
+                        fullWidth>Bloqueios</button>
                 </ng-container>
                 <ng-container *ngIf="!isOpen">
                     <div class="changeMes mt-4">
@@ -76,7 +77,19 @@
                         <nb-option [value]="1">Nova América</nb-option>
                         <nb-option [value]="2">Madureira</nb-option>
                     </nb-select>
-                    <button class="d-block button-filtro" nbButton fullWidth status="primary">Filtrar</button>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="label d-block mt-3">De</label>
+                            <input nbInput fullWidth placeholder="De" [nbDatepicker]="ngmodelDe" [(ngModel)]="diaDe" (ngModelChange)="setMinValueAte($event)">
+                            <nb-datepicker #ngmodelDe></nb-datepicker>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="label d-block mt-3">Até</label>
+                            <input [disabled]="!diaDe" nbInput fullWidth placeholder="Até" [nbDatepicker]="ngmodelAte" [(ngModel)]="diaAte">
+                            <nb-datepicker #ngmodelAte></nb-datepicker>
+                        </div>
+                    </div>
+                    <button [disabled]="!diaDe || !diaAte" (click)="filtrar()" class="d-block button-filtro" nbButton fullWidth status="primary">Filtrar</button>
                 </ng-container>
                 <ng-container *ngIf="!isOpen">
                     <div class="row">
@@ -96,7 +109,8 @@
         </div>
     </nb-card-header>
     <nb-card-body *ngIf="group">
-        <ngx-calendario-do-dia *ngIf="visao === '1' && dataEvent" [data]="dataCalendarioDia" [dataSelecionada]="dataEvent">
+        <ngx-calendario-do-dia *ngIf="visao === '1' && dataEvent" [data]="dataCalendarioDia"
+            [dataSelecionada]="dataEvent">
         </ngx-calendario-do-dia>
         <span *ngIf="visao === '1' && !dataEvent">Selecione uma data!</span>
         <ngx-calendario (infoConsulta)="infoConsulta($event)" (alterarStatus)="alterarStatus($event)"

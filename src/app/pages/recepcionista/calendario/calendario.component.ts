@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
-import { NbCalendarRange, NbIconLibraries, NbDialogService } from '@nebular/theme';
+import { NbCalendarRange, NbIconLibraries, NbDialogService, NbDatepickerComponent, NbDatepicker } from '@nebular/theme';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 import { CalendarioComponent } from '../../../shared/components';
@@ -26,18 +26,22 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public isOpen = true;
   public range: NbCalendarRange<Date>;
   public isLoading = false;
-  public visao = '2';
-  public medico = 1;
-  public lugar = 1;
-  public especialidade = '1';
-  public dataEvent: any = moment().toDate();
-  public filter: any;
+  public dataEvent: any = null;
   public dayCellComponent = CalendarCustomDayCellComponent;
   public group: any[];
   public dataCalendarioDia: any;
 
+  public visao = '2';
+  public medico = 1;
+  public lugar = 1;
+  public especialidade = '1';
+  public diaDe = '';
+  public diaAte = '';
+  public filter = (date) => false;
+
   @ViewChild(CalendarioComponent, { static: false }) calendario: CalendarioComponent;
   @ViewChild(CalendarioDoDiaComponent, { static: false }) calendarioDoDia: CalendarioDoDiaComponent;
+  @ViewChild('ngmodelAte', { static: false }) datePicker: NbDatepickerComponent<any>;
 
   constructor(iconsLibrary: NbIconLibraries,
     public calendarioService: CalendarioService,
@@ -50,35 +54,77 @@ export class CalendarioRecepcaoComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.isLoading = true;
-    const data = {
-      idMedico: this.medico,
-      idConsultorio: this.lugar,
-      dataInicial: `${moment().year()}-01-01`,
-      dataFinal: `${moment().year()}-12-31`,
-    };
-    await this.recepcionistaService.obterConsultas(data).then(response => {
-      this.data = response.objeto;
-      this.filter = (date) => {
-        return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
-      };
-      const event = this.data.filter(e => moment(e.data).month() === moment().month());
-      for (const e of event) {
-        if (moment(e.data).diff(moment(), 'days') >= 0) {
-          this.dataEvent = moment(e.data).toDate();
-          break;
-        }
-      }
-      this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
-      this.obterGrupoHoje();
-      this.isLoading = false;
-    });
+    // this.isLoading = true;
+    // const data = {
+    //   idMedico: this.medico,
+    //   idConsultorio: this.lugar,
+    //   dataInicial: `${moment().year()}-01-01`,
+    //   dataFinal: `${moment().year()}-12-31`,
+    // };
+    // await this.recepcionistaService.obterConsultas(data).then(response => {
+    //   this.data = response.objeto;
+    //   this.filter = (date) => {
+    //     return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
+    //   };
+    //   const event = this.data.filter(e => moment(e.data).month() === moment().month());
+    //   for (const e of event) {
+    //     if (moment(e.data).diff(moment(), 'days') >= 0) {
+    //       this.dataEvent = moment(e.data).toDate();
+    //       break;
+    //     }
+    //   }
+    //   this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+    //   this.obterGrupoHoje();
+    //   this.isLoading = false;
+    // });
   }
 
   changeDia(event) {
     this.dataEvent = moment(event).format('YYYY-MM-DD');
     this.obterGrupoClick();
     this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+  }
+
+  async filtrar() {
+    this.isLoading = true;
+    const data = {
+      idMedico: this.medico,
+      idConsultorio: this.lugar,
+      dataInicial: moment(this.diaDe).format('YYYY-MM-DD'),
+      dataFinal: moment(this.diaAte).format('YYYY-MM-DD'),
+    };
+    await this.recepcionistaService.obterConsultas(data).then(response => {
+      this.data = response.objeto;
+      this.filter = (date) => {
+        return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
+      };
+      this.proximoDiaUtil();
+      this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+      this.obterGrupoHoje();
+      this.isLoading = false;
+    });
+  }
+
+  proximoDiaUtil() {
+    this.data = this.data.sort((a: any, b: any): any => {
+      return <any>moment(a.data).toDate() - <any>moment(b.data).toDate();
+    });
+    if (
+      moment()
+        .isBefore(moment(this.data[this.data.length - 1].data))
+      && !moment()
+        .isAfter(moment(this.data[0].data))) {
+      this.dataEvent = moment.min(this.data.map(e => moment(e.data))).toDate();
+    } else if (
+      moment()
+        .isBefore(moment(this.data[this.data.length - 1].data))
+      && moment()
+        .isAfter(moment(this.data[0].data))) {
+      const event = this.data.filter(e => moment(e.data).diff(moment(), 'days') >= 0)[0];
+      this.dataEvent = moment(event.data).toDate();
+    } else {
+      this.dataEvent = moment.max(this.data.map(e => moment(e.data))).toDate();
+    }
   }
 
   toggle() {
@@ -112,6 +158,24 @@ export class CalendarioRecepcaoComponent implements OnInit {
         }
       });
       console.log(this.group);
+    } else {
+      const index = this.obterIndex(this.group[0].data);
+      if (index === 0) {
+        return;
+      }
+      const min = 1;
+      let max = 5;
+      this.group = this.data.filter((e, ind) => {
+        console.log(index - 4 <= 0);
+        if (index - 4 <= 0) {
+          const iformatado = max--;
+          console.log(iformatado);
+          return (this.data[index + iformatado] && iformatado >= min);
+        } else {
+          return false;
+        }
+      });
+      console.log(this.group);
     }
     // this.calendario.changeMes(type);
   }
@@ -132,11 +196,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
     console.log(this.group);
   }
 
-  isValidDate(index: number): boolean {
-    console.log(this.data[index]);
-    return !!this.data[index];
-  }
-
   obterIndex(data): number {
     return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(data).format('YYYY-MM-DD'));
   }
@@ -154,7 +213,19 @@ export class CalendarioRecepcaoComponent implements OnInit {
       }
     }
     this.group = this.obterGrupo(min, max, index);
+    if (this.group.length < 5) {
+      const sobra = 5 - this.group.length;
+      for (let i = 1; i <= sobra; i++) {
+        const indexSobra = this.obterIndex(this.group[0].data) - i;
+        this.group.unshift(this.data[indexSobra]);
+      }
+
+    }
     console.log(this.group);
+  }
+
+  setMinValueAte(event) {
+    this.datePicker.min = moment(event).add(1, 'month').toDate();
   }
 
   obterGrupo(min: number, max: number, index: number): any[] {

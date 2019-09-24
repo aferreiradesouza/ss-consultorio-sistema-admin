@@ -1,5 +1,9 @@
 @import "../../../shared/styles/themes.scss";
 
+:host ::ng-deep nb-calendar nb-base-calendar nb-card nb-card-body nb-calendar-pageable-navigation button {
+  padding: 14px 14px 14px 17px !important;;
+}
+
 .header {
   overflow-x: hidden;
   white-space: nowrap;

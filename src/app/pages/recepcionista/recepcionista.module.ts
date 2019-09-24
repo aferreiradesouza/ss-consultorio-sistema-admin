@@ -12,7 +12,8 @@ import {
   NbCalendarRangeModule,
   NbSelectModule,
   NbSpinnerModule,
-  NbDatepickerModule
+  NbDatepickerModule,
+  NbInputModule
 } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -51,7 +52,8 @@ const MODAIS = [
     FormsModule,
     NbCalendarRangeModule,
     NbSelectModule,
-    NbDatepickerModule.forRoot()
+    NbDatepickerModule.forRoot(),
+    NbInputModule
   ],
   declarations: [
     CalendarioRecepcaoComponent,
