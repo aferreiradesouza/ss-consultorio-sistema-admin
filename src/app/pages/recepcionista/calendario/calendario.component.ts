@@ -146,17 +146,17 @@ export class CalendarioRecepcaoComponent implements OnInit {
   changeMesPainel(type: string) {
     if (type === 'proximo') {
       const index = this.obterIndex(this.group[4].data);
-      const totalIndex = this.data.length - 1;
-      let min = 1;
-      const max = 5;
-      this.group = this.data.filter((e, ind) => {
-        if ((index < ind) && index + 5 <= totalIndex) {
-          const iformatado = min++;
-          return (this.data[index + iformatado] && iformatado <= max) && (index + iformatado === ind + (min === 1 ? min : 0));
-        } else {
-          return false;
-        }
-      });
+      // const totalIndex = this.data.length - 1;
+      // let min = 1;
+      // const max = 5;
+      // this.group = this.data.filter((e, ind) => {
+      //   if ((index < ind) && index + 5 <= totalIndex) {
+      //     const iformatado = min++;
+      //     return (this.data[index + iformatado] && iformatado <= max) && (index + iformatado === ind + (min === 1 ? min : 0));
+      //   } else {
+      //     return false;
+      //   }
+      // });
       console.log(this.group);
     } else {
       const index = this.obterIndex(this.group[0].data);
@@ -193,6 +193,13 @@ export class CalendarioRecepcaoComponent implements OnInit {
         return false;
       }
     });
+    if (this.group.length < 5) {
+      const sobra = 5 - this.group.length;
+      for (let i = 1; i <= sobra; i++) {
+        const indexSobra = this.obterIndex(this.group[0].data) - i;
+        this.group.unshift(this.data[indexSobra]);
+      }
+    }
     console.log(this.group);
   }
 
@@ -224,8 +231,9 @@ export class CalendarioRecepcaoComponent implements OnInit {
     console.log(this.group);
   }
 
-  setMinValueAte(event) {
+  setMinAndMaxValueAte(event) {
     this.datePicker.min = moment(event).add(1, 'month').toDate();
+    this.datePicker.max = moment(event).add(1, 'year').toDate();
   }
 
   obterGrupo(min: number, max: number, index: number): any[] {
