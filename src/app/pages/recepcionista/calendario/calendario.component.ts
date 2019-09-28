@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
-import { NbCalendarRange, NbIconLibraries, NbDialogService, NbDatepickerComponent, NbDatepicker } from '@nebular/theme';
+import { NbCalendarRange, NbIconLibraries, NbDialogService, NbDatepickerComponent, NbDatepicker, NbToastrService } from '@nebular/theme';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 import { CalendarioComponent } from '../../../shared/components';
@@ -47,7 +47,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
     public calendarioService: CalendarioService,
     public calendarioMock: CalendarioData,
     private dialogService: NbDialogService,
-    private recepcionistaService: RecepcionistaService) {
+    private recepcionistaService: RecepcionistaService,
+    private toastrService: NbToastrService) {
     iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('far', { packClass: 'far', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('ion', { iconClassPrefix: 'ion' });
@@ -94,13 +95,22 @@ export class CalendarioRecepcaoComponent implements OnInit {
       dataFinal: moment(this.diaAte).format('YYYY-MM-DD'),
     };
     await this.recepcionistaService.obterConsultas(data).then(response => {
-      this.data = response.objeto;
-      this.filter = (date) => {
-        return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
-      };
-      this.proximoDiaUtil();
-      this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
-      this.obterGrupoHoje();
+      if (response.sucesso) {
+        this.data = response.objeto;
+        this.filter = (date) => {
+          return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
+        };
+        this.proximoDiaUtil();
+        this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+        this.obterGrupoHoje();
+      } else {
+        this.toastrService.show('', response.mensagens[0],
+          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      }
+    }).catch(err => {
+      this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
+      { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+    }).finally(() => {
       this.isLoading = false;
     });
   }
@@ -193,14 +203,15 @@ export class CalendarioRecepcaoComponent implements OnInit {
         return false;
       }
     });
+    console.log(this.group);
     if (this.group.length < 5) {
-      const sobra = 5 - this.group.length;
+      const sobra = (this.data.length >= 5 ? 5 : this.data.length) - this.group.length;
       for (let i = 1; i <= sobra; i++) {
-        const indexSobra = this.obterIndex(this.group[0].data) - i;
+        console.log(this.obterIndex(this.group[0].data) - 1);
+        const indexSobra = this.obterIndex(this.group[0].data) - 1;
         this.group.unshift(this.data[indexSobra]);
       }
     }
-    console.log(this.group);
   }
 
   obterIndex(data): number {
@@ -221,9 +232,9 @@ export class CalendarioRecepcaoComponent implements OnInit {
     }
     this.group = this.obterGrupo(min, max, index);
     if (this.group.length < 5) {
-      const sobra = 5 - this.group.length;
+      const sobra = (this.data.length >= 5 ? 5 : this.data.length) - this.group.length;
       for (let i = 1; i <= sobra; i++) {
-        const indexSobra = this.obterIndex(this.group[0].data) - i;
+        const indexSobra = this.obterIndex(this.group[0].data) - 1;
         this.group.unshift(this.data[indexSobra]);
       }
 
