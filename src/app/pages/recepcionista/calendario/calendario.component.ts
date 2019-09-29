@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, NgZone } from '@angular/core';
 import { NbCalendarRange, NbIconLibraries, NbDialogService, NbDatepickerComponent, NbDatepicker, NbToastrService, NbCalendarComponent, NbDateService } from '@nebular/theme';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
@@ -13,6 +13,7 @@ import { CalendarCustomDayCellComponent } from './day-cell.component';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 import { BloqueioComponent } from '../bloqueio/bloqueio.component';
 import { Usuario, ListagemUsuario, ListagemConsultorios } from '../../../shared/interface';
+import { AgendaHubService } from '../../../shared/services/agenda-hub.service';
 
 @Component({
   selector: 'ngx-calendario-recepcionista',
@@ -47,6 +48,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
   @ViewChild('ngmodelAte', { static: false }) datePicker: NbDatepickerComponent<any>;
 
   constructor(iconsLibrary: NbIconLibraries,
+    private agendaHubService: AgendaHubService,  
+    private _ngZone: NgZone,
     public calendarioService: CalendarioService,
     public calendarioMock: CalendarioData,
     private dialogService: NbDialogService,
@@ -55,6 +58,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
     iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('far', { packClass: 'far', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('ion', { iconClassPrefix: 'ion' });
+    this.subscribeSignalREventos();
   }
 
   async ngOnInit() {
@@ -73,6 +77,29 @@ export class CalendarioRecepcaoComponent implements OnInit {
       this.isLoading = false;
     });
   }
+
+  private subscribeSignalREventos(): void {  
+    this.agendaHubService.novaConsulta.subscribe((data: any) => {  
+      this._ngZone.run(() => {  
+        console.log('calendario novaConsulta', data)
+      });  
+    });  
+    this.agendaHubService.novoBloqueio.subscribe((data: any) => {  
+      this._ngZone.run(() => {  
+        console.log('calendario novoBloqueio', data)
+      });  
+    }); 
+    this.agendaHubService.mudancaBloqueio.subscribe((data: any) => {  
+      this._ngZone.run(() => {  
+        console.log('calendario mudancaBloqueio', data)
+      });  
+    }); 
+    this.agendaHubService.mudancaStatusConsulta.subscribe((data: any) => {  
+      this._ngZone.run(() => {  
+        console.log('calendario mudancaStatusConsulta', data)
+      });  
+    }); 
+  }  
 
   async obterConsultorios(value: number) {
     this.isLoading = true;
