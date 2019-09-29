@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
-import { NbCalendarRange, NbIconLibraries, NbDialogService, NbDatepickerComponent, NbDatepicker, NbToastrService } from '@nebular/theme';
+import { NbCalendarRange, NbIconLibraries, NbDialogService, NbDatepickerComponent, NbDatepicker, NbToastrService, NbCalendarComponent, NbDateService } from '@nebular/theme';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 import { CalendarioComponent } from '../../../shared/components';
@@ -12,6 +12,7 @@ import { DetalhesConsultaComponent } from '../detalhes-consulta/detalhes-consult
 import { CalendarCustomDayCellComponent } from './day-cell.component';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 import { BloqueioComponent } from '../bloqueio/bloqueio.component';
+import { Usuario, ListagemUsuario, ListagemConsultorios } from '../../../shared/interface';
 
 @Component({
   selector: 'ngx-calendario-recepcionista',
@@ -30,10 +31,12 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public dayCellComponent = CalendarCustomDayCellComponent;
   public group: any[];
   public dataCalendarioDia: any;
+  public listaMedicos: ListagemUsuario[] | string;
+  public listaConsultorios: ListagemConsultorios[] | string;
 
   public visao = '2';
-  public medico = 1;
-  public lugar = 1;
+  public medico = null;
+  public lugar = null;
   public especialidade = '1';
   public diaDe = '';
   public diaAte = '';
@@ -55,29 +58,44 @@ export class CalendarioRecepcaoComponent implements OnInit {
   }
 
   async ngOnInit() {
-    // this.isLoading = true;
-    // const data = {
-    //   idMedico: this.medico,
-    //   idConsultorio: this.lugar,
-    //   dataInicial: `${moment().year()}-01-01`,
-    //   dataFinal: `${moment().year()}-12-31`,
-    // };
-    // await this.recepcionistaService.obterConsultas(data).then(response => {
-    //   this.data = response.objeto;
-    //   this.filter = (date) => {
-    //     return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
-    //   };
-    //   const event = this.data.filter(e => moment(e.data).month() === moment().month());
-    //   for (const e of event) {
-    //     if (moment(e.data).diff(moment(), 'days') >= 0) {
-    //       this.dataEvent = moment(e.data).toDate();
-    //       break;
-    //     }
-    //   }
-    //   this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
-    //   this.obterGrupoHoje();
-    //   this.isLoading = false;
-    // });
+    this.isLoading = true;
+    await this.recepcionistaService.obterMedicos().then(response => {
+      if (response.sucesso) {
+        this.listaMedicos = response.resultado;
+      } else {
+        this.toastrService.show('', response.resultado,
+          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      }
+    }).catch(err => {
+      this.toastrService.show('', 'Sistema Indisponível no momento, tente novamente mais tarde.',
+        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+    }).finally(() => {
+      this.isLoading = false;
+    });
+  }
+
+  async obterConsultorios(value: number) {
+    this.isLoading = true;
+    this.lugar = null;
+    this.listaConsultorios = null;
+    await this.recepcionistaService.obterConsultorios(value).then(response => {
+      if (response.sucesso) {
+        if (!response.resultado.length) {
+          this.toastrService.show('', 'O Médico não tem nenhum consultório, escolha outro médico.',
+            { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          return;
+        }
+        this.listaConsultorios = response.resultado;
+      } else {
+        this.toastrService.show('', response.resultado,
+          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      }
+    }).catch(err => {
+      this.toastrService.show('', 'Sistema Indisponível no momento, tente novamente mais tarde.',
+        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+    }).finally(() => {
+      this.isLoading = false;
+    });
   }
 
   changeDia(event) {

@@ -27,6 +27,7 @@ import { AlterarStatusComponent } from './alterar-status/alterar-status.componen
 import { DetalhesConsultaComponent } from './detalhes-consulta/detalhes-consulta.component';
 import { CalendarCustomDayCellComponent } from './calendario/day-cell.component';
 import { BloqueioComponent } from './bloqueio/bloqueio.component';
+import localePt from '@angular/common/locales/pt';
 
 const MODAIS = [
   LegendasComponent,

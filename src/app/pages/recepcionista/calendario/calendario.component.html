@@ -4,7 +4,7 @@
             <nb-icon (click)="toggle()" pack="fa" class="mr-4" [icon]="isOpen ? 'times' : 'bars'"></nb-icon>
             <ng-container>
                 <nb-calendar *ngIf="isOpen" (dateChange)="changeDia($event)" [filter]="filter" class="mr-4"
-                    [(date)]="dataEvent" [showHeader]="false">
+                    [(date)]="dataEvent" [showHeader]="true">
                 </nb-calendar>
             </ng-container>
             <div class="data mr-4" *ngIf="!isOpen">
@@ -20,7 +20,8 @@
                         <nb-option value="2">Próximos 5 dias</nb-option>
                     </nb-select>
                     <div class="changeDia mt-4" *ngIf="visao === '1'">
-                        <button [disabled]="!(group || dataCalendarioDia)" (click)="changeDiaPainel('anterior')" nbButton status="primary" ghost>
+                        <button [disabled]="!(group || dataCalendarioDia)" (click)="changeDiaPainel('anterior')"
+                            nbButton status="primary" ghost>
                             <nb-icon icon="chevron-left-outline"></nb-icon>
                         </button>
                         <div>Dia</div>
@@ -37,15 +38,6 @@
                             <nb-icon icon="chevron-right-outline"></nb-icon>
                         </button>
                     </div>
-                    <!-- <label class="label">Legenda</label>
-                    <div class="linhaLegenda mt-2">
-                        <div class="item livre"></div>
-                        <div class="value align-center ml-4">Livre</div>
-                    </div>
-                    <div class="linhaLegenda mt-2">
-                        <div class="item encaixe"></div>
-                        <div class="value align-center ml-4">Encaixe</div>
-                    </div> -->
                     <button class="legenda-button" (click)="mostrarLegendas()" nbButton status="info"
                         fullWidth>Legendas</button>
                     <button class="bloqueio-button" (click)="bloqueio()" nbButton status="basic"
@@ -68,28 +60,29 @@
             <div class="filtro" [ngClass]="{'align-center': !isOpen}">
                 <ng-container *ngIf="isOpen">
                     <label class="label d-block mt-4">Médicos</label>
-                    <nb-select fullWidth placeholder="Selecione" [(ngModel)]="medico">
-                        <nb-option [value]="1">André Domarco</nb-option>
-                        <nb-option [value]="2">Rafael Silveira</nb-option>
+                    <nb-select fullWidth placeholder="Selecione" [(ngModel)]="medico" (selectedChange)="obterConsultorios($event)">
+                        <nb-option *ngFor="let medico of listaMedicos" [value]="medico.id">{{medico.nome}}</nb-option>
                     </nb-select>
                     <label class="label d-block mt-3">Lugares</label>
-                    <nb-select fullWidth placeholder="Selecione" [(ngModel)]="lugar">
-                        <nb-option [value]="1">Nova América</nb-option>
-                        <nb-option [value]="2">Madureira</nb-option>
+                    <nb-select fullWidth placeholder="Selecione" [(ngModel)]="lugar" [disabled]="!medico || !listaConsultorios">
+                        <nb-option *ngFor="let consultorio of listaConsultorios" [value]="consultorio.idConsultorio">{{ consultorio.nome }}</nb-option>
                     </nb-select>
                     <div class="row">
                         <div class="col-sm-6">
                             <label class="label d-block mt-3">De</label>
-                            <input nbInput fullWidth placeholder="De" [nbDatepicker]="ngmodelDe" [(ngModel)]="diaDe" (ngModelChange)="setMinAndMaxValueAte($event)">
+                            <input nbInput fullWidth placeholder="De" [nbDatepicker]="ngmodelDe" [(ngModel)]="diaDe"
+                                (ngModelChange)="setMinAndMaxValueAte($event)">
                             <nb-datepicker #ngmodelDe></nb-datepicker>
                         </div>
                         <div class="col-sm-6">
                             <label class="label d-block mt-3">Até</label>
-                            <input [disabled]="!diaDe" nbInput fullWidth placeholder="Até" [nbDatepicker]="ngmodelAte" [(ngModel)]="diaAte">
+                            <input [disabled]="!diaDe" nbInput fullWidth placeholder="Até" [nbDatepicker]="ngmodelAte"
+                                [(ngModel)]="diaAte">
                             <nb-datepicker #ngmodelAte></nb-datepicker>
                         </div>
                     </div>
-                    <button [disabled]="!diaDe || !diaAte" (click)="filtrar()" class="d-block button-filtro" nbButton fullWidth status="primary">Filtrar</button>
+                    <button [disabled]="(!diaDe || !diaAte) || (!medico || !lugar)" (click)="filtrar()" class="d-block button-filtro" nbButton
+                        fullWidth status="primary">Filtrar</button>
                 </ng-container>
                 <ng-container *ngIf="!isOpen">
                     <div class="row">

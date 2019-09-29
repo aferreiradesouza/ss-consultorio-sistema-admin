@@ -70,6 +70,10 @@ export interface IDeletarUsuario extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface IListagemConsultorios extends DefaultHttpResponse {
+    objeto: ListagemConsultorios[];
+}
+
 export interface IObterConsulta extends DefaultHttpResponse {
     objeto: Array<{
         data: string;
@@ -172,6 +176,16 @@ export interface ListagemUsuario {
     ehAdministrador: boolean;
     dataDesativacao: string;
     ativo: boolean;
+}
+
+export interface ListagemConsultorios {
+    idConsultorio: number;
+    diaSemana: number;
+    horaInicio: string;
+    horaFim: string;
+    nome: string;
+    duracaoMinutos: number;
+    urlFoto: string;
 }
 
 export interface Usuario {
