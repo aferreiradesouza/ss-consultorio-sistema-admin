@@ -48,7 +48,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
   @ViewChild('ngmodelAte', { static: false }) datePicker: NbDatepickerComponent<any>;
 
   constructor(iconsLibrary: NbIconLibraries,
-    private agendaHubService: AgendaHubService,  
+    private agendaHubService: AgendaHubService,
     private _ngZone: NgZone,
     public calendarioService: CalendarioService,
     public calendarioMock: CalendarioData,
@@ -78,28 +78,28 @@ export class CalendarioRecepcaoComponent implements OnInit {
     });
   }
 
-  private subscribeSignalREventos(): void {  
-    this.agendaHubService.novaConsulta.subscribe((data: any) => {  
-      this._ngZone.run(() => {  
+  private subscribeSignalREventos(): void {
+    this.agendaHubService.novaConsulta.subscribe((data: any) => {
+      this._ngZone.run(() => {
         console.log('calendario novaConsulta', data)
-      });  
-    });  
-    this.agendaHubService.novoBloqueio.subscribe((data: any) => {  
-      this._ngZone.run(() => {  
+      });
+    });
+    this.agendaHubService.novoBloqueio.subscribe((data: any) => {
+      this._ngZone.run(() => {
         console.log('calendario novoBloqueio', data)
-      });  
-    }); 
-    this.agendaHubService.mudancaBloqueio.subscribe((data: any) => {  
-      this._ngZone.run(() => {  
+      });
+    });
+    this.agendaHubService.mudancaBloqueio.subscribe((data: any) => {
+      this._ngZone.run(() => {
         console.log('calendario mudancaBloqueio', data)
-      });  
-    }); 
-    this.agendaHubService.mudancaStatusConsulta.subscribe((data: any) => {  
-      this._ngZone.run(() => {  
+      });
+    });
+    this.agendaHubService.mudancaStatusConsulta.subscribe((data: any) => {
+      this._ngZone.run(() => {
         console.log('calendario mudancaStatusConsulta', data)
-      });  
-    }); 
-  }  
+      });
+    });
+  }
 
   async obterConsultorios(value: number) {
     this.isLoading = true;
@@ -154,7 +154,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
       }
     }).catch(err => {
       this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
-      { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
     }).finally(() => {
       this.isLoading = false;
     });
