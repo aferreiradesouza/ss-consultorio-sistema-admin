@@ -12,6 +12,11 @@
   user-select: none;
 }
 
+:host ::ng-deep .status-warning {
+  background-color: #FFE170 !important;
+  border-color: #fcd88e !important;
+}
+
 .header {
   overflow-x: hidden;
   white-space: nowrap;
