@@ -14,6 +14,7 @@ import { RecepcionistaService } from '../../../shared/services/recepcionista.ser
 import { BloqueioComponent } from '../bloqueio/bloqueio.component';
 import { Usuario, ListagemUsuario, ListagemConsultorios } from '../../../shared/interface';
 import { AgendaHubService } from '../../../shared/services/agenda-hub.service';
+import { LocalStorageService } from '../../../shared/services/local-storage.service';
 
 @Component({
   selector: 'ngx-calendario-recepcionista',
@@ -32,8 +33,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public dayCellComponent = CalendarCustomDayCellComponent;
   public group: any[];
   public dataCalendarioDia: any;
-  public listaMedicos: ListagemUsuario[] | string;
-  public listaConsultorios: ListagemConsultorios[] | string;
+  public listaMedicos: ListagemUsuario[];
+  public listaConsultorios: ListagemConsultorios[];
 
   public visao = '2';
   public medico = null;
@@ -42,6 +43,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public diaDe = '';
   public diaAte = '';
   public filter = (date) => false;
+  public salvarFiltro = false;
 
   @ViewChild(CalendarioComponent, { static: false }) calendario: CalendarioComponent;
   @ViewChild(CalendarioDoDiaComponent, { static: false }) calendarioDoDia: CalendarioDoDiaComponent;
@@ -54,7 +56,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
     public calendarioMock: CalendarioData,
     private dialogService: NbDialogService,
     private recepcionistaService: RecepcionistaService,
-    private toastrService: NbToastrService) {
+    private toastrService: NbToastrService,
+    public localStorageService: LocalStorageService) {
     iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('far', { packClass: 'far', iconClassPrefix: 'fa' });
     iconsLibrary.registerFontPack('ion', { iconClassPrefix: 'ion' });
@@ -63,40 +66,69 @@ export class CalendarioRecepcaoComponent implements OnInit {
 
   async ngOnInit() {
     this.isLoading = true;
+    await this.obterMedicos();
+    if (this.localStorageService.has('filtro-calendario')) {
+      this.preencherFiltro();
+    } else {
+      const medicoId = this.listaMedicos[0].id;
+      await this.obterConsultorios(medicoId);
+
+      this.medico = medicoId;
+      this.lugar = this.listaConsultorios[0].idConsultorio;
+      this.diaDe = moment().subtract(1, 'months').format('YYYY-MM-DD');
+      this.diaAte = moment().add(1, 'months').format('YYYY-MM-DD');
+
+      await this.filtrar();
+    }
+    this.isLoading = false;
+  }
+
+  async obterMedicos() {
     await this.recepcionistaService.obterMedicos().then(response => {
       if (response.sucesso) {
         this.listaMedicos = response.resultado;
       } else {
-        this.toastrService.show('', response.resultado,
+        this.toastrService.show('', response.error,
           { status: 'danger', duration: 3000, position: <any>'bottom-right' });
       }
     }).catch(err => {
       this.toastrService.show('', 'Sistema Indisponível no momento, tente novamente mais tarde.',
         { status: 'danger', duration: 3000, position: <any>'bottom-right' });
-    }).finally(() => {
-      this.isLoading = false;
     });
+  }
+
+  async preencherFiltro() {
+    this.salvarFiltro = true;
+    this.medico = this.localStorageService.getJson('filtro-calendario').idMedico;
+
+    await this.obterConsultorios(this.medico);
+
+    this.lugar = this.localStorageService.getJson('filtro-calendario').idConsultorio;
+    this.diaDe = this.localStorageService.getJson('filtro-calendario').dataInicial;
+    this.diaAte = this.localStorageService.getJson('filtro-calendario').dataFinal;
+
+    await this.filtrar();
   }
 
   private subscribeSignalREventos(): void {
     this.agendaHubService.novaConsulta.subscribe((data: any) => {
       this._ngZone.run(() => {
-        console.log('calendario novaConsulta', data)
+        console.log('calendario novaConsulta', data);
       });
     });
     this.agendaHubService.novoBloqueio.subscribe((data: any) => {
       this._ngZone.run(() => {
-        console.log('calendario novoBloqueio', data)
+        console.log('calendario novoBloqueio', data);
       });
     });
     this.agendaHubService.mudancaBloqueio.subscribe((data: any) => {
       this._ngZone.run(() => {
-        console.log('calendario mudancaBloqueio', data)
+        console.log('calendario mudancaBloqueio', data);
       });
     });
     this.agendaHubService.mudancaStatusConsulta.subscribe((data: any) => {
       this._ngZone.run(() => {
-        console.log('calendario mudancaStatusConsulta', data)
+        console.log('calendario mudancaStatusConsulta', data);
       });
     });
   }
@@ -110,11 +142,12 @@ export class CalendarioRecepcaoComponent implements OnInit {
         if (!response.resultado.length) {
           this.toastrService.show('', 'O Médico não tem nenhum consultório, escolha outro médico.',
             { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+            this.salvarFiltro = false;
           return;
         }
         this.listaConsultorios = response.resultado;
       } else {
-        this.toastrService.show('', response.resultado,
+        this.toastrService.show('', response.error,
           { status: 'danger', duration: 3000, position: <any>'bottom-right' });
       }
     }).catch(err => {
@@ -141,6 +174,11 @@ export class CalendarioRecepcaoComponent implements OnInit {
     };
     await this.recepcionistaService.obterConsultas(data).then(response => {
       if (response.sucesso) {
+        if (this.salvarFiltro) {
+          this.localStorageService.setJson('filtro-calendario', data);
+        } else {
+          this.localStorageService.remove('filtro-calendario');
+        }
         this.data = response.objeto;
         this.filter = (date) => {
           return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(date).format('YYYY-MM-DD')) > -1;
@@ -198,46 +236,60 @@ export class CalendarioRecepcaoComponent implements OnInit {
     return this.isOpen ? 'close-outline' : 'menu-2-outline';
   }
 
-  changeMesPainel(type: string) {
+  changeMesPainel(type: 'proximo' | 'anterior') {
     if (type === 'proximo') {
       const index = this.obterIndex(this.group[4].data);
-      // const totalIndex = this.data.length - 1;
-      // let min = 1;
-      // const max = 5;
-      // this.group = this.data.filter((e, ind) => {
-      //   if ((index < ind) && index + 5 <= totalIndex) {
-      //     const iformatado = min++;
-      //     return (this.data[index + iformatado] && iformatado <= max) && (index + iformatado === ind + (min === 1 ? min : 0));
-      //   } else {
-      //     return false;
-      //   }
-      // });
-      console.log(this.group);
-    } else {
-      const index = this.obterIndex(this.group[0].data);
-      if (index === 0) {
-        return;
-      }
-      const min = 1;
-      let max = 5;
+      let min = 0;
+      const max = 4;
       this.group = this.data.filter((e, ind) => {
-        console.log(index - 4 <= 0);
-        if (index - 4 <= 0) {
-          const iformatado = max--;
-          console.log(iformatado);
-          return (this.data[index + iformatado] && iformatado >= min);
+        if (index <= ind) {
+          const iformatado = min++;
+          return (this.data[index + iformatado] && iformatado <= max) && (index + iformatado === ind);
         } else {
           return false;
         }
       });
-      console.log(this.group);
+      if (this.group.length < 5) {
+        const sobra = (this.data.length >= 5 ? 5 : this.data.length) - this.group.length;
+        for (let i = 1; i <= sobra; i++) {
+          const indexSobra = this.obterIndex(this.group[0].data) - 1;
+          this.group.unshift(this.data[indexSobra]);
+        }
+      }
+    } else {
+      let index = this.obterIndex(this.group[0].data) - 4;
+      for (let i = 4; i >= 0; i--) {
+        if (index < 0) {
+          index = this.obterIndex(this.group[0].data) - i;
+        } else if (index > 0) {
+          break;
+        }
+      }
+      if (index < 0) {
+        return;
+      }
+      let min = 0;
+      const max = 4;
+      this.group = this.data.filter((e, ind) => {
+        if (index <= ind) {
+          const iformatado = min++;
+          return (this.data[index - iformatado] && iformatado <= max) && (index + iformatado === ind);
+        } else {
+          return false;
+        }
+      });
+      if (this.group.length < 5) {
+        const sobra = (this.data.length >= 5 ? 5 : this.data.length) - this.group.length;
+        for (let i = 1; i <= sobra; i++) {
+          const indexSobra = this.obterIndex(this.group[0].data) + i;
+          this.group.push(this.data[indexSobra]);
+        }
+      }
     }
-    // this.calendario.changeMes(type);
   }
 
   obterGrupoHoje() {
     const index = this.obterIndex(this.dataEvent);
-    console.log(index);
     let min = 0;
     const max = 4;
     this.group = this.data.filter((e, ind) => {
@@ -248,11 +300,9 @@ export class CalendarioRecepcaoComponent implements OnInit {
         return false;
       }
     });
-    console.log(this.group);
     if (this.group.length < 5) {
       const sobra = (this.data.length >= 5 ? 5 : this.data.length) - this.group.length;
       for (let i = 1; i <= sobra; i++) {
-        console.log(this.obterIndex(this.group[0].data) - 1);
         const indexSobra = this.obterIndex(this.group[0].data) - 1;
         this.group.unshift(this.data[indexSobra]);
       }
@@ -284,7 +334,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
       }
 
     }
-    console.log(this.group);
   }
 
   setMinAndMaxValueAte(event) {
@@ -307,11 +356,23 @@ export class CalendarioRecepcaoComponent implements OnInit {
     this.visao = '1';
     this.dataEvent = moment(evento.diaCompleta).toDate();
     this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
-    console.log(this.dataCalendarioDia);
   }
 
-  changeDiaPainel(type: string) {
-    this.calendarioDoDia.changeDia(type);
+  changeDiaPainel(type: 'proximo' | 'anterior') {
+    let index = this.obterIndex(this.dataCalendarioDia.data);
+    if (type === 'proximo') {
+      if (index + 1 > this.data.length - 1) {
+        return;
+      }
+      index += 1;
+    } else {
+      if (index - 1 < 0) {
+        return;
+      }
+      index -= 1;
+    }
+    this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.data[index].data).format('YYYY-MM-DD'))[0];
+    this.dataEvent = moment(this.dataCalendarioDia.data).toDate();
   }
 
   async mostrarLegendas() {
@@ -376,7 +437,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
       BloqueioComponent,
       {
         context: {
-          dados: data
+          dados: data,
+          listaMedicos: this.listaMedicos
         },
         closeOnEsc: true,
         autoFocus: false,

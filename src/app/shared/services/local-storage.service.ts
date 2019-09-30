@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-type StorageKey = 'login' | 'token';
+type StorageKey = 'login' | 'token' | 'filtro-calendario';
 
 @Injectable({
     providedIn: 'root'

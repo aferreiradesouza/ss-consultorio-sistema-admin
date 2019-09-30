@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AjaxService } from './ajax.service';
-import { IObterConsulta, IListagemUsuario, IListagemConsultorios } from '../interface';
+import { IObterConsulta, IListagemUsuario, IListagemConsultorios, ICriarBloqueio } from '../interface';
 
 @Injectable()
 export class RecepcionistaService {
@@ -17,9 +17,9 @@ export class RecepcionistaService {
         const url = `${environment.urlBase}admin/usuario`;
         const response = await this.ajax.get<IListagemUsuario>(url);
         if (response.sucesso) {
-            return { sucesso: response.sucesso, resultado: response.objeto.filter(m => m.ehMedico) };
+            return { sucesso: response.sucesso, resultado: response.objeto.filter(m => m.ehMedico), error: null };
         } else {
-            return { sucesso: response.sucesso, resultado: response.mensagens[0] };
+            return { sucesso: response.sucesso, resultado: null, error: response.mensagens[0] };
         }
     }
 
@@ -28,9 +28,9 @@ export class RecepcionistaService {
         const response = await this.ajax.get<IListagemConsultorios>(url);
         if (response.sucesso) {
             const filtrado = this.getUnique(response.objeto, 'nome');
-            return { sucesso: response.sucesso, resultado: filtrado };
+            return { sucesso: response.sucesso, resultado: filtrado, error: null };
         } else {
-            return { sucesso: response.sucesso, resultado: response.mensagens[0] };
+            return { sucesso: response.sucesso, resultado: null, error: response.mensagens[0] };
         }
     }
 
@@ -40,5 +40,10 @@ export class RecepcionistaService {
             .map((e, i, final) => final.indexOf(e) === i && i)
             .filter(e => arr[e]).map(e => arr[e]);
         return unique;
+    }
+
+    async criarBloqueio(data) {
+        const url = `${environment.urlBase}admin/agenda/criarBloqueio`;
+        return await this.ajax.post<ICriarBloqueio>(url, data);
     }
 }

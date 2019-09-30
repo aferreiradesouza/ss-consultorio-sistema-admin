@@ -27,7 +27,6 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(change) {
-        console.log(change);
         if (change.data) {
             this.info = this.calendarioService.montarDias([change.data.currentValue])[0];
             this.dataExtenso = this.formatarData;
@@ -42,7 +41,6 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
     get formatarData() {
         const data = this.info;
         const dia = data.diaCompleta;
-        console.log(data, dia);
         return `${data.dia}
                 de ${this.calendarioService.formatarMes(moment(dia).month()).extenso}
                 de ${moment(dia).format('YYYY')},

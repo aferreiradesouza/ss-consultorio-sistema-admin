@@ -82,6 +82,10 @@ export interface IObterConsulta extends DefaultHttpResponse {
     }>;
 }
 
+export interface ICriarBloqueio extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
 export interface HorarioConsulta {
     hora: string;
     bloqueado: boolean;

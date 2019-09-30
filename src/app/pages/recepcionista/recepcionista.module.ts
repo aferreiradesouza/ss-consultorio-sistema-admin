@@ -14,13 +14,14 @@ import {
   NbSpinnerModule,
   NbDatepickerModule,
   NbInputModule,
-  NbToastrModule
+  NbToastrModule,
+  NbCheckboxModule
 } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { RecepcionistaRoutingModule } from './recepcionista-routing.module';
 import { CalendarioRecepcaoComponent } from './calendario/calendario.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LegendasComponent } from './legendas/legendas.component';
 import { AgendarConsultaComponent } from './agendar-consulta/agendar-consulta.component';
 import { AlterarStatusComponent } from './alterar-status/alterar-status.component';
@@ -56,7 +57,9 @@ const MODAIS = [
     NbSelectModule,
     NbDatepickerModule.forRoot(),
     NbInputModule,
-    NbToastrModule
+    NbToastrModule,
+    NbCheckboxModule,
+    ReactiveFormsModule
   ],
   declarations: [
     CalendarioRecepcaoComponent,
