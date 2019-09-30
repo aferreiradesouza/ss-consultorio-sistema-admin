@@ -1,7 +1,7 @@
 @import "../../../shared/styles/themes.scss";
 
 :host ::ng-deep nb-calendar nb-base-calendar nb-card nb-card-body nb-calendar-pageable-navigation button {
-  padding: 14px 14px 14px 17px !important;;
+  padding: 14px 14px 14px 17px !important;
 }
 
 :host ::ng-deep nb-calendar nb-base-calendar nb-card nb-card-header nb-calendar-header div.header span.sub-title {
@@ -40,6 +40,7 @@
     position: relative;
     padding-right: 5px;
     padding-left: 5px;
+    max-width: 30rem;
 
     > .button-filtro {
       position: absolute;
@@ -86,10 +87,10 @@
         height: 24px;
         width: 24px;
         border-radius: 5px;
-        
+
         &.livre {
-        background-color: nb-theme(color-success-100);
-        border: 1px solid nb-theme(color-success-800);
+          background-color: nb-theme(color-success-100);
+          border: 1px solid nb-theme(color-success-800);
         }
 
         &.encaixe {
