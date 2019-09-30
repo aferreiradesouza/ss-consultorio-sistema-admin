@@ -438,13 +438,20 @@ export class CalendarioRecepcaoComponent implements OnInit {
       {
         context: {
           dados: data,
-          listaMedicos: this.listaMedicos
+          listaMedicos: this.listaMedicos,
+          listaConsultorios: this.listaConsultorios,
+          medico: this.medico,
+          lugar: this.lugar
         },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
       }
-    );
+    ).onClose.subscribe(e => {
+      if (e) {
+        this.filtrar();
+      }
+    });
   }
 }

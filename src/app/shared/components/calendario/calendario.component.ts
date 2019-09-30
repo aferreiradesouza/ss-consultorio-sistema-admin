@@ -58,7 +58,13 @@ export class CalendarioComponent implements OnInit, OnChanges {
     obterClassesAgendamento(item) {
         if (typeof item === 'number') { return ['disabled']; }
         const ret = [];
-        if (!item.consulta && !item.bloqueado) { ret.push('livre'); } else { ret.push('padding-top-10'); }
+        if (!item.consulta && !item.bloqueado) {
+            ret.push('livre');
+        } else if (item.bloqueado) {
+            ret.push('bg-white');
+        } else {
+            ret.push('padding-top-10');
+        }
         if (item.consulta && item.consulta.ehEncaixe && !item.bloqueado) { ret.push('encaixe-background'); }
         return ret;
     }

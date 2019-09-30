@@ -27,6 +27,9 @@ export class BloqueioComponent implements OnInit {
 
   @Input() dados: any;
   @Input() listaMedicos: ListagemUsuario[];
+  @Input() listaConsultorios: ListagemConsultorios[];
+  @Input() medico: number;
+  @Input() lugar: number;
 
   @ViewChild('ate', { static: false }) datePicker: NbDatepickerComponent<any>;
 
@@ -36,6 +39,7 @@ export class BloqueioComponent implements OnInit {
     private toastrService: NbToastrService) { }
 
   ngOnInit() {
+    this.preencherFormulário();
     this.form.get('diaDe').valueChanges.subscribe(val => {
       if (!val) {
         this.form.get('diaAte').disable();
@@ -43,6 +47,13 @@ export class BloqueioComponent implements OnInit {
       this.datePicker.min = moment(val).toDate();
       this.form.get('diaAte').enable();
     });
+  }
+
+  preencherFormulário() {
+    this.form.get('medico').setValue(this.medico);
+    this.listagemConsultorios = this.listaConsultorios;
+    this.form.get('lugar').setValue(this.lugar);
+    this.form.get('lugar').enable();
   }
 
   get formValue() {

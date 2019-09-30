@@ -141,6 +141,7 @@ $hour-count: 48;
         border-right: 1px solid $color-grid;
         border-left: 1px solid $color-grid;
         min-width: 198px;
+        position: relative;
 
         > .card-marcacao {
           width: auto;
@@ -186,6 +187,7 @@ $hour-count: 48;
               background-color: nb-theme(color-primary-200);
               font-size: 10px;
               border-radius: 4px;
+              height: 24px;
             }
           }
 
@@ -251,6 +253,7 @@ $hour-count: 48;
         > .card-agendamento-header {
           display: flex;
           padding: 12px 10px 10px 10px;
+          height: 24px;
 
           > .hora {
             padding: 0px 6px;
@@ -262,6 +265,22 @@ $hour-count: 48;
             font-size: 10px;
             margin-right: 10px;
             border-radius: 4px;
+          }
+
+          > .bloqueio {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(66, 66, 66, 0.568);
+
+            > button {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            }
           }
         }
 
