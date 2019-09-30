@@ -74,8 +74,9 @@ export class CalendarioService {
                 dia: moment(date.data, 'YYYY-MM-DD').format('DD'),
                 data: this.formatarDay(moment(date.data, 'YYYY-MM-DD').day()),
                 diaCompleta: date.data,
-                maximoEncaixes: date.maximoEncaixes,
-                agendamentos: date.agendamentos
+                mes: this.formatarMes(moment(date.data, 'YYYY-MM-DD').month()),
+                totalEncaixesPermitidos: date.totalEncaixesPermitidos,
+                horarios: date.horarios
             };
         });
     }

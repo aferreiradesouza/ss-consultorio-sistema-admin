@@ -12,24 +12,30 @@ import {
   NbCalendarRangeModule,
   NbSelectModule,
   NbSpinnerModule,
-  NbDatepickerModule
+  NbDatepickerModule,
+  NbInputModule,
+  NbToastrModule,
+  NbCheckboxModule
 } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { RecepcionistaRoutingModule } from './recepcionista-routing.module';
 import { CalendarioRecepcaoComponent } from './calendario/calendario.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LegendasComponent } from './legendas/legendas.component';
 import { AgendarConsultaComponent } from './agendar-consulta/agendar-consulta.component';
 import { AlterarStatusComponent } from './alterar-status/alterar-status.component';
 import { DetalhesConsultaComponent } from './detalhes-consulta/detalhes-consulta.component';
 import { CalendarCustomDayCellComponent } from './calendario/day-cell.component';
+import { BloqueioComponent } from './bloqueio/bloqueio.component';
+import localePt from '@angular/common/locales/pt';
 
 const MODAIS = [
   LegendasComponent,
   AgendarConsultaComponent,
   AlterarStatusComponent,
-  DetalhesConsultaComponent
+  DetalhesConsultaComponent,
+  BloqueioComponent
 ];
 
 @NgModule({
@@ -49,7 +55,11 @@ const MODAIS = [
     FormsModule,
     NbCalendarRangeModule,
     NbSelectModule,
-    NbDatepickerModule.forRoot()
+    NbDatepickerModule.forRoot(),
+    NbInputModule,
+    NbToastrModule,
+    NbCheckboxModule,
+    ReactiveFormsModule
   ],
   declarations: [
     CalendarioRecepcaoComponent,

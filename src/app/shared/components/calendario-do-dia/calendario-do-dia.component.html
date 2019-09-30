@@ -5,10 +5,10 @@
         </div>
     </nb-card-header>
     <nb-list>
-        <nb-list-item *ngFor="let item of getDatas(dataSelecionada.agendamentos)"
-            [ngClass]="{'livre' : item.status === 'Livre' && verDiasLivre, 'encaixe' : item.status === 'Encaixe'}">
+        <nb-list-item *ngFor="let item of getDatas(info.horarios)"
+            [ngClass]="{'livre' : !item.consulta && verDiasLivre, 'encaixe' : item.consulta && item.consulta.ehEncaixe}">
             <div class="campo">
-                <ng-container *ngIf="item.status === 'Livre'">
+                <ng-container *ngIf="!item.consulta">
                     <div class="hora">
                         {{item.hora}}
                     </div>
@@ -16,18 +16,18 @@
                         <button nbButton size="tiny" status="success">Marcar</button>
                     </div>
                 </ng-container>
-                <ng-container *ngIf="item.status !== 'Livre'">
+                <ng-container *ngIf="item.consulta">
                     <div class="hora">
                         {{item.hora}}
                     </div>
                     <div class="paciente">
-                        {{item.marcacao.nome}}
+                        {{item.consulta.nomePaciente}}
                     </div>
                     <div class="status em-atendimento">
-                        Em Atendimento
+                        {{item.consulta.codigoStatusConsulta}}
                     </div>
                     <nb-actions class="ml-auto" size="small">
-                        <nb-action class="typeConsulta">Revisão</nb-action>
+                        <nb-action class="typeConsulta">{{item.consulta.codigoTipoConsulta}}</nb-action>
                         <nb-action icon="info-outline" nbTooltip="Informações da Consulta" nbTooltipPlacement="top"
                             nbTooltipStatus="info"></nb-action>
                         <nb-action icon="play-circle-outline" nbTooltip="Alterar Status" nbTooltipPlacement="top"

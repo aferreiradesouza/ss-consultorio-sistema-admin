@@ -29,7 +29,8 @@ export class FormatterService {
         'telDDD': '(00) 0000-0000',
         'celDDD': '(00) 00000-0000',
         'cep': '00.000-000',
-        'idade': '9*'
+        'idade': '9*',
+        'hora': '00:00'
     };
 
     constructor() { }

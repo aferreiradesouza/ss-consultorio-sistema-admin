@@ -1,13 +1,13 @@
-:host /deep/ ng2-st-tbody-edit-delete {
+:host ::ng-deep ng2-st-tbody-edit-delete {
     display: flex !important;
     height: 0 !important;
   }
   
-  :host /deep/ tbody tr td.ng2-smart-actions {
+  :host ::ng-deep tbody tr td.ng2-smart-actions {
       text-align: center;
   }
   
-  :host /deep/ ng2-st-tbody-custom a.ng2-smart-action.ng2-smart-action-custom-custom {
+  :host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action.ng2-smart-action-custom-custom {
     display: inline-block;
     width: 50px;
     text-align: center;
@@ -15,23 +15,23 @@
     border-right: none !important;
   }
   
-  :host /deep/ ng2-st-tbody-custom a.ng2-smart-action .nb-edit:hover {
+  :host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action .nb-edit:hover {
     color: #201dd3;
   }
   
-  :host /deep/ ng2-st-tbody-custom a.ng2-smart-action .nb-trash:hover {
+  :host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action .nb-trash:hover {
     color: #ff0000 !important;
   }
   
-  :host /deep/ ng2-st-tbody-custom a.ng2-smart-action .nb-person:hover {
+  :host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action .nb-person:hover {
     color: #059b00 !important;
   }
   
-  :host /deep/ ng2-smart-table td.ng2-smart-actions {
+  :host ::ng-deep ng2-smart-table td.ng2-smart-actions {
     height: auto !important;
   }
   
-  :host /deep/ ng2-smart-table table tr td {
+  :host ::ng-deep ng2-smart-table table tr td {
     padding: 0.875rem 1.25rem !important;
   }
   

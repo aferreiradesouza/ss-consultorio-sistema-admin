@@ -16,6 +16,7 @@ export class ValidatorService {
     private datetimeRegex = /^\d{2}\/\d{2}\/\d{4} \d{2}\:\d{2}$/;
     private monthRegex = /^\d{2}\/\d{4}/;
     private cepRegex = /^\d{2}\.\d{3}\-\d{3}$/;
+    private horaRegex = /[0-9]{2}\:[0-9]{2}$/;
 
     public isValidEmail(email: string): boolean {
         return this.emailRegex.test(email);
@@ -23,6 +24,10 @@ export class ValidatorService {
 
     public isValidNumber(value: string): boolean {
         return this.numberRegex.test(value);
+    }
+
+    public isValidHour(value: string): boolean {
+        return this.horaRegex.test(value);
     }
 
     public isValidDdd(value: string): boolean {

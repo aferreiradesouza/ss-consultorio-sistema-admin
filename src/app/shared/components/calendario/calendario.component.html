@@ -1,11 +1,11 @@
 <div class="header">
     <div class="d-flex">
         <div class="eixo-hora-header"></div>
-        <div class="dataSemana" *ngFor="let item of dados[index]; let i = index">
+        <div class="dataSemana" *ngFor="let item of dias; let i = index">
             <div class="group" (click)="selecionarData(item)" [ngClass]="{'active' : item.diaCompleta === dataAtualFormatada}">
                 <span>{{item.data.curto.toUpperCase()}}</span>
                 <div class="dia">
-                    {{item.dia}}
+                    {{item.dia}}/{{item.mes.curto.toLowerCase()}}
                 </div>
             </div>
         </div>
@@ -17,17 +17,15 @@
 </div>
 <div class="wrapper">
     <div class="corpo">
-        <!-- <div class="grid" [ngStyle]="{'top': 72 * i+'px'}" *ngFor="let hora of obterHoras(); let i = index">
-            </div> -->
-        <div class="eixo-dia" *ngFor="let dia of dados[index];">
-            <div class="agendamento" *ngFor="let item of dia.agendamentos" [ngClass]="obterClassesAgendamento(item)">
-                <ng-container *ngIf="item.status === 'Livre'">
+        <div class="eixo-dia" *ngFor="let dia of data;">
+            <div class="agendamento" *ngFor="let item of dia.horarios" [ngClass]="obterClassesAgendamento(item)">
+                <ng-container *ngIf="!item.consulta">
                     <div class="card-agendamento-header">
                         <div class="hora">{{item.hora}}</div>
                         <button (click)="agendar(item)" class="ml-auto" nbButton size="tiny" status="success">Marcar</button>
                     </div>
                 </ng-container>
-                <ng-container *ngIf="item.status !== 'Livre'">
+                <ng-container *ngIf="item.consulta">
                     <div class="card-marcacao">
                         <div class="linha">
                             <div class="hora">{{item.hora}}</div>
@@ -35,26 +33,21 @@
                                 <nb-actions size="tiny" class="ml-auto">
                                     <nb-action class="status-descricao" nbTooltip="Em Atendimento"
                                     nbTooltipPlacement="top" nbTooltipStatus="danger">
-                                    <span class="text-truncate">Em Atendimento</span>
+                                    <span class="text-truncate">{{item.consulta.codigoStatusConsulta}}</span>
                                     </nb-action>
                                     <nb-action (click)="alterarStatusConsulta(item)" class="alterar-status-icon" icon="play-circle-outline" nbTooltip="Alterar Status"
                                         nbTooltipPlacement="top" nbTooltipStatus="primary"></nb-action>
                                 </nb-actions>
                             </div>
                         </div>
-                        <!-- <div class="icon-status em-atendimento" nbTooltip="Em Atendimento"
-                        nbTooltipPlacement="top" nbTooltipStatus="danger"></div> -->
-                        <!-- <div class="status em-atendimento">
-                            Em atendimento
-                        </div> -->
                         <div class="info-pessoal">
                             <div class="text-truncate nome" (click)="verConsulta(item)" nbTooltip="Detalhes da consulta"
-                            nbTooltipPlacement="bottom" nbTooltipStatus="info">{{item.marcacao.nome}}</div>
+                            nbTooltipPlacement="bottom" nbTooltipStatus="info">{{item.consulta.nomePaciente}}</div>
                             <nb-icon icon="radio-button-on" nbTooltip="Revisão"
                             nbTooltipPlacement="left" nbTooltipStatus="primary"></nb-icon>
                         </div>
                     </div>
-                    <div class="encaixe align-center" *ngIf="dia.maximoEncaixes > 0">
+                    <div class="encaixe align-center" *ngIf="dia.totalEncaixesPermitidos > 0">
                         <button nbButton size="tiny" status="warning">Encaixe</button>
                     </div>
                 </ng-container>
