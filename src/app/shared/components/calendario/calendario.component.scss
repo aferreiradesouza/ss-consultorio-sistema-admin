@@ -133,6 +133,7 @@ $hour-count: 48;
       box-sizing: content-box;
       z-index: 2;
       position: relative;
+      padding-top: 2px;
 
       > .agendamento {
         min-height: 45px;
@@ -141,6 +142,8 @@ $hour-count: 48;
         border-right: 1px solid $color-grid;
         border-left: 1px solid $color-grid;
         min-width: 198px;
+        border-radius: 5px;
+        margin: 2px 1px;
 
         > .card-marcacao {
           width: auto;
