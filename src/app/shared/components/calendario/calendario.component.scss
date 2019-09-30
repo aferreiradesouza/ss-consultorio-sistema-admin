@@ -95,6 +95,7 @@ $hour-count: 48;
       border-left: 1px solid $color-grid;
       border-right: 1px solid $color-grid;
       box-sizing: content-box;
+      margin: 0px 1px;
 
       &:first-child {
         border-left: 2px solid $color-grid !important;
@@ -106,7 +107,7 @@ $hour-count: 48;
 .wrapper {
   position: relative;
   width: 100%;
-  max-height: calc(100vh - 250px);
+  // max-height: calc(100vh - 250px);
   overflow-y: scroll;
   overflow-x: hidden;
   min-width: 1000px;
@@ -133,6 +134,7 @@ $hour-count: 48;
       box-sizing: content-box;
       z-index: 2;
       position: relative;
+      padding-top: 2px;
 
       > .agendamento {
         min-height: 45px;
@@ -142,8 +144,11 @@ $hour-count: 48;
         border-left: 1px solid $color-grid;
         min-width: 198px;
         position: relative;
+        border-radius: 5px;
+        margin: 2px 1px;
 
         > .card-marcacao {
+          min-height: 45px;
           width: auto;
           margin: 0px 10px 10px 10px;
           background-color: nb-theme(color-primary-100);
@@ -160,6 +165,8 @@ $hour-count: 48;
 
             > .w-100 > nb-actions {
               width: 122px;
+              margin-left: auto;
+              padding-right: 6px;
 
               > .status-descricao {
                 padding-right: 3px;
@@ -169,6 +176,7 @@ $hour-count: 48;
                 color: white;
                 padding: 0px 5px;
                 max-width: 84px;
+                margin-left: auto;
               }
 
               > .alterar-status-icon {
@@ -251,34 +259,38 @@ $hour-count: 48;
         }
 
         > .card-agendamento-header {
-          display: flex;
-          padding: 12px 10px 10px 10px;
+          height: 45px;
 
-          > .hora {
-            padding: 0px 6px;
-            color: #000;
+          > div:nth-child(1) {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: nb-theme(color-primary-200);
-            font-size: 10px;
-            margin-right: 10px;
-            border-radius: 4px;
-          }
+            padding: 12px 10px 10px 10px;
 
-          > .bloqueio {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            height: 100%;
-            width: 100%;
-            background-color: rgba(66, 66, 66, 0.568);
+            > .hora {
+              padding: 0px 6px;
+              color: #000;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background-color: nb-theme(color-primary-200);
+              font-size: 10px;
+              margin-right: 10px;
+              border-radius: 4px;
+            }
 
-            > button {
+            > .bloqueio {
               position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
+              top: 0px;
+              left: 0px;
+              height: 100%;
+              width: 100%;
+              background-color: rgba(66, 66, 66, 0.568);
+
+              > button {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+              }
             }
           }
         }

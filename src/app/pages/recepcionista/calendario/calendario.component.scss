@@ -8,6 +8,10 @@
   display: none;
 }
 
+:host ::ng-deep nb-calendar nb-base-calendar nb-card nb-card-header nb-calendar-header div.header {
+  user-select: none;
+}
+
 .header {
   overflow-x: hidden;
   white-space: nowrap;

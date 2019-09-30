@@ -22,18 +22,22 @@
             <div class="agendamento" *ngFor="let item of dia.horarios" [ngClass]="obterClassesAgendamento(item)">
                 <ng-container *ngIf="!item.consulta && !item.bloqueado">
                     <div class="card-agendamento-header">
-                        <div class="hora">{{item.hora}}</div>
-                        <button (click)="agendar(item)" class="ml-auto" nbButton size="tiny"
-                            status="success">Marcar</button>
+                        <div>
+                            <div class="hora">{{item.hora}}</div>
+                            <button (click)="agendar(item)" class="ml-auto" nbButton size="tiny"
+                                status="success">Marcar</button>
+                        </div>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="!item.consulta && item.bloqueado">
                     <div class="card-agendamento-header">
-                        <div class="hora">{{item.hora}}</div>
-                        <div class="bloqueio">
-                            <button nbButton status="basic" size="tiny">
-                                <nb-icon icon="lock-outline"></nb-icon>
-                            </button>
+                        <div>
+                            <div class="hora">{{item.hora}}</div>
+                            <div class="bloqueio">
+                                <button nbButton status="basic" size="tiny">
+                                    <nb-icon icon="lock-outline"></nb-icon>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </ng-container>
@@ -42,7 +46,7 @@
                         <div class="linha">
                             <div class="hora">{{item.hora}}</div>
                             <div class="w-100">
-                                <nb-actions size="tiny" class="ml-auto">
+                                <nb-actions size="tiny" class="">
                                     <nb-action class="status-descricao" nbTooltip="Em Atendimento"
                                         nbTooltipPlacement="top" nbTooltipStatus="danger">
                                         <span class="text-truncate">{{item.consulta.codigoStatusConsulta}}</span>

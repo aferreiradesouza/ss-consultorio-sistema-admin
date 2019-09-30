@@ -60,7 +60,7 @@ export class CalendarioComponent implements OnInit, OnChanges {
         const ret = [];
         if (!item.consulta && !item.bloqueado) {
             ret.push('livre');
-        } else if (item.bloqueado) {
+        } else if (!item.consulta && item.bloqueado) {
             ret.push('bg-white');
         } else {
             ret.push('padding-top-10');
