@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, AfterViewInit, NgZone } from '@angular/core';
-import { NbCalendarRange, NbIconLibraries, NbDialogService, NbDatepickerComponent, NbDatepicker, NbToastrService, NbCalendarComponent, NbDateService } from '@nebular/theme';
+import { NbCalendarRange, NbIconLibraries, NbDialogService, NbDatepickerComponent, NbDatepicker, NbToastrService, NbCalendarComponent, NbDateService, NbCalendarViewMode } from '@nebular/theme';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 import { CalendarioComponent } from '../../../shared/components';
@@ -47,6 +47,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
 
   @ViewChild(CalendarioComponent, { static: false }) calendario: CalendarioComponent;
   @ViewChild(CalendarioDoDiaComponent, { static: false }) calendarioDoDia: CalendarioDoDiaComponent;
+  @ViewChild(NbCalendarComponent, { static: false }) NbCalendar: NbCalendarComponent<any>;
   @ViewChild('ngmodelAte', { static: false }) datePicker: NbDatepickerComponent<any>;
 
   constructor(iconsLibrary: NbIconLibraries,
@@ -75,12 +76,25 @@ export class CalendarioRecepcaoComponent implements OnInit {
 
       this.medico = medicoId;
       this.lugar = this.listaConsultorios[0].idConsultorio;
-      this.diaDe = moment().subtract(1, 'months').format('YYYY-MM-DD');
-      this.diaAte = moment().add(1, 'months').format('YYYY-MM-DD');
+      this.diaDe = <any>moment().subtract(2, 'months').toDate();
+      this.setMinAndMaxValueAte(this.diaDe);
+      this.diaAte = <any>moment().add(4, 'months').toDate();
 
       await this.filtrar();
     }
     this.isLoading = false;
+  }
+
+  selecionarDiaNoCalendario(data = this.dataEvent) {
+    this.dataEvent = moment(data).toDate();
+    this.NbCalendar.visibleDate = moment(data).toDate();
+    this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+  }
+
+  selectDiaEscolhido(event) {
+    if (event === '2') {
+      this.obterGrupoClick();
+    }
   }
 
   async obterMedicos() {
@@ -104,8 +118,9 @@ export class CalendarioRecepcaoComponent implements OnInit {
     await this.obterConsultorios(this.medico);
 
     this.lugar = this.localStorageService.getJson('filtro-calendario').idConsultorio;
-    this.diaDe = this.localStorageService.getJson('filtro-calendario').dataInicial;
-    this.diaAte = this.localStorageService.getJson('filtro-calendario').dataFinal;
+    this.diaDe = <any>moment(this.localStorageService.getJson('filtro-calendario').dataInicial).toDate();
+    this.setMinAndMaxValueAte(this.diaDe);
+    this.diaAte = <any>moment(this.localStorageService.getJson('filtro-calendario').dataFinal).toDate();
 
     await this.filtrar();
   }
@@ -142,7 +157,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
         if (!response.resultado.length) {
           this.toastrService.show('', 'O Médico não tem nenhum consultório, escolha outro médico.',
             { status: 'danger', duration: 3000, position: <any>'bottom-right' });
-            this.salvarFiltro = false;
+          this.salvarFiltro = false;
           return;
         }
         this.listaConsultorios = response.resultado;
@@ -218,6 +233,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
     } else {
       this.dataEvent = moment.max(this.data.map(e => moment(e.data))).toDate();
     }
+    this.selecionarDiaNoCalendario(this.dataEvent);
   }
 
   toggle() {
@@ -286,6 +302,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
         }
       }
     }
+    this.selecionarDiaNoCalendario(this.group[2].data);
   }
 
   obterGrupoHoje() {
@@ -355,6 +372,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
   dataSelecionada(evento) {
     this.visao = '1';
     this.dataEvent = moment(evento.diaCompleta).toDate();
+    this.selecionarDiaNoCalendario(evento.diaCompleta);
     this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
   }
 
@@ -373,6 +391,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
     }
     this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.data[index].data).format('YYYY-MM-DD'))[0];
     this.dataEvent = moment(this.dataCalendarioDia.data).toDate();
+    this.selecionarDiaNoCalendario(this.dataCalendarioDia.data);
   }
 
   async mostrarLegendas() {

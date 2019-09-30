@@ -27,7 +27,7 @@ export class ValidatorService {
     }
 
     public isValidHour(value: string): boolean {
-        return this.horaRegex.test(value);
+        return this.horaRegex.test(value) && moment(`1997-11-20T${value}:00`).isValid() && value !== '24:00';
     }
 
     public isValidDdd(value: string): boolean {

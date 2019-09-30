@@ -3,9 +3,12 @@
         <div class="d-flex header" [ngClass]="{'minimized': !isOpen}">
             <nb-icon (click)="toggle()" pack="fa" class="mr-4" [icon]="isOpen ? 'times' : 'bars'"></nb-icon>
             <ng-container>
-                <nb-calendar *ngIf="isOpen" (dateChange)="changeDia($event)" [filter]="filter" class="mr-4"
-                    [(date)]="dataEvent" [showHeader]="true">
-                </nb-calendar>
+                <div class="mr-4">
+                    <button class="mb-2" nbButton status="info" fullWidth (click)="proximoDiaUtil()">Próximo dia de atendimento</button>
+                    <nb-calendar *ngIf="isOpen" (dateChange)="changeDia($event)" [filter]="filter"
+                        [(date)]="dataEvent" [showHeader]="false">
+                    </nb-calendar>
+                </div>
             </ng-container>
             <div class="data mr-4" *ngIf="!isOpen">
                 <ng-container>
@@ -15,7 +18,7 @@
             <div class="statusCalendario mr-4">
                 <ng-container *ngIf="isOpen">
                     <label class="label d-block mt-4">Visão</label>
-                    <nb-select fullWidth [(ngModel)]="visao">
+                    <nb-select fullWidth [(ngModel)]="visao" (ngModelChange)="selectDiaEscolhido($event)">
                         <nb-option value="1">1 dia</nb-option>
                         <nb-option value="2">5 dias</nb-option>
                     </nb-select>
@@ -44,7 +47,7 @@
                     <button class="legenda-button" (click)="mostrarLegendas()" nbButton status="info"
                         fullWidth>Legendas</button>
                     <button class="bloqueio-button" (click)="bloqueio()" nbButton status="basic"
-                        fullWidth>Bloqueios</button>
+                        fullWidth>Adicionar bloqueio</button>
                 </ng-container>
                 <ng-container *ngIf="!isOpen">
                     <div class="changeMes mt-4">

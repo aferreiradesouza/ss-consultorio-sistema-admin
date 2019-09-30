@@ -4,6 +4,7 @@ import { RecepcionistaService } from '../../../shared/services/recepcionista.ser
 import { ListagemConsultorios, ListagemUsuario } from '../../../shared/interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
+import { CalendarioService } from '../../../shared/services/calendarios.service';
 
 @Component({
   selector: 'ngx-bloqueio',
@@ -36,7 +37,8 @@ export class BloqueioComponent implements OnInit {
   constructor(
     protected ref: NbDialogRef<BloqueioComponent>,
     private recepcionistaService: RecepcionistaService,
-    private toastrService: NbToastrService) { }
+    private toastrService: NbToastrService,
+    private calendarioService: CalendarioService) { }
 
   ngOnInit() {
     this.preencherFormulário();
@@ -98,7 +100,14 @@ export class BloqueioComponent implements OnInit {
       this.formValue.diaDe &&
       (this.formValue.horaDe && this.form.get('horaDe').valid) &&
       this.formValue.diaAte &&
-      (this.formValue.horaAte && this.form.get('horaAte').valid);
+      (this.formValue.horaAte && this.form.get('horaAte').valid) &&
+      this.hourDeEhMenor();
+  }
+
+  hourDeEhMenor(): boolean {
+    const hourDeDecimal = this.calendarioService.hourToDecimal(this.form.get('horaDe').value);
+    const hourAteDecimal = this.calendarioService.hourToDecimal(this.form.get('horaAte').value);
+    return hourDeDecimal < hourAteDecimal;
   }
 
   async criarBloqueio() {
