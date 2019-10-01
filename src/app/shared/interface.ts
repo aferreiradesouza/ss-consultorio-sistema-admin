@@ -86,6 +86,35 @@ export interface ICriarBloqueio extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface IStatusConsulta extends DefaultHttpResponse {
+    objeto: StatusConsulta[];
+}
+
+export interface ITiposAtendimento extends DefaultHttpResponse {
+    objeto: TiposAtendimento[];
+}
+
+export interface IAlterarStatus extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface TiposAtendimento {
+    id: number;
+    nome: string;
+    descricao: string;
+    codigo: string;
+    cor: string;
+}
+
+export interface StatusConsulta {
+    id: number;
+    nome: string;
+    ordem: number;
+    codigo: string;
+    descricao: string;
+    cor: string;
+}
+
 export interface HorarioConsulta {
     hora: string;
     bloqueado: boolean;

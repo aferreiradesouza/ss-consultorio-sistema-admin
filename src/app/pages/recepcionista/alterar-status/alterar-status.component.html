@@ -1,9 +1,32 @@
-<nb-card>
+<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary" status="primary">
   <nb-card-header>Alterar Status</nb-card-header>
   <nb-card-body>
-    Alterar Status
+    <div style="min-width: 250px;">
+      <form [formGroup]="form" *ngIf="statusConsultas">
+        <label class="label d-block">Status *</label>
+        <nb-select fullWidth placeholder="Selecione" formControlName="status">
+          <nb-option *ngFor="let status of statusConsultas" [value]="status.id">{{status.nome}}</nb-option>
+        </nb-select>
+        <div class="row mt-3" *ngIf="form.value.status === 8">
+          <div class="col-sm-12">
+            <ngx-input-simple label="Motivo" [feedback]="false" [required]="true"
+              formControlName="motivo">
+            </ngx-input-simple>
+          </div>
+        </div>
+        <div class="row mt-3" *ngIf="form.value.status === 9">
+          <div class="col-sm-12">
+            <ngx-input-currency label="Valor" [feedback]="false" [required]="true"
+              formControlName="valor">
+            </ngx-input-currency>
+          </div>
+        </div>
+      </form>
+    </div>
   </nb-card-body>
   <nb-card-footer>
-    <button nbButton status="basic" (click)="dismiss()">Voltar</button>
+    <label class="label mb-2 d-block">* Campos obrigatórios</label>
+    <button nbButton class="mr-4" status="basic" (click)="dismiss()">Voltar</button>
+    <button nbButton status="primary" (click)="alterar()" [disabled]="shouldDisabledButton()">Alterar</button>
   </nb-card-footer>
 </nb-card>

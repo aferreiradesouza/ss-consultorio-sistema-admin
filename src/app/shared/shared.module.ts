@@ -31,7 +31,8 @@ import {
   TextAreaSimpleComponent,
   ItemComponent,
   TimeLineComponent,
-  CalendarioComponent
+  CalendarioComponent,
+  InputCurrencyComponent
 } from './components';
 import {
   CapitalizePipe,
@@ -68,6 +69,8 @@ import { LugarPipe } from './pipes/lugar.pipe';
 import { LugarEnum } from './enums/lugar.enum';
 import { VisaoPipe } from './pipes/visao.pipe';
 import { VisaoEnum } from './enums/visao.enum';
+import { StatusAtendimentoEnum } from './enums/status-atendimento.enum';
+import { StatusAtendimentoPipe } from './pipes/status-atendimento.pipe';
 import { CalendarioDoDiaComponent } from './components/calendario-do-dia/calendario-do-dia.component';
 import { AjaxService } from './services/ajax.service';
 import { PacientesService } from './services/pacientes.service';
@@ -79,6 +82,18 @@ import { ConfiguracoesService } from './services/configuracoes.service';
 import { UtilService } from './services/util.service';
 import { RecepcionistaService } from './services/recepcionista.service';
 import { AgendaHubService } from './services/agenda-hub.service';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
+
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+  align: 'left',
+  allowNegative: true,
+  decimal: ',',
+  precision: 2,
+  prefix: 'R$ ',
+  suffix: '',
+  thousands: '.'
+};
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -116,7 +131,8 @@ const COMPONENTS = [
   ItemComponent,
   TimeLineComponent,
   CalendarioComponent,
-  CalendarioDoDiaComponent
+  CalendarioDoDiaComponent,
+  InputCurrencyComponent
 ];
 const PIPES = [
   CapitalizePipe,
@@ -132,13 +148,15 @@ const PIPES = [
   MedicoPipe,
   LugarPipe,
   VisaoPipe,
+  StatusAtendimentoPipe
 ];
 
 const ENUMS = [
   EspecialidadeEnum,
   MedicoEnum,
   LugarEnum,
-  VisaoEnum
+  VisaoEnum,
+  StatusAtendimentoEnum
 ];
 
 @NgModule({
@@ -148,6 +166,7 @@ const ENUMS = [
     FormsModule,
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),
+    CurrencyMaskModule
   ],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES]
@@ -170,6 +189,7 @@ export class SharedModule {
         RecepcionistaService,
         UtilService,
         AuthGuard,
+        { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
         ...ENUMS,
         ...NbThemeModule.forRoot(
           {

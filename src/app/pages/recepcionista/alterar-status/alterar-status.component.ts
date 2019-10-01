@@ -1,8 +1,25 @@
 import { Component, Input, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
+import { StatusConsulta } from '../../../shared/interface';
+import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
+
+interface DiaConsulta {
+  bloqueado: boolean;
+  consulta: {
+    codigoStatusConsulta: string;
+    codigoTipoConsulta: string;
+    dataStatusConsulta: string;
+    ehEncaixe: boolean;
+    id: number;
+    nomePaciente: string;
+  };
+  dia: string;
+  hora: string;
+  observacaoBloqueio: string;
+}
 
 @Component({
   selector: 'ngx-alterar-status',
@@ -12,21 +29,65 @@ import * as moment from 'moment';
 export class AlterarStatusComponent implements OnInit {
 
   public isLoading: boolean;
+  public valueInicial: number;
 
-  @Input() dados: any;
+  public form = new FormGroup({
+    status: new FormControl(null),
+    motivo: new FormControl(null),
+    valor: new FormControl(null)
+  });
+
+  @Input() data: DiaConsulta;
+  @Input() statusConsultas: StatusConsulta[];
 
   constructor(
-    protected ref: NbDialogRef<AlterarStatusComponent>) { }
+    protected ref: NbDialogRef<AlterarStatusComponent>,
+    private recepcionistaService: RecepcionistaService,
+    private toastrService: NbToastrService) { }
 
   ngOnInit() {
-    (this.dados);
+    this.statusConsultas = this.statusConsultas.sort((a, b) => a.ordem - b.ordem);
+    this.valueInicial = this.statusConsultas.filter(e => e.codigo === this.data.consulta.codigoStatusConsulta)[0].id;
+    this.form.get('status').setValue(this.valueInicial);
   }
 
   dismiss() {
     this.ref.close(false);
   }
 
-  deletar() {
-    this.ref.close(true);
+  async alterar() {
+    this.isLoading = true;
+    const data = {
+      idStatusConsulta: this.form.get('status').value,
+      idConsulta: this.data.consulta.id,
+      valor: null
+    };
+    if (this.form.get('status').value === 8) {
+      data.valor = this.form.get('motivo').value;
+    } else if (this.form.get('status').value === 9) {
+      data.valor = String(this.form.get('valor').value);
+    }
+    await this.recepcionistaService.alterarStatus(data).then(response => {
+      if (response.sucesso) {
+        this.toastrService.show('', 'Status alterado com sucesso!',
+          { status: 'success', duration: 3000, position: <any>'bottom-right' });
+        this.ref.close(true);
+      } else {
+        this.toastrService.show('', response.mensagens[0],
+          { status: 'success', duration: 3000, position: <any>'bottom-right' });
+      }
+    }).catch(err => {
+      this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
+        { status: 'success', duration: 3000, position: <any>'bottom-right' });
+    }).finally(() => {
+      this.isLoading = false;
+    });
   }
+
+  shouldDisabledButton() {
+    return this.form.get('status').value === this.valueInicial ||
+          (this.form.get('status').value === 8 && !this.form.get('motivo').value) ||
+          (this.form.get('status').value === 9 && !this.form.get('valor').value);
+  }
+
 }

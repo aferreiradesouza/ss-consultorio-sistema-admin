@@ -47,11 +47,14 @@
                             <div class="hora">{{item.hora}}</div>
                             <div class="w-100">
                                 <nb-actions size="tiny" class="">
-                                    <nb-action class="status-descricao" nbTooltip="Em Atendimento"
-                                        nbTooltipPlacement="top" nbTooltipStatus="danger">
-                                        <span class="text-truncate">{{item.consulta.codigoStatusConsulta}}</span>
+                                    <nb-action class="status-descricao"
+                                        [ngStyle]="{'background-color': getColorStatus(item.consulta.codigoStatusConsulta)}"
+                                        [nbTooltip]="item.consulta.codigoStatusConsulta | status"
+                                        nbTooltipPlacement="top" nbTooltipStatus="basic">
+                                        <span
+                                            class="text-truncate">{{getNomeStatus(item.consulta.codigoStatusConsulta)}}</span>
                                     </nb-action>
-                                    <nb-action (click)="alterarStatusConsulta(item)" class="alterar-status-icon"
+                                    <nb-action (click)="alterarStatusConsulta(item, dia.data)" class="alterar-status-icon"
                                         icon="play-circle-outline" nbTooltip="Alterar Status" nbTooltipPlacement="top"
                                         nbTooltipStatus="primary"></nb-action>
                                 </nb-actions>
@@ -60,8 +63,10 @@
                         <div class="info-pessoal">
                             <div class="text-truncate nome" (click)="verConsulta(item)" nbTooltip="Detalhes da consulta"
                                 nbTooltipPlacement="bottom" nbTooltipStatus="info">{{item.consulta.nomePaciente}}</div>
-                            <nb-icon icon="radio-button-on" nbTooltip="Revisão" nbTooltipPlacement="left"
-                                nbTooltipStatus="primary"></nb-icon>
+                            <nb-icon
+                                [ngStyle]="{'color': getColorAtendimento(item.consulta.codigoTipoConsulta)}"
+                                icon="radio-button-on" [nbTooltip]="getNomeAtendimento(item.consulta.codigoTipoConsulta)" nbTooltipPlacement="left"
+                                nbTooltipStatus="basic"></nb-icon>
                         </div>
                     </div>
                     <div class="encaixe align-center" *ngIf="dia.totalEncaixesPermitidos > 0">

@@ -174,7 +174,7 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
     }
 
     public getErrorMessage(): string {
-        if (!this.shouldDisplayError()) {
+        if (!this.shouldDisplayError() || !this.feedback) {
             return '';
         }
 

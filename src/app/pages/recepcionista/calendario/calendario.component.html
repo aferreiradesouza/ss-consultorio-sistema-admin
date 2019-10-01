@@ -4,7 +4,7 @@
             <nb-icon (click)="toggle()" pack="fa" class="mr-4" [icon]="isOpen ? 'times' : 'bars'"></nb-icon>
             <ng-container>
                 <div class="mr-4">
-                    <button class="mb-2" nbButton status="info" fullWidth (click)="proximoDiaUtil()">Próximo dia de atendimento</button>
+                    <button class="mb-2" nbButton status="info" fullWidth (click)="proximoDiaUtil('button')">Próximo dia de atendimento</button>
                     <nb-calendar *ngIf="isOpen" (dateChange)="changeDia($event)" [filter]="filter"
                         [(date)]="dataEvent" [showHeader]="false">
                     </nb-calendar>
@@ -47,7 +47,7 @@
                     <button class="legenda-button" (click)="mostrarLegendas()" nbButton status="info"
                         fullWidth>Legendas</button>
                     <button class="bloqueio-button" (click)="bloqueio()" nbButton status="basic"
-                        fullWidth>Adicionar bloqueio</button>
+                        fullWidth>Novo bloqueio</button>
                 </ng-container>
                 <ng-container *ngIf="!isOpen">
                     <div class="changeMes mt-4">
@@ -125,7 +125,7 @@
         <span *ngIf="visao === '1' && !dataEvent">Selecione uma data!</span>
         <ngx-calendario (infoConsulta)="infoConsulta($event)" (alterarStatus)="alterarStatus($event)"
             (agendarConsulta)="agendar($event)" *ngIf="visao === '2'" (dataSelecionada)="dataSelecionada($event)"
-            [data]="group">
+            [data]="group" [dataSelecionadaCalendario]="dataEvent" [statusConsultas]="statusConsultas" [tiposAtendimentos]="tiposAtendimentos">
         </ngx-calendario>
     </nb-card-body>
 </nb-card>

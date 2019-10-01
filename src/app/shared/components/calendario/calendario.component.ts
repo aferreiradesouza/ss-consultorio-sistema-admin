@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange
 import * as moment from 'moment';
 import { CalendarioService } from '../../services/calendarios.service';
 import { NbIconLibraries } from '@nebular/theme';
+import { StatusConsulta, TiposAtendimento } from '../../interface';
 
 @Component({
     selector: 'ngx-calendario',
@@ -22,6 +23,9 @@ export class CalendarioComponent implements OnInit, OnChanges {
     public dados: any[];
 
     @Input() data: any[];
+    @Input() dataSelecionadaCalendario: Date;
+    @Input() statusConsultas: StatusConsulta[];
+    @Input() tiposAtendimentos: TiposAtendimento[];
 
     @Output() dataSelecionada = new EventEmitter();
     @Output() agendarConsulta = new EventEmitter();
@@ -37,6 +41,30 @@ export class CalendarioComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         this.dias = this.calendarioService.montarDias(this.data);
+    }
+
+    getColorStatus(codigo: string) {
+        return this.statusConsultas.filter(e => e.codigo === codigo)[0].cor;
+    }
+
+    getColorAtendimento(codigo: string) {
+        return this.tiposAtendimentos.filter(e => e.codigo === codigo)[0].cor;
+    }
+
+    getNomeStatus(codigo: string) {
+        return this.statusConsultas.filter(e => e.codigo === codigo)[0].nome;
+    }
+
+    getNomeAtendimento(codigo: string) {
+        return this.tiposAtendimentos.filter(e => e.codigo === codigo)[0].nome;
+    }
+
+    get dataSelectCalendario() {
+        return moment(this.dataSelecionadaCalendario).format('YYYY-MM-DD');
+    }
+
+    diaSemana(data) {
+        return moment(data).format('YYYY-MM-DD');
     }
 
     ngOnChanges(changes) {
@@ -93,8 +121,8 @@ export class CalendarioComponent implements OnInit, OnChanges {
         this.agendarConsulta.emit(dados);
     }
 
-    alterarStatusConsulta(data) {
-        this.alterarStatus.emit(data);
+    alterarStatusConsulta(data, dia) {
+        this.alterarStatus.emit({...data, dia});
     }
 
     verConsulta(data) {

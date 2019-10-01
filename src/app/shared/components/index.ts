@@ -8,3 +8,4 @@ export * from './text-area-simple/text-area-simple.component';
 export * from './item/item.component';
 export * from './timeline/timeline.component';
 export * from './calendario/calendario.component';
+export * from './input-currency/input-currency.component';

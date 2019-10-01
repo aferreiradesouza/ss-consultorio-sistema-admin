@@ -233,10 +233,6 @@ $hour-count: 48;
             border-radius: 5px;
             display: flex;
 
-            > nb-icon {
-              color: nb-theme(color-primary-500);
-            }
-
             > .nome {
               width: calc(100% - 20px);
               color: nb-theme(color-primary-800);

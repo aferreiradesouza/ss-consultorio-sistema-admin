@@ -1,0 +1,7 @@
+<div class="form-group">
+    <label class="label" *ngIf="label">{{label}} <span *ngIf="required">*</span></label>
+    <input [autocomplete]="!autocomplete ? 'off' : true" type="text" nbInput fullWidth [placeholder]="placeholder"
+        [(ngModel)]="_model" (ngModelChange)="onChange(_model)" currencyMask (blur)="onBlur(_model)"
+        [status]="feedbackInput()" [disabled]="disabled">
+    <div class="feedbackError mt-2" *ngIf="shouldDisplayError()">{{ getErrorMessage() }}</div>
+</div>

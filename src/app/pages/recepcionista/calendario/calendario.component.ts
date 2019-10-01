@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, AfterViewInit, NgZone } from '@angular/core';
-import { NbCalendarRange, NbIconLibraries, NbDialogService, NbDatepickerComponent, NbDatepicker, NbToastrService, NbCalendarComponent, NbDateService, NbCalendarViewMode } from '@nebular/theme';
+import { NbCalendarRange, NbIconLibraries, NbDialogService, NbDatepickerComponent, NbDatepicker, NbToastrService, NbCalendarComponent, NbDateService, NbCalendarViewMode, NbCalendarCell, NbCalendarDayCellComponent } from '@nebular/theme';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 import { CalendarioComponent } from '../../../shared/components';
@@ -12,7 +12,7 @@ import { DetalhesConsultaComponent } from '../detalhes-consulta/detalhes-consult
 import { CalendarCustomDayCellComponent } from './day-cell.component';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 import { BloqueioComponent } from '../bloqueio/bloqueio.component';
-import { Usuario, ListagemUsuario, ListagemConsultorios } from '../../../shared/interface';
+import { Usuario, ListagemUsuario, ListagemConsultorios, Consulta, StatusConsulta, TiposAtendimento } from '../../../shared/interface';
 import { AgendaHubService } from '../../../shared/services/agenda-hub.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
 
@@ -35,6 +35,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public dataCalendarioDia: any;
   public listaMedicos: ListagemUsuario[];
   public listaConsultorios: ListagemConsultorios[];
+  public statusConsultas: StatusConsulta[];
+  public tiposAtendimentos: TiposAtendimento[];
 
   public visao = '2';
   public medico = null;
@@ -67,9 +69,9 @@ export class CalendarioRecepcaoComponent implements OnInit {
 
   async ngOnInit() {
     this.isLoading = true;
-    await this.obterMedicos();
+    await this.obterDadosIniciais();
     if (this.localStorageService.has('filtro-calendario')) {
-      this.preencherFiltro();
+      await this.preencherFiltro();
     } else {
       const medicoId = this.listaMedicos[0].id;
       await this.obterConsultorios(medicoId);
@@ -85,6 +87,10 @@ export class CalendarioRecepcaoComponent implements OnInit {
     this.isLoading = false;
   }
 
+  async obterDadosIniciais(): Promise<void> {
+    await Promise.all([this.obterMedicos(), this.obterStatusConsulta(), this.obterTiposAtendimento()]);
+  }
+
   selecionarDiaNoCalendario(data = this.dataEvent) {
     this.dataEvent = moment(data).toDate();
     this.NbCalendar.visibleDate = moment(data).toDate();
@@ -97,6 +103,28 @@ export class CalendarioRecepcaoComponent implements OnInit {
     }
   }
 
+  async obterStatusConsulta() {
+    await this.recepcionistaService.obterStatusConsulta().then(response => {
+      if (response.sucesso) {
+        this.statusConsultas = response.objeto;
+      } else {
+        this.toastrService.show('', response.mensagens[0],
+          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      }
+    });
+  }
+
+  async obterTiposAtendimento() {
+    await this.recepcionistaService.obterTiposAtendimento().then(response => {
+      if (response.sucesso) {
+        this.tiposAtendimentos = response.objeto;
+      } else {
+        this.toastrService.show('', response.mensagens[0],
+          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      }
+    });
+  }
+
   async obterMedicos() {
     await this.recepcionistaService.obterMedicos().then(response => {
       if (response.sucesso) {
@@ -105,9 +133,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
         this.toastrService.show('', response.error,
           { status: 'danger', duration: 3000, position: <any>'bottom-right' });
       }
-    }).catch(err => {
-      this.toastrService.show('', 'Sistema Indisponível no momento, tente novamente mais tarde.',
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
     });
   }
 
@@ -213,7 +238,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
     });
   }
 
-  proximoDiaUtil() {
+  proximoDiaUtil(type?: 'button') {
     this.data = this.data.sort((a: any, b: any): any => {
       return <any>moment(a.data).toDate() - <any>moment(b.data).toDate();
     });
@@ -234,6 +259,9 @@ export class CalendarioRecepcaoComponent implements OnInit {
       this.dataEvent = moment.max(this.data.map(e => moment(e.data))).toDate();
     }
     this.selecionarDiaNoCalendario(this.dataEvent);
+    if (type === 'button') {
+      this.obterGrupoClick();
+    }
   }
 
   toggle() {
@@ -394,6 +422,29 @@ export class CalendarioRecepcaoComponent implements OnInit {
     this.selecionarDiaNoCalendario(this.dataCalendarioDia.data);
   }
 
+  async atualizarCalendario() {
+      this.isLoading = true;
+      const data = {
+        idMedico: this.medico,
+        idConsultorio: this.lugar,
+        dataInicial: moment(this.diaDe).format('YYYY-MM-DD'),
+        dataFinal: moment(this.diaAte).format('YYYY-MM-DD'),
+      };
+      await this.recepcionistaService.obterConsultas(data).then(response => {
+        if (response.sucesso) {
+          this.data = response.objeto;
+        } else {
+          this.toastrService.show('', response.mensagens[0],
+            { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+        }
+      }).catch(err => {
+        this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
+          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      }).finally(() => {
+        this.isLoading = false;
+      });
+  }
+
   async mostrarLegendas() {
     this.dialogService.open(
       LegendasComponent,
@@ -426,14 +477,20 @@ export class CalendarioRecepcaoComponent implements OnInit {
       AlterarStatusComponent,
       {
         context: {
-          dados: data
+          data: data,
+          statusConsultas: this.statusConsultas
         },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
       }
-    );
+    ).onClose.subscribe(async resultado => {
+      if (resultado) {
+        await this.atualizarCalendario();
+        this.obterGrupoClick();
+      }
+    });
   }
 
   infoConsulta(data) {
@@ -467,9 +524,10 @@ export class CalendarioRecepcaoComponent implements OnInit {
         closeOnBackdropClick: false,
         hasScroll: true
       }
-    ).onClose.subscribe(e => {
-      if (e) {
-        this.filtrar();
+    ).onClose.subscribe(async resultado => {
+      if (resultado) {
+        await this.atualizarCalendario();
+        this.obterGrupoClick();
       }
     });
   }
