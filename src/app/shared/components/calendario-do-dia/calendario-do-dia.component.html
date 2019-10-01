@@ -5,15 +5,27 @@
         </div>
     </nb-card-header>
     <nb-list>
-        <nb-list-item *ngFor="let item of getDatas(info.horarios)"
-            [ngClass]="{'livre' : !item.consulta && verDiasLivre, 'encaixe' : item.consulta && item.consulta.ehEncaixe}">
+        <nb-list-item *ngFor="let item of getDatas(info.horarios)" [ngClass]="{'livre' : !item.consulta && verDiasLivre && !item.bloqueado,
+                        'encaixe' : item.consulta && item.consulta.ehEncaixe,
+                        'bloqueio' : !item.consulta && item.bloqueado}">
             <div class="campo">
-                <ng-container *ngIf="!item.consulta">
+                <ng-container *ngIf="!item.consulta && !item.bloqueado">
                     <div class="hora">
                         {{item.hora}}
                     </div>
                     <div class="button">
                         <button nbButton size="tiny" status="success">Marcar</button>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!item.consulta && item.bloqueado">
+                    <div class="hora align-center">
+                        {{item.hora}}
+                    </div>
+                    <div class="button">
+                        <button nbButton size="tiny" status="basic">
+                            <nb-icon icon="lock-outline"></nb-icon>
+                            Bloqueado
+                        </button>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="item.consulta">

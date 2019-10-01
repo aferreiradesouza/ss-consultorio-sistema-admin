@@ -21,6 +21,10 @@
   > .button {
     border-left: 1px solid nb-theme(color-primary-200);
     padding-left: 15px;
+
+    > button > nb-icon {
+      font-size: 12px;
+    }
   }
 
   > .paciente {
@@ -59,6 +63,10 @@
 
 .livre {
   background-color: nb-theme(color-success-100);
+}
+
+.bloqueio {
+  background-color: rgba(66, 66, 66, 0.568);
 }
 
 .em-espera {

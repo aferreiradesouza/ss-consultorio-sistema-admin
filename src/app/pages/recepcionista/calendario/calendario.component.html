@@ -56,7 +56,7 @@
                             status="primary" ghost>
                             <nb-icon icon="chevron-left-outline"></nb-icon>
                         </button>
-                        <div>{{visao | visao}}</div>
+                        <div>{{visao === '1' ? '1 Dia' : '5 Dias'}}</div>
                         <button [disabled]="!(group || dataCalendarioDia)"
                             (click)="visao === '1' ? changeDiaPainel('proximo') : changeMesPainel('proximo')" nbButton
                             status="primary" ghost>
