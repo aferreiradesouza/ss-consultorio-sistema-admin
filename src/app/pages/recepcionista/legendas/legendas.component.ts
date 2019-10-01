@@ -3,6 +3,7 @@ import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
+import { StatusConsulta, TiposAtendimento } from '../../../shared/interface';
 
 @Component({
   selector: 'ngx-legendas',
@@ -13,13 +14,14 @@ export class LegendasComponent implements OnInit {
 
   public isLoading: boolean;
 
-  @Input() id: number;
-  @Input() dados: any;
+  @Input() statusConsultas: StatusConsulta[];
+  @Input() tiposAtendimentos: TiposAtendimento[];
 
   constructor(
     protected ref: NbDialogRef<LegendasComponent>) { }
 
   ngOnInit() {
+    this.statusConsultas = this.statusConsultas.sort((a, b) => a.ordem - b.ordem);
   }
 
   dismiss() {

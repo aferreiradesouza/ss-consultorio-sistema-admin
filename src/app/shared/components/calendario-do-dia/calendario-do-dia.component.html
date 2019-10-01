@@ -35,14 +35,17 @@
                     <div class="paciente">
                         {{item.consulta.nomePaciente}}
                     </div>
-                    <div class="status em-atendimento">
-                        {{item.consulta.codigoStatusConsulta}}
+                    <div class="status em-atendimento"
+                        [ngStyle]="{'background-color': getColorStatus(item.consulta.codigoStatusConsulta)}">
+                        {{getNomeStatus(item.consulta.codigoStatusConsulta)}}
                     </div>
                     <nb-actions class="ml-auto" size="small">
-                        <nb-action class="typeConsulta">{{item.consulta.codigoTipoConsulta}}</nb-action>
+                        <nb-action class="typeConsulta"
+                            [ngStyle]="{'background-color': getColorAtendimento(item.consulta.codigoTipoConsulta)}">
+                            {{getNomeAtendimento(item.consulta.codigoTipoConsulta)}}</nb-action>
                         <nb-action icon="info-outline" nbTooltip="Informações da Consulta" nbTooltipPlacement="top"
                             nbTooltipStatus="info"></nb-action>
-                        <nb-action icon="play-circle-outline" nbTooltip="Alterar Status" nbTooltipPlacement="top"
+                        <nb-action (click)="alterarStatusConsulta(item)" icon="play-circle-outline" nbTooltip="Alterar Status" nbTooltipPlacement="top"
                             nbTooltipStatus="primary"></nb-action>
                     </nb-actions>
                 </ng-container>

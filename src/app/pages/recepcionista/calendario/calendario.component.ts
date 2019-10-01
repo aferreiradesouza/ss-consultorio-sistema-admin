@@ -423,32 +423,36 @@ export class CalendarioRecepcaoComponent implements OnInit {
   }
 
   async atualizarCalendario() {
-      this.isLoading = true;
-      const data = {
-        idMedico: this.medico,
-        idConsultorio: this.lugar,
-        dataInicial: moment(this.diaDe).format('YYYY-MM-DD'),
-        dataFinal: moment(this.diaAte).format('YYYY-MM-DD'),
-      };
-      await this.recepcionistaService.obterConsultas(data).then(response => {
-        if (response.sucesso) {
-          this.data = response.objeto;
-        } else {
-          this.toastrService.show('', response.mensagens[0],
-            { status: 'danger', duration: 3000, position: <any>'bottom-right' });
-        }
-      }).catch(err => {
-        this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
+    this.isLoading = true;
+    const data = {
+      idMedico: this.medico,
+      idConsultorio: this.lugar,
+      dataInicial: moment(this.diaDe).format('YYYY-MM-DD'),
+      dataFinal: moment(this.diaAte).format('YYYY-MM-DD'),
+    };
+    await this.recepcionistaService.obterConsultas(data).then(response => {
+      if (response.sucesso) {
+        this.data = response.objeto;
+      } else {
+        this.toastrService.show('', response.mensagens[0],
           { status: 'danger', duration: 3000, position: <any>'bottom-right' });
-      }).finally(() => {
-        this.isLoading = false;
-      });
+      }
+    }).catch(err => {
+      this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
+        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+    }).finally(() => {
+      this.isLoading = false;
+    });
   }
 
   async mostrarLegendas() {
     this.dialogService.open(
       LegendasComponent,
       {
+        context: {
+          statusConsultas: this.statusConsultas,
+          tiposAtendimentos: this.tiposAtendimentos
+        },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
@@ -461,9 +465,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
     this.dialogService.open(
       AgendarConsultaComponent,
       {
-        context: {
-          dados: data
-        },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
@@ -489,6 +490,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
       if (resultado) {
         await this.atualizarCalendario();
         this.obterGrupoClick();
+        this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
       }
     });
   }

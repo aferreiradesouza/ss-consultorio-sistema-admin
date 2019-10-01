@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 import * as moment from 'moment';
 import { CalendarioService } from '../../services/calendarios.service';
 import { NbIconLibraries } from '@nebular/theme';
+import { StatusConsulta, TiposAtendimento } from '../../interface';
 
 @Component({
     selector: 'ngx-calendario-do-dia',
@@ -19,6 +20,10 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
     @Input() dataSelecionada: any;
     @Input() verDiasLivre = true;
     @Input() showHeader = true;
+    @Input() statusConsultas: StatusConsulta[];
+    @Input() tiposAtendimentos: TiposAtendimento[];
+
+    @Output() alterarStatus = new EventEmitter();
 
     constructor(public calendarioService: CalendarioService, iconsLibrary: NbIconLibraries) {
         iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
@@ -36,6 +41,22 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
     ngOnInit() {
         this.info = this.calendarioService.montarDias([this.data])[0];
         this.dataExtenso = this.formatarData;
+    }
+
+    getColorStatus(codigo: string) {
+        return this.statusConsultas.filter(e => e.codigo === codigo)[0].cor;
+    }
+
+    getColorAtendimento(codigo: string) {
+        return this.tiposAtendimentos.filter(e => e.codigo === codigo)[0].cor;
+    }
+
+    getNomeStatus(codigo: string) {
+        return this.statusConsultas.filter(e => e.codigo === codigo)[0].nome;
+    }
+
+    getNomeAtendimento(codigo: string) {
+        return this.tiposAtendimentos.filter(e => e.codigo === codigo)[0].nome;
     }
 
     get formatarData() {
@@ -70,6 +91,11 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
             }
             return true;
         });
+    }
+
+    alterarStatusConsulta(data) {
+        console.log(data);
+        this.alterarStatus.emit(data);
     }
 
 }

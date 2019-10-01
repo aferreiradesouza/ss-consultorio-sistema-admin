@@ -1,9 +1,9 @@
-<nb-card>
+<nb-card status="primary">
   <nb-card-header>Legendas</nb-card-header>
   <nb-card-body>
     <div class="row" style="width: 500px;">
-      <div class="col">
-        <label class="label">Tipo de Atendimento</label>
+      <div class="col-5">
+        <label class="label">Tipos de Marcação</label>
         <div class="linhaLegenda mt-2">
           <div class="item livre"></div>
           <div class="value align-center ml-4">Livre</div>
@@ -12,17 +12,17 @@
           <div class="item encaixe"></div>
           <div class="value align-center ml-4">Encaixe</div>
         </div>
-        <label class="label mt-4">Status do Atendimento</label>
-        <div class="linhaLegenda mt-2">
-          <div class="item em-atendimento"></div>
-          <div class="value align-center ml-4">Em Atendimento</div>
+        <label class="label mt-4">Tipo de Atendimento</label>
+        <div class="linhaLegenda mt-2" *ngFor="let item of tiposAtendimentos">
+          <nb-icon [ngStyle]="{'color': item.cor}" class="icon revisao" icon="radio-button-on"></nb-icon>
+          <div class="value align-center ml-4">{{item.nome}}</div>
         </div>
       </div>
-      <div class="col">
-        <label class="label">Tipo de Atendimento</label>
-        <div class="linhaLegenda mt-2">
-          <nb-icon class="icon revisao" icon="radio-button-on"></nb-icon>
-          <div class="value align-center ml-4">Revisão</div>
+      <div class="col-7">
+        <label class="label">Status do Atendimento</label>
+        <div class="linhaLegenda mt-2" *ngFor="let item of statusConsultas">
+          <div class="item" [ngStyle]="{'background-color': item.cor}"></div>
+          <div class="value align-center ml-4">{{item.nome}}</div>
         </div>
       </div>
     </div>
