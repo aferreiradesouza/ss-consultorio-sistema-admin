@@ -93,7 +93,9 @@ export class CalendarioRecepcaoComponent implements OnInit {
 
   selecionarDiaNoCalendario(data = this.dataEvent) {
     this.dataEvent = moment(data).toDate();
-    this.NbCalendar.visibleDate = moment(data).toDate();
+    if (this.isOpen) {
+      this.NbCalendar.visibleDate = moment(data).toDate();
+    }
     this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
   }
 
@@ -270,6 +272,9 @@ export class CalendarioRecepcaoComponent implements OnInit {
 
   open() {
     this.isOpen = true;
+    setTimeout(() => {
+      this.selecionarDiaNoCalendario();
+    }, 600);
   }
 
   close() {
