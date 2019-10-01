@@ -2,10 +2,10 @@
     <nb-card-header>
         <div class="d-flex header" [ngClass]="{'minimized': !isOpen}">
             <nb-icon (click)="toggle()" pack="fa" class="mr-4" [icon]="isOpen ? 'times' : 'bars'"></nb-icon>
-            <ng-container *ngIf="isOpen">
-                <div class="mr-4">
+            <ng-container>
+                <div class="mr-4" [ngClass]="{'d-none' : !isOpen}">
                     <button class="mb-2" nbButton status="info" fullWidth (click)="proximoDiaUtil('button')">Próximo dia de atendimento</button>
-                    <nb-calendar *ngIf="isOpen" (dateChange)="changeDia($event)" [filter]="filter"
+                    <nb-calendar (dateChange)="changeDia($event)" [filter]="filter"
                         [(date)]="dataEvent" [showHeader]="false">
                     </nb-calendar>
                 </div>
