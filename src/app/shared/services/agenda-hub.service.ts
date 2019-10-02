@@ -50,25 +50,29 @@ export class AgendaHubService {
       console.log('onclose', data);
       this.startConnection();
     });
-    this._hubConnection.on('NovaConsulta', (nomeUsuario: any, data: any) => {
-      console.log('NovaConsulta', nomeUsuario, JSON.parse(data));
-      this.novaConsulta.emit(JSON.parse(data));
-    });
-    this._hubConnection.on('NovoBloqueio', (nomeUsuario: any, data: any) => {
-      console.log('NovoBloqueio', nomeUsuario, JSON.parse(data));
+    this._hubConnection.on('NovaConsulta', (usuario: any, data: any) => {
       const response = JSON.parse(data);
-      response.cpfCriador = nomeUsuario;
+      response.cpfCriador = JSON.parse(usuario);
+      console.log('NovaConsulta', response);
+      this.novaConsulta.emit(response);
+    });
+    this._hubConnection.on('NovoBloqueio', (usuario: any, data: any) => {
+      const response = JSON.parse(data);
+      response.cpfCriador = JSON.parse(usuario);
+      console.log('NovoBloqueio', response);
       this.novoBloqueio.emit(response);
     });
-    this._hubConnection.on('MudancaBloqueio', (nomeUsuario: any, data: any) => {
-      console.log('MudancaBloqueio', nomeUsuario, JSON.parse(data));
+    this._hubConnection.on('MudancaBloqueio', (usuario: any, data: any) => {
       const response = JSON.parse(data);
-      response.cpfCriador = JSON.parse(nomeUsuario);
+      response.cpfCriador = JSON.parse(usuario);
+      console.log('MudancaBloqueio', response);
       this.mudancaBloqueio.emit(response);
     });
-    this._hubConnection.on('MudancaStatusConsulta', (nomeUsuario: any, data: any) => {
-      console.log('MudancaStatusConsulta', nomeUsuario, JSON.parse(data));
-      this.mudancaStatusConsulta.emit(JSON.parse(data));
+    this._hubConnection.on('MudancaStatusConsulta', (usuario: any, data: any) => {
+      const response = JSON.parse(data);
+      response.cpfCriador = JSON.parse(usuario);
+      console.log('MudancaStatusConsulta', response);
+      this.mudancaStatusConsulta.emit(response);
     });
   }
 }

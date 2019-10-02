@@ -160,7 +160,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
     this.agendaHubService.novoBloqueio.subscribe((data: any) => {
       this._ngZone.run(async () => {
         console.log(data);
-        if (data.UsuarioCriador.Cpf === userCpf) { return; }
+        if (data.cpfCriador.Cpf === userCpf) { return; }
         const dataInicioValida = moment(data.DataInicio).isBetween(moment(this.diaDe), moment(this.diaAte));
         const dataFimValida = moment(data.DataFim).isBetween(moment(this.diaDe), moment(this.diaAte));
         const ehMesmoConsultorio = this.lugar === data.IdConsultorio;
@@ -183,7 +183,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
     });
     this.agendaHubService.mudancaStatusConsulta.subscribe((data: any) => {
       this._ngZone.run(async () => {
-        if (data.IdUsuario === userCpf) { return; }
+        if (data.cpfCriador.Cpf === userCpf) { return; }
         const dataValida = moment(data.Data).isBetween(moment(this.diaDe), moment(this.diaAte));
         const ehMesmoConsultorio = this.lugar === data.IdConsultorio;
         const ehMesmoMedico = this.medico === data.IdUsuario;
