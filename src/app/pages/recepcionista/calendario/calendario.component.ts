@@ -151,14 +151,29 @@ export class CalendarioRecepcaoComponent implements OnInit {
   }
 
   private subscribeSignalREventos(): void {
+    const userCpf = this.localStorageService.getJson('login').cpf;
     this.agendaHubService.novaConsulta.subscribe((data: any) => {
       this._ngZone.run(() => {
         console.log('calendario novaConsulta', data);
       });
     });
     this.agendaHubService.novoBloqueio.subscribe((data: any) => {
-      this._ngZone.run(() => {
-        console.log('calendario novoBloqueio', data);
+      this._ngZone.run(async () => {
+        console.log(data);
+        if (data.UsuarioCriador.Cpf === userCpf) { return; }
+        const dataInicioValida = moment(data.DataInicio).isBetween(moment(this.diaDe), moment(this.diaAte));
+        const dataFimValida = moment(data.DataFim).isBetween(moment(this.diaDe), moment(this.diaAte));
+        const ehMesmoConsultorio = this.lugar === data.IdConsultorio;
+        const ehMesmoMedico = this.medico === data.IdMedico;
+        this.toastrService.show('', `Temos um novo bloqueio no dia
+          ${moment(data.DataInicio).format('DD/MM/YYYY')} às ${moment(data.DataInicio).format('hh:mm')}
+          até ${moment(data.DataFim).format('DD/MM/YYYY')} às ${moment(data.DataFim).format('hh:mm')}.`,
+          { status: 'info', duration: 0, position: <any>'bottom-right' });
+        if (dataInicioValida && dataFimValida && ehMesmoConsultorio && ehMesmoMedico) {
+          await this.atualizarCalendario();
+          this.obterGrupoClick();
+          this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+        }
       });
     });
     this.agendaHubService.mudancaBloqueio.subscribe((data: any) => {
@@ -167,8 +182,19 @@ export class CalendarioRecepcaoComponent implements OnInit {
       });
     });
     this.agendaHubService.mudancaStatusConsulta.subscribe((data: any) => {
-      this._ngZone.run(() => {
-        console.log('calendario mudancaStatusConsulta', data);
+      this._ngZone.run(async () => {
+        if (data.IdUsuario === userCpf) { return; }
+        const dataValida = moment(data.Data).isBetween(moment(this.diaDe), moment(this.diaAte));
+        const ehMesmoConsultorio = this.lugar === data.IdConsultorio;
+        const ehMesmoMedico = this.medico === data.IdUsuario;
+        this.toastrService.show('', `Temos uma mudança de status da consulta do dia
+        ${moment(data.Data).format('DD/MM/YYYY')} às ${data.Hora}`,
+          { status: 'info', duration: 0, position: <any>'bottom-right' });
+        if (dataValida && ehMesmoMedico && ehMesmoConsultorio) {
+          await this.atualizarCalendario();
+          this.obterGrupoClick();
+          this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+        }
       });
     });
   }
@@ -530,6 +556,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
       if (resultado) {
         await this.atualizarCalendario();
         this.obterGrupoClick();
+        this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
       }
     });
   }

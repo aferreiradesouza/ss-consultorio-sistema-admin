@@ -107,7 +107,7 @@ export class BloqueioComponent implements OnInit {
   hourDeEhMenor(): boolean {
     const hourDeDecimal = this.calendarioService.hourToDecimal(this.form.get('horaDe').value);
     const hourAteDecimal = this.calendarioService.hourToDecimal(this.form.get('horaAte').value);
-    return hourDeDecimal < hourAteDecimal;
+    return hourDeDecimal <= hourAteDecimal;
   }
 
   async criarBloqueio() {

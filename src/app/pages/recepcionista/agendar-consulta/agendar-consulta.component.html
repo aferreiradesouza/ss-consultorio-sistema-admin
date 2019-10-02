@@ -1,7 +1,28 @@
-<nb-card>
-  <nb-card-header>Agendar consulta</nb-card-header>
-  <nb-card-body>
+<nb-card status="primary">
+  <nb-card-header class="d-flex">
     Agendar consulta
+  </nb-card-header>
+  <nb-card-body [formGroup]="form">
+    <div class="row">
+      <div class="col-sm-9">
+        <ngx-input-simple label="Nome" [feedback]="false" [required]="true" formControlName="paciente">
+        </ngx-input-simple>
+      </div>
+      <div class="col-sm-3 pt-3">
+        <nb-checkbox formControlName="novoPaciente">Paciente novo
+        </nb-checkbox>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <ngx-input-simple label="Médico" [feedback]="false" [required]="true" formControlName="medico">
+        </ngx-input-simple>
+      </div>
+      <div class="col-sm-6">
+        <ngx-input-simple label="Consultório" [feedback]="false" [required]="true" formControlName="consultorio">
+        </ngx-input-simple>
+      </div>
+    </div>
   </nb-card-body>
   <nb-card-footer>
     <button nbButton status="basic" (click)="dismiss()">Voltar</button>

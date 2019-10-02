@@ -56,11 +56,15 @@ export class AgendaHubService {
     });
     this._hubConnection.on('NovoBloqueio', (nomeUsuario: any, data: any) => {
       console.log('NovoBloqueio', nomeUsuario, JSON.parse(data));
-      this.novoBloqueio.emit(JSON.parse(data));
+      const response = JSON.parse(data);
+      response.cpfCriador = nomeUsuario;
+      this.novoBloqueio.emit(response);
     });
     this._hubConnection.on('MudancaBloqueio', (nomeUsuario: any, data: any) => {
       console.log('MudancaBloqueio', nomeUsuario, JSON.parse(data));
-      this.mudancaBloqueio.emit(JSON.parse(data));
+      const response = JSON.parse(data);
+      response.cpfCriador = JSON.parse(nomeUsuario);
+      this.mudancaBloqueio.emit(response);
     });
     this._hubConnection.on('MudancaStatusConsulta', (nomeUsuario: any, data: any) => {
       console.log('MudancaStatusConsulta', nomeUsuario, JSON.parse(data));

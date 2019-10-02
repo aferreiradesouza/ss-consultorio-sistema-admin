@@ -12,6 +12,12 @@ import * as moment from 'moment';
 export class AgendarConsultaComponent implements OnInit {
 
   public isLoading: boolean;
+  public form = new FormGroup({
+    paciente: new FormControl(''),
+    medico: new FormControl({value: '', disabled: true}),
+    consultorio: new FormControl({value: '', disabled: true}),
+    novoPaciente: new FormControl(false)
+  });
 
   @Input() dados: any;
 
