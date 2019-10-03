@@ -1,28 +1,68 @@
-<nb-card status="primary">
+<nb-card status="primary" size="large" [nbSpinner]="isLoading" nbSpinnerStatus="primary">
   <nb-card-header class="d-flex">
     Agendar consulta
   </nb-card-header>
   <nb-card-body [formGroup]="form">
     <div class="row">
-      <div class="col-sm-9">
-        <ngx-input-simple label="Nome" [feedback]="false" [required]="true" formControlName="paciente">
-        </ngx-input-simple>
+      <div class="col-sm-7">
+        <ngx-input-autocomplete formControlName="paciente" [pacientes]="pacientes" label="Nome" [required]="true"
+          placeholder="Digite o nome do paciente"></ngx-input-autocomplete>
       </div>
-      <div class="col-sm-3 pt-3">
-        <nb-checkbox formControlName="novoPaciente">Paciente novo
-        </nb-checkbox>
+      <div class="col-sm-5 button-add">
+        <button nbButton status="primary" fullWidth
+          [attr.disabled]="disabledButtonAddPaciente() ? true : undefined">Adicionar paciente</button>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-6">
-        <ngx-input-simple label="Médico" [feedback]="false" [required]="true" formControlName="medico">
+        <div class="py-3">
+          <nb-user [name]="medico.nome" [picture]="medico.urlFoto" title="Médico"></nb-user>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="py-3">
+          <nb-user [name]="consultorio.nome" [picture]="consultorio.urlFoto" title="Consultório"></nb-user>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="content">
+          <nb-icon icon="calendar-outline"></nb-icon>
+          <span class="ml-3">{{data.data | date:'YYYY-MM-DD'}}</span>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="content margin-hora">
+          <nb-icon icon="clock-outline"></nb-icon>
+          <span class="ml-3">{{data.hora}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-sm-6">
+        <ngx-input-simple label="Especialidade" [feedback]="false" [required]="true" formControlName="teste">
         </ngx-input-simple>
       </div>
       <div class="col-sm-6">
-        <ngx-input-simple label="Consultório" [feedback]="false" [required]="true" formControlName="consultorio">
+        <label class="label d-block mt-1">Tipo do atendimento</label>
+        <nb-select fullWidth formControlName="tipoAtendimento" placeholder="Selecione">
+          <nb-option [value]="atendimento.id" *ngFor="let atendimento of tiposAtendimento">{{atendimento.nome}}
+          </nb-option>
+        </nb-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <ngx-input-simple label="Telefone" [feedback]="false" [required]="true" formControlName="teste">
+        </ngx-input-simple>
+      </div>
+      <div class="col-sm-6">
+        <ngx-input-simple label="Celular" [feedback]="false" [required]="true" formControlName="teste">
         </ngx-input-simple>
       </div>
     </div>
+    {{form.value | json}}
   </nb-card-body>
   <nb-card-footer>
     <button nbButton status="basic" (click)="dismiss()">Voltar</button>

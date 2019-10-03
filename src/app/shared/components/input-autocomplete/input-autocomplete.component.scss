@@ -1,0 +1,77 @@
+@import "../../styles/themes.scss";
+
+.form-group {
+    position: relative;
+    transition: .2s all;
+
+    > input {
+        box-shadow: none;
+
+        &.active-list {
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+    }
+
+    > .list {
+        position: absolute;
+        width: 100%;
+        background-color: white;
+        box-shadow: 0px 8px 16px 0px rgba(44, 51, 73, 0.1);
+        top: 100%;
+        left: 0px;
+        z-index: 3;
+        max-height: 152px;
+        overflow-y: auto;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+
+        > .option-list {
+            padding: 7px 18px;
+            text-align: left;
+            line-height: 24px;
+            color: rgb(33, 37, 41);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+
+            &:hover {
+                color: rgb(51, 102, 254);
+            }
+        }
+
+        > .button-add {
+            padding: 10px;
+        }
+    }
+    
+    > .profile {
+        position: absolute;
+        left: 100%;
+        background-color: white;
+        box-shadow: 0px 8px 16px 0px rgba(44, 51, 73, 0.1);
+        width: 261.4px;
+        z-index: 3;
+        padding: 5px;
+        border-top-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+
+        @media only screen and (max-width: 575px) {
+            display: none;
+        }
+
+        div {
+
+            > .label {
+                align-items: flex-end !important;
+                width: fit-content;
+            }
+
+            > .valor {
+                width: 100%;
+                padding-left: 15px;
+            }
+        }
+    }
+}

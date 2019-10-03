@@ -191,7 +191,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
         ${moment(data.Data).format('DD/MM/YYYY')} às ${data.Hora}`,
           { status: 'info', duration: 0, position: <any>'bottom-right' });
         if (dataValida && ehMesmoMedico && ehMesmoConsultorio) {
-          await this.atualizarCalendario();
+          await this.atualizarCalendarioSemRequest(data.Data, 'status', data);
           this.obterGrupoClick();
           this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
         }
@@ -471,6 +471,21 @@ export class CalendarioRecepcaoComponent implements OnInit {
     });
   }
 
+  async atualizarCalendarioSemRequest(data: string, type: string, content?: any): Promise<void> {
+    const types = ['status'];
+    if (types.indexOf(type) === -1) { throw new Error('Type de atualização de calendário inválida'); }
+    const indexData = this.obterIndex(data);
+    const indexHora = this.data[indexData].horarios.map(e => e.hora).indexOf(content.Hora);
+    if (indexData === -1 || indexHora === -1) { return; }
+    switch (type) {
+      case 'status':
+        this.data[indexData].horarios[indexHora].consulta.dataStatusConsulta = content.DataStatusConsulta;
+        const codigoStatus = this.statusConsultas.filter(e => e.id === content.IdStatusConsulta)[0].codigo;
+        this.data[indexData].horarios[indexHora].consulta.codigoStatusConsulta = codigoStatus;
+        break;
+    }
+  }
+
   async mostrarLegendas() {
     this.dialogService.open(
       LegendasComponent,
@@ -491,6 +506,12 @@ export class CalendarioRecepcaoComponent implements OnInit {
     this.dialogService.open(
       AgendarConsultaComponent,
       {
+        context: {
+          medico: this.listaMedicos.filter(e => e.id === this.medico)[0],
+          consultorio: this.listaConsultorios.filter(e => e.idConsultorio === this.lugar)[0],
+          data: data,
+          tiposAtendimento: this.tiposAtendimentos
+        },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,

@@ -3,6 +3,8 @@ import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
+import { PacientesService } from '../../../shared/services/pacientes.service';
+import { ListagemPacientes, ListagemUsuario, ListagemConsultorios, TiposAtendimento } from '../../../shared/interface';
 
 @Component({
   selector: 'ngx-agendar-consulta',
@@ -12,20 +14,37 @@ import * as moment from 'moment';
 export class AgendarConsultaComponent implements OnInit {
 
   public isLoading: boolean;
+  public pacientes: ListagemPacientes[];
+
   public form = new FormGroup({
     paciente: new FormControl(''),
-    medico: new FormControl({value: '', disabled: true}),
-    consultorio: new FormControl({value: '', disabled: true}),
-    novoPaciente: new FormControl(false)
+    tipoAtendimento: new FormControl(''),
+    teste: new FormControl('')
   });
 
-  @Input() dados: any;
+  @Input() medico: ListagemUsuario;
+  @Input() consultorio: ListagemConsultorios;
+  @Input() data: any;
+  @Input() tiposAtendimento: TiposAtendimento[];
 
   constructor(
-    protected ref: NbDialogRef<AgendarConsultaComponent>) { }
+    protected ref: NbDialogRef<AgendarConsultaComponent>,
+    private pacientesService: PacientesService) { }
 
-  ngOnInit() {
-    (this.dados);
+  async ngOnInit() {
+    console.log(this.medico, this.consultorio, this.data);
+    this.isLoading = true;
+    await this.pacientesService.obterPacientes().then(response => {
+      if (response.sucesso) {
+        this.pacientes = response.objeto;
+      } else {
+        this.dismiss();
+      }
+    }).catch(err => {
+      this.dismiss();
+    }).finally(() => {
+      this.isLoading = false;
+    })
   }
 
   dismiss() {
@@ -34,5 +53,9 @@ export class AgendarConsultaComponent implements OnInit {
 
   deletar() {
     this.ref.close(true);
+  }
+
+  disabledButtonAddPaciente(): boolean {
+    return this.form.get('paciente').value;
   }
 }

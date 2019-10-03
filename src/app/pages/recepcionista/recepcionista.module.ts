@@ -15,7 +15,8 @@ import {
   NbDatepickerModule,
   NbInputModule,
   NbToastrModule,
-  NbCheckboxModule
+  NbCheckboxModule,
+  NbUserModule
 } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -59,7 +60,8 @@ const MODAIS = [
     NbInputModule,
     NbToastrModule,
     NbCheckboxModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NbUserModule
   ],
   declarations: [
     CalendarioRecepcaoComponent,

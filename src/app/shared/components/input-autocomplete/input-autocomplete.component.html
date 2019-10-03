@@ -1,0 +1,24 @@
+<div class="form-group">
+    <label class="label" *ngIf="label">{{label}} <span *ngIf="required">*</span></label>
+    <input [ngClass]="{'active-list' : showList}" [autocomplete]="!autocomplete ? 'off' : true" type="text" nbInput
+        fullWidth [placeholder]="placeholder" [(ngModel)]="_model" (ngModelChange)="onChange(_model)"
+        (blur)="onBlur($event)">
+    <div class="list" *ngIf="showList">
+        <ng-container *ngIf="listaFiltrada.length">
+            <div class="option-list" *ngFor="let person of listaFiltrada" (click)="selecionar(person)"
+                (mouseenter)="mouseEnterData($event, person)" (mouseleave)="mouseLeaveData($event)">
+                {{person.nome}}
+            </div>
+        </ng-container>
+        <div class="button-add" *ngIf="!listaFiltrada.length">
+            <button nbButton status="primary" (click)="novoPaciente()" fullWidth>Adicionar um novo paciente</button>
+        </div>
+    </div>
+    <div class="profile" *ngIf="showProfile">
+        <ngx-item label="NOME" [value]="profile.nome" [truncate]="true"></ngx-item>
+        <ngx-item label="E-MAIL" [value]="profile.email" [truncate]="true"></ngx-item>
+        <ngx-item label="CPF" [value]="profile.cpf | cpf" [truncate]="true"></ngx-item>
+        <ngx-item label="CELULAR" [value]="profile.celular | telefone" [truncate]="true"></ngx-item>
+        <ngx-item label="TELEFONE" [value]="profile.celular | telefone" [truncate]="true"></ngx-item>
+    </div>
+</div>

@@ -10,6 +10,7 @@ export class ItemComponent implements OnInit {
 
     @Input() label: string;
     @Input() value?: any;
+    @Input() truncate = false;
 
     constructor() { }
 
