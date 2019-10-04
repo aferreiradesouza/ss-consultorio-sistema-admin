@@ -251,7 +251,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
         };
         this.proximoDiaUtil();
         this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
-        this.obterGrupoHoje();
+        // this.obterGrupoHoje();
+        this.obterGrupoClick();
       } else {
         this.toastrService.show('', response.mensagens[0],
           { status: 'danger', duration: 3000, position: <any>'bottom-right' });
@@ -511,7 +512,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
           consultorio: this.listaConsultorios.filter(e => e.idConsultorio === this.lugar)[0],
           data: data,
           tiposAtendimento: this.tiposAtendimentos,
-          ehEncaixe: false
+          ehEncaixe: data.ehEncaixe
         },
         closeOnEsc: true,
         autoFocus: false,

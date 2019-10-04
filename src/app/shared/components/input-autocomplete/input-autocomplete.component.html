@@ -11,14 +11,43 @@
             </div>
         </ng-container>
         <div class="button-add" *ngIf="!listaFiltrada.length">
-            <button nbButton status="primary" (click)="novoPaciente()" fullWidth>Adicionar um novo paciente</button>
+            <div class="msgErro">Nenhum paciente encontrado</div>
+            <button nbButton status="primary" size="small" (click)="novoPaciente()" fullWidth>Adicionar um novo
+                paciente</button>
         </div>
     </div>
     <div class="profile" *ngIf="showProfile">
-        <ngx-item label="NOME" [value]="profile.nome" [truncate]="true"></ngx-item>
-        <ngx-item label="E-MAIL" [value]="profile.email" [truncate]="true"></ngx-item>
-        <ngx-item label="CPF" [value]="profile.cpf | cpf" [truncate]="true"></ngx-item>
-        <ngx-item label="CELULAR" [value]="profile.celular | telefone" [truncate]="true"></ngx-item>
-        <ngx-item label="TELEFONE" [value]="profile.telefone | telefone" [truncate]="true"></ngx-item>
+        <nb-list>
+            <nb-list-item>
+                <div class="dado">
+                    <label class="label d-block mb-1">Nome</label>
+                    <div>{{profile.nome || '-'}}</div>
+                </div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="dado">
+                    <label class="label d-block mb-1">E-mail</label>
+                    <div>{{profile.email || '-'}}</div>
+                </div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="dado">
+                    <label class="label d-block mb-1">CPF</label>
+                    <div>{{(profile.cpf | cpf) || '-'}}</div>
+                </div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="dado">
+                    <label class="label d-block mb-1">Celular</label>
+                    <div>{{(profile.celular | telefone) || '-' }}</div>
+                </div>
+            </nb-list-item>
+            <nb-list-item>
+                <div class="dado">
+                    <label class="label d-block mb-1">Telefone</label>
+                    <div>{{(profile.telefone | telefone) || '-'}}</div>
+                </div>
+            </nb-list-item>
+        </nb-list>
     </div>
 </div>

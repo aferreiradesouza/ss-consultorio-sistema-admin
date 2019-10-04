@@ -24,6 +24,7 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
     @Input() tiposAtendimentos: TiposAtendimento[];
 
     @Output() alterarStatus = new EventEmitter();
+    @Output() marcarConsulta = new EventEmitter();
 
     constructor(public calendarioService: CalendarioService, iconsLibrary: NbIconLibraries) {
         iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
@@ -98,5 +99,8 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
         this.alterarStatus.emit(data);
     }
 
+    agendarConsulta(dados, dia, ehEncaixe) {
+        this.marcarConsulta.emit({...dados, data: dia.diaCompleta, ehEncaixe});
+    }
 }
 

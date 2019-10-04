@@ -24,7 +24,7 @@
                     <div class="card-agendamento-header">
                         <div>
                             <div class="hora">{{item.hora}}</div>
-                            <button (click)="agendar(item, dia)" class="ml-auto" nbButton size="tiny"
+                            <button (click)="agendar(item, dia, false)" class="ml-auto" nbButton size="tiny"
                                 status="success">Marcar</button>
                         </div>
                     </div>
@@ -35,8 +35,8 @@
                             <div class="hora">{{item.hora}}</div>
                             <div class="bloqueio">
                                 <button nbButton status="basic" size="tiny"
-                                [nbTooltip]="item.observacaoBloqueio || 'Nenhuma observação'"
-                                nbTooltipPlacement="top" nbTooltipStatus="basic">
+                                    [nbTooltip]="item.observacaoBloqueio || 'Nenhuma observação'"
+                                    nbTooltipPlacement="top" nbTooltipStatus="basic">
                                     <nb-icon icon="lock-outline"></nb-icon>
                                 </button>
                             </div>
@@ -54,25 +54,26 @@
                                         [nbTooltip]="item.consulta.codigoStatusConsulta | status"
                                         nbTooltipPlacement="top" nbTooltipStatus="basic">
                                         <span
-                                            class="text-truncate">{{getNomeStatus(item.consulta.codigoStatusConsulta)}}</span>
+                                            class="text-truncate cursor-pointer">{{getNomeStatus(item.consulta.codigoStatusConsulta)}}</span>
                                     </nb-action>
-                                    <nb-action (click)="alterarStatusConsulta(item, dia.data)" class="alterar-status-icon"
-                                        icon="play-circle-outline" nbTooltip="Alterar Status" nbTooltipPlacement="top"
-                                        nbTooltipStatus="primary"></nb-action>
+                                    <nb-action (click)="alterarStatusConsulta(item, dia.data)"
+                                        class="alterar-status-icon" icon="play-circle-outline"
+                                        nbTooltip="Alterar Status" nbTooltipPlacement="top" nbTooltipStatus="primary">
+                                    </nb-action>
                                 </nb-actions>
                             </div>
                         </div>
                         <div class="info-pessoal">
                             <div class="text-truncate nome" (click)="verConsulta(item)" nbTooltip="Detalhes da consulta"
                                 nbTooltipPlacement="bottom" nbTooltipStatus="info">{{item.consulta.nomePaciente}}</div>
-                            <nb-icon
-                                [ngStyle]="{'color': getColorAtendimento(item.consulta.codigoTipoConsulta)}"
-                                icon="radio-button-on" [nbTooltip]="getNomeAtendimento(item.consulta.codigoTipoConsulta)" nbTooltipPlacement="left"
-                                nbTooltipStatus="basic"></nb-icon>
+                            <nb-icon [ngStyle]="{'color': getColorAtendimento(item.consulta.codigoTipoConsulta)}"
+                                icon="radio-button-on"
+                                [nbTooltip]="getNomeAtendimento(item.consulta.codigoTipoConsulta)"
+                                nbTooltipPlacement="left" nbTooltipStatus="basic"></nb-icon>
                         </div>
                     </div>
                     <div class="encaixe align-center" *ngIf="dia.totalEncaixesPermitidos > 0">
-                        <button nbButton size="tiny" status="warning">Encaixe</button>
+                        <button (click)="agendar(item, dia, true)" nbButton size="tiny" status="warning">Encaixe</button>
                     </div>
                 </ng-container>
             </div>

@@ -8,6 +8,8 @@
 
 .campo {
   display: flex;
+  align-items: center;
+  justify-items: center;
 
   > .hora {
     padding: 2px 5px;
@@ -25,6 +27,10 @@
     > button > nb-icon {
       font-size: 12px;
     }
+  }
+
+  > .button-encaixe {
+    margin-left: 15px;
   }
 
   > .paciente {
@@ -46,15 +52,19 @@
     font-size: 12px;
   }
 
-  > nb-actions > .typeConsulta {
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    padding: 0px 6px;
-    border-radius: 5px;
-    font-size: 12px;
-    margin-right: 10px;
-    background-color: nb-theme(color-primary-100)
+  > nb-actions {
+
+    > .typeConsulta {
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      padding: 0px 6px;
+      border-radius: 5px;
+      font-size: 12px;
+      margin-right: 10px;
+      background-color: nb-theme(color-primary-100);
+      color: white;
+    }
   }
 }
 .encaixe {
@@ -70,22 +80,21 @@
 }
 
 .em-espera {
-  background-color : nb-theme(color-warning-600);
+  background-color: nb-theme(color-warning-600);
   color: nb-theme(color-basic-100);
 }
 
 .nao-confirmado {
-  background-color : nb-theme(color-warning-600);
+  background-color: nb-theme(color-warning-600);
   color: nb-theme(color-basic-100);
 }
 
 .confirmado {
-  background-color : nb-theme(color-success-600);
+  background-color: nb-theme(color-success-600);
   color: nb-theme(color-basic-100);
 }
 
 .em-atendimento {
-  background-color : nb-theme(color-danger-600);
+  background-color: nb-theme(color-danger-600);
   color: nb-theme(color-basic-100);
 }
-

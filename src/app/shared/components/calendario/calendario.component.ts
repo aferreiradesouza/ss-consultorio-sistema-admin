@@ -117,8 +117,8 @@ export class CalendarioComponent implements OnInit, OnChanges {
         this.dataSelecionada.emit(data);
     }
 
-    agendar(dados, dia) {
-        this.agendarConsulta.emit({...dados, data: dia.data});
+    agendar(dados, dia, ehEncaixe) {
+        this.agendarConsulta.emit({...dados, data: dia.data, ehEncaixe});
     }
 
     alterarStatusConsulta(data, dia) {

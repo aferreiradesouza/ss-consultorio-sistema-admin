@@ -14,7 +14,7 @@
                         {{item.hora}}
                     </div>
                     <div class="button">
-                        <button nbButton size="tiny" status="success">Marcar</button>
+                        <button nbButton size="tiny" status="success" (click)="agendarConsulta(item, info, false)">Marcar</button>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="!item.consulta && item.bloqueado">
@@ -23,8 +23,8 @@
                     </div>
                     <div class="button">
                         <button nbButton size="tiny" status="basic"
-                        [nbTooltip]="item.observacaoBloqueio || 'Nenhuma observação'"
-                        nbTooltipPlacement="right" nbTooltipStatus="basic">
+                            [nbTooltip]="item.observacaoBloqueio || 'Nenhuma observação'" nbTooltipPlacement="right"
+                            nbTooltipStatus="basic">
                             <nb-icon icon="lock-outline"></nb-icon>
                             Bloqueado
                         </button>
@@ -41,14 +41,17 @@
                         [ngStyle]="{'background-color': getColorStatus(item.consulta.codigoStatusConsulta)}">
                         {{getNomeStatus(item.consulta.codigoStatusConsulta)}}
                     </div>
+                    <div class="button-encaixe">
+                        <button nbButton size="tiny" status="warning" (click)="agendarConsulta(item, info, true)">Encaixe</button>
+                    </div>
                     <nb-actions class="ml-auto" size="small">
                         <nb-action class="typeConsulta"
                             [ngStyle]="{'background-color': getColorAtendimento(item.consulta.codigoTipoConsulta)}">
                             {{getNomeAtendimento(item.consulta.codigoTipoConsulta)}}</nb-action>
                         <nb-action icon="info-outline" nbTooltip="Informações da Consulta" nbTooltipPlacement="top"
                             nbTooltipStatus="info"></nb-action>
-                        <nb-action (click)="alterarStatusConsulta(item)" icon="play-circle-outline" nbTooltip="Alterar Status" nbTooltipPlacement="top"
-                            nbTooltipStatus="primary"></nb-action>
+                        <nb-action (click)="alterarStatusConsulta(item)" icon="play-circle-outline"
+                            nbTooltip="Alterar Status" nbTooltipPlacement="top" nbTooltipStatus="primary"></nb-action>
                     </nb-actions>
                 </ng-container>
             </div>

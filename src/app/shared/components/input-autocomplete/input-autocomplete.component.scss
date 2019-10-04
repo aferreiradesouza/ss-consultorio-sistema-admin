@@ -42,6 +42,15 @@
 
         > .button-add {
             padding: 10px;
+
+            > .msgErro {
+                text-align: center;
+                width: 100%;
+                margin-bottom: 15px;
+                margin-top: 5px;
+                font-size: 14px;
+                font-weight: bold;
+            }
         }
     }
     
@@ -74,4 +83,8 @@
             }
         }
     }
+}
+
+nb-list-item {
+    padding: 5px 10px;
 }
