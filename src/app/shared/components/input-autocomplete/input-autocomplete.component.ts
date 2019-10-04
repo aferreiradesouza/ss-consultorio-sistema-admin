@@ -99,7 +99,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor {
             this.listaFiltrada = [];
             this.showList = false;
             this.showProfile = false;
-        }, 125);
+        }, 135);
         this.onTouched();
         this.blur.emit();
     }

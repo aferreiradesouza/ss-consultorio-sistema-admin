@@ -98,6 +98,20 @@ export interface IAlterarStatus extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface ICriarConsulta extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface IObterEspecialidades extends DefaultHttpResponse {
+    objeto: Especialidades[];
+}
+
+export interface Especialidades {
+    id: number;
+    nome: string;
+    descricao: string;
+}
+
 export interface TiposAtendimento {
     id: number;
     nome: string;

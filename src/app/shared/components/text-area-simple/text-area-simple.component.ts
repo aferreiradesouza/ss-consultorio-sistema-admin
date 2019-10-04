@@ -77,9 +77,12 @@ export class TextAreaSimpleComponent implements OnInit, ControlValueAccessor {
         this.blur.emit();
     }
 
-
-    setDisabledState(disabled: boolean) {
-        this.disabled = disabled;
+    setDisabledState(isDisabled: boolean) {
+        if (this.control.disabled) {
+            this._model.disable();
+        } else {
+            this._model.enable();
+        }
     }
 
     public onChange(value: string): void {
@@ -121,4 +124,9 @@ export class TextAreaSimpleComponent implements OnInit, ControlValueAccessor {
         return key ? this.messages[key] : '';
     }
 
+    shouldDisabled() {
+        if (this.control.disabled) {
+            this._model.disable();
+        }
+    }
 }

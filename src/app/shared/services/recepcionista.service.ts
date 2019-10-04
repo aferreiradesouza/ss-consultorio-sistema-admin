@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AjaxService } from './ajax.service';
-import { IObterConsulta, IListagemUsuario, IListagemConsultorios, ICriarBloqueio, IStatusConsulta, ITiposAtendimento, IAlterarStatus } from '../interface';
+import { IObterConsulta, IListagemUsuario, IListagemConsultorios, ICriarBloqueio, IStatusConsulta, ITiposAtendimento, IAlterarStatus, ICriarConsulta, IObterEspecialidades } from '../interface';
 
 @Injectable()
 export class RecepcionistaService {
@@ -60,5 +60,15 @@ export class RecepcionistaService {
     async alterarStatus(data) {
         const url = `${environment.urlBase}admin/agenda/alterarStatusConsulta`;
         return await this.ajax.post<IAlterarStatus>(url, data);
+    }
+
+    async criarConsulta(data) {
+        const url = `${environment.urlBase}admin/agenda/criarConsulta`;
+        return await this.ajax.post<ICriarConsulta>(url, data);
+    }
+
+    async obterEspecialidades(id: number) {
+        const url = `${environment.urlBase}admin/usuario/${id}/especialidades`;
+        return await this.ajax.get<IObterEspecialidades>(url);
     }
 }

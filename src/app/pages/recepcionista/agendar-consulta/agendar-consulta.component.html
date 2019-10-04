@@ -1,4 +1,4 @@
-<nb-card status="primary" size="large" [nbSpinner]="isLoading" nbSpinnerStatus="primary">
+<nb-card status="primary" size="giant" [nbSpinner]="isLoading" nbSpinnerStatus="primary">
   <nb-card-header class="d-flex">
     Agendar consulta
   </nb-card-header>
@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-sm-7">
         <ngx-input-autocomplete formControlName="paciente" [pacientes]="pacientes" label="Nome" [required]="true"
-          placeholder="Digite o nome do paciente"></ngx-input-autocomplete>
+          placeholder="Digite o nome do paciente" (selectItem)="selecionarPaciente($event)"></ngx-input-autocomplete>
       </div>
       <div class="col-sm-5 button-add">
         <button nbButton status="primary" fullWidth
@@ -41,8 +41,11 @@
     </div>
     <div class="row mt-2">
       <div class="col-sm-6">
-        <ngx-input-simple label="Especialidade" [feedback]="false" [required]="true" formControlName="teste">
-        </ngx-input-simple>
+        <label class="label d-block mt-1">Especialidade</label>
+        <nb-select fullWidth formControlName="especialidade" placeholder="Selecione">
+          <nb-option [value]="item.id" *ngFor="let item of especialidades">{{item.nome}}
+          </nb-option>
+        </nb-select>
       </div>
       <div class="col-sm-6">
         <label class="label d-block mt-1">Tipo do atendimento</label>
@@ -54,17 +57,37 @@
     </div>
     <div class="row">
       <div class="col-sm-6">
-        <ngx-input-simple label="Telefone" [feedback]="false" [required]="true" formControlName="teste">
-        </ngx-input-simple>
+        <ngx-input-mask label="Data de nascimento" type="date" [feedback]="true" [required]="true" formControlName="nascimento">
+        </ngx-input-mask>
       </div>
       <div class="col-sm-6">
-        <ngx-input-simple label="Celular" [feedback]="false" [required]="true" formControlName="teste">
-        </ngx-input-simple>
+        <ngx-input-mask label="CPF" type="cpf" [feedback]="true" [required]="true" formControlName="cpf">
+        </ngx-input-mask>
       </div>
     </div>
-    {{form.value | json}}
+    <div class="row">
+      <div class="col-sm-6">
+        <ngx-input-mask label="Telefone" type="tel" [feedback]="true" [required]="true" formControlName="telefone">
+        </ngx-input-mask>
+      </div>
+      <div class="col-sm-6">
+        <ngx-input-mask label="Celular" type="cel" [feedback]="true" [required]="true" formControlName="celular">
+        </ngx-input-mask>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <ngx-text-area-simple label="Observação" formControlName="observacao">
+        </ngx-text-area-simple>
+      </div>
+    </div>
   </nb-card-body>
   <nb-card-footer>
-    <button nbButton status="basic" (click)="dismiss()">Voltar</button>
+    <label class="label mb-2 d-block">* Campos obrigatórios</label>
+    <div class="d-flex">
+        <button class="mr-3" nbButton status="basic" (click)="dismiss()">Voltar</button>
+        <button nbButton status="primary" (click)="criarConsulta()">Marcar consulta</button>
+        <button class="ml-auto" nbButton status="primary">Editar Paciente</button>
+    </div>
   </nb-card-footer>
 </nb-card>

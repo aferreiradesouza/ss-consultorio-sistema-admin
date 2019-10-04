@@ -510,14 +510,21 @@ export class CalendarioRecepcaoComponent implements OnInit {
           medico: this.listaMedicos.filter(e => e.id === this.medico)[0],
           consultorio: this.listaConsultorios.filter(e => e.idConsultorio === this.lugar)[0],
           data: data,
-          tiposAtendimento: this.tiposAtendimentos
+          tiposAtendimento: this.tiposAtendimentos,
+          ehEncaixe: false
         },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
       }
-    );
+    ).onClose.subscribe(async resultado => {
+      if (resultado) {
+        await this.atualizarCalendario();
+        this.obterGrupoClick();
+        this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+      }
+    });
   }
 
   alterarStatus(data) {

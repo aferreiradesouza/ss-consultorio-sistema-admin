@@ -37,11 +37,13 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
     @Input() required: boolean = false;
     @Input() maxLength: number = 0;
     @Input() feedback: boolean = true;
+    @Input() disabled: boolean = false;
     @Input() autocomplete = true;
 
     @Output() blur = new EventEmitter();
 
     @ViewChild(NbInputDirective, {static: false}) nbInput: NbInputDirective;
+    @ViewChild('input', {static: false}) input: any
 
     public _model = new FormControl();
 
@@ -67,7 +69,6 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
         this._model.clearValidators();
         this._model.updateValueAndValidity();
         this.validate(this._model.value);
-        this.shouldDisabled();
         this._model.valueChanges.subscribe(e => {
             this.onChange(e);
         });
@@ -100,9 +101,11 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
         this.feedbackInput();
     }
 
-    shouldDisabled() {
+    setDisabledState(isDisabled: boolean) {
         if (this.control.disabled) {
             this._model.disable();
+        } else {
+            this._model.enable();
         }
     }
 

@@ -22,7 +22,9 @@
                         {{item.hora}}
                     </div>
                     <div class="button">
-                        <button nbButton size="tiny" status="basic">
+                        <button nbButton size="tiny" status="basic"
+                        [nbTooltip]="item.observacaoBloqueio || 'Nenhuma observação'"
+                        nbTooltipPlacement="right" nbTooltipStatus="basic">
                             <nb-icon icon="lock-outline"></nb-icon>
                             Bloqueado
                         </button>
