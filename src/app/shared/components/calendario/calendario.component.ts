@@ -125,8 +125,8 @@ export class CalendarioComponent implements OnInit, OnChanges {
         this.alterarStatus.emit({...data, dia});
     }
 
-    verConsulta(data) {
-        this.infoConsulta.emit(data);
+    verConsulta(dados, dia) {
+        this.infoConsulta.emit({...dados, data: dia.data});
     }
 }
 

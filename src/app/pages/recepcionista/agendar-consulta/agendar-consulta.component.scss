@@ -9,21 +9,24 @@
 }
 
 .content {
-    background-color: nb-theme(color-primary-100);
-    display: flex;
-    padding: 10px;
-    position: relative;
-    align-items: center;
-    border-radius: 3px;
-    border: 1px solid nb-theme(color-primary-200);
+  background-color: nb-theme(color-primary-100);
+  display: flex;
+  padding: 10px;
+  position: relative;
+  align-items: center;
+  border-radius: 3px;
+  border: 1px solid nb-theme(color-primary-200);
 
-    &.margin-hora {
-        @media only screen and (max-width: 575px) {
-            margin-top: 15px;
-        }
+  > nb-icon {
+    color: #c5cee0;
+  }
+  &.margin-hora {
+    @media only screen and (max-width: 575px) {
+      margin-top: 15px;
     }
+  }
 
-    > nb-icon {
-        font-size: 38px;
-    }
+  > nb-icon {
+    font-size: 38px;
+  }
 }

@@ -19,7 +19,7 @@
 <div class="wrapper">
     <div class="corpo">
         <div class="eixo-dia" *ngFor="let dia of data;">
-            <div class="agendamento" *ngFor="let item of dia.horarios" [ngClass]="obterClassesAgendamento(item)">
+            <div class="agendamento" *ngFor="let item of dia.horarios; let i = index" [ngClass]="obterClassesAgendamento(item)">
                 <ng-container *ngIf="!item.consulta && !item.bloqueado">
                     <div class="card-agendamento-header">
                         <div>
@@ -64,15 +64,15 @@
                             </div>
                         </div>
                         <div class="info-pessoal">
-                            <div class="text-truncate nome" (click)="verConsulta(item)" nbTooltip="Detalhes da consulta"
-                                nbTooltipPlacement="bottom" nbTooltipStatus="info">{{item.consulta.nomePaciente}}</div>
+                            <div class="text-truncate nome" nbTooltip="Detalhes da consulta"
+                                nbTooltipPlacement="bottom" nbTooltipStatus="info" (click)="verConsulta(item, dia)">{{item.consulta.nomePaciente}}</div>
                             <nb-icon [ngStyle]="{'color': getColorAtendimento(item.consulta.codigoTipoConsulta)}"
                                 icon="radio-button-on"
                                 [nbTooltip]="getNomeAtendimento(item.consulta.codigoTipoConsulta)"
                                 nbTooltipPlacement="left" nbTooltipStatus="basic"></nb-icon>
                         </div>
                     </div>
-                    <div class="encaixe align-center" *ngIf="dia.totalEncaixesPermitidos > 0">
+                    <div class="encaixe align-center" *ngIf="dia.totalEncaixesPermitidos > 0 && i !== dia.horarios.length - 1">
                         <button (click)="agendar(item, dia, true)" nbButton size="tiny" status="warning">Encaixe</button>
                     </div>
                 </ng-container>
