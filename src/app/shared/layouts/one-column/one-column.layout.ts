@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'ngx-one-column-layout',
@@ -11,6 +12,7 @@ import { Component } from '@angular/core';
 
       <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
         <ng-content select="nb-menu"></ng-content>
+        <div class="version-menu">{{version}}</div>
       </nb-sidebar>
 
       <nb-layout-column>
@@ -23,4 +25,6 @@ import { Component } from '@angular/core';
     </nb-layout>
   `,
 })
-export class OneColumnLayoutComponent {}
+export class OneColumnLayoutComponent {
+  version = environment.version;
+}
