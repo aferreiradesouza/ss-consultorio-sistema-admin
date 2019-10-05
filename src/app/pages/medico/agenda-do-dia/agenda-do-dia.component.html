@@ -1,9 +1,22 @@
-<nb-card status="primary" [nbSpinner]="isLoading" nbSpinnerStatus="primary">
-    <nb-card-header>
+<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary">
+    <nb-card-header class="d-flex">
         <h5>{{formatarHeader()}}</h5>
+        <div class="ml-auto d-flex">
+            <nb-select (ngModelChange)="changeConsultorio($event)" fullWidth placeholder="Consultório"
+                [(ngModel)]="lugar">
+                <nb-option *ngFor="let item of listagemConsultorios" [value]="item.idConsultorio">{{item.nome}}
+                </nb-option>
+            </nb-select>
+            <button class="ml-4" nbButton status="primary" (click)="obterConsulta()">Buscar</button>
+        </div>
     </nb-card-header>
-    <nb-card-body>
-        <ngx-calendario-do-dia [showHeader]="false" [verDiasLivre]="false" *ngIf="data" [data]="data" [dataSelecionada]="dataEvent">
+    <nb-card-body *ngIf="data">
+        <!-- <ngx-calendario-do-dia [showHeader]="false" [verDiasLivre]="false" *ngIf="data" [data]="data" [dataSelecionada]="dataEvent">
+        </ngx-calendario-do-dia> -->
+        <ngx-calendario-do-dia *ngIf="showCalendario()" [data]="dataCalendarioDia" [showHeader]="false"
+            [verDiasLivre]="false" [dataSelecionada]="dataEvent" [statusConsultas]="statusConsultas"
+            [tiposAtendimentos]="tiposAtendimentos">
         </ngx-calendario-do-dia>
+        <span class="msgError" *ngIf="!showCalendario()">Nenhuma Consulta marcada no dia.</span>
     </nb-card-body>
 </nb-card>

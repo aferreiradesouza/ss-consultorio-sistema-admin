@@ -87,4 +87,12 @@
 
 nb-list-item {
     padding: 5px 10px;
+
+    &:first-child {
+        border-top: 0px;
+    }
+
+    &:last-child {
+        border-bottom: 0px;
+    }
 }

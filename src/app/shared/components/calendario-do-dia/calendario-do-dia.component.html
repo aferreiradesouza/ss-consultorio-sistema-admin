@@ -14,7 +14,8 @@
                         {{item.hora}}
                     </div>
                     <div class="button">
-                        <button nbButton size="tiny" status="success" (click)="agendarConsulta(item, info, false)">Marcar</button>
+                        <button nbButton size="tiny" status="success"
+                            (click)="agendarConsulta(item, info, false)">Marcar</button>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="!item.consulta && item.bloqueado">
@@ -37,17 +38,17 @@
                     <div class="paciente">
                         {{item.consulta.nomePaciente}}
                     </div>
-                    <div class="status em-atendimento"
+                    <div class="typeConsulta"
+                        [ngStyle]="{'background-color': getColorAtendimento(item.consulta.codigoTipoConsulta)}">
+                        {{getNomeAtendimento(item.consulta.codigoTipoConsulta)}}</div>
+                    <div class="status"
                         [ngStyle]="{'background-color': getColorStatus(item.consulta.codigoStatusConsulta)}">
                         {{getNomeStatus(item.consulta.codigoStatusConsulta)}}
                     </div>
-                    <div class="button-encaixe">
-                        <button nbButton size="tiny" status="warning" (click)="agendarConsulta(item, info, true)">Encaixe</button>
-                    </div>
-                    <nb-actions class="ml-auto" size="small">
-                        <nb-action class="typeConsulta"
-                            [ngStyle]="{'background-color': getColorAtendimento(item.consulta.codigoTipoConsulta)}">
-                            {{getNomeAtendimento(item.consulta.codigoTipoConsulta)}}</nb-action>
+                    <nb-actions class="ml-auto" size="small" *ngIf="verDiasLivre">
+                        <nb-action class="button-encaixe">
+                            <button nbButton size="tiny" status="warning"
+                                (click)="agendarConsulta(item, info, true)">Encaixe</button></nb-action>
                         <nb-action icon="info-outline" nbTooltip="Informações da Consulta" nbTooltipPlacement="top"
                             nbTooltipStatus="info"></nb-action>
                         <nb-action (click)="alterarStatusConsulta(item)" icon="play-circle-outline"

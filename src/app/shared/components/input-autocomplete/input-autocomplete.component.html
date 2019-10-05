@@ -1,6 +1,6 @@
 <div class="form-group">
     <label class="label" *ngIf="label">{{label}} <span *ngIf="required">*</span></label>
-    <input [ngClass]="{'active-list' : showList}" [autocomplete]="!autocomplete ? 'off' : true" type="text" nbInput
+    <input [ngClass]="{'active-list' : showList}" type="text" nbInput
         fullWidth [placeholder]="placeholder" [(ngModel)]="_model" (ngModelChange)="onChange(_model)"
         (blur)="onBlur($event)">
     <div class="list" *ngIf="showList">
@@ -21,31 +21,31 @@
             <nb-list-item>
                 <div class="dado">
                     <label class="label d-block mb-1">Nome</label>
-                    <div>{{profile.nome || '-'}}</div>
+                    <div class="text-truncate">{{profile.nome || '-'}}</div>
                 </div>
             </nb-list-item>
             <nb-list-item>
                 <div class="dado">
                     <label class="label d-block mb-1">E-mail</label>
-                    <div>{{profile.email || '-'}}</div>
+                    <div class="text-truncate">{{profile.email || '-'}}</div>
                 </div>
             </nb-list-item>
             <nb-list-item>
                 <div class="dado">
                     <label class="label d-block mb-1">CPF</label>
-                    <div>{{(profile.cpf | cpf) || '-'}}</div>
+                    <div class="text-truncate">{{(profile.cpf | cpf) || '-'}}</div>
                 </div>
             </nb-list-item>
             <nb-list-item>
                 <div class="dado">
                     <label class="label d-block mb-1">Celular</label>
-                    <div>{{(profile.celular | telefone) || '-' }}</div>
+                    <div class="text-truncate">{{(profile.celular | telefone) || '-' }}</div>
                 </div>
             </nb-list-item>
             <nb-list-item>
                 <div class="dado">
                     <label class="label d-block mb-1">Telefone</label>
-                    <div>{{(profile.telefone | telefone) || '-'}}</div>
+                    <div class="text-truncate">{{(profile.telefone | telefone) || '-'}}</div>
                 </div>
             </nb-list-item>
         </nb-list>
