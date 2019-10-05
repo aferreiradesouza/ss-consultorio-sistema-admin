@@ -95,7 +95,6 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
     }
 
     alterarStatusConsulta(data) {
-        console.log(data);
         this.alterarStatus.emit(data);
     }
 

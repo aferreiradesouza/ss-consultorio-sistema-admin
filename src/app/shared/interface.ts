@@ -51,7 +51,7 @@ export interface IAlterarUsuario extends DefaultHttpResponse {
 }
 
 export interface IAdicionarPaciente extends DefaultHttpResponse {
-    objeto: Paciente;
+    objeto: number;
 }
 
 export interface IExcluirPaciente extends DefaultHttpResponse {
@@ -104,6 +104,14 @@ export interface ICriarConsulta extends DefaultHttpResponse {
 
 export interface IObterEspecialidades extends DefaultHttpResponse {
     objeto: Especialidades[];
+}
+
+export interface IObterInfoConsulta extends DefaultHttpResponse {
+    objeto: InfoConsulta;
+}
+
+export interface IAlterarConsulta extends DefaultHttpResponse {
+    objeto: boolean;
 }
 
 export interface Especialidades {
@@ -177,7 +185,7 @@ export interface ListagemPacientes {
     email: string;
     dataNascimento: string;
     dataDesativacao: string;
-    ativo: true;
+    ativo: boolean;
 }
 
 export interface Paciente {
@@ -247,6 +255,48 @@ export interface Usuario {
     urlFoto: string;
     ehAdministrador: boolean;
     dataNascimento: string;
+    dataCadastro: string;
+    dataDesativacao: string;
+    ativo: boolean;
+}
+
+export interface InfoConsulta {
+    id: number;
+    idPaciente: number;
+    idUsuario: number;
+    idConsultorio: number;
+    idEspecialidade: number;
+    idTipoConsulta: number;
+    idStatusConsulta: number;
+    data: string;
+    hora: string;
+    observacao: string;
+    ehEncaixe: boolean;
+    dataCadastro: string;
+    valor: number;
+    consultorio: Consultorio;
+    especialidade: Especialidades;
+    paciente: Paciente;
+    statusConsulta: StatusConsulta;
+    tipoConsulta: TiposAtendimento;
+    usuario: Usuario;
+}
+
+export interface Consultorio {
+    id: number;
+    nome: string;
+    urlFoto: string;
+    cep: string;
+    logradouro: string;
+    numero: string;
+    complemento: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+    telefone1: string;
+    telefone2: string;
+    celular1: string;
+    celular2: string;
     dataCadastro: string;
     dataDesativacao: string;
     ativo: boolean;

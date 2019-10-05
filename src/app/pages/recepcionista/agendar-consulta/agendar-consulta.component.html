@@ -1,6 +1,6 @@
 <nb-card status="primary" size="large" [nbSpinner]="isLoading" nbSpinnerStatus="primary">
   <nb-card-header class="d-flex">
-    Agendar consulta
+    {{ehEditar ? 'Editar consulta' :'Agendar consulta'}}
   </nb-card-header>
   <nb-card-body [formGroup]="form">
     <div class="row">
@@ -62,8 +62,8 @@
     </div>
     <div class="row">
       <div class="col-sm-6">
-        <ngx-input-mask label="Data de nascimento" type="date" [feedback]="true"
-          formControlName="nascimento" [dropCharacters]="false" placeholder="00/00/0000">
+        <ngx-input-mask label="Data de nascimento" type="date" [feedback]="true" formControlName="nascimento"
+          [dropCharacters]="false" placeholder="00/00/0000">
         </ngx-input-mask>
       </div>
       <div class="col-sm-6">
@@ -74,13 +74,13 @@
     </div>
     <div class="row">
       <div class="col-sm-6">
-        <ngx-input-mask label="Telefone" type="tel" [feedback]="true"
-          formControlName="telefone" [dropCharacters]="true" placeholder="(00) 0000-0000">
+        <ngx-input-mask label="Celular" type="cel" [required]="camposRequired" [feedback]="true"
+          formControlName="celular" [dropCharacters]="true" placeholder="(00) 00000-0000">
         </ngx-input-mask>
       </div>
       <div class="col-sm-6">
-        <ngx-input-mask label="Celular" type="cel" [required]="camposRequired" [feedback]="true"
-          formControlName="celular" [dropCharacters]="true" placeholder="(00) 00000-0000">
+        <ngx-input-mask label="Telefone" type="tel" [feedback]="true" formControlName="telefone" [dropCharacters]="true"
+          placeholder="(00) 0000-0000">
         </ngx-input-mask>
       </div>
     </div>
@@ -95,9 +95,11 @@
     <label class="label mb-2 d-block">* Campos obrigatórios</label>
     <div class="d-flex">
       <button class="mr-3" nbButton status="basic" (click)="dismiss()">Voltar</button>
-      <button nbButton status="primary" (click)="adcNovoPacienteActive ? criarConsultaNovoPaciente() : criarConsultaPacienteExistente()"
-        [attr.disabled]="!shouldDisabledButton() ? true : undefined">Marcar consulta</button>
-      <button class="ml-auto" nbButton status="info" (click)="editarPaciente()" [disabled]="!person">Editar Paciente</button>
+      <button nbButton status="primary"
+        (click)="adcNovoPacienteActive ? criarConsultaNovoPaciente() : criarConsultaPacienteExistente()"
+        [attr.disabled]="!shouldDisabledButton() ? true : undefined">{{ehEditar ? 'Editar consulta' : 'Marcar consulta'}}</button>
+      <button class="ml-auto" nbButton status="info" (click)="editarPaciente()" [disabled]="!person">Editar
+        Paciente</button>
     </div>
   </nb-card-footer>
 </nb-card>

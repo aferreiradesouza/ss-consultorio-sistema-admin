@@ -1,1 +1,51 @@
 @import "../../../shared/styles/themes.scss";
+
+:host /deep/ nb-user div.user-container div.user-picture {
+  background-position: center;
+}
+
+.content {
+  background-color: nb-theme(color-primary-100);
+  display: flex;
+  padding: 10px;
+  position: relative;
+  align-items: center;
+  border-radius: 3px;
+  border: 1px solid nb-theme(color-primary-200);
+
+  > nb-icon {
+    color: #c5cee0;
+  }
+
+  &.margin-hora {
+    @media only screen and (max-width: 575px) {
+      margin-top: 15px;
+    }
+  }
+
+  > nb-icon {
+    font-size: 38px;
+  }
+}
+
+.status {
+    padding: 1px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+}
+
+.atendimento {
+    padding: 1px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+}
+
+.border-top-none {
+    border-top: none !important;
+}
+
+.border-bottom-none {
+    border-bottom: none !important;
+}

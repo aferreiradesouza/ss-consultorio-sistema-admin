@@ -4,7 +4,10 @@
             <div class="logo">
                 <img src="assets/images/ss.png">
             </div>
-            <h4 class="align-center mt-3">Recuperar senha</h4>
+            <div class="title align-center">
+                <nb-icon *ngIf="passo !== 4" (click)="voltar()" icon="chevron-left-outline"></nb-icon>
+                <h4 class="mt-3">Recuperar senha</h4>
+            </div>
 
             <!-- PASSO 1 -->
 

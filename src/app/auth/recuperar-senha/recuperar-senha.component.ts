@@ -140,4 +140,8 @@ export class RecuperarSenhaComponent {
     });
     this.loading = false;
   }
+
+  voltar() {
+    this.router.navigateByUrl('/auth/login');
+  }
 }

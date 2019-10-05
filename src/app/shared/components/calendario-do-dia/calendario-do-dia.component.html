@@ -5,7 +5,7 @@
         </div>
     </nb-card-header>
     <nb-list>
-        <nb-list-item *ngFor="let item of getDatas(info.horarios)" [ngClass]="{'livre' : !item.consulta && verDiasLivre && !item.bloqueado,
+        <nb-list-item *ngFor="let item of getDatas(info.horarios); let i = index" [ngClass]="{'livre' : !item.consulta && verDiasLivre && !item.bloqueado,
                         'encaixe' : item.consulta && item.consulta.ehEncaixe,
                         'bloqueio' : !item.consulta && item.bloqueado}">
             <div class="campo">
@@ -46,7 +46,7 @@
                         {{getNomeStatus(item.consulta.codigoStatusConsulta)}}
                     </div>
                     <nb-actions class="ml-auto" size="small" *ngIf="verDiasLivre">
-                        <nb-action class="button-encaixe">
+                        <nb-action class="button-encaixe" *ngIf="info.totalEncaixesPermitidos > 0 && i !== info.horarios.length - 1">
                             <button nbButton size="tiny" status="warning"
                                 (click)="agendarConsulta(item, info, true)">Encaixe</button></nb-action>
                         <nb-action icon="info-outline" nbTooltip="Informações da Consulta" nbTooltipPlacement="top"

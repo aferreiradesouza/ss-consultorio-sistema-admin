@@ -105,6 +105,14 @@ export class CalendarioRecepcaoComponent implements OnInit {
     }
   }
 
+  get nomeMedico() {
+    return this.listaMedicos.filter(e => e.id === this.medicoEscolhido)[0].nome;
+  }
+
+  get nomeConsultorio() {
+    return this.listaConsultorios.filter(e => e.idConsultorio === this.lugarEscolhido)[0].nome;
+  }
+
   async obterStatusConsulta() {
     await this.recepcionistaService.obterStatusConsulta().then(response => {
       if (response.sucesso) {
@@ -561,14 +569,25 @@ export class CalendarioRecepcaoComponent implements OnInit {
       DetalhesConsultaComponent,
       {
         context: {
-          dados: data
+          dados: data,
+          medico: this.listaMedicos.filter(e => e.id === this.medicoEscolhido)[0],
+          consultorio: this.listaConsultorios.filter(e => e.idConsultorio === this.lugarEscolhido)[0],
+          status: this.statusConsultas.filter(e => e.codigo === data.consulta.codigoStatusConsulta)[0],
+          atendimento: this.tiposAtendimentos.filter(e => e.codigo === data.consulta.codigoTipoConsulta)[0],
+          tiposAtendimentos: this.tiposAtendimentos
         },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
       }
-    );
+    ).onClose.subscribe(async resultado => {
+      if (resultado) {
+        await this.atualizarCalendario();
+        this.obterGrupoClick();
+        this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+      }
+    });
   }
 
   bloqueio(data) {

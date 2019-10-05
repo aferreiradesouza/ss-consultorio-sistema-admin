@@ -9,6 +9,19 @@
   > nb-card {
     width: 370px;
     > nb-card-body {
+      > .title {
+        position: relative;
+
+        > nb-icon {
+          position: absolute;
+          top: 59%;
+          left: 0px;
+          transform: translateY(-50%);
+          font-size: 30px;
+          cursor: pointer;
+        }
+      }
+
       > .logo {
         display: flex;
         min-width: 250px;
