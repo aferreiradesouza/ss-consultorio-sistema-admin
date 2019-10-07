@@ -113,4 +113,12 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor {
         this.onChange(this._model);
         this.selectItem.emit(value);
     }
+
+    keyUp(evento: KeyboardEvent) {
+        this.selectItem.emit(null);
+    }
+
+    showActiveOption(personSelected) {
+        return JSON.stringify(personSelected) === JSON.stringify(this.listaFiltrada[this.index]);
+    }
 }

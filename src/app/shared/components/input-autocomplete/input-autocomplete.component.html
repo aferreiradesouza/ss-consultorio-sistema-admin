@@ -1,6 +1,6 @@
 <div class="form-group">
     <label class="label" *ngIf="label">{{label}} <span *ngIf="required">*</span></label>
-    <input [ngClass]="{'active-list' : showList}" type="text" nbInput
+    <input (keyup)="keyUp($event)" [ngClass]="{'active-list' : showList}" type="text" nbInput
         fullWidth [placeholder]="placeholder" [(ngModel)]="_model" (ngModelChange)="onChange(_model)"
         (blur)="onBlur($event)">
     <div class="list" *ngIf="showList">

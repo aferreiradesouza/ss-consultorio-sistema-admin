@@ -119,6 +119,10 @@ export class AgendarConsultaComponent implements OnInit {
   }
 
   selecionarPaciente(person: any) {
+    if (!person) {
+      this.person = person;
+      return;
+    }
     this.camposRequired = false;
     this.person = person;
     this.form.patchValue({
