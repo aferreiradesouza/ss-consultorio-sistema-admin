@@ -70,8 +70,8 @@ export interface IDeletarUsuario extends DefaultHttpResponse {
     objeto: boolean;
 }
 
-export interface IListagemConsultorios extends DefaultHttpResponse {
-    objeto: ListagemConsultorios[];
+export interface IListagemConsultoriosUsuario extends DefaultHttpResponse {
+    objeto: ListagemConsultoriosUsuario[];
 }
 
 export interface IObterConsulta extends DefaultHttpResponse {
@@ -112,6 +112,14 @@ export interface IObterInfoConsulta extends DefaultHttpResponse {
 
 export interface IAlterarConsulta extends DefaultHttpResponse {
     objeto: boolean;
+}
+
+export interface IListagemConsultorio extends DefaultHttpResponse {
+    objeto: ListagemConsultorios[];
+}
+
+export interface IConsultorio extends DefaultHttpResponse {
+    objeto: Consultorio;
 }
 
 export interface Especialidades {
@@ -233,7 +241,7 @@ export interface ListagemUsuario {
     ativo: boolean;
 }
 
-export interface ListagemConsultorios {
+export interface ListagemConsultoriosUsuario {
     idConsultorio: number;
     diaSemana: number;
     horaInicio: string;
@@ -241,6 +249,26 @@ export interface ListagemConsultorios {
     nome: string;
     duracaoMinutos: number;
     urlFoto: string;
+}
+
+export interface ListagemConsultorios {
+    id: number;
+    nome: string;
+    urlFoto: string;
+    cep: string;
+    logradouro: string;
+    numero: string;
+    complemento: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+    telefone1: string;
+    telefone2: string;
+    celular1: string;
+    celular2: string;
+    dataCadastro: string;
+    dataDesativacao: string;
+    ativo: boolean;
 }
 
 export interface Usuario {

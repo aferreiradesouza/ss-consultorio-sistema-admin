@@ -9,6 +9,7 @@ import { ConfiguracoesService } from '../../../shared/services/configuracoes.ser
 import { ListagemUsuario } from '../../../shared/interface';
 import { UserCellComponent } from './userCell.component';
 import { DeletarUsuarioComponent } from './deletar/deletar.component';
+import { TOASTR } from '../../../shared/constants/toastr';
 
 @Component({
   selector: 'ngx-usuarios',
@@ -115,9 +116,8 @@ export class UsuariosComponent implements OnInit {
         if (resp.sucesso === null) {
           return;
         }
-        const position: any = 'bottom-right';
         this.toastrService.show('', resp.mensagem,
-          { status: resp.sucesso ? 'success' : 'danger', duration: 3000, position });
+          { status: resp.sucesso ? 'success' : 'danger', duration: TOASTR.timer, position: TOASTR.position });
         if (resp.sucesso) {
           this.isLoading = true;
           await this.obterListagem();
@@ -142,9 +142,8 @@ export class UsuariosComponent implements OnInit {
         if (resp.sucesso === null) {
           return;
         }
-        const position: any = 'bottom-right';
         this.toastrService.show('', resp.mensagem,
-          { status: resp.sucesso ? 'success' : 'danger', duration: 3000, position });
+          { status: resp.sucesso ? 'success' : 'danger', duration: TOASTR.timer, position: TOASTR.position });
         if (resp.sucesso) {
           this.isLoading = true;
           await this.obterListagem();
@@ -169,9 +168,8 @@ export class UsuariosComponent implements OnInit {
         if (resp.sucesso === null) {
           return;
         }
-        const position: any = 'bottom-right';
         this.toastrService.show('', resp.mensagem,
-          { status: resp.sucesso ? 'success' : 'danger', duration: 3000, position });
+          { status: resp.sucesso ? 'success' : 'danger', duration: TOASTR.timer, position: TOASTR.position });
       });
   }
 
@@ -193,7 +191,7 @@ export class UsuariosComponent implements OnInit {
         }
         const position: any = 'bottom-right';
         this.toastrService.show('', resp.mensagem,
-          { status: resp.sucesso ? 'success' : 'danger', duration: 3000, position });
+          { status: resp.sucesso ? 'success' : 'danger', duration: TOASTR.timer, position: TOASTR.position });
         if (resp.sucesso) {
           this.isLoading = true;
           await this.obterListagem();

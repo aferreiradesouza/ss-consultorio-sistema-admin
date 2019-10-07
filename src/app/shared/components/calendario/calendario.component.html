@@ -18,7 +18,7 @@
 </div>
 <div class="wrapper">
     <div class="corpo">
-        <div class="eixo-dia" *ngFor="let dia of data;">
+        <div class="eixo-dia" *ngFor="let dia of data; let index = index">
             <div class="agendamento" *ngFor="let item of dia.horarios; let i = index" [ngClass]="obterClassesAgendamento(item)">
                 <ng-container *ngIf="!item.consulta && !item.bloqueado">
                     <div class="card-agendamento-header">
@@ -51,7 +51,7 @@
                                 <nb-actions size="tiny" class="">
                                     <nb-action class="status-descricao"
                                         [ngStyle]="{'background-color': getColorStatus(item.consulta.codigoStatusConsulta)}"
-                                        [nbTooltip]="item.consulta.codigoStatusConsulta | status"
+                                        [nbTooltip]="(item.consulta.codigoStatusConsulta | status) + getTimerStatus(item.consulta.codigoStatusConsulta, item.consulta.dataStatusConsulta)"
                                         nbTooltipPlacement="top" nbTooltipStatus="basic">
                                         <span
                                             class="text-truncate cursor-pointer">{{getNomeStatus(item.consulta.codigoStatusConsulta)}}</span>
@@ -72,7 +72,7 @@
                                 nbTooltipPlacement="left" nbTooltipStatus="basic"></nb-icon>
                         </div>
                     </div>
-                    <div class="encaixe align-center" *ngIf="dia.totalEncaixesPermitidos > 0 && i !== dia.horarios.length - 1">
+                    <div class="encaixe align-center" *ngIf="showButtonEncaixe(dia, i, item)">
                         <button (click)="agendar(item, dia, true)" nbButton size="tiny" status="warning">Encaixe</button>
                     </div>
                 </ng-container>

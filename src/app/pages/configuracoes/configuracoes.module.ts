@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbDialogModule, NbSelectModule, NbCheckboxModule, NbSpinnerModule, NbUserModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbSelectModule, NbCheckboxModule, NbSpinnerModule, NbUserModule, NbToastrModule } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ConfiguracoesRoutingModule } from './configuracoes-routing.module';
@@ -19,6 +19,7 @@ import { EditarUnidadeAtendimentoComponent } from './unidades-de-atendimento/edi
 import { PerfilUnidadeAtendimentoComponent } from './unidades-de-atendimento/perfil/perfil-unidade-atendimento.component';
 import { UserCellComponent } from './usuarios/userCell.component';
 import { DeletarUsuarioComponent } from './usuarios/deletar/deletar.component';
+import { UnidadesCellComponent } from './unidades-de-atendimento/unidadesCell.component';
 
 const PAGES = [
   UsuariosComponent,
@@ -48,7 +49,8 @@ const NB_MODULES = [
   NbCheckboxModule,
   NbSpinnerModule,
   NbUserModule,
-  NbCheckboxModule
+  NbCheckboxModule,
+  NbToastrModule
 ];
 
 @NgModule({
@@ -61,6 +63,7 @@ const NB_MODULES = [
   ],
   declarations: [
     UserCellComponent,
+    UnidadesCellComponent,
     ...PAGES,
     ...MODAIS
   ],

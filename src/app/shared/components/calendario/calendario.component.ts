@@ -118,15 +118,38 @@ export class CalendarioComponent implements OnInit, OnChanges {
     }
 
     agendar(dados, dia, ehEncaixe) {
-        this.agendarConsulta.emit({...dados, data: dia.data, ehEncaixe});
+        this.agendarConsulta.emit({ ...dados, data: dia.data, ehEncaixe });
     }
 
     alterarStatusConsulta(data, dia) {
-        this.alterarStatus.emit({...data, dia});
+        this.alterarStatus.emit({ ...data, dia });
     }
 
     verConsulta(dados, dia) {
-        this.infoConsulta.emit({...dados, data: dia.data});
+        this.infoConsulta.emit({ ...dados, data: dia.data });
+    }
+
+    showButtonEncaixe(dia, index, item) {
+        if (dia.totalEncaixesPermitidos <= 0 || index === dia.horarios.length - 1) {
+            return false;
+        }
+        if (item.consulta.ehEncaixe) {
+            return index !== dia.horarios.length - 1 && (dia.horarios[index + 1].consulta && !dia.horarios[index + 1].consulta.ehEncaixe);
+        } else {
+            if (index + 1 >= dia.horarios.length - 1) {
+                console.log(dia.horarios[index].hora);
+                return false;
+            }
+            return (dia.horarios[index + 1].consulta && !dia.horarios[index + 1].consulta.ehEncaixe) || !dia.horarios[index + 1].consulta;
+        }
+    }
+
+    getTimerStatus(codigo: string, dataStatus: string) {
+        const validStatus = ['em_espera', 'em_atendimento'];
+        if (validStatus.indexOf(codigo) === -1) {
+            return '';
+        }
+        return ` - ${moment(dataStatus).format('hh:mm')}`;
     }
 }
 

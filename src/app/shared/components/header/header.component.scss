@@ -68,3 +68,7 @@
     }
   }
 }
+
+:host /deep/ nb-user div.user-container div.user-picture {
+  background-position: center;
+}

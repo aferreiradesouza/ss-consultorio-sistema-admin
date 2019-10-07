@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AjaxService } from './ajax.service';
-import { IObterConsulta, IListagemUsuario, IListagemConsultorios, ICriarBloqueio, IStatusConsulta, ITiposAtendimento, IAlterarStatus, ICriarConsulta, IObterEspecialidades, IObterInfoConsulta, IAlterarConsulta } from '../interface';
+import { IObterConsulta, IListagemUsuario, IListagemConsultoriosUsuario, ICriarBloqueio, IStatusConsulta, ITiposAtendimento, IAlterarStatus, ICriarConsulta, IObterEspecialidades, IObterInfoConsulta, IAlterarConsulta } from '../interface';
+import { UtilService } from './util.service';
 
 @Injectable()
 export class RecepcionistaService {
 
-    constructor(private ajax: AjaxService) { }
+    constructor(private ajax: AjaxService, private utilService: UtilService) { }
 
     async obterConsultas(data: { idMedico: number, idConsultorio: number, dataInicial: string, dataFinal: string }) {
         const url = `${environment.urlBase}admin/agenda/${data.idMedico}/${data.idConsultorio}/${data.dataInicial}/${data.dataFinal}`;
@@ -25,21 +26,13 @@ export class RecepcionistaService {
 
     async obterConsultorios(idMedico: number) {
         const url = `${environment.urlBase}admin/usuario/${idMedico}/consultorios`;
-        const response = await this.ajax.get<IListagemConsultorios>(url);
+        const response = await this.ajax.get<IListagemConsultoriosUsuario>(url);
         if (response.sucesso) {
-            const filtrado = this.getUnique(response.objeto, 'nome');
+            const filtrado = this.utilService.getUnique(response.objeto, 'nome');
             return { sucesso: response.sucesso, resultado: filtrado, error: null };
         } else {
             return { sucesso: response.sucesso, resultado: null, error: response.mensagens[0] };
         }
-    }
-
-    getUnique(arr, comp) {
-        const unique = arr
-            .map(e => e[comp])
-            .map((e, i, final) => final.indexOf(e) === i && i)
-            .filter(e => arr[e]).map(e => arr[e]);
-        return unique;
     }
 
     async criarBloqueio(data) {

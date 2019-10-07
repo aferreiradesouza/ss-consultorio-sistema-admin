@@ -4,8 +4,9 @@ import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
-import { ListagemConsultorios, StatusConsulta, TiposAtendimento } from '../../../shared/interface';
+import { ListagemConsultoriosUsuario, StatusConsulta, TiposAtendimento } from '../../../shared/interface';
 import { NbToastrService } from '@nebular/theme';
+import { TOASTR } from '../../../shared/constants/toastr';
 
 @Component({
   selector: 'ngx-agenda-do-dia',
@@ -40,7 +41,7 @@ export class AgendaDoDiaComponent implements OnInit {
   public dataCalendarioDia = null;
   public statusConsultas: StatusConsulta[];
   public tiposAtendimentos: TiposAtendimento[];
-  public listagemConsultorios: ListagemConsultorios[] = [];
+  public listagemConsultorios: ListagemConsultoriosUsuario[] = [];
 
   constructor(
     public calendarioMock: CalendarioMockService,
@@ -62,11 +63,11 @@ export class AgendaDoDiaComponent implements OnInit {
       } else {
         this.listagemConsultorios = null;
         this.toastrService.show('', response.error,
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
-      this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
       this.isLoading = false;
     });
@@ -86,7 +87,7 @@ export class AgendaDoDiaComponent implements OnInit {
         this.proximoDiaUtil();
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
       this.data = null;
@@ -146,7 +147,7 @@ export class AgendaDoDiaComponent implements OnInit {
         this.statusConsultas = response.objeto;
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position});
       }
     });
   }
@@ -157,7 +158,7 @@ export class AgendaDoDiaComponent implements OnInit {
         this.tiposAtendimentos = response.objeto;
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     });
   }

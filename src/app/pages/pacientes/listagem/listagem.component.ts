@@ -11,6 +11,7 @@ import { PerfilPacientesComponent } from '../perfil/perfil.component';
 import { PacientesService } from '../../../shared/services/pacientes.service';
 import { ListagemPacientes } from '../../../shared/interface';
 import * as moment from 'moment';
+import { TOASTR } from '../../../shared/constants/toastr';
 
 @Component({
   selector: 'ngx-listagem-pacientes',
@@ -158,16 +159,16 @@ export class ListagemPacientesComponent implements OnInit {
           this.pacientesService.excluirPaciente(response.id).then(async resp => {
             if (resp.sucesso) {
               this.toastrService.show('', `Paciente excluido com sucesso`,
-                { status: 'danger', duration: 3000, position });
+                { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
               this.search = '';
               await this.obterListagem();
             } else {
               this.toastrService.show('', resp.mensagens[0],
-                { status: 'danger', duration: 3000, position });
+                { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
             }
           }).catch(err => {
-            this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde!',
-              { status: 'danger', duration: 3000, position });
+            this.toastrService.show('', TOASTR.msgErroPadrao,
+              { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
           });
         }
         this.isLoading = false;
@@ -192,20 +193,19 @@ export class ListagemPacientesComponent implements OnInit {
         hasScroll: true
       }).onClose.subscribe(async (response: { sucesso: boolean, value: any }) => {
         if (response.sucesso) {
-          const position: any = 'bottom-right';
           this.isLoading = true;
           await this.editarPaciente(response.value).then(async resp => {
             if (resp.sucesso) {
               this.toastrService.show('', `Paciente alterado com sucesso`,
-                { status: 'success', duration: 3000, position });
+                { status: 'success', duration: 3000, position: TOASTR.position });
               await this.obterListagem();
             } else {
               this.toastrService.show('', resp.mensagem,
-                { status: 'danger', duration: 3000, position });
+                { status: 'danger', duration: 3000, position: TOASTR.position });
             }
           }).catch(err => {
-            this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
-              { status: 'danger', duration: 3000, position });
+            this.toastrService.show('', TOASTR.msgErroPadrao,
+              { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
           });
           this.isLoading = false;
         }

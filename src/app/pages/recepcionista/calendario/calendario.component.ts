@@ -12,9 +12,10 @@ import { DetalhesConsultaComponent } from '../detalhes-consulta/detalhes-consult
 import { CalendarCustomDayCellComponent } from './day-cell.component';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 import { BloqueioComponent } from '../bloqueio/bloqueio.component';
-import { Usuario, ListagemUsuario, ListagemConsultorios, Consulta, StatusConsulta, TiposAtendimento } from '../../../shared/interface';
+import { Usuario, ListagemUsuario, ListagemConsultoriosUsuario, Consulta, StatusConsulta, TiposAtendimento } from '../../../shared/interface';
 import { AgendaHubService } from '../../../shared/services/agenda-hub.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
+import { TOASTR } from '../../../shared/constants/toastr';
 
 @Component({
   selector: 'ngx-calendario-recepcionista',
@@ -34,7 +35,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public group: any[];
   public dataCalendarioDia: any;
   public listaMedicos: ListagemUsuario[];
-  public listaConsultorios: ListagemConsultorios[];
+  public listaConsultorios: ListagemConsultoriosUsuario[];
   public statusConsultas: StatusConsulta[];
   public tiposAtendimentos: TiposAtendimento[];
 
@@ -119,7 +120,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
         this.statusConsultas = response.objeto;
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     });
   }
@@ -130,7 +131,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
         this.tiposAtendimentos = response.objeto;
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     });
   }
@@ -141,7 +142,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
         this.listaMedicos = response.resultado;
       } else {
         this.toastrService.show('', response.error,
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     });
   }
@@ -217,18 +218,18 @@ export class CalendarioRecepcaoComponent implements OnInit {
       if (response.sucesso) {
         if (!response.resultado.length) {
           this.toastrService.show('', 'O Médico não tem nenhum consultório, escolha outro médico.',
-            { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+            { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
           this.salvarFiltro = false;
           return;
         }
         this.listaConsultorios = response.resultado;
       } else {
         this.toastrService.show('', response.error,
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
-      this.toastrService.show('', 'Sistema Indisponível no momento, tente novamente mais tarde.',
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
       this.isLoading = false;
     });
@@ -267,11 +268,11 @@ export class CalendarioRecepcaoComponent implements OnInit {
         this.obterGrupoClick();
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
-      this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
       this.isLoading = false;
     });
@@ -476,11 +477,11 @@ export class CalendarioRecepcaoComponent implements OnInit {
         this.data = response.objeto;
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
-      this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
       this.isLoading = false;
     });

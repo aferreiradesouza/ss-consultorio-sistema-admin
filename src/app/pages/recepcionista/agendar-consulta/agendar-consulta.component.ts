@@ -4,10 +4,11 @@ import { SmartTableData } from '../../../@core/data/smart-table';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { PacientesService } from '../../../shared/services/pacientes.service';
-import { ListagemPacientes, ListagemUsuario, ListagemConsultorios, TiposAtendimento, Especialidades, Paciente } from '../../../shared/interface';
+import { ListagemPacientes, ListagemUsuario, ListagemConsultoriosUsuario, TiposAtendimento, Especialidades, Paciente } from '../../../shared/interface';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 import { Router } from '@angular/router';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
+import { TOASTR } from '../../../shared/constants/toastr';
 
 @Component({
   selector: 'ngx-agendar-consulta',
@@ -36,7 +37,7 @@ export class AgendarConsultaComponent implements OnInit {
   });
 
   @Input() medico: ListagemUsuario;
-  @Input() consultorio: ListagemConsultorios;
+  @Input() consultorio: ListagemConsultoriosUsuario;
   @Input() data: any;
   @Input() ehEncaixe: boolean;
   @Input() tiposAtendimento: TiposAtendimento[];
@@ -44,6 +45,7 @@ export class AgendarConsultaComponent implements OnInit {
   @Input() personEdit: Paciente = null;
   @Input() especialidade = null;
   @Input() tipoAtendimento = null;
+  @Input() observacao?: string;
 
   constructor(
     protected ref: NbDialogRef<AgendarConsultaComponent>,
@@ -71,6 +73,7 @@ export class AgendarConsultaComponent implements OnInit {
         this.form.get('paciente').setValue(this.personEdit.nome);
         this.form.get('tipoAtendimento').setValue(this.tipoAtendimento);
         this.form.get('especialidade').setValue(this.especialidade);
+        this.form.get('observacao').setValue(this.observacao);
       }, 0);
       this.selecionarPaciente(this.person);
     }
@@ -90,7 +93,7 @@ export class AgendarConsultaComponent implements OnInit {
   async obterPacientes() {
     await this.pacientesService.obterPacientes().then(response => {
       if (response.sucesso) {
-        this.pacientes = response.objeto;
+        this.pacientes = response.objeto.filter(e => e.ativo);
       }
     });
   }
@@ -150,16 +153,16 @@ export class AgendarConsultaComponent implements OnInit {
     await this.recepcionistaService.criarConsulta(obj).then(response => {
       if (response.sucesso) {
         this.toastrService.show('', 'Consulta marcada com sucesso',
-          { status: 'success', duration: 3000, position: <any>'bottom-right' });
+          { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
         this.criar();
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
         this.dismiss();
       }
     }).catch(err => {
-      this.toastrService.show('', `Sistema indisponível no momento, tente novamente mais tarde!`,
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       this.dismiss();
     }).finally(() => {
       this.isLoading = true;
@@ -184,11 +187,11 @@ export class AgendarConsultaComponent implements OnInit {
         await this.criarConsulta(response.objeto);
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
-      this.toastrService.show('', `Sistema indisponível no momento, tente novamente mais tarde!`,
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
       this.isLoading = false;
     });
@@ -206,15 +209,15 @@ export class AgendarConsultaComponent implements OnInit {
     await this.recepcionistaService.alterarConsulta(obj).then(response => {
       if (response.sucesso) {
         this.toastrService.show('', 'Consulta alterada com sucesso',
-          { status: 'success', duration: 3000, position: <any>'bottom-right' });
+          { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
         this.criar();
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
-      this.toastrService.show('', `Sistema indisponível no momento, tente novamente mais tarde!`,
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     });
   }
 
@@ -233,16 +236,16 @@ export class AgendarConsultaComponent implements OnInit {
     await this.recepcionistaService.criarConsulta(objConsulta).then(resp => {
       if (resp.sucesso) {
         this.toastrService.show('', 'Consulta marcada com sucesso',
-          { status: 'success', duration: 3000, position: <any>'bottom-right' });
+          { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
         this.criar();
       } else {
-        this.toastrService.show('', 'Consulta marcada com sucesso',
-          { status: 'success', duration: 3000, position: <any>'bottom-right' });
+        this.toastrService.show('', resp.mensagens[0],
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
         this.dismiss();
       }
     }).catch(err => {
-      this.toastrService.show('', `Sistema indisponível no momento, tente novamente mais tarde!`,
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       this.dismiss();
     });
   }
@@ -282,8 +285,8 @@ export class AgendarConsultaComponent implements OnInit {
     if (this.ehEditar) {
       this.form.get('tipoAtendimento').enable();
       this.form.get('especialidade').enable();
+      this.form.get('observacao').disable();
     }
-    this.form.get('observacao').disable();
     this.form.get('nascimento').disable();
     this.form.get('cpf').disable();
     this.form.get('telefone').disable();
@@ -298,7 +301,6 @@ export class AgendarConsultaComponent implements OnInit {
   resetForm() {
     if (this.ehEditar) {
       this.form.get('paciente').reset();
-      this.form.get('observacao').reset();
       this.form.get('nascimento').reset();
       this.form.get('cpf').reset();
       this.form.get('telefone').reset();

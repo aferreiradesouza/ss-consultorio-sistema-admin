@@ -3,10 +3,11 @@ import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
-import { ListagemUsuario, ListagemConsultorios, StatusConsulta, TiposAtendimento, Paciente, Especialidades, InfoConsulta } from '../../../shared/interface';
+import { ListagemUsuario, ListagemConsultoriosUsuario, StatusConsulta, TiposAtendimento, Paciente, Especialidades, InfoConsulta } from '../../../shared/interface';
 import { AgendarConsultaComponent } from '../agendar-consulta/agendar-consulta.component';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 import { PacientesService } from '../../../shared/services/pacientes.service';
+import { TOASTR } from '../../../shared/constants/toastr';
 
 @Component({
   selector: 'ngx-detalhes-consulta',
@@ -24,7 +25,7 @@ export class DetalhesConsultaComponent implements OnInit {
 
   @Input() dados: any;
   @Input() medico: ListagemUsuario;
-  @Input() consultorio: ListagemConsultorios;
+  @Input() consultorio: ListagemConsultoriosUsuario;
   @Input() status: StatusConsulta;
   @Input() atendimento: TiposAtendimento;
   @Input() tiposAtendimentos: TiposAtendimento[];
@@ -50,12 +51,12 @@ export class DetalhesConsultaComponent implements OnInit {
         await this.obterInfoPaciente(response.objeto.idPaciente);
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
         this.dismiss();
       }
     }).catch(err => {
-      this.toastrService.show('', `Sistema indisponível no momento, tente novamente mais tarde.`,
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       this.dismiss();
     });
   }
@@ -70,12 +71,12 @@ export class DetalhesConsultaComponent implements OnInit {
         this.especialidades = response.objeto;
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
         this.dismiss();
       }
     }).catch(err => {
-      this.toastrService.show('', `Sistema indisponível no momento, tente novamente mais tarde.`,
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       this.dismiss();
     });
   }
@@ -87,12 +88,12 @@ export class DetalhesConsultaComponent implements OnInit {
         this.paciente = response.objeto;
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
         this.dismiss();
       }
     }).catch(err => {
-      this.toastrService.show('', `Sistema indisponível no momento, tente novamente mais tarde.`,
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       this.dismiss();
     }).finally(() => {
       this.isLoading = false;
@@ -112,7 +113,8 @@ export class DetalhesConsultaComponent implements OnInit {
           ehEditar: true,
           especialidade: this.consulta.idEspecialidade,
           tipoAtendimento: this.atendimento.id,
-          personEdit: this.paciente
+          personEdit: this.paciente,
+          observacao: this.consulta.observacao
         },
         closeOnEsc: true,
         autoFocus: false,

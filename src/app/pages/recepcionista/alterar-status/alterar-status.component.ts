@@ -5,6 +5,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
 import { StatusConsulta } from '../../../shared/interface';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
+import { TOASTR } from '../../../shared/constants/toastr';
 
 interface DiaConsulta {
   bloqueado: boolean;
@@ -70,15 +71,15 @@ export class AlterarStatusComponent implements OnInit {
     await this.recepcionistaService.alterarStatus(data).then(response => {
       if (response.sucesso) {
         this.toastrService.show('', 'Status alterado com sucesso!',
-          { status: 'success', duration: 3000, position: <any>'bottom-right' });
+          { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
         this.ref.close(true);
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'success', duration: 3000, position: <any>'bottom-right' });
+          { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
-      this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde.',
-        { status: 'success', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
       this.isLoading = false;
     });

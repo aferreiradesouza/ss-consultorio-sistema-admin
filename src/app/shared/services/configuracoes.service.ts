@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AjaxService } from './ajax.service';
-import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario } from '../interface';
+import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio } from '../interface';
 
 @Injectable()
 export class ConfiguracoesService {
@@ -31,5 +31,17 @@ export class ConfiguracoesService {
     async deletarUsuario(id) {
         const url = `${environment.urlBase}admin/usuario/${id}`;
         return await this.ajax.delete<IDeletarUsuario>(url);
+    }
+
+    async obterListagemConsultorios() {
+        const url = `${environment.urlBase}admin/consultorio`;
+        const response = await this.ajax.get<IListagemConsultorio>(url);
+        return response;
+    }
+
+    async obterConsultorioPorId(id: number) {
+        const url = `${environment.urlBase}admin/consultorio/${id}`;
+        const response = await this.ajax.get<IConsultorio>(url);
+        return response;
     }
 }

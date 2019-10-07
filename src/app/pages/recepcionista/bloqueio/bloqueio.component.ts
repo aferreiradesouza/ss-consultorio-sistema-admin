@@ -1,10 +1,11 @@
 import { Component, Input, OnInit, AfterViewInit, AfterViewChecked, ViewChild } from '@angular/core';
 import { NbDialogRef, NbDialogService, NbToastrService, NbDatepickerComponent } from '@nebular/theme';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
-import { ListagemConsultorios, ListagemUsuario } from '../../../shared/interface';
+import { ListagemConsultoriosUsuario, ListagemUsuario } from '../../../shared/interface';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
+import { TOASTR } from '../../../shared/constants/toastr';
 
 @Component({
   selector: 'ngx-bloqueio',
@@ -14,7 +15,7 @@ import { CalendarioService } from '../../../shared/services/calendarios.service'
 export class BloqueioComponent implements OnInit {
 
   public isLoading: boolean;
-  public listagemConsultorios: ListagemConsultorios[];
+  public listagemConsultorios: ListagemConsultoriosUsuario[];
 
   public form = new FormGroup({
     medico: new FormControl(null, [Validators.required]),
@@ -28,7 +29,7 @@ export class BloqueioComponent implements OnInit {
 
   @Input() dados: any;
   @Input() listaMedicos: ListagemUsuario[];
-  @Input() listaConsultorios: ListagemConsultorios[];
+  @Input() listaConsultorios: ListagemConsultoriosUsuario[];
   @Input() medico: number;
   @Input() lugar: number;
 
@@ -77,18 +78,18 @@ export class BloqueioComponent implements OnInit {
       if (response.sucesso) {
         if (!response.resultado.length) {
           this.toastrService.show('', 'O Médico não tem nenhum consultório, escolha outro médico.',
-            { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+            { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
           return;
         }
         this.form.get('lugar').enable();
         this.listagemConsultorios = response.resultado;
       } else {
         this.toastrService.show('', response.error,
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
-      this.toastrService.show('', 'Sistema Indisponível no momento, tente novamente mais tarde.',
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
       this.isLoading = false;
     });
@@ -122,15 +123,15 @@ export class BloqueioComponent implements OnInit {
     await this.recepcionistaService.criarBloqueio(obj).then(response => {
       if (response.sucesso) {
         this.toastrService.show('', 'Bloqueio criado com sucesso!',
-          { status: 'success', duration: 3000, position: <any>'bottom-right' });
+          { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
         this.bloqueio();
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
-      this.toastrService.show('', 'Sistema indisponível no momento, tente novamente mais tarde!',
-        { status: 'danger', duration: 3000, position: <any>'bottom-right' });
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
       this.isLoading = false;
     });

@@ -1,18 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ConsultoriosData } from '../../../@core/data/consultorios';
 import { FormatterService } from '../../../shared/services/formatter.service';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { PerfilUnidadeAtendimentoComponent } from './perfil/perfil-unidade-atendimento.component';
 import { EditarUnidadeAtendimentoComponent } from './editar/editar-unidade-atendimento.component';
 import { AdicionarUnidadeAtendimentoComponent } from './adicionar/adicionar-unidade-atendimento.component';
+import { ConfiguracoesService } from '../../../shared/services/configuracoes.service';
+import { ListagemConsultorios } from '../../../shared/interface';
+import { UnidadesCellComponent } from './unidadesCell.component';
+import { TOASTR } from '../../../shared/constants/toastr';
 
 @Component({
   selector: 'ngx-unidades-de-atendimento',
   templateUrl: './unidades-de-atendimento.component.html',
-  styleUrls: ['unidades-de-atendimento.component.scss']
+  styleUrls: ['unidades-de-atendimento.component.scss'],
+  entryComponents: [UnidadesCellComponent]
 })
-export class UnidadesDeAtendimentoComponent {
+export class UnidadesDeAtendimentoComponent implements OnInit {
   public search = '';
   settings = {
     noDataMessage: 'Sem dados',
@@ -38,22 +43,23 @@ export class UnidadesDeAtendimentoComponent {
     columns: {
       nome: {
         title: 'Nome',
-        type: 'string'
+        type: 'custom',
+        renderComponent: UnidadesCellComponent
       },
       bairro: {
         title: 'Bairro',
         type: 'string'
       },
-      telefone: {
+      telefone1: {
         title: 'Telefone',
         type: 'string',
         valuePrepareFunction: (value) => {
           return this.formatterService.phoneFormat(value);
         }
       },
-      status: {
+      ativo: {
         title: 'Status',
-        type: 'string',
+        type: 'boolean',
         valuePrepareFunction: (value) => {
           return value ? 'Ativo' : 'Inativo';
         }
@@ -61,13 +67,39 @@ export class UnidadesDeAtendimentoComponent {
     },
   };
   source: LocalDataSource = new LocalDataSource();
+  public consultorios: ListagemConsultorios[];
+  public isLoading = false;
 
   constructor(
     public consultoriosService: ConsultoriosData,
     public formatterService: FormatterService,
-    public dialogService: NbDialogService) {
+    public dialogService: NbDialogService,
+    private configuracaoService: ConfiguracoesService,
+    private toastrService: NbToastrService) {
     const data: any[] = this.consultoriosService.getData();
     this.source.load(data);
+  }
+
+  async ngOnInit() {
+    await this.obterListagem();
+  }
+
+  async obterListagem(): Promise<void> {
+    this.isLoading = true;
+    await this.configuracaoService.obterListagemConsultorios().then(response => {
+      if (response.sucesso) {
+        this.consultorios = response.objeto;
+        this.source.load(this.consultorios);
+      } else {
+        this.toastrService.show('', response.mensagens[0],
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+      }
+    }).catch(err => {
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+    }).finally(() => {
+      this.isLoading = false;
+    });
   }
 
   onSearch(query: string = '') {
@@ -102,10 +134,13 @@ export class UnidadesDeAtendimentoComponent {
       });
   }
 
-  editar() {
+  editar(event) {
     this.dialogService.open(
       EditarUnidadeAtendimentoComponent,
       {
+        context: {
+          id: event.data.id,
+        },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
@@ -113,10 +148,13 @@ export class UnidadesDeAtendimentoComponent {
       });
   }
 
-  perfil() {
+  perfil(event) {
     this.dialogService.open(
       PerfilUnidadeAtendimentoComponent,
       {
+        context: {
+          id: event.data.id,
+        },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
@@ -126,9 +164,9 @@ export class UnidadesDeAtendimentoComponent {
 
   customAction(evento) {
     if (evento.action === 'edit') {
-      this.editar();
+      this.editar(evento);
     } else if (evento.action === 'perfil') {
-      this.perfil();
+      this.perfil(evento);
     }
   }
 }

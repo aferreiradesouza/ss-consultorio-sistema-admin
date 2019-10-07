@@ -101,5 +101,20 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
     agendarConsulta(dados, dia, ehEncaixe) {
         this.marcarConsulta.emit({...dados, data: dia.diaCompleta, ehEncaixe});
     }
+
+    showButtonEncaixe(dia, index, item) {
+        if (dia.totalEncaixesPermitidos <= 0 || index === dia.horarios.length - 1) {
+            return false;
+        }
+        if (item.consulta.ehEncaixe) {
+            return index !== dia.horarios.length - 1 && (dia.horarios[index + 1].consulta && !dia.horarios[index + 1].consulta.ehEncaixe);
+        } else {
+            if (index + 1 >= dia.horarios.length - 1) {
+                console.log(dia.horarios[index].hora);
+                return false;
+            }
+            return (dia.horarios[index + 1].consulta && !dia.horarios[index + 1].consulta.ehEncaixe) || !dia.horarios[index + 1].consulta;
+        }
+    }
 }
 

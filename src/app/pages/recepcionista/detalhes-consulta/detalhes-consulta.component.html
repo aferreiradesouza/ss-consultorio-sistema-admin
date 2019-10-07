@@ -28,13 +28,17 @@
         Especialidade
         <div class="ml-auto">{{descricaoEspecialidade}}</div>
       </nb-list-item>
-      <nb-list-item class="d-flex border-top-none">
+      <nb-list-item class="d-flex">
         Atendimento
         <div [ngStyle]="{'background-color': atendimento.cor}" class="atendimento ml-auto">{{atendimento.nome}}</div>
       </nb-list-item>
-      <nb-list-item class="d-flex border-bottom-none">
+      <nb-list-item class="d-flex">
         Status
         <div [ngStyle]="{'background-color': status.cor}" class="status ml-auto">{{status.nome}}</div>
+      </nb-list-item>
+      <nb-list-item class="border-bottom-none">
+        Observação
+        <div class="description">{{consulta?.observacao || '-'}}</div>
       </nb-list-item>
     </nb-list>
     <h5>Informações do paciente</h5>
