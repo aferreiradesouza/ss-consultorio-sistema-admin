@@ -47,6 +47,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public especialidade = '1';
   public diaDe = '';
   public diaAte = '';
+  public diaDeEscolhido = '';
+  public diaAteEscolhido = '';
   public filter = (date) => false;
   public salvarFiltro = false;
 
@@ -142,7 +144,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
         this.listaMedicos = response.resultado;
       } else {
         this.toastrService.show('', response.error,
-          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position,  });
       }
     });
   }
@@ -172,8 +174,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
       this._ngZone.run(async () => {
         console.log(data);
         if (data.cpfCriador.Cpf === userCpf) { return; }
-        const dataInicioValida = moment(data.DataInicio).isBetween(moment(this.diaDe), moment(this.diaAte));
-        const dataFimValida = moment(data.DataFim).isBetween(moment(this.diaDe), moment(this.diaAte));
+        const dataInicioValida = moment(data.DataInicio).isBetween(moment(this.diaDeEscolhido), moment(this.diaAteEscolhido));
+        const dataFimValida = moment(data.DataFim).isBetween(moment(this.diaDeEscolhido), moment(this.diaAteEscolhido));
         const ehMesmoConsultorio = this.lugarEscolhido === data.IdConsultorio;
         const ehMesmoMedico = this.medicoEscolhido === data.IdMedico;
         this.toastrService.show('', `Temos um novo bloqueio no dia
@@ -195,11 +197,10 @@ export class CalendarioRecepcaoComponent implements OnInit {
     this.agendaHubService.mudancaStatusConsulta.subscribe((data: any) => {
       this._ngZone.run(async () => {
         if (data.cpfCriador.Cpf === userCpf) { return; }
-        const dataValida = moment(data.Data).isBetween(moment(this.diaDe), moment(this.diaAte));
+        const dataValida = moment(data.Data).isBetween(moment(this.diaDeEscolhido), moment(this.diaAteEscolhido));
         const ehMesmoConsultorio = this.lugarEscolhido === data.IdConsultorio;
         const ehMesmoMedico = this.medicoEscolhido === data.IdUsuario;
-        this.toastrService.show('', `Temos uma mudança de status da consulta do dia
-        ${moment(data.Data).format('DD/MM/YYYY')} às ${data.Hora}`,
+        this.toastrService.show(`Dia: ${moment(data.Data).format('DD/MM/YYYY')} - Hora:${data.Hora}`, `Temos uma mudança de status.`,
           { status: 'info', duration: 0, position: <any>'bottom-right' });
         if (dataValida && ehMesmoMedico && ehMesmoConsultorio) {
           await this.atualizarCalendarioSemRequest(data.Data, 'status', data);
@@ -253,6 +254,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
       if (response.sucesso) {
         this.medicoEscolhido = this.medico;
         this.lugarEscolhido = this.lugar;
+        this.diaDeEscolhido = this.diaDe;
+        this.diaAteEscolhido = this.diaAte;
         if (this.salvarFiltro) {
           this.localStorageService.setJson('filtro-calendario', data);
         } else {
@@ -474,6 +477,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
       if (response.sucesso) {
         this.medicoEscolhido = this.medico;
         this.lugarEscolhido = this.lugar;
+        this.diaDeEscolhido = this.diaDe;
+        this.diaAteEscolhido = this.diaAte;
         this.data = response.objeto;
       } else {
         this.toastrService.show('', response.mensagens[0],

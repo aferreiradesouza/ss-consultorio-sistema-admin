@@ -134,10 +134,9 @@ export class CalendarioComponent implements OnInit, OnChanges {
             return false;
         }
         if (item.consulta.ehEncaixe) {
-            return index !== dia.horarios.length - 1 && (dia.horarios[index + 1].consulta && !dia.horarios[index + 1].consulta.ehEncaixe);
+            return index !== dia.horarios.length - 1 && (dia.horarios[index + 1].consulta && !dia.horarios[index + 1].consulta.ehEncaixe) || !dia.horarios[index + 1].consulta;
         } else {
             if (index + 1 >= dia.horarios.length - 1) {
-                console.log(dia.horarios[index].hora);
                 return false;
             }
             return (dia.horarios[index + 1].consulta && !dia.horarios[index + 1].consulta.ehEncaixe) || !dia.horarios[index + 1].consulta;
@@ -149,7 +148,8 @@ export class CalendarioComponent implements OnInit, OnChanges {
         if (validStatus.indexOf(codigo) === -1) {
             return '';
         }
-        return ` - ${moment(dataStatus).format('hh:mm')}`;
+        const tempo = moment.utc(moment(new Date()).diff(moment(dataStatus, 'YYYY-MM-DDTHH:mm:ss'))).format('HH:mm:ss');
+        return ` - ${tempo}`;
     }
 }
 
