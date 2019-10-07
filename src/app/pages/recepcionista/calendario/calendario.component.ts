@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit, NgZone } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, NgZone, OnChanges } from '@angular/core';
 import { NbCalendarRange, NbIconLibraries, NbDialogService, NbDatepickerComponent, NbDatepicker, NbToastrService, NbCalendarComponent, NbDateService, NbCalendarViewMode, NbCalendarCell, NbCalendarDayCellComponent } from '@nebular/theme';
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
@@ -534,7 +534,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
           tiposAtendimento: this.tiposAtendimentos,
           ehEncaixe: data.ehEncaixe
         },
-        closeOnEsc: true,
+        closeOnEsc: false,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
@@ -556,7 +556,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
           data: data,
           statusConsultas: this.statusConsultas
         },
-        closeOnEsc: true,
+        closeOnEsc: false,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
@@ -582,7 +582,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
           atendimento: this.tiposAtendimentos.filter(e => e.codigo === data.consulta.codigoTipoConsulta)[0],
           tiposAtendimentos: this.tiposAtendimentos
         },
-        closeOnEsc: true,
+        closeOnEsc: false,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
@@ -607,7 +607,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
           medico: this.medicoEscolhido,
           lugar: this.lugarEscolhido
         },
-        closeOnEsc: true,
+        closeOnEsc: false,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true

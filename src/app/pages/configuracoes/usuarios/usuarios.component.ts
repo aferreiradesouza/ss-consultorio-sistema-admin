@@ -74,8 +74,6 @@ export class UsuariosComponent implements OnInit {
     public dialogService: NbDialogService,
     public configuracoesService: ConfiguracoesService,
     private toastrService: NbToastrService) {
-    const data: any[] = this.usuariosService.getData();
-    this.source.load(data);
   }
 
   async ngOnInit() {
@@ -86,8 +84,18 @@ export class UsuariosComponent implements OnInit {
 
   async obterListagem(): Promise<void> {
     await this.configuracoesService.obterListagemUsuarios().then(response => {
-      this.usuarios = response.objeto;
-      this.source.load(this.usuarios);
+      if (response.sucesso) {
+        this.usuarios = response.objeto;
+        this.source.load(this.usuarios);
+      } else {
+        this.usuarios = [];
+        this.toastrService.show('', response.mensagens[0],
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+      }
+    }).catch(err => {
+      this.usuarios = [];
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     });
   }
 

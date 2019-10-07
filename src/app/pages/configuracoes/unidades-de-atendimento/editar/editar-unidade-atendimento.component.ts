@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NbDialogRef } from '@nebular/theme';
+import { NbDialogRef, NbToastrService } from '@nebular/theme';
 import { FormGroup, FormControl } from '@angular/forms';
+import { ConfiguracoesService } from '../../../../shared/services/configuracoes.service';
+import { Consultorio } from '../../../../shared/interface';
+import { TOASTR } from '../../../../shared/constants/toastr';
 
 @Component({
     selector: 'ngx-editar-unidade-atendimento',
@@ -22,19 +25,38 @@ export class EditarUnidadeAtendimentoComponent implements OnInit {
     });
 
     public isLoading: boolean;
+    public consultorio: Consultorio;
 
     @Input() id: number;
     @Input() dados: any;
 
     constructor(
-        protected ref: NbDialogRef<EditarUnidadeAtendimentoComponent>) { }
+        protected ref: NbDialogRef<EditarUnidadeAtendimentoComponent>,
+        private configuracoesService: ConfiguracoesService,
+        private toastrService: NbToastrService) { }
 
-    ngOnInit() {
+    async ngOnInit() {
+        await this.obterConsultorio();
+    }
+
+    async obterConsultorio(): Promise<void> {
         this.isLoading = true;
-        setTimeout(() => {
-            this.preencherForm();
+        await this.configuracoesService.obterConsultorioPorId(this.id).then(response => {
+            if (response.sucesso) {
+                this.consultorio = response.objeto;
+                this.preencherForm();
+            } else {
+                this.toastrService.show('', response.mensagens[0],
+                    { status: 'danger', duration: TOASTR.timer, position: <any>TOASTR.position });
+                this.dismiss();
+            }
+        }).catch(err => {
+            this.toastrService.show('', TOASTR.msgErroPadrao,
+                { status: 'danger', duration: TOASTR.timer, position: <any>TOASTR.position });
+            this.dismiss();
+        }).finally(() => {
             this.isLoading = false;
-        }, 1000);
+        });
     }
 
     dismiss() {
@@ -47,16 +69,24 @@ export class EditarUnidadeAtendimentoComponent implements OnInit {
 
     preencherForm() {
         this.form.patchValue({
-            nome: 'Barra',
-            telefone: '2133810462',
-            cep: '31361360',
-            logradouro: 'Av das américas',
-            numero: '3500',
-            complemento: 'Bloco 4 Toronto 3000 Sala 606',
-            bairro: 'Barra',
-            cidade: 'Rio de Janeiro',
-            estado: 'RJ',
-            status: true
+            nome: this.consultorio.nome,
+            telefone: this.consultorio.telefone1,
+            cep: this.consultorio.cep,
+            logradouro: this.consultorio.logradouro,
+            numero: this.consultorio.numero,
+            complemento: this.consultorio.complemento,
+            bairro: this.consultorio.bairro,
+            cidade: this.consultorio.cidade,
+            estado: this.consultorio.estado,
+            status: this.consultorio.ativo,
+            urlFoto: this.consultorio.urlFoto
         });
     }
+
+    // enviar() {
+    //     const form = this.form.value;
+    //     const obj = {
+
+    //     }
+    // }
 }

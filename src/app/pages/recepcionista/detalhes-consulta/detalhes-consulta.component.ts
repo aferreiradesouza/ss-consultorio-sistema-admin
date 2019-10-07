@@ -116,7 +116,7 @@ export class DetalhesConsultaComponent implements OnInit {
           personEdit: this.paciente,
           observacao: this.consulta.observacao
         },
-        closeOnEsc: true,
+        closeOnEsc: false,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true

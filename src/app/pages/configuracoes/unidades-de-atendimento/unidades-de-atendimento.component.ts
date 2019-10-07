@@ -76,8 +76,6 @@ export class UnidadesDeAtendimentoComponent implements OnInit {
     public dialogService: NbDialogService,
     private configuracaoService: ConfiguracoesService,
     private toastrService: NbToastrService) {
-    const data: any[] = this.consultoriosService.getData();
-    this.source.load(data);
   }
 
   async ngOnInit() {
@@ -91,10 +89,12 @@ export class UnidadesDeAtendimentoComponent implements OnInit {
         this.consultorios = response.objeto;
         this.source.load(this.consultorios);
       } else {
+        this.consultorios = [];
         this.toastrService.show('', response.mensagens[0],
           { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
+      this.consultorios = [];
       this.toastrService.show('', TOASTR.msgErroPadrao,
         { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {

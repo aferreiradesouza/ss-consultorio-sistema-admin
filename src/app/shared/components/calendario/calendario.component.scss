@@ -32,6 +32,23 @@ $hour-count: 48;
       width: $width-dia;
       max-width: $width-dia;
       position: relative;
+      
+      > .msg {
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        transform: translateX(-50%);
+        width: fit-content;
+        font-size: 12px;
+
+        &.txt-decorator {
+          color: nb-theme(color-warning-700);
+        }
+
+        &.opacity {
+          opacity: .5;
+        }
+      }
 
       > .group {
         height: 100%;
@@ -48,9 +65,14 @@ $hour-count: 48;
         }
 
         &.active {
-          background-color: nb-theme(color-primary-500);
-          color: #fff;
-          border-radius: 5px;
+          background-color: nb-theme(color-primary-500) !important;
+          color: #fff !important;
+          border-radius: 5px !important;
+        }
+
+        &.activeDateEvent {
+          background-color: nb-theme(color-basic-400);
+          cursor: pointer;
         }
 
         > span {

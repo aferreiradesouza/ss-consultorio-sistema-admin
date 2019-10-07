@@ -12,7 +12,7 @@ import { StatusConsulta, TiposAtendimento } from '../../interface';
 
 export class CalendarioComponent implements OnInit, OnChanges {
     public dataAtual = moment();
-    public dataAtualFormatada = moment().format('YYYY-MM-DD');
+    public dataAtualFormatada = moment().format('DD/MM/YYYY');
     public posicaoPaleta;
     public dias;
     public maxAgendamentos: number;
@@ -42,6 +42,15 @@ export class CalendarioComponent implements OnInit, OnChanges {
     ngOnInit() {
         this.dias = this.calendarioService.montarDias(this.data);
     }
+    ngOnChanges(changes) {
+        if (changes.data && !changes.data.firstChange) {
+            this.dias = this.calendarioService.montarDias(changes.data.currentValue);
+        }
+    }
+
+    activeDateEvent(date) {
+        return moment(date).format('YYYY-MM-DD') === moment(this.dataSelecionadaCalendario).format('YYYY-MM-DD');
+    }
 
     getColorStatus(codigo: string) {
         return this.statusConsultas.filter(e => e.codigo === codigo)[0].cor;
@@ -65,12 +74,6 @@ export class CalendarioComponent implements OnInit, OnChanges {
 
     diaSemana(data) {
         return moment(data).format('YYYY-MM-DD');
-    }
-
-    ngOnChanges(changes) {
-        if (changes.data && !changes.data.firstChange) {
-            this.dias = this.calendarioService.montarDias(changes.data.currentValue);
-        }
     }
 
     obterArray(num) {
@@ -150,6 +153,15 @@ export class CalendarioComponent implements OnInit, OnChanges {
         }
         const tempo = moment.utc(moment(new Date()).diff(moment(dataStatus, 'YYYY-MM-DDTHH:mm:ss'))).format('HH:mm:ss');
         return ` - ${tempo}`;
+    }
+
+    getCountConsultas(horarios: any[]): {mensagem: string, count: number} {
+        const count = horarios.filter(e => e.consulta).length;
+        if (count === 0) {
+            return {mensagem: ``, count};
+        } else {
+            return {mensagem: `${count} consulta${count > 1 ? 's' : ''} marcada${count > 1 ? 's' : ''}`, count};
+        }
     }
 }
 

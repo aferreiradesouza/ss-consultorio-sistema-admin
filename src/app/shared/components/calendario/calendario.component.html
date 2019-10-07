@@ -3,11 +3,14 @@
         <div class="eixo-hora-header"></div>
         <div class="dataSemana" *ngFor="let item of dias; let i = index">
             <div class="group" (click)="selecionarData(item)"
-                [ngClass]="{'active' : item.diaCompleta === dataAtualFormatada}">
+                [ngClass]="{'active' : (item.diaCompleta | date:'YYYY-MM-DD') === dataAtualFormatada, 'activeDateEvent': activeDateEvent(item.diaCompleta)}">
                 <span>{{item.data.curto.toUpperCase()}}</span>
                 <div class="dia">
                     {{item.dia}}/{{item.mes.curto.toLowerCase()}}
                 </div>
+            </div>
+            <div class="msg" [ngClass]="{'txt-decorator' : getCountConsultas(item.horarios).count > 0}">
+                {{getCountConsultas(item.horarios).mensagem}}
             </div>
         </div>
     </div>
