@@ -67,7 +67,7 @@ export class RecepcionistaService {
 
     async obterConsultaId(id: number) {
         const url = `${environment.urlBase}admin/agenda/obterConsulta/${id}`;
-        return await this.ajax.post<IObterInfoConsulta>(url);
+        return await this.ajax.get<IObterInfoConsulta>(url);
     }
 
     async alterarConsulta(data) {

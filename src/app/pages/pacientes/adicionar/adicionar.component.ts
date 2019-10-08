@@ -32,6 +32,7 @@ export class AdicionarPacientesComponent implements OnInit {
     idade: new FormControl({ value: '', disabled: true }),
   });
   public sexo = new FormControl('');
+  public comoConheceu = new FormControl('');
 
   public status: 'sucesso' | 'erro' = null;
   public msgAlert: string = null;

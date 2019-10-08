@@ -36,9 +36,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-8">
                     <ngx-text-area-simple label="Observação" formControlName="observacao" placeholder="Escreva algo">
                     </ngx-text-area-simple>
+                </div>
+                <div class="col-sm-4">
+                    <label class="label d-block mt-1">Como conheceu</label>
+                    <nb-select fullWidth placeholder="Selecione" [formControl]="comoConheceu">
+                        <nb-option [value]="1">Busca na Web</nb-option>
+                        <nb-option [value]="2">Rede Social</nb-option>
+                        <nb-option [value]="3">Indicação</nb-option>
+                        <nb-option [value]="4">Outros</nb-option>
+                    </nb-select>
                 </div>
             </div>
             <h6 class="my-3">INFORMAÇÕES DE CONTATO</h6>

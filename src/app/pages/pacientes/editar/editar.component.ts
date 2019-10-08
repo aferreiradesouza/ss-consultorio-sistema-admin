@@ -30,10 +30,11 @@ export class EditarPacientesComponent implements OnInit {
     cidade: new FormControl(''),
     uf: new FormControl(''),
     idade: new FormControl({ value: '', disabled: true }),
-    status: new FormControl(false)
+    status: new FormControl(false),
   });
 
   public sexo = new FormControl('');
+  public comoConheceu = new FormControl('');
   public user: Paciente;
   @Input() id: number;
   @Input() dados: any;
