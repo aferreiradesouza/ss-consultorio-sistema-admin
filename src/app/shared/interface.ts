@@ -122,6 +122,22 @@ export interface IConsultorio extends DefaultHttpResponse {
     objeto: Consultorio;
 }
 
+export interface IEditarConsultorio extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface IDeletarConsultorio extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface ICriarConsultorio extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface IObterAgenda extends DefaultHttpResponse {
+    objeto: Agenda[];
+}
+
 export interface Especialidades {
     id: number;
     nome: string;
@@ -328,4 +344,21 @@ export interface Consultorio {
     dataCadastro: string;
     dataDesativacao: string;
     ativo: boolean;
+}
+
+export interface Agenda {
+    id: number;
+    idUsuario: number;
+    idEspecialidade: number;
+    idConsultorio: number;
+    diaSemana: number;
+    horaInicio: string;
+    horaFim: string;
+    duracaoMinutos: number;
+    dataCadastro: string;
+    dataDesativacao: string;
+    ativo: boolean;
+    consultorio: Consultorio;
+    especialidade: Especialidades;
+    usuario: Usuario;
 }

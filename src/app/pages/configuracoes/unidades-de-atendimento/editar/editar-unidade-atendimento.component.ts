@@ -21,7 +21,8 @@ export class EditarUnidadeAtendimentoComponent implements OnInit {
         bairro: new FormControl(''),
         cidade: new FormControl(''),
         estado: new FormControl(''),
-        status: new FormControl(false)
+        status: new FormControl(false),
+        urlFoto: new FormControl('')
     });
 
     public isLoading: boolean;
@@ -83,10 +84,42 @@ export class EditarUnidadeAtendimentoComponent implements OnInit {
         });
     }
 
-    // enviar() {
-    //     const form = this.form.value;
-    //     const obj = {
+    async enviar() {
+        this.isLoading = true;
+        const form = this.form.value;
+        const obj = {
+            id: this.consultorio.id,
+            nome: form.nome,
+            urlFoto: form.urlFoto,
+            cep: form.cep,
+            logradouro: form.logradouro,
+            numero: form.numero,
+            complemento: form.complemento,
+            bairro: form.bairro,
+            cidade: form.cidade,
+            estado: form.estado,
+            telefone1: form.telefone,
+            telefone2: null,
+            celular1: null,
+            celular2: null,
+            ativo: form.status
+        };
 
-    //     }
-    // }
+        await this.configuracoesService.editarConsultorio(obj).then(response => {
+            if (response.sucesso) {
+                this.toastrService.show('', 'Consultório alterado com sucesso!',
+                    { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
+                    this.editar();
+            } else {
+                this.toastrService.show('', response.mensagens[0],
+                    { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+                    this.dismiss();
+            }
+        }).catch(err => {
+            this.toastrService.show('', TOASTR.msgErroPadrao,
+                { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+        }).finally(() => {
+            this.isLoading = false;
+        });
+    }
 }

@@ -1,0 +1,27 @@
+<nb-card [nbSpinner]="isLoadingCard" nbSpinnerStatus="primary">
+    <nb-card-header>
+        Configurações da agenda
+    </nb-card-header>
+    <nb-card-body>
+        <nb-tabset *ngIf="showContent" fullWidth (changeTab)="changeTab($event)">
+            <nb-tab tabTitle="Calendário" tabIcon="calendar-outline" [nbSpinner]="isLoading" nbSpinnerStatus="primary">
+                <div class="mb-4 d-flex mt-2">
+                    <div class="w-100 mr-4">
+                        <ngx-input-simple [feedback]="false" [(ngModel)]="search" (ngModelChange)="onSearch(search)"
+                            placeholder="Buscar regra">
+                        </ngx-input-simple>
+                    </div>
+                    <div class="ml-auto">
+                        <button nbButton hero status="primary">Adicionar uma nova regra</button>
+                    </div>
+                </div>
+                <ng2-smart-table [settings]="settings" [source]="source" (custom)="customAction($event)">
+                </ng2-smart-table>
+            </nb-tab>
+            <nb-tab tabTitle="Bloqueios" tabIcon="lock-outline">
+                Tab content 2
+            </nb-tab>
+        </nb-tabset>
+        <span *ngIf="!showContent && msgErro" class="msgErro">{{msgErro}}</span>
+    </nb-card-body>
+</nb-card>

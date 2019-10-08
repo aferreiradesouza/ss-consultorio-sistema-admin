@@ -3,6 +3,7 @@ import { NbDialogRef } from '@nebular/theme';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { ConfiguracoesService } from '../../../../shared/services/configuracoes.service';
+import { TOASTR } from '../../../../shared/constants/toastr';
 
 @Component({
     selector: 'ngx-adicionar-usuario',
@@ -78,7 +79,7 @@ export class AdicionarUsuarioComponent implements OnInit {
                 this.dismiss({ sucesso: false, mensagem: response.mensagens[0] });
             }
         }).catch(err => {
-            this.dismiss({ sucesso: false, mensagem: 'Não foi possível realizar a alteração, tente novamente mais tarde!' });
+            this.dismiss({ sucesso: false, mensagem: TOASTR.msgErroPadrao });
         });
         this.isLoading = false;
     }

@@ -48,10 +48,16 @@
                 <nb-checkbox class="mt-2" status="primary" formControlName="status">Unidade Ativa</nb-checkbox>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <ngx-input-simple label="URL da foto" formControlName="urlFoto">
+                </ngx-input-simple>
+            </div>
+        </div>
     </nb-card-body>
     <nb-card-footer>
         <label class="label mb-2 d-block">* Campos obrigatórios</label>
         <button nbButton status="basica" class="mr-4" (click)="dismiss()">Voltar</button>
-        <button nbButton status="primary" (click)="editar()" [disabled]="!form.valid">Editar</button>
+        <button nbButton status="primary" (click)="enviar()" [disabled]="!form.valid">Editar</button>
     </nb-card-footer>
 </nb-card>

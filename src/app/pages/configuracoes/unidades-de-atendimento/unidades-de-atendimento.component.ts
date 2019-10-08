@@ -10,6 +10,7 @@ import { ConfiguracoesService } from '../../../shared/services/configuracoes.ser
 import { ListagemConsultorios } from '../../../shared/interface';
 import { UnidadesCellComponent } from './unidadesCell.component';
 import { TOASTR } from '../../../shared/constants/toastr';
+import { DeletarUnidadeAtendimentoComponent } from './deletar/deletar.component';
 
 @Component({
   selector: 'ngx-unidades-de-atendimento',
@@ -35,6 +36,10 @@ export class UnidadesDeAtendimentoComponent implements OnInit {
           name: 'edit',
           title: '<i class="nb-edit"></i>'
         },
+        {
+          name: 'delete',
+          title: '<i class="nb-trash"></i>'
+        }
       ],
       add: false,
       edit: false,
@@ -131,6 +136,10 @@ export class UnidadesDeAtendimentoComponent implements OnInit {
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
+      }).onClose.subscribe(async e => {
+        if (e) {
+          await this.obterListagem();
+        }
       });
   }
 
@@ -145,6 +154,10 @@ export class UnidadesDeAtendimentoComponent implements OnInit {
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
+      }).onClose.subscribe(async e => {
+        if (e) {
+          await this.obterListagem();
+        }
       });
   }
 
@@ -162,11 +175,31 @@ export class UnidadesDeAtendimentoComponent implements OnInit {
       });
   }
 
+  deletar(event) {
+    this.dialogService.open(
+      DeletarUnidadeAtendimentoComponent,
+      {
+        context: {
+          id: event.data.id,
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }).onClose.subscribe(async e => {
+        if (e) {
+          await this.obterListagem();
+        }
+      });
+  }
+
   customAction(evento) {
     if (evento.action === 'edit') {
       this.editar(evento);
     } else if (evento.action === 'perfil') {
       this.perfil(evento);
+    } else if (evento.action === 'delete') {
+      this.deletar(evento);
     }
   }
 }

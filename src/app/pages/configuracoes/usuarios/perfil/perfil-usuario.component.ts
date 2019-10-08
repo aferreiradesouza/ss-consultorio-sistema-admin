@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfiguracoesService } from '../../../../shared/services/configuracoes.service';
 import { Usuario } from '../../../../shared/interface';
 import * as moment from 'moment';
+import { TOASTR } from '../../../../shared/constants/toastr';
 
 @Component({
     selector: 'ngx-perfil-usuario',
@@ -47,7 +48,7 @@ export class PerfilUsuarioComponent implements OnInit {
                 this.dismiss({sucesso: false, mensagem: response.mensagens[0]});
             }
         }).catch(() => {
-            this.dismiss({sucesso: false, mensagem: 'Algo de errado aconteceu, tente novamente mais tarde!'});
+            this.dismiss({sucesso: false, mensagem: TOASTR.msgErroPadrao});
         });
         this.isLoading = false;
     }

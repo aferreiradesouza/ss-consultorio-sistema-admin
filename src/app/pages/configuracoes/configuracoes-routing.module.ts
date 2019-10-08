@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import { ProfissionaisDeSaudeComponent } from './profissionais-de-saude/profissionais-de-saude.component';
+import { AgendaComponent } from './agenda/agenda.component';
 import { UnidadesDeAtendimentoComponent } from './unidades-de-atendimento/unidades-de-atendimento.component';
 
 const routes: Routes = [
@@ -15,8 +15,8 @@ const routes: Routes = [
     component: UsuariosComponent
   },
   {
-    path: 'profissionais-de-saude',
-    component: ProfissionaisDeSaudeComponent
+    path: 'agenda',
+    component: AgendaComponent
   },
   {
     path: 'unidades-de-atendimento',

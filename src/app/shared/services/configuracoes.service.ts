@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AjaxService } from './ajax.service';
-import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio } from '../interface';
+import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio, IEditarConsultorio, IDeletarConsultorio, ICriarConsultorio, IObterAgenda } from '../interface';
 
 @Injectable()
 export class ConfiguracoesService {
@@ -42,6 +42,30 @@ export class ConfiguracoesService {
     async obterConsultorioPorId(id: number) {
         const url = `${environment.urlBase}admin/consultorio/${id}`;
         const response = await this.ajax.get<IConsultorio>(url);
+        return response;
+    }
+
+    async editarConsultorio(data) {
+        const url = `${environment.urlBase}admin/consultorio/alterarPerfil`;
+        const response = await this.ajax.post<IEditarConsultorio>(url, data);
+        return response;
+    }
+
+    async deletarConsultorio(id: number) {
+        const url = `${environment.urlBase}admin/consultorio/${id}`;
+        const response = await this.ajax.delete<IDeletarConsultorio>(url);
+        return response;
+    }
+
+    async adicionarConsultorio(data) {
+        const url = `${environment.urlBase}admin/consultorio/criar`;
+        const response = await this.ajax.post<ICriarConsultorio>(url, data);
+        return response;
+    }
+
+    async obterAgenda() {
+        const url = `${environment.urlBase}admin/agenda/obterAgendas`;
+        const response = await this.ajax.get<IObterAgenda>(url);
         return response;
     }
 }

@@ -50,8 +50,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/configuracoes/usuarios',
       },
       {
-        title: 'Profissionais de saúde',
-        link: '/configuracoes/profissionais-de-saude',
+        title: 'Agenda',
+        link: '/configuracoes/agenda',
       },
       {
         title: 'Unidades de atendimento',

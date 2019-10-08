@@ -2,6 +2,7 @@ import { Component, Input, OnInit, AfterViewInit, AfterViewChecked } from '@angu
 import { NbDialogRef } from '@nebular/theme';
 import * as moment from 'moment';
 import { ConfiguracoesService } from '../../../../shared/services/configuracoes.service';
+import { TOASTR } from '../../../../shared/constants/toastr';
 
 @Component({
   selector: 'ngx-deletar-usuario',
@@ -35,7 +36,7 @@ export class DeletarUsuarioComponent implements OnInit {
         this.dismiss({sucesso: false, mensagem: response.mensagens[0]});
       }
     }).catch(err => {
-      this.dismiss({sucesso: false, mensagem: 'Sistema indisponível no momento, tente novamente mais tarde!'});
+      this.dismiss({sucesso: false, mensagem: TOASTR.msgErroPadrao});
     });
     this.isLoading = false;
   }
