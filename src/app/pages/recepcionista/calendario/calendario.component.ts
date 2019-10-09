@@ -50,7 +50,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public diaDeEscolhido = '';
   public diaAteEscolhido = '';
   public filter = (date) => false;
-  public salvarFiltro = false;
 
   @ViewChild(CalendarioComponent, { static: false }) calendario: CalendarioComponent;
   @ViewChild(CalendarioDoDiaComponent, { static: false }) calendarioDoDia: CalendarioDoDiaComponent;
@@ -75,20 +74,16 @@ export class CalendarioRecepcaoComponent implements OnInit {
   async ngOnInit() {
     this.isLoading = true;
     await this.obterDadosIniciais();
-    if (this.localStorageService.has('filtro-calendario')) {
-      await this.preencherFiltro();
-    } else {
-      const medicoId = this.listaMedicos[0].id;
-      await this.obterConsultorios(medicoId);
+    const medicoId = this.listaMedicos[0].id;
+    await this.obterConsultorios(medicoId);
 
-      this.medico = medicoId;
-      this.lugar = this.listaConsultorios[0].idConsultorio;
-      this.diaDe = <any>moment().subtract(2, 'months').toDate();
-      this.setMinAndMaxValueAte(this.diaDe);
-      this.diaAte = <any>moment().add(4, 'months').toDate();
+    this.medico = medicoId;
+    this.lugar = this.listaConsultorios[0].idConsultorio;
+    this.diaDe = <any>moment().subtract(2, 'months').toDate();
+    this.setMinAndMaxValueAte(this.diaDe);
+    this.diaAte = <any>moment().add(4, 'months').toDate();
 
-      await this.filtrar();
-    }
+    await this.filtrar();
     this.isLoading = false;
   }
 
@@ -144,23 +139,9 @@ export class CalendarioRecepcaoComponent implements OnInit {
         this.listaMedicos = response.resultado;
       } else {
         this.toastrService.show('', response.error,
-          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position,  });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position, });
       }
     });
-  }
-
-  async preencherFiltro() {
-    this.salvarFiltro = true;
-    this.medico = this.localStorageService.getJson('filtro-calendario').idMedico;
-
-    await this.obterConsultorios(this.medico);
-
-    this.lugar = this.localStorageService.getJson('filtro-calendario').idConsultorio;
-    this.diaDe = <any>moment(this.localStorageService.getJson('filtro-calendario').dataInicial).toDate();
-    this.setMinAndMaxValueAte(this.diaDe);
-    this.diaAte = <any>moment(this.localStorageService.getJson('filtro-calendario').dataFinal).toDate();
-
-    await this.filtrar();
   }
 
   private subscribeSignalREventos(): void {
@@ -220,7 +201,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
         if (!response.resultado.length) {
           this.toastrService.show('', 'O Médico não tem nenhum consultório, escolha outro médico.',
             { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
-          this.salvarFiltro = false;
           return;
         }
         this.listaConsultorios = response.resultado;
@@ -256,11 +236,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
         this.lugarEscolhido = this.lugar;
         this.diaDeEscolhido = this.diaDe;
         this.diaAteEscolhido = this.diaAte;
-        if (this.salvarFiltro) {
-          this.localStorageService.setJson('filtro-calendario', data);
-        } else {
-          this.localStorageService.remove('filtro-calendario');
-        }
         this.data = response.objeto;
         this.filter = (date) => {
           return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(date).format('YYYY-MM-DD')) > -1;

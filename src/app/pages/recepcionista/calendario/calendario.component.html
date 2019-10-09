@@ -4,9 +4,10 @@
             <nb-icon (click)="toggle()" pack="fa" class="mr-4" [icon]="isOpen ? 'times' : 'bars'"></nb-icon>
             <ng-container>
                 <div class="mr-4" [ngClass]="{'d-none' : !isOpen}">
-                    <button class="mb-2" nbButton status="info" fullWidth (click)="proximoDiaUtil('button')">Próximo dia de atendimento</button>
-                    <nb-calendar (dateChange)="changeDia($event)" [filter]="filter"
-                        [(date)]="dataEvent" [showHeader]="false">
+                    <button class="mb-2" nbButton status="info" fullWidth (click)="proximoDiaUtil('button')">Próximo dia
+                        de atendimento</button>
+                    <nb-calendar (dateChange)="changeDia($event)" [filter]="filter" [(date)]="dataEvent"
+                        [showHeader]="false">
                     </nb-calendar>
                 </div>
             </ng-container>
@@ -46,8 +47,8 @@
                     </div>
                     <button class="legenda-button" (click)="mostrarLegendas()" nbButton status="info"
                         fullWidth>Legendas</button>
-                    <button class="bloqueio-button" (click)="bloqueio()" nbButton status="basic"
-                        fullWidth>Novo bloqueio</button>
+                    <button class="bloqueio-button" (click)="bloqueio()" nbButton status="basic" fullWidth>Novo
+                        bloqueio</button>
                 </ng-container>
                 <ng-container *ngIf="!isOpen">
                     <div class="changeMes mt-4">
@@ -92,12 +93,6 @@
                             <nb-datepicker #ngmodelAte></nb-datepicker>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-sm-12">
-                            <nb-checkbox [(ngModel)]="salvarFiltro"
-                                [disabled]="(!diaDe || !diaAte) || (!medico || !lugar)">Salvar dados</nb-checkbox>
-                        </div>
-                    </div>
                     <button [disabled]="(!diaDe || !diaAte) || (!medico || !lugar)" (click)="filtrar()"
                         class="d-block button-filtro" nbButton fullWidth status="primary">Filtrar</button>
                 </ng-container>
@@ -126,7 +121,8 @@
         <span *ngIf="visao === '1' && !dataEvent">Selecione uma data!</span>
         <ngx-calendario (infoConsulta)="infoConsulta($event)" (alterarStatus)="alterarStatus($event)"
             (agendarConsulta)="agendar($event)" *ngIf="visao === '2'" (dataSelecionada)="dataSelecionada($event)"
-            [data]="group" [dataSelecionadaCalendario]="dataEvent" [statusConsultas]="statusConsultas" [tiposAtendimentos]="tiposAtendimentos">
+            [data]="group" [dataSelecionadaCalendario]="dataEvent" [statusConsultas]="statusConsultas"
+            [tiposAtendimentos]="tiposAtendimentos">
         </ngx-calendario>
     </nb-card-body>
 </nb-card>
