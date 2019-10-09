@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbDialogModule, NbSelectModule, NbCheckboxModule, NbSpinnerModule, NbUserModule, NbToastrModule, NbTabsetModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbSelectModule, NbCheckboxModule, NbSpinnerModule, NbUserModule, NbToastrModule, NbTabsetModule, NbListModule, NbIconModule } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ConfiguracoesRoutingModule } from './configuracoes-routing.module';
@@ -47,7 +47,9 @@ const NB_MODULES = [
   NbUserModule,
   NbCheckboxModule,
   NbToastrModule,
-  NbTabsetModule
+  NbTabsetModule,
+  NbListModule,
+  NbIconModule
 ];
 
 @NgModule({

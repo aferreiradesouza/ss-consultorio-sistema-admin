@@ -10,6 +10,8 @@ import { ListagemUsuario } from '../../../shared/interface';
 import { UserCellComponent } from './userCell.component';
 import { DeletarUsuarioComponent } from './deletar/deletar.component';
 import { TOASTR } from '../../../shared/constants/toastr';
+import { AutenticacaoService } from '../../../shared/services/autenticacao.service';
+import { LocalStorageService } from '../../../shared/services/local-storage.service';
 
 @Component({
   selector: 'ngx-usuarios',
@@ -73,7 +75,9 @@ export class UsuariosComponent implements OnInit {
   constructor(public usuariosService: UsuariosData,
     public dialogService: NbDialogService,
     public configuracoesService: ConfiguracoesService,
-    private toastrService: NbToastrService) {
+    private toastrService: NbToastrService,
+    private authService: AutenticacaoService,
+    private localStorageService: LocalStorageService) {
   }
 
   async ngOnInit() {
@@ -155,6 +159,11 @@ export class UsuariosComponent implements OnInit {
         if (resp.sucesso) {
           this.isLoading = true;
           await this.obterListagem();
+          await this.authService.verificarToken().then(response => {
+            this.localStorageService.store('login', response.objeto);
+          }).catch(() => {
+            this.isLoading = false;
+          });
           this.isLoading = false;
         }
       });

@@ -12,13 +12,13 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'ngx-header',
   styleUrls: ['./header.component.scss'],
-  templateUrl: './header.component.html',
+  templateUrl: './header.component.html'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
-  user: any;
+  usuario: any;
 
   themes = [
     {
@@ -40,6 +40,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ];
 
   currentTheme = 'default';
+  public i = 0;
+  public ehMedico = false;
 
   userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
 
@@ -55,7 +57,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.user = this.storageService.getJson('login');
+    this.usuario = this.storageService.getJson('login');
+    this.ehMedico = this.usuario.ehMedico;
+    this.storageService.changes.subscribe(val => {
+      if (val.key === 'login') {
+        this.usuario = val.value;
+      }
+    });
+  }
+
+  get user() {
+    return this.usuario;
   }
 
   ngOnDestroy() {
@@ -93,5 +105,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       });
 
+  }
+
+  onStorageChange(ev: KeyboardEvent) {
+    // do something meaningful with it
+    console.log(`Localstorage change/updated!`, ev);
   }
 }

@@ -359,6 +359,17 @@ export interface Agenda {
     dataDesativacao: string;
     ativo: boolean;
     consultorio: Consultorio;
-    especialidade: Especialidades;
+    dataVigenciaInicio: string;
+    dataVigenciaFim: string;
+    especialidade: Array<{
+        id: number,
+        idEspecialidade: number,
+        idUsuarioConsultorio: number,
+        especialidade: {
+            id: number,
+            nome: string,
+            descricao: string
+        }
+    }>;
     usuario: Usuario;
 }

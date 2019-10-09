@@ -10,6 +10,7 @@ import { Agenda, Consultorio, Usuario, Especialidades, ListagemUsuario, Listagem
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
+import { DATA_TABLE_CALENDARIO } from './data-table';
 
 @Component({
   selector: 'ngx-agenda-configuracoes',
@@ -18,75 +19,20 @@ import { RecepcionistaService } from '../../../shared/services/recepcionista.ser
 })
 export class AgendaComponent implements OnInit {
   public search = '';
-  settings = {
-    noDataMessage: 'Sem dados',
-    hideSubHeader: true,
-    mode: 'external',
-    actions: {
-      columnTitle: 'Ações',
-      position: 'right',
-      custom: [
-        {
-          name: 'perfil',
-          title: '<i class="nb-person"></i>'
-        },
-        {
-          name: 'edit',
-          title: '<i class="nb-edit"></i>'
-        },
-        {
-          name: 'delete',
-          title: '<i class="nb-trash"></i>'
-        }
-      ],
-      add: false,
-      edit: false,
-      delete: false
-    },
-    columns: {
-      dataCadastro: {
-        title: 'Data de cadastro',
-        type: 'string',
-        valuePrepareFunction: (value) => {
-          return moment(value).format('DD/MM/YYYY');
-        }
-      },
-      horaInicio: {
-        title: 'Hora início',
-        type: 'string'
-      },
-      horaFim: {
-        title: 'Hora fim',
-        type: 'string'
-      },
-      duracaoMinutos: {
-        title: 'Minutos',
-        type: 'string'
-      },
-      diaSemana: {
-        title: 'Dia',
-        type: 'string',
-        valuePrepareFunction: (value) => {
-          return this.calendarioService.formatarDay(value).extenso;
-        }
-      },
-      Ativo: {
-        title: 'Status',
-        type: 'boolean',
-        valuePrepareFunction: (value) => {
-          return value ? 'Ativo' : 'Inativo';
-        }
-      },
-    },
-  };
-  source: LocalDataSource = new LocalDataSource();
-  public isLoading = false;
+  public isLoadingCalendario = false;
   public agenda: Agenda[];
-  public isLoadingCard = false;
   public consultorios: ListagemConsultorios[];
   public medicos: ListagemUsuario[];
+  public medicosFiltrado: ListagemUsuario[];
   public showContent = false;
   public msgErro = null;
+  public stepCalendario: 1 | 2 | 3 = 1;
+  public medicoSelecionado: ListagemUsuario;
+  source: LocalDataSource = new LocalDataSource();
+
+
+  public settingsCalendario = DATA_TABLE_CALENDARIO as any;
+
 
   constructor(
     public profissionalService: ProfissionalData,
@@ -96,101 +42,120 @@ export class AgendaComponent implements OnInit {
     private toastrService: NbToastrService,
     private calendarioService: CalendarioService,
     private recepcionistaService: RecepcionistaService) {
+    this.settingsCalendario.columns = {
+      diaSemana: {
+        title: 'Dia da semana',
+        type: 'string',
+        valuePrepareFunction: (value) => {
+          return this.calendarioService.formatarDay(value).extenso;
+        }
+      },
+      horaInicio: {
+        title: 'Hora Início',
+        type: 'string'
+      },
+      horaFim: {
+        title: 'Hora Fim',
+        type: 'string',
+      },
+      dataVigenciaInicio: {
+        title: 'Dia de vigência início',
+        type: 'string',
+        valuePrepareFunction: (value) => {
+          return moment(value).format('DD/MM/YYYY');
+        }
+      },
+      dataVigenciaFim: {
+        title: 'Dia de vigência fim',
+        type: 'string',
+        valuePrepareFunction: (value) => {
+          return moment(value).format('DD/MM/YYYY');
+        }
+      },
+    };
   }
 
   async ngOnInit() {
-    await this.obterDados();
   }
 
-  async obterAgenda(): Promise<void> {
-    this.isLoading = true;
-    await this.configuracoesService.obterAgenda().then(response => {
+  async obterMedico(): Promise<any> {
+    this.isLoadingCalendario = true;
+    await this.recepcionistaService.obterMedicos().then(response => {
       if (response.sucesso) {
-        this.agenda = response.objeto;
+        this.showContent = true;
+        this.medicos = response.resultado;
+        this.medicosFiltrado = this.medicos;
+        this.setStepCalendario(1);
+      } else {
+        this.toastrService.show('', response.error,
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+        this.medicos = [];
+        this.showContent = false;
+      }
+    }).catch(err => {
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+      this.medicos = [];
+      this.showContent = false;
+    }).finally(() => {
+      this.isLoadingCalendario = false;
+    });
+  }
+
+  async obterAgendaCaledario() {
+    this.isLoadingCalendario = true;
+    this.agenda = [];
+    await this.configuracoesService.obterAgenda().then(response => {
+      if (response.objeto) {
+        this.agenda = response.objeto.filter(e => e.idUsuario === this.medicoSelecionado.id);
         this.source.load(this.agenda);
       } else {
         this.toastrService.show('', response.mensagens[0],
-          { status: 'danger', duration: TOASTR.timer, position: <any>TOASTR.position });
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
         this.agenda = [];
         this.source.load(this.agenda);
       }
     }).catch(err => {
-      this.toastrService.show('', TOASTR.msgErroPadrao,
-        { status: 'danger', duration: TOASTR.timer, position: <any>TOASTR.position });
       this.agenda = [];
       this.source.load(this.agenda);
-    }).finally(() => {
-      this.isLoading = false;
-    });
-  }
-
-  async obterDados(): Promise<void> {
-    this.isLoadingCard = true;
-    await Promise.all([this.obterMedico(), this.obterConsultorio()]).then(response => {
-      this.medicos = response[0];
-      this.consultorios = response[1];
-      this.showContent = true;
-    }).catch(err => {
       this.toastrService.show('', TOASTR.msgErroPadrao,
-        { status: 'danger', duration: TOASTR.timer, position: <any>TOASTR.position });
-      this.agenda = [];
-      this.msgErro = 'Ocorreu um erro em carregar a tela, tente novamente mais tarde.';
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
-      this.isLoadingCard = false;
+      this.isLoadingCalendario = false;
     });
-  }
-
-  async obterMedico(): Promise<any> {
-    await this.recepcionistaService.obterMedicos().then(response => {
-      if (response.sucesso) {
-        return response.resultado;
-      } else {
-        new Error(response.error);
-      }
-    });
-  }
-
-  async obterConsultorio(): Promise<any> {
-    await this.configuracoesService.obterListagemConsultorios().then(response => {
-      if (response.sucesso) {
-        return response.objeto;
-      } else {
-        new Error(response.mensagens[0]);
-      }
-    });
-  }
-
-  onSearch(query: string = '') {
-    if (query === '') {
-      this.source.reset();
-    } else {
-      this.source.setFilter([
-        {
-          field: 'nome',
-          search: query
-        },
-        {
-          field: 'email',
-          search: query
-        },
-        {
-          field: 'telefone',
-          search: query
-        },
-      ], false);
-    }
-  }
-
-  customAction(evento) {
-    if (evento.action === 'edit') {
-      // this.editar();
-    } else if (evento.action === 'perfil') {
-      // this.perfil();
-    }
   }
 
   async changeTab(type: NbTabComponent) {
     console.log(type);
-    type.tabTitle === 'Calendário' ? await this.obterAgenda() : console.log('bloqueio');
+    if (type.tabTitle === 'Calendário') {
+      await this.obterMedico();
+      this.resetTabCalendario();
+    } else {
+      console.log('bloqueio');
+    }
+  }
+
+  filtrarMedico(nome: string) {
+    this.medicosFiltrado = this.medicos.filter(e => e.nome.toLocaleLowerCase().includes(nome.toLocaleLowerCase()));
+  }
+
+  async selecionarMedico(medico: ListagemUsuario) {
+    this.medicoSelecionado = medico;
+    this.setStepCalendario(2);
+    await this.obterAgendaCaledario();
+  }
+
+  setStepCalendario(num: 1 | 2 | 3) {
+    this.stepCalendario = num;
+  }
+
+  resetTabCalendario() {
+    this.search = '';
+    this.agenda = null;
+    this.setStepCalendario(1);
+  }
+
+  customAction(event) {
+    console.log(event);
   }
 }
