@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AjaxService } from './ajax.service';
-import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio, IEditarConsultorio, IDeletarConsultorio, ICriarConsultorio, IObterAgenda, ICriarAgenda } from '../interface';
+import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio, IEditarConsultorio, IDeletarConsultorio, ICriarConsultorio, IObterAgenda, ICriarAgenda, IDeletarAgenda, IObterAgendaID } from '../interface';
 
 @Injectable()
 export class ConfiguracoesService {
@@ -72,6 +72,18 @@ export class ConfiguracoesService {
     async criarAgenda(data) {
         const url = `${environment.urlBase}admin/agenda/criarAgenda`;
         const response = await this.ajax.post<ICriarAgenda>(url, data);
+        return response;
+    }
+
+    async deletarAgenda(id: number) {
+        const url = `${environment.urlBase}admin/agenda/removerAgenda/${id}`;
+        const response = await this.ajax.delete<IDeletarAgenda>(url);
+        return response;
+    }
+
+    async obterAgendaPorId(id: number) {
+        const url = `${environment.urlBase}admin/agenda/obterAgenda/${id}`;
+        const response = await this.ajax.get<IObterAgendaID>(url);
         return response;
     }
 }

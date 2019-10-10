@@ -142,6 +142,14 @@ export interface ICriarAgenda extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface IDeletarAgenda extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface IObterAgendaID extends DefaultHttpResponse {
+    objeto: Agenda;
+}
+
 export interface Especialidades {
     id: number;
     nome: string;

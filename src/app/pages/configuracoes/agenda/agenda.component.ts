@@ -212,7 +212,7 @@ export class AgendaComponent implements OnInit {
       {
         context: {
           id: event.data.id,
-          dados: event.data
+          medico: this.medicoSelecionado
         },
         closeOnEsc: true,
         autoFocus: false,
@@ -228,15 +228,16 @@ export class AgendaComponent implements OnInit {
       DeletarAgendaCalendarioComponent,
       {
         context: {
-          id: event.data.id,
-          dados: event.data
+          id: event.data.id
         },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
-      }).onClose.subscribe(e => {
-        console.log(e);
+      }).onClose.subscribe(async e => {
+        if (e) {
+          await this.obterAgendaCaledario();
+        }
       });
   }
 

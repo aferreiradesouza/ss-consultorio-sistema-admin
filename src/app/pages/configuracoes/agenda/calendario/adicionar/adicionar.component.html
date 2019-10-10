@@ -75,7 +75,12 @@
     </nb-card-body>
     <nb-card-footer>
         <label class="label mb-2 d-block">* Campos obrigatórios</label>
-        <button class="mr-4" nbButton status="basic" (click)="dismiss(false)">Voltar</button>
-        <button nbButton status="primary" (click)="adicionar()">Adicionar</button>
+        <div class="d-flex">
+            <button class="mr-4" nbButton status="basic" (click)="dismiss(false)">Voltar</button>
+            <button nbButton status="primary" (click)="adicionar()" [disabled]="!showDisabledButton()">Adicionar</button>
+            <div class="w-100 errorMessage">
+                {{errorMessage}}
+            </div>
+        </div>
     </nb-card-footer>
 </nb-card>
