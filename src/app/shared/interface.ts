@@ -138,6 +138,10 @@ export interface IObterAgenda extends DefaultHttpResponse {
     objeto: Agenda[];
 }
 
+export interface ICriarAgenda extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
 export interface Especialidades {
     id: number;
     nome: string;

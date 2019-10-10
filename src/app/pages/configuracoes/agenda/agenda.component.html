@@ -29,15 +29,15 @@
                         </nb-list>
                     </ng-container>
                     <ng-container *ngIf="stepCalendario === 2">
-                        <div class="mb-2 d-flex mt-2 header">
+                        <div class="mb-2 d-flex mt-2 header mb-4">
                             <nb-icon class="mr-4" (click)="setStepCalendario(1)" icon="chevron-left-outline"></nb-icon>
-                            <div class="w-100 mr-4">
+                            <!-- <div class="w-100 mr-4">
                                 <ngx-input-simple (ngModelChange)="filtrarMedico($event)" [feedback]="false"
                                     [(ngModel)]="search" placeholder="Buscar agenda">
                                 </ngx-input-simple>
-                            </div>
+                            </div> -->
                             <div class="ml-auto">
-                                <button nbButton hero status="primary">Adicionar Agenda</button>
+                                <button nbButton hero status="primary" (click)="adicionarCalendario()">Adicionar Agenda</button>
                             </div>
                         </div>
                         <ng2-smart-table [settings]="settingsCalendario" [source]="source"

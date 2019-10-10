@@ -50,7 +50,7 @@
                             <button nbButton size="tiny" status="warning"
                                 (click)="agendarConsulta(item, info, true)">Encaixe</button></nb-action>
                         <nb-action icon="info-outline" nbTooltip="Informações da Consulta" nbTooltipPlacement="top"
-                            nbTooltipStatus="info"></nb-action>
+                            nbTooltipStatus="info" (click)="verConsulta(item, info)"></nb-action>
                         <nb-action (click)="alterarStatusConsulta(item)" icon="play-circle-outline"
                             nbTooltip="Alterar Status" nbTooltipPlacement="top" nbTooltipStatus="primary"></nb-action>
                     </nb-actions>

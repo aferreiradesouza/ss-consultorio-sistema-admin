@@ -116,7 +116,7 @@
     <nb-card-body *ngIf="group">
         <ngx-calendario-do-dia *ngIf="visao === '1' && dataEvent" [data]="dataCalendarioDia"
             [dataSelecionada]="dataEvent" [statusConsultas]="statusConsultas" [tiposAtendimentos]="tiposAtendimentos"
-            (alterarStatus)="alterarStatus($event)" (marcarConsulta)="agendar($event)">
+            (alterarStatus)="alterarStatus($event)" (marcarConsulta)="agendar($event)" (infoConsulta)="infoConsulta($event)">
         </ngx-calendario-do-dia>
         <span *ngIf="visao === '1' && !dataEvent">Selecione uma data!</span>
         <ngx-calendario (infoConsulta)="infoConsulta($event)" (alterarStatus)="alterarStatus($event)"

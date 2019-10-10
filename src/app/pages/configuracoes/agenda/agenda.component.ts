@@ -11,6 +11,10 @@ import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 import { DATA_TABLE_CALENDARIO } from './data-table';
+import { AdicionarAgendaCalendarioComponent } from './calendario/adicionar/adicionar.component';
+import { EditarAgendaCalendarioComponent } from './calendario/editar/editar.component';
+import { PerfilAgendaCalendarioComponent } from './calendario/perfil/perfil.component';
+import { DeletarAgendaCalendarioComponent } from './calendario/deletar/deletar.component';
 
 @Component({
   selector: 'ngx-agenda-configuracoes',
@@ -59,14 +63,14 @@ export class AgendaComponent implements OnInit {
         type: 'string',
       },
       dataVigenciaInicio: {
-        title: 'Dia de vigência início',
+        title: 'Início da vigência',
         type: 'string',
         valuePrepareFunction: (value) => {
           return moment(value).format('DD/MM/YYYY');
         }
       },
       dataVigenciaFim: {
-        title: 'Dia de vigência fim',
+        title: 'Fim da vigência',
         type: 'string',
         valuePrepareFunction: (value) => {
           return moment(value).format('DD/MM/YYYY');
@@ -105,6 +109,7 @@ export class AgendaComponent implements OnInit {
   async obterAgendaCaledario() {
     this.isLoadingCalendario = true;
     this.agenda = [];
+    this.source.load(this.agenda);
     await this.configuracoesService.obterAgenda().then(response => {
       if (response.objeto) {
         this.agenda = response.objeto.filter(e => e.idUsuario === this.medicoSelecionado.id);
@@ -128,8 +133,8 @@ export class AgendaComponent implements OnInit {
   async changeTab(type: NbTabComponent) {
     console.log(type);
     if (type.tabTitle === 'Calendário') {
-      await this.obterMedico();
       this.resetTabCalendario();
+      await this.obterMedico();
     } else {
       console.log('bloqueio');
     }
@@ -155,7 +160,84 @@ export class AgendaComponent implements OnInit {
     this.setStepCalendario(1);
   }
 
-  customAction(event) {
-    console.log(event);
+  customAction(evento) {
+    if (evento.action === 'edit') {
+      this.editarCalendario(evento);
+    } else if (evento.action === 'perfil') {
+      this.perfilCalendario(evento);
+    } else if (evento.action === 'delete') {
+      this.excluirCalendario(evento);
+    }
   }
+
+
+  adicionarCalendario() {
+    this.dialogService.open(
+      AdicionarAgendaCalendarioComponent,
+      {
+        context: {
+          medico: this.medicoSelecionado,
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }).onClose.subscribe(async e => {
+        if (e) {
+          await this.obterAgendaCaledario();
+        }
+      });
+  }
+
+  editarCalendario(event) {
+    this.dialogService.open(
+      EditarAgendaCalendarioComponent,
+      {
+        context: {
+          id: event.data.id,
+          dados: event.data
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }).onClose.subscribe(e => {
+        console.log(e);
+      });
+  }
+
+  perfilCalendario(event) {
+    this.dialogService.open(
+      PerfilAgendaCalendarioComponent,
+      {
+        context: {
+          id: event.data.id,
+          dados: event.data
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }).onClose.subscribe(e => {
+        console.log(e);
+      });
+  }
+
+  excluirCalendario(event) {
+    this.dialogService.open(
+      DeletarAgendaCalendarioComponent,
+      {
+        context: {
+          id: event.data.id,
+          dados: event.data
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }).onClose.subscribe(e => {
+        console.log(e);
+      });
+  }
+
 }

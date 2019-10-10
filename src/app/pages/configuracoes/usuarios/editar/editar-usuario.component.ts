@@ -72,7 +72,7 @@ export class EditarUsuarioComponent implements OnInit {
         const form = this.form.value;
         const dados = {
             id: this.user.id,
-            nome: this.user.nome || null,
+            nome: form.nome || null,
             cpf: form.cpf ? form.cpf.replace(new RegExp(/[.\-]/, 'g'), '') : null,
             ehMedico: this.perfis.value.indexOf('medico') > -1,
             crm: form.crm || null,

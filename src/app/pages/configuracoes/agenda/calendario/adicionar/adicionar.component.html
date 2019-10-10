@@ -1,0 +1,81 @@
+<nb-card status="primary" [nbSpinner]="isLoading" nbSpinnerStatus="primary" size="large">
+    <nb-card-header>
+        Adicionar Calendário
+    </nb-card-header>
+    <nb-card-body [formGroup]="form">
+        <div class="row mb-3">
+            <div class="col-sm-6 align-center">
+                <nb-user [name]="medico.nome" [picture]="medico.urlFoto" title="Médico"></nb-user>
+            </div>
+            <div class="col-sm-6">
+                <label class="label d-block">Consultório *</label>
+                <nb-select style="max-width: 22rem" [status]="isValid('consultorio')" class="w-100"
+                    placeholder="Selecione" formControlName="consultorio">
+                    <nb-option [value]="lugar.idConsultorio" *ngFor="let lugar of consultorios">{{lugar.nome}}
+                    </nb-option>
+                </nb-select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-6 mt-2">
+                <label class="label d-block">Especialidade *</label>
+                <nb-select style="max-width: 22rem" [status]="isValid('especialidade')" class="w-100"
+                    placeholder="Selecione" multiple formControlName="especialidade">
+                    <nb-option [value]="especialidade.id" *ngFor="let especialidade of especialidades">
+                        {{especialidade.nome}}
+                    </nb-option>
+                </nb-select>
+            </div>
+            <div class="col-sm-6 mt-2">
+                <label class="label d-block">Dia da semana *</label>
+                <nb-select style="max-width: 22rem" [status]="isValid('diaSemana')" class="w-100"
+                    placeholder="Selecione" formControlName="diaSemana">
+                    <nb-option [value]="dia.codigo" *ngFor="let dia of diasSemana">
+                        {{dia.dia}}
+                    </nb-option>
+                </nb-select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-6">
+                <label class="label d-block mt-1">Início da vigência *</label>
+                <input nbInput fullWidth placeholder="Selecione" [nbDatepicker]="inicioVigencia"
+                    formControlName="inicioVigencia">
+                <nb-datepicker #inicioVigencia></nb-datepicker>
+            </div>
+            <div class="col-sm-6">
+                <label class="label d-block mt-1">Fim da vigência *</label>
+                <input nbInput fullWidth placeholder="Selecione" [nbDatepicker]="fimVigencia"
+                    formControlName="fimVigencia">
+                <nb-datepicker #fimVigencia></nb-datepicker>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 mt-2">
+                <ngx-input-mask type="hora" label="Hora Início" formControlName="horaInicio" [required]="true"
+                    [dropCharacters]="false" placeholder="00:00">
+                </ngx-input-mask>
+            </div>
+            <div class="col-sm-6 mt-2">
+                <ngx-input-mask type="hora" label="Hora Fim" formControlName="horaFim" [required]="true"
+                    [dropCharacters]="false" placeholder="00:00">
+                </ngx-input-mask>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <ngx-input-mask type="number" label="Total de encaixes" formControlName="encaixes" [required]="true">
+                </ngx-input-mask>
+            </div>
+            <div class="col-sm-6">
+                <ngx-input-mask type="number" label="Duração (Em minutos)" formControlName="duracao" [required]="true">
+                </ngx-input-mask>
+            </div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <label class="label mb-2 d-block">* Campos obrigatórios</label>
+        <button class="mr-4" nbButton status="basic" (click)="dismiss(false)">Voltar</button>
+        <button nbButton status="primary" (click)="adicionar()">Adicionar</button>
+    </nb-card-footer>
+</nb-card>

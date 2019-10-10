@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbDialogModule, NbSelectModule, NbCheckboxModule, NbSpinnerModule, NbUserModule, NbToastrModule, NbTabsetModule, NbListModule, NbIconModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbSelectModule, NbCheckboxModule, NbSpinnerModule, NbUserModule, NbToastrModule, NbTabsetModule, NbListModule, NbIconModule, NbDatepickerModule, NbInputModule } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ConfiguracoesRoutingModule } from './configuracoes-routing.module';
@@ -18,6 +18,10 @@ import { UserCellComponent } from './usuarios/userCell.component';
 import { DeletarUsuarioComponent } from './usuarios/deletar/deletar.component';
 import { UnidadesCellComponent } from './unidades-de-atendimento/unidadesCell.component';
 import { DeletarUnidadeAtendimentoComponent } from './unidades-de-atendimento/deletar/deletar.component';
+import { PerfilAgendaCalendarioComponent } from './agenda/calendario/perfil/perfil.component';
+import { EditarAgendaCalendarioComponent } from './agenda/calendario/editar/editar.component';
+import { DeletarAgendaCalendarioComponent } from './agenda/calendario/deletar/deletar.component';
+import { AdicionarAgendaCalendarioComponent } from './agenda/calendario/adicionar/adicionar.component';
 
 const PAGES = [
   UsuariosComponent,
@@ -33,7 +37,11 @@ const MODAIS = [
   EditarUnidadeAtendimentoComponent,
   PerfilUnidadeAtendimentoComponent,
   DeletarUsuarioComponent,
-  DeletarUnidadeAtendimentoComponent
+  DeletarUnidadeAtendimentoComponent,
+  AdicionarAgendaCalendarioComponent,
+  DeletarAgendaCalendarioComponent,
+  EditarAgendaCalendarioComponent,
+  PerfilAgendaCalendarioComponent
 ];
 
 const NB_MODULES = [
@@ -49,7 +57,9 @@ const NB_MODULES = [
   NbToastrModule,
   NbTabsetModule,
   NbListModule,
-  NbIconModule
+  NbIconModule,
+  NbDatepickerModule,
+  NbInputModule
 ];
 
 @NgModule({

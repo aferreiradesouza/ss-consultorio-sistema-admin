@@ -546,6 +546,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
   }
 
   infoConsulta(data) {
+    console.log(data);
     this.dialogService.open(
       DetalhesConsultaComponent,
       {

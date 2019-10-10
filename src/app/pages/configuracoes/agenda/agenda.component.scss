@@ -23,12 +23,12 @@
   color: #201dd3;
 }
 
-:host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action .nb-trash:hover {
-  color: #ff0000 !important;
+:host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action .nb-search:hover {
+  color: #059b00 !important;
 }
 
-:host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action .nb-person:hover {
-  color: #059b00 !important;
+:host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action .nb-trash:hover {
+  color: #ff0000 !important;
 }
 
 :host ::ng-deep ng2-smart-table td.ng2-smart-actions {
