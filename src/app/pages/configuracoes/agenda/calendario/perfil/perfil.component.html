@@ -3,12 +3,12 @@
         Perfil da Agenda
     </nb-card-header>
     <nb-card-body [formGroup]="form">
-        <div class="row">
+        <div class="row py-3">
             <div class="col-sm-6 align-center">
-                <nb-user [name]="medico.nome" [picture]="medico.urlFoto" title="Médico"></nb-user>
+                <nb-user [name]="medico?.nome" [picture]="medico?.urlFoto" title="Médico"></nb-user>
             </div>
-            <div class="col-sm-6">
-                <ngx-input-simple label="Consultório" formControlName="consultorio"></ngx-input-simple>
+            <div class="col-sm-6 align-center">
+                <nb-user [name]="agenda?.consultorio.nome" [picture]="agenda?.consultorio.urlFoto" title="Consultório"></nb-user>
             </div>
         </div>
         <div class="row">

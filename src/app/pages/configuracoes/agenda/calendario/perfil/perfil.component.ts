@@ -75,10 +75,10 @@ export class PerfilAgendaCalendarioComponent implements OnInit {
     preencherPasso() {
         this.form.patchValue({
             consultorio: this.agenda.consultorio.nome,
-            especialidade: this.agenda.usuariosConsultoriosEspecialidades[0].especialidade.nome,
+            especialidade: this.agenda.usuariosConsultoriosEspecialidades.map(e => e.especialidade.nome).join(),
             diaSemana: this.calendarioService.formatarDay(this.agenda.diaSemana).extenso,
-            inicioVigencia: this.agenda.dataVigenciaInicio,
-            fimVigencia: this.agenda.dataVigenciaFim,
+            inicioVigencia: moment(this.agenda.dataVigenciaInicio).format('DD/MM/YYYY'),
+            fimVigencia: moment(this.agenda.dataVigenciaFim).format('DD/MM/YYYY'),
             horaInicio: this.agenda.horaInicio,
             horaFim: this.agenda.horaFim,
             encaixes: this.agenda.totalLimiteEncaixe,

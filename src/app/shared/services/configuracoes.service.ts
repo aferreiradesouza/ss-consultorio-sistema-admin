@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AjaxService } from './ajax.service';
-import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio, IEditarConsultorio, IDeletarConsultorio, ICriarConsultorio, IObterAgenda, ICriarAgenda, IDeletarAgenda, IObterAgendaID, IObterBloqueios } from '../interface';
+import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio, IEditarConsultorio, IDeletarConsultorio, ICriarConsultorio, IObterAgenda, ICriarAgenda, IDeletarAgenda, IObterAgendaID, IObterBloqueios, IAlterarAgenda } from '../interface';
 
 @Injectable()
 export class ConfiguracoesService {
@@ -72,6 +72,12 @@ export class ConfiguracoesService {
     async criarAgenda(data) {
         const url = `${environment.urlBase}admin/agenda/criarAgenda`;
         const response = await this.ajax.post<ICriarAgenda>(url, data);
+        return response;
+    }
+
+    async alterarAgenda(data) {
+        const url = `${environment.urlBase}admin/agenda/alterarAgenda`;
+        const response = await this.ajax.post<IAlterarAgenda>(url, data);
         return response;
     }
 

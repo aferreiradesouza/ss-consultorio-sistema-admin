@@ -25,7 +25,37 @@ export const DATA_TABLE_CALENDARIO = {
     add: false,
     edit: false,
     delete: false
-  } as any
+  },
+  columns: {
+    consultorio: {
+      title: 'Consultório',
+      type: 'string',
+      valuePrepareFunction: (value) => {
+        return `${value.nome}`;
+      }
+    },
+    diaSemana: {
+      title: 'Dia da semana',
+      type: 'string',
+      valuePrepareFunction: (value) => {
+        return CalendarioService.formatarDay(value || 1).extenso;
+      }
+    },
+    datas: {
+      title: 'Vigência',
+      type: 'string',
+      valuePrepareFunction: (value) => {
+        return `${moment(value.dataVigenciaInicio).format('DD/MM/YYYY')} - ${moment(value.dataVigenciaFim).format('DD/MM/YYYY')}`;
+      }
+    },
+    horas: {
+      title: 'Horário',
+      type: 'string',
+      valuePrepareFunction: (value) => {
+        return `${value.horaInicio} - ${value.horaFim}`;
+      }
+    },
+  }
 };
 
 export const DATA_TABLE_BLOQUEIO = {
@@ -52,5 +82,25 @@ export const DATA_TABLE_BLOQUEIO = {
     add: false,
     edit: false,
     delete: false
-  } as any
+  },
+  columns: {
+    consultorio: {
+      title: 'Consultório',
+      type: 'string'
+    },
+    datas: {
+      title: 'Datas',
+      type: 'string',
+      valuePrepareFunction: (value) => {
+        return `${moment(value.dataInicio).format('DD/MM/YYYY')} - ${moment(value.dataFim).format('DD/MM/YYYY')}`;
+      }
+    },
+    horas: {
+      title: 'Horários',
+      type: 'string',
+      valuePrepareFunction: (value) => {
+        return `${moment(value.horaInicio).format('HH:mm')} - ${moment(value.horaFim).format('HH:mm')}`;
+      }
+    }
+  }
 };

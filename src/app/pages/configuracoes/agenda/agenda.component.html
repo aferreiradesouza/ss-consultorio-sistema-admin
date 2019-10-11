@@ -40,7 +40,7 @@
                                     Agenda</button>
                             </div>
                         </div>
-                        <ng2-smart-table [settings]="settingsCalendario" [source]="sourceCalendario"
+                        <ng2-smart-table [settings]="settingsCalendario" [source]="source"
                             (custom)="customAction($event)">
                         </ng2-smart-table>
                     </ng-container>
@@ -78,12 +78,20 @@
                                 <nb-icon icon="chevron-left-outline"></nb-icon>
                                 {{medicoSelecionado.nome}}
                             </button>
-                            <!-- <div class="ml-auto">
-                                <button nbButton hero status="primary" (click)="adicionarCalendario()">Adicionar
-                                    Agenda</button>
-                            </div> -->
+                            <div class="ml-auto">
+                                <nb-select style="width: 15rem" (ngModelChange)="filtrarBloqueios($event)" placeholder="Consultórios" [(ngModel)]="consultorioSelecionado">
+                                    <nb-option value="todos">
+                                        Todos
+                                    </nb-option>
+                                    <nb-option [value]="lugar.nome" *ngFor="let lugar of consultorios">
+                                        {{lugar.nome}}
+                                    </nb-option>
+                                </nb-select>
+                                <!-- <button nbButton hero status="primary" (click)="adicionarCalendario()">Adicionar
+                                    Agenda</button> -->
+                            </div>
                         </div>
-                        <ng2-smart-table [settings]="settingsBloqueio" [source]="sourceBloqueio"
+                        <ng2-smart-table [settings]="settingsBloqueio" [source]="source"
                             (custom)="customAction($event)">
                         </ng2-smart-table>
                     </ng-container>

@@ -142,6 +142,10 @@ export interface ICriarAgenda extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface IAlterarAgenda extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
 export interface IDeletarAgenda extends DefaultHttpResponse {
     objeto: boolean;
 }
@@ -403,4 +407,5 @@ export interface ListagemBloqueio {
     observacao: string;
     dataCadastro: string;
     ativo: boolean;
+    datas: any;
 }

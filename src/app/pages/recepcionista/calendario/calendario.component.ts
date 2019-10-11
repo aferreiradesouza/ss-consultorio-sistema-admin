@@ -160,8 +160,8 @@ export class CalendarioRecepcaoComponent implements OnInit {
         const ehMesmoConsultorio = this.lugarEscolhido === data.IdConsultorio;
         const ehMesmoMedico = this.medicoEscolhido === data.IdMedico;
         this.toastrService.show('', `Temos um novo bloqueio no dia
-          ${moment(data.DataInicio).format('DD/MM/YYYY')} às ${moment(data.DataInicio).format('hh:mm')}
-          até ${moment(data.DataFim).format('DD/MM/YYYY')} às ${moment(data.DataFim).format('hh:mm')}.`,
+          ${moment(data.DataInicio).format('DD/MM/YYYY')} às ${moment(data.DataInicio).format('HH:mm')}
+          até ${moment(data.DataFim).format('DD/MM/YYYY')} às ${moment(data.DataFim).format('HH:mm')}.`,
           { status: 'info', duration: 0, position: <any>'bottom-right' });
         if (dataInicioValida && dataFimValida && ehMesmoConsultorio && ehMesmoMedico) {
           await this.atualizarCalendario();

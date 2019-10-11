@@ -42,17 +42,18 @@ export class BloqueioComponent implements OnInit {
     private calendarioService: CalendarioService) { }
 
   ngOnInit() {
-    this.preencherFormulário();
+    this.preencherFormulario();
     this.form.get('diaDe').valueChanges.subscribe(val => {
       if (!val) {
         this.form.get('diaAte').disable();
       }
       this.datePicker.min = moment(val).toDate();
       this.form.get('diaAte').enable();
+      this.form.get('diaAte').reset();
     });
   }
 
-  preencherFormulário() {
+  preencherFormulario() {
     this.form.get('medico').setValue(this.medico);
     this.listagemConsultorios = this.listaConsultorios;
     this.form.get('lugar').setValue(this.lugar);

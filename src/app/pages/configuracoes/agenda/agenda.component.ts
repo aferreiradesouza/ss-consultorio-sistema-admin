@@ -28,6 +28,7 @@ export class AgendaComponent implements OnInit {
   public isLoading = false;
   public agenda: Agenda[];
   public consultorios: ListagemConsultoriosUsuario[];
+  public consultorioSelecionado: string;
   public medicos: ListagemUsuario[];
   public medicosFiltrado: ListagemUsuario[];
   public showContent = false;
@@ -36,11 +37,10 @@ export class AgendaComponent implements OnInit {
   public stepBloqueio: 1 | 2 | 3 = 1;
   public medicoSelecionado: ListagemUsuario;
   public bloqueios: ListagemBloqueio[];
-  sourceCalendario: LocalDataSource = new LocalDataSource();
-  sourceBloqueio: LocalDataSource = new LocalDataSource();
+  source: LocalDataSource = new LocalDataSource();
 
 
-  public settingsCalendario = DATA_TABLE_CALENDARIO as any;
+  public settingsCalendario = DATA_TABLE_CALENDARIO;
   public settingsBloqueio = DATA_TABLE_BLOQUEIO as any;
 
 
@@ -52,42 +52,6 @@ export class AgendaComponent implements OnInit {
     private toastrService: NbToastrService,
     private calendarioService: CalendarioService,
     private recepcionistaService: RecepcionistaService) {
-    this.settingsBloqueio.collumns = {
-      ativo: {
-        title: 'dwadaw',
-        type: 'boolean'
-      }
-    };
-    this.settingsCalendario.columns = {
-      idConsultorio: {
-        title: 'Consultório',
-        type: 'string',
-        valuePrepareFunction: (value) => {
-          return `${this.consultorios.filter(e => e.idConsultorio === value)[0].nome}`;
-        }
-      },
-      diaSemana: {
-        title: 'Dia da semana',
-        type: 'string',
-        valuePrepareFunction: (value) => {
-          return this.calendarioService.formatarDay(value).extenso;
-        }
-      },
-      datas: {
-        title: 'Vigência',
-        type: 'string',
-        valuePrepareFunction: (value) => {
-          return `${moment(value.dataVigenciaInicio).format('DD/MM/YYYY')} - ${moment(value.dataVigenciaFim).format('DD/MM/YYYY')}`;
-        }
-      },
-      horas: {
-        title: 'Horário',
-        type: 'string',
-        valuePrepareFunction: (value) => {
-          return `${value.horaInicio} - ${value.horaFim}`;
-        }
-      },
-    };
   }
 
   async ngOnInit() {
@@ -120,7 +84,7 @@ export class AgendaComponent implements OnInit {
   async obterAgendaCaledario() {
     this.isLoadingCalendario = true;
     this.agenda = [];
-    this.sourceCalendario.load(this.agenda);
+    this.source.load(this.agenda);
     await this.configuracoesService.obterAgenda().then(async response => {
       if (response.objeto) {
         this.agenda = response.objeto.filter(e => e.idUsuario === this.medicoSelecionado.id).map(e => {
@@ -133,17 +97,16 @@ export class AgendaComponent implements OnInit {
             idConsultorio: e.idConsultorio
           } as any;
         });
-        await this.obterConsultorios();
-        this.sourceCalendario.load(this.agenda);
+        this.source.load(this.agenda);
       } else {
         this.toastrService.show('', response.mensagens[0],
           { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
         this.agenda = [];
-        this.sourceCalendario.load(this.agenda);
+        this.source.load(this.agenda);
       }
     }).catch(err => {
       this.agenda = [];
-      this.sourceCalendario.load(this.agenda);
+      this.source.load(this.agenda);
       this.toastrService.show('', TOASTR.msgErroPadrao,
         { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
@@ -153,22 +116,32 @@ export class AgendaComponent implements OnInit {
 
   async obterBloqueio() {
     this.bloqueios = [];
-    this.sourceBloqueio.load(this.bloqueios);
+    this.source.load(this.bloqueios);
     this.isLoadingBloqueio = true;
-    await this.configuracoesService.obterBloqueios().then(response => {
+    await this.configuracoesService.obterBloqueios().then(async response => {
       if (response.sucesso) {
-        this.bloqueios = response.objeto.filter(e => e.medico === this.medicoSelecionado.nome);
-        console.log(this.bloqueios);
-        this.sourceBloqueio.load(this.bloqueios);
+        this.bloqueios = response.objeto.filter(e => e.medico === this.medicoSelecionado.nome).map(e => {
+          return {
+            consultorio: e.consultorio,
+            datas: {dataInicio: e.dataInicio, dataFim: e.dataFim},
+            id: e.id,
+            horas: {horaInicio: e.dataInicio, horaFim: e.dataFim},
+            ativo: e.ativo,
+            observacao: e.observacao,
+            medico: e.medico
+          } as any;
+        });
+        await this.obterConsultorios();
+        this.source.load(this.bloqueios);
       } else {
         this.bloqueios = [];
-        this.sourceBloqueio.load(this.bloqueios);
+        this.source.load(this.bloqueios);
         this.toastrService.show('', response.mensagens[0],
           { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
       }
     }).catch(err => {
       this.bloqueios = [];
-      this.sourceBloqueio.load(this.bloqueios);
+      this.source.load(this.bloqueios);
       this.toastrService.show('', TOASTR.msgErroPadrao,
         { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
@@ -214,6 +187,15 @@ export class AgendaComponent implements OnInit {
     }
   }
 
+  filtrarBloqueios(event) {
+    if (event === 'todos') {
+      this.source.load(this.bloqueios);
+      return;
+    }
+    const bloqueios = this.bloqueios.filter(e => e.consultorio === event);
+    this.source.load(bloqueios);
+  }
+
   setStepCalendario(num: 1 | 2 | 3) {
     this.stepCalendario = num;
   }
@@ -231,6 +213,7 @@ export class AgendaComponent implements OnInit {
   resetTabBloqueio() {
     this.search = '';
     this.setStepBloqueio(1);
+    this.consultorioSelecionado = 'todos';
   }
 
   customAction(evento) {
@@ -268,14 +251,16 @@ export class AgendaComponent implements OnInit {
       {
         context: {
           id: event.data.id,
-          dados: event.data
+          medico: this.medicoSelecionado,
         },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
-      }).onClose.subscribe(e => {
-        console.log(e);
+      }).onClose.subscribe(async e => {
+        if (e) {
+          await this.obterAgendaCaledario();
+        }
       });
   }
 
@@ -291,8 +276,6 @@ export class AgendaComponent implements OnInit {
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
-      }).onClose.subscribe(e => {
-        console.log(e);
       });
   }
 

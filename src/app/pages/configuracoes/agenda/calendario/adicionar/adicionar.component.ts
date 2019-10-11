@@ -81,7 +81,6 @@ export class AdicionarAgendaCalendarioComponent implements OnInit {
             const horaInicio = control.get('horaInicio').value;
             const horaFim = control.get('horaFim').value;
             const horaValida = moment(`2019-01-01T${horaFim}`).isSameOrAfter(`2019-01-01T${horaInicio}`);
-            console.log(horaValida);
             if (horaInicio.length === 5 && horaFim.length === 5 && !horaValida) {
                 return { 'erroHora': 'A hora fim deve ser maior ou igual ao hora início' };
             } else {
