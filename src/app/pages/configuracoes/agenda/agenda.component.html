@@ -1,4 +1,4 @@
-<nb-card nbSpinnerStatus="primary">
+<nb-card nbSpinnerStatus="primary" [nbSpinner]="isLoading">
     <nb-card-header>
         Configurações da agenda
     </nb-card-header>
@@ -19,7 +19,8 @@
                             </div>
                         </div>
                         <nb-list>
-                            <nb-list-item *ngFor="let user of medicosFiltrado" (click)="selecionarMedico(user)">
+                            <nb-list-item *ngFor="let user of medicosFiltrado"
+                                (click)="selecionarMedico(user, 'calendario')">
                                 <nb-user [name]="user.nome" title="Médico" [picture]="user.urlFoto">
                                 </nb-user>
                                 <div class="ml-auto">
@@ -30,25 +31,63 @@
                     </ng-container>
                     <ng-container *ngIf="stepCalendario === 2">
                         <div class="mb-2 d-flex mt-2 header mb-4">
-                            <nb-icon class="mr-4" (click)="setStepCalendario(1)" icon="chevron-left-outline"></nb-icon>
-                            <!-- <div class="w-100 mr-4">
-                                <ngx-input-simple (ngModelChange)="filtrarMedico($event)" [feedback]="false"
-                                    [(ngModel)]="search" placeholder="Buscar agenda">
-                                </ngx-input-simple>
-                            </div> -->
+                            <button nbButton shape="round" (click)="setStepCalendario(1)" status="info">
+                                <nb-icon icon="chevron-left-outline"></nb-icon>
+                                {{medicoSelecionado.nome}}
+                            </button>
                             <div class="ml-auto">
-                                <button nbButton hero status="primary" (click)="adicionarCalendario()">Adicionar Agenda</button>
+                                <button nbButton hero status="primary" (click)="adicionarCalendario()">Adicionar
+                                    Agenda</button>
                             </div>
                         </div>
-                        <ng2-smart-table [settings]="settingsCalendario" [source]="source"
+                        <ng2-smart-table [settings]="settingsCalendario" [source]="sourceCalendario"
                             (custom)="customAction($event)">
                         </ng2-smart-table>
                     </ng-container>
                 </ng-container>
                 <span *ngIf="!showContent && msgErro" class="msgErro">{{msgErro}}</span>
             </nb-tab>
-            <nb-tab tabTitle="Bloqueios" tabIcon="lock-outline">
-                Tab content 2
+            <nb-tab tabTitle="Bloqueios" tabIcon="lock-outline" [nbSpinner]="isLoadingBloqueio"
+                nbSpinnerStatus="primary">
+                <ng-container *ngIf="showContent">
+                    <ng-container *ngIf="stepBloqueio === 1">
+                        <div class="mb-4">
+                            <h5>Selecione um médico</h5>
+                        </div>
+                        <div class="mb-2 d-flex mt-2">
+                            <div class="w-100">
+                                <ngx-input-simple (ngModelChange)="filtrarMedico($event)" [feedback]="false"
+                                    [(ngModel)]="search" placeholder="Buscar médico">
+                                </ngx-input-simple>
+                            </div>
+                        </div>
+                        <nb-list>
+                            <nb-list-item *ngFor="let user of medicosFiltrado"
+                                (click)="selecionarMedico(user, 'bloqueio')">
+                                <nb-user [name]="user.nome" title="Médico" [picture]="user.urlFoto">
+                                </nb-user>
+                                <div class="ml-auto">
+                                    <nb-icon icon="chevron-right-outline"></nb-icon>
+                                </div>
+                            </nb-list-item>
+                        </nb-list>
+                    </ng-container>
+                    <ng-container *ngIf="stepBloqueio === 2">
+                        <div class="mb-2 d-flex mt-2 header mb-4">
+                            <button nbButton shape="round" (click)="setStepBloqueio(1)" status="info">
+                                <nb-icon icon="chevron-left-outline"></nb-icon>
+                                {{medicoSelecionado.nome}}
+                            </button>
+                            <!-- <div class="ml-auto">
+                                <button nbButton hero status="primary" (click)="adicionarCalendario()">Adicionar
+                                    Agenda</button>
+                            </div> -->
+                        </div>
+                        <ng2-smart-table [settings]="settingsBloqueio" [source]="sourceBloqueio"
+                            (custom)="customAction($event)">
+                        </ng2-smart-table>
+                    </ng-container>
+                </ng-container>
             </nb-tab>
         </nb-tabset>
     </nb-card-body>

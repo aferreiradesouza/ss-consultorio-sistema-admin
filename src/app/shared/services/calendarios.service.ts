@@ -39,6 +39,25 @@ export class CalendarioService {
         }
     }
 
+    static formatarDay(day: number) {
+        switch (day) {
+            case 0:
+                return { extenso: 'Domingo', curto: 'Dom' };
+            case 1:
+                return { extenso: 'Segunda-feira', curto: 'Seg' };
+            case 2:
+                return { extenso: 'Terça-feira', curto: 'Ter' };
+            case 3:
+                return { extenso: 'Quarta-feira', curto: 'Qua' };
+            case 4:
+                return { extenso: 'Quinta-feita', curto: 'Qui' };
+            case 5:
+                return { extenso: 'Sexta-feita', curto: 'Sex' };
+            case 6:
+                return { extenso: 'Sábado', curto: 'Sáb' };
+        }
+    }
+
     formatarMes(mes: number) {
         switch (mes) {
             case 0:

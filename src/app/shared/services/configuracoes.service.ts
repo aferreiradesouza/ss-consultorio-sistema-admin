@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AjaxService } from './ajax.service';
-import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio, IEditarConsultorio, IDeletarConsultorio, ICriarConsultorio, IObterAgenda, ICriarAgenda, IDeletarAgenda, IObterAgendaID } from '../interface';
+import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio, IEditarConsultorio, IDeletarConsultorio, ICriarConsultorio, IObterAgenda, ICriarAgenda, IDeletarAgenda, IObterAgendaID, IObterBloqueios } from '../interface';
 
 @Injectable()
 export class ConfiguracoesService {
@@ -84,6 +84,12 @@ export class ConfiguracoesService {
     async obterAgendaPorId(id: number) {
         const url = `${environment.urlBase}admin/agenda/obterAgenda/${id}`;
         const response = await this.ajax.get<IObterAgendaID>(url);
+        return response;
+    }
+
+    async obterBloqueios() {
+        const url = `${environment.urlBase}admin/agenda/obterBloqueios`;
+        const response = await this.ajax.get<IObterBloqueios>(url);
         return response;
     }
 }

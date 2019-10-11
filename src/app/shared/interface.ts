@@ -150,6 +150,10 @@ export interface IObterAgendaID extends DefaultHttpResponse {
     objeto: Agenda;
 }
 
+export interface IObterBloqueios extends DefaultHttpResponse {
+    objeto: ListagemBloqueio[];
+}
+
 export interface Especialidades {
     id: number;
     nome: string;
@@ -370,6 +374,8 @@ export interface Agenda {
     dataCadastro: string;
     dataDesativacao: string;
     ativo: boolean;
+    datas: any;
+    horas: any;
     consultorio: Consultorio;
     dataVigenciaInicio: string;
     dataVigenciaFim: string;
@@ -384,4 +390,16 @@ export interface Agenda {
         }
     }>;
     usuario: Usuario;
+}
+
+export interface ListagemBloqueio {
+    id: number;
+    medico: string;
+    consultorio: string;
+    usuarioCriador: string;
+    dataInicio: string;
+    dataFim: string;
+    observacao: string;
+    dataCadastro: string;
+    ativo: boolean;
 }
