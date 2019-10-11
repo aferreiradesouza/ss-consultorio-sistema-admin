@@ -74,14 +74,14 @@ export class PerfilAgendaCalendarioComponent implements OnInit {
 
     preencherPasso() {
         this.form.patchValue({
-            consultorio: 'this.agenda.consultorio.nome',
-            especialidade: 'this.agenda.especialidade[0].especialidade.nome',
+            consultorio: this.agenda.consultorio.nome,
+            especialidade: this.agenda.usuariosConsultoriosEspecialidades[0].especialidade.nome,
             diaSemana: this.calendarioService.formatarDay(this.agenda.diaSemana).extenso,
             inicioVigencia: this.agenda.dataVigenciaInicio,
             fimVigencia: this.agenda.dataVigenciaFim,
             horaInicio: this.agenda.horaInicio,
             horaFim: this.agenda.horaFim,
-            encaixes: 0,
+            encaixes: this.agenda.totalLimiteEncaixe,
             duracao: this.agenda.duracaoMinutos,
         });
     }

@@ -373,13 +373,14 @@ export interface Agenda {
     duracaoMinutos: number;
     dataCadastro: string;
     dataDesativacao: string;
+    totalLimiteEncaixe: number;
     ativo: boolean;
     datas: any;
     horas: any;
     consultorio: Consultorio;
     dataVigenciaInicio: string;
     dataVigenciaFim: string;
-    especialidade: Array<{
+    usuariosConsultoriosEspecialidades: Array<{
         id: number,
         idEspecialidade: number,
         idUsuarioConsultorio: number,
