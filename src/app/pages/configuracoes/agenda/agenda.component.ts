@@ -38,8 +38,8 @@ export class AgendaComponent implements OnInit {
   public medicosFiltrado: ListagemUsuario[];
   public showContent = false;
   public msgErro = null;
-  public stepCalendario: 1 | 2 | 3 = 1;
-  public stepBloqueio: 1 | 2 | 3 = 1;
+  public stepCalendario: 1 | 2 = 1;
+  public stepBloqueio: 1 | 2 = 1;
   public medicoSelecionado: ListagemUsuario;
   public bloqueios: ListagemBloqueio[];
   source: LocalDataSource = new LocalDataSource();
@@ -159,12 +159,12 @@ export class AgendaComponent implements OnInit {
   async changeTab(type: NbTabComponent) {
     if (type.tabTitle === 'Calendário') {
       this.isLoadingCalendario = true;
-      await this.utiLService.loading(500, () => this.isLoadingCalendario = false);
       this.resetTabCalendario();
+      await this.utiLService.loading(500, () => this.isLoadingCalendario = false);
     } else {
       this.isLoadingBloqueio = true;
-      await this.utiLService.loading(500, () => this.isLoadingBloqueio = false);
       this.resetTabBloqueio();
+      await this.utiLService.loading(500, () => this.isLoadingBloqueio = false);
     }
   }
 
@@ -208,11 +208,12 @@ export class AgendaComponent implements OnInit {
     this.source.load(bloqueios);
   }
 
-  setStepCalendario(num: 1 | 2 | 3) {
+  setStepCalendario(num: 1 | 2) {
     this.stepCalendario = num;
   }
 
-  setStepBloqueio(num: 1 | 2 | 3) {
+  setStepBloqueio(num: 1 | 2) {
+    this.consultorioSelecionado = 'todos';
     this.stepBloqueio = num;
   }
 
@@ -347,6 +348,8 @@ export class AgendaComponent implements OnInit {
         context: {
           id: event.data.id,
           medico: this.medicoSelecionado,
+          listagemConsultorios: this.consultorios,
+          bloqueio: event.data
         },
         closeOnEsc: true,
         autoFocus: false,
@@ -354,7 +357,9 @@ export class AgendaComponent implements OnInit {
         hasScroll: true
       }).onClose.subscribe(async e => {
         if (e) {
-          await this.obterAgendaCaledario();
+          await this.obterBloqueios();
+          this.consultorioSelecionado = 'todos';
+          this.filtrarBloqueios(this.consultorioSelecionado);
         }
       });
   }
@@ -365,7 +370,9 @@ export class AgendaComponent implements OnInit {
       {
         context: {
           id: event.data.id,
-          medico: this.medicoSelecionado
+          medico: this.medicoSelecionado,
+          listagemConsultorios: this.consultorios,
+          bloqueio: event.data
         },
         closeOnEsc: true,
         autoFocus: false,

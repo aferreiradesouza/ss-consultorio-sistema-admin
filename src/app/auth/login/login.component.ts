@@ -30,16 +30,20 @@ export class LoginComponent {
       senha: dados.senha
     };
     this.loading = true;
-    const response = await this.realizarLogin(form);
-    if (!response.sucesso) {
-      this.loading = false;
-      this.msgErro = response.mensagem[0];
-    } else {
-      this.router.navigateByUrl('/home').catch(() => {
+    await this.realizarLogin(form).then(response => {
+      if (!response.sucesso) {
         this.loading = false;
-        this.msgErro = 'Algo de errado aconteceu, tente novamente mais tarde!';
-      });
-    }
+        this.msgErro = response.mensagem[0];
+      } else {
+        this.router.navigateByUrl('/home').catch(() => {
+          this.loading = false;
+          this.msgErro = 'Algo de errado aconteceu, tente novamente mais tarde!';
+        });
+      }
+    }).catch(err => {
+      this.loading = false;
+      this.msgErro = 'Sistema Indisponível no momento, tente novamente mais tarde.';
+    });
   }
 
   async realizarLogin(dados): Promise<{sucesso: boolean, mensagem: string[]}> {

@@ -86,6 +86,10 @@ export interface ICriarBloqueio extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface IAlterarBloqueio extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
 export interface IStatusConsulta extends DefaultHttpResponse {
     objeto: StatusConsulta[];
 }
