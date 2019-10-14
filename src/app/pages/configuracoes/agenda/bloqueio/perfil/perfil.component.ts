@@ -54,7 +54,6 @@ export class PerfilBloqueioComponent implements OnInit {
     }
 
     preencherForm() {
-        console.log(this.consultorio);
         this.form.patchValue({
             lugar: this.consultorio.idConsultorio,
             diaDe: moment(this.bloqueio.datas.dataInicio).toDate(),
