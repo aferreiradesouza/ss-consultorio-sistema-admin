@@ -1,0 +1,55 @@
+<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary" status="primary">
+    <nb-card-header>Bloqueio</nb-card-header>
+    <nb-card-body>
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="col-sm-6 align-center">
+                    <nb-user [name]="medico.nome" [picture]="medico.urlFoto" title="Médico"></nb-user>
+                </div>
+                <div class="col-sm-6 mb-4">
+                    <label class="label d-block">Lugar *</label>
+                    <nb-select fullWidth placeholder="Selecione" formControlName="lugar">
+                        <nb-option *ngFor="let consultorio of listagemConsultorios" [value]="consultorio.idConsultorio">
+                            {{consultorio.nome}}</nb-option>
+                    </nb-select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="label d-block mt-1">De *</label>
+                    <input nbInput fullWidth placeholder="Selecione" [nbDatepicker]="de" formControlName="diaDe">
+                    <nb-datepicker #de></nb-datepicker>
+                </div>
+                <div class="col-sm-6">
+                    <ngx-input-mask label="Hora" [feedback]="false" [required]="true" placeholder="00:00"
+                        formControlName="horaDe" type="hora" [dropCharacters]="false">
+                    </ngx-input-mask>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="label d-block mt-1">Até *</label>
+                    <input nbInput fullWidth placeholder="Selecione" [nbDatepicker]="ate" formControlName="diaAte">
+                    <nb-datepicker #ate></nb-datepicker>
+                </div>
+                <div class="col-sm-6">
+                    <ngx-input-mask label="Hora" [feedback]="false" [required]="true" placeholder="00:00"
+                        formControlName="horaAte" type="hora" [dropCharacters]="false">
+                    </ngx-input-mask>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <ngx-text-area-simple label="Observação" formControlName="observacao" placeholder="Descrição">
+                    </ngx-text-area-simple>
+                </div>
+            </div>
+        </form>
+    </nb-card-body>
+    <nb-card-footer>
+        <label class="label mb-2 d-block">* Campos obrigatórios</label>
+        <button class="mr-4" nbButton status="basic" (click)="dismiss()">Voltar</button>
+        <button nbButton status="primary" [disabled]="!shouldDisabledButton()" (click)="criarBloqueio()">Adicionar
+            bloqueio</button>
+    </nb-card-footer>
+</nb-card>

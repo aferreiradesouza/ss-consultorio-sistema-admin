@@ -22,6 +22,10 @@ import { PerfilAgendaCalendarioComponent } from './agenda/calendario/perfil/perf
 import { EditarAgendaCalendarioComponent } from './agenda/calendario/editar/editar.component';
 import { DeletarAgendaCalendarioComponent } from './agenda/calendario/deletar/deletar.component';
 import { AdicionarAgendaCalendarioComponent } from './agenda/calendario/adicionar/adicionar.component';
+import { AdicionarBloqueioComponent } from './agenda/bloqueio/adicionar/adicionar.component';
+import { PerfilBloqueioComponent } from './agenda/bloqueio/perfil/perfil.component';
+import { EditarBloqueioComponent } from './agenda/bloqueio/editar/editar.component';
+import { DeletarBloqueioComponent } from './agenda/bloqueio/deletar/deletar.component';
 
 const PAGES = [
   UsuariosComponent,
@@ -41,7 +45,11 @@ const MODAIS = [
   AdicionarAgendaCalendarioComponent,
   DeletarAgendaCalendarioComponent,
   EditarAgendaCalendarioComponent,
-  PerfilAgendaCalendarioComponent
+  PerfilAgendaCalendarioComponent,
+  PerfilBloqueioComponent,
+  AdicionarBloqueioComponent,
+  EditarBloqueioComponent,
+  DeletarBloqueioComponent,
 ];
 
 const NB_MODULES = [

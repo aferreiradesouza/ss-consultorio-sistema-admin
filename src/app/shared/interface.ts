@@ -158,6 +158,10 @@ export interface IObterBloqueios extends DefaultHttpResponse {
     objeto: ListagemBloqueio[];
 }
 
+export interface IRemoverBloqueios extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
 export interface Especialidades {
     id: number;
     nome: string;

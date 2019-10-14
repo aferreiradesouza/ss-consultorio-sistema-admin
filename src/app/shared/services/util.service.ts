@@ -20,4 +20,12 @@ export class UtilService {
             .filter(e => arr[e]).map(e => arr[e]);
         return unique;
     }
+
+    public async loading(timer: number, execute: Function): Promise<any> {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                return resolve(execute());
+            }, timer);
+        });
+    }
 }

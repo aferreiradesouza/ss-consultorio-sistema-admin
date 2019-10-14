@@ -15,6 +15,11 @@ import { AdicionarAgendaCalendarioComponent } from './calendario/adicionar/adici
 import { EditarAgendaCalendarioComponent } from './calendario/editar/editar.component';
 import { PerfilAgendaCalendarioComponent } from './calendario/perfil/perfil.component';
 import { DeletarAgendaCalendarioComponent } from './calendario/deletar/deletar.component';
+import { UtilService } from '../../../shared/services/util.service';
+import { EditarBloqueioComponent } from './bloqueio/editar/editar.component';
+import { PerfilBloqueioComponent } from './bloqueio/perfil/perfil.component';
+import { DeletarBloqueioComponent } from './bloqueio/deletar/deletar.component';
+import { AdicionarBloqueioComponent } from './bloqueio/adicionar/adicionar.component';
 
 @Component({
   selector: 'ngx-agenda-configuracoes',
@@ -51,7 +56,9 @@ export class AgendaComponent implements OnInit {
     public dialogService: NbDialogService,
     private toastrService: NbToastrService,
     private calendarioService: CalendarioService,
-    private recepcionistaService: RecepcionistaService) {
+    private recepcionistaService: RecepcionistaService,
+    public utilService: UtilService,
+    private utiLService: UtilService) {
   }
 
   async ngOnInit() {
@@ -114,7 +121,7 @@ export class AgendaComponent implements OnInit {
     });
   }
 
-  async obterBloqueio() {
+  async obterBloqueios() {
     this.bloqueios = [];
     this.source.load(this.bloqueios);
     this.isLoadingBloqueio = true;
@@ -150,10 +157,13 @@ export class AgendaComponent implements OnInit {
   }
 
   async changeTab(type: NbTabComponent) {
-    console.log(type);
     if (type.tabTitle === 'Calendário') {
+      this.isLoadingCalendario = true;
+      await this.utiLService.loading(500, () => this.isLoadingCalendario = false);
       this.resetTabCalendario();
     } else {
+      this.isLoadingBloqueio = true;
+      await this.utiLService.loading(500, () => this.isLoadingBloqueio = false);
       this.resetTabBloqueio();
     }
   }
@@ -183,11 +193,13 @@ export class AgendaComponent implements OnInit {
       await this.obterAgendaCaledario();
     } else {
       this.setStepBloqueio(2);
-      await this.obterBloqueio();
+      await this.obterBloqueios();
     }
   }
 
-  filtrarBloqueios(event) {
+  async filtrarBloqueios(event) {
+    this.isLoadingBloqueio = true;
+    await this.utilService.loading(500, () => this.isLoadingBloqueio = false);
     if (event === 'todos') {
       this.source.load(this.bloqueios);
       return;
@@ -216,13 +228,23 @@ export class AgendaComponent implements OnInit {
     this.consultorioSelecionado = 'todos';
   }
 
-  customAction(evento) {
+  customActionCalendario(evento) {
     if (evento.action === 'edit') {
       this.editarCalendario(evento);
     } else if (evento.action === 'perfil') {
       this.perfilCalendario(evento);
     } else if (evento.action === 'delete') {
       this.excluirCalendario(evento);
+    }
+  }
+
+  customActionBloqueio(evento) {
+    if (evento.action === 'edit') {
+      this.editarBloqueio(evento);
+    } else if (evento.action === 'perfil') {
+      this.perfilBloqueio(evento);
+    } else if (evento.action === 'delete') {
+      this.excluirBloqueio(evento);
     }
   }
 
@@ -234,7 +256,7 @@ export class AgendaComponent implements OnInit {
         context: {
           medico: this.medicoSelecionado,
         },
-        closeOnEsc: true,
+        closeOnEsc: false,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
@@ -253,7 +275,7 @@ export class AgendaComponent implements OnInit {
           id: event.data.id,
           medico: this.medicoSelecionado,
         },
-        closeOnEsc: true,
+        closeOnEsc: false,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
@@ -272,7 +294,7 @@ export class AgendaComponent implements OnInit {
           id: event.data.id,
           medico: this.medicoSelecionado
         },
-        closeOnEsc: true,
+        closeOnEsc: false,
         autoFocus: false,
         closeOnBackdropClick: false,
         hasScroll: true
@@ -286,6 +308,46 @@ export class AgendaComponent implements OnInit {
         context: {
           id: event.data.id
         },
+        closeOnEsc: false,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }).onClose.subscribe(async e => {
+        if (e) {
+          await this.obterAgendaCaledario();
+        }
+      });
+  }
+
+  adicionarBloqueio() {
+    this.dialogService.open(
+      AdicionarBloqueioComponent,
+      {
+        context: {
+          medico: this.medicoSelecionado,
+          listagemConsultorios: this.consultorios
+        },
+        closeOnEsc: false,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }).onClose.subscribe(async e => {
+        if (e) {
+          await this.obterBloqueios();
+          this.consultorioSelecionado = 'todos';
+          this.filtrarBloqueios(this.consultorioSelecionado);
+        }
+      });
+  }
+
+  editarBloqueio(event) {
+    this.dialogService.open(
+      EditarBloqueioComponent,
+      {
+        context: {
+          id: event.data.id,
+          medico: this.medicoSelecionado,
+        },
         closeOnEsc: true,
         autoFocus: false,
         closeOnBackdropClick: false,
@@ -293,6 +355,40 @@ export class AgendaComponent implements OnInit {
       }).onClose.subscribe(async e => {
         if (e) {
           await this.obterAgendaCaledario();
+        }
+      });
+  }
+
+  perfilBloqueio(event) {
+    this.dialogService.open(
+      PerfilBloqueioComponent,
+      {
+        context: {
+          id: event.data.id,
+          medico: this.medicoSelecionado
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      });
+  }
+
+  excluirBloqueio(event) {
+    this.dialogService.open(
+      DeletarBloqueioComponent,
+      {
+        context: {
+          id: event.data.id
+        },
+        closeOnEsc: true,
+        autoFocus: false,
+        closeOnBackdropClick: false,
+        hasScroll: true
+      }).onClose.subscribe(async e => {
+        if (e) {
+          this.consultorioSelecionado = 'todos';
+          await this.obterBloqueios();
         }
       });
   }

@@ -4,7 +4,7 @@
     </nb-card-header>
     <nb-card-body>
         <nb-tabset fullWidth (changeTab)="changeTab($event)">
-            <nb-tab tabTitle="Calendário" tabIcon="calendar-outline" [nbSpinner]="isLoadingCalendario"
+            <nb-tab tabTitle="Calendário" [nbSpinner]="isLoadingCalendario"
                 nbSpinnerStatus="primary">
                 <ng-container *ngIf="showContent">
                     <ng-container *ngIf="stepCalendario === 1">
@@ -41,13 +41,13 @@
                             </div>
                         </div>
                         <ng2-smart-table [settings]="settingsCalendario" [source]="source"
-                            (custom)="customAction($event)">
+                            (custom)="customActionCalendario($event)">
                         </ng2-smart-table>
                     </ng-container>
                 </ng-container>
                 <span *ngIf="!showContent && msgErro" class="msgErro">{{msgErro}}</span>
             </nb-tab>
-            <nb-tab tabTitle="Bloqueios" tabIcon="lock-outline" [nbSpinner]="isLoadingBloqueio"
+            <nb-tab tabTitle="Bloqueios" [nbSpinner]="isLoadingBloqueio"
                 nbSpinnerStatus="primary">
                 <ng-container *ngIf="showContent">
                     <ng-container *ngIf="stepBloqueio === 1">
@@ -79,7 +79,7 @@
                                 {{medicoSelecionado.nome}}
                             </button>
                             <div class="ml-auto">
-                                <nb-select style="width: 15rem" (ngModelChange)="filtrarBloqueios($event)" placeholder="Consultórios" [(ngModel)]="consultorioSelecionado">
+                                <nb-select style="width: 13rem" class="mr-3" (ngModelChange)="filtrarBloqueios($event)" placeholder="Consultórios" [(ngModel)]="consultorioSelecionado">
                                     <nb-option value="todos">
                                         Todos
                                     </nb-option>
@@ -87,12 +87,12 @@
                                         {{lugar.nome}}
                                     </nb-option>
                                 </nb-select>
-                                <!-- <button nbButton hero status="primary" (click)="adicionarCalendario()">Adicionar
-                                    Agenda</button> -->
+                                <button nbButton hero status="primary" (click)="adicionarBloqueio()">Adicionar
+                                    Bloqueio</button>
                             </div>
                         </div>
                         <ng2-smart-table [settings]="settingsBloqueio" [source]="source"
-                            (custom)="customAction($event)">
+                            (custom)="customActionBloqueio($event)">
                         </ng2-smart-table>
                     </ng-container>
                 </ng-container>
