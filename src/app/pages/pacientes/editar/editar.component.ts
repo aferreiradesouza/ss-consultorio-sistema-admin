@@ -106,6 +106,7 @@ export class EditarPacientesComponent implements OnInit {
       estado: form.uf || null,
       dataNascimento: form.nascimento ? moment(form.nascimento, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
       ativo: form.status,
+      comoConheceu: this.comoConheceu.value
     };
     this.ref.close({ sucesso: true, value: user });
   }

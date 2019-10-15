@@ -20,11 +20,23 @@ import { EditarBloqueioComponent } from './bloqueio/editar/editar.component';
 import { PerfilBloqueioComponent } from './bloqueio/perfil/perfil.component';
 import { DeletarBloqueioComponent } from './bloqueio/deletar/deletar.component';
 import { AdicionarBloqueioComponent } from './bloqueio/adicionar/adicionar.component';
+import { CellAgendaTableComponent } from './cell-agenda-table.component';
+
+interface Bloqueio {
+  consultorio: {nome: string, urlFoto: string, idConsultorio: number};
+  id: number;
+  dataInicio: {dataInicio: string; horaInicio: string};
+  dataFim: {dataFim: string; horaFim: string};
+  ativo: boolean;
+  observacao: string;
+  medico: string;
+}
 
 @Component({
   selector: 'ngx-agenda-configuracoes',
   templateUrl: './agenda.component.html',
-  styleUrls: ['agenda.component.scss']
+  styleUrls: ['agenda.component.scss'],
+  providers: [CellAgendaTableComponent]
 })
 export class AgendaComponent implements OnInit {
   public search = '';
@@ -41,7 +53,7 @@ export class AgendaComponent implements OnInit {
   public stepCalendario: 1 | 2 = 1;
   public stepBloqueio: 1 | 2 = 1;
   public medicoSelecionado: ListagemUsuario;
-  public bloqueios: ListagemBloqueio[];
+  public bloqueios: Bloqueio[];
   source: LocalDataSource = new LocalDataSource();
 
 
@@ -101,7 +113,7 @@ export class AgendaComponent implements OnInit {
             id: e.id,
             horas: { horaInicio: e.horaInicio, horaFim: e.horaFim },
             consultorio: e.consultorio,
-            idConsultorio: e.idConsultorio
+            idConsultorio: e.idConsultorio,
           } as any;
         });
         this.source.load(this.agenda);
@@ -129,10 +141,10 @@ export class AgendaComponent implements OnInit {
       if (response.sucesso) {
         this.bloqueios = response.objeto.filter(e => e.medico === this.medicoSelecionado.nome).map(e => {
           return {
-            consultorio: e.consultorio,
-            datas: {dataInicio: e.dataInicio, dataFim: e.dataFim},
+            consultorio: {nome: e.consultorio, urlFoto: e.urlFotoConsultorio, idConsultorio: e.idConsultorio},
+            dataInicio: {dataInicio: e.dataInicio, horaInicio: e.dataInicio},
+            dataFim: {dataFim: e.dataFim, horaFim: e.dataFim},
             id: e.id,
-            horas: {horaInicio: e.dataInicio, horaFim: e.dataFim},
             ativo: e.ativo,
             observacao: e.observacao,
             medico: e.medico
@@ -204,7 +216,7 @@ export class AgendaComponent implements OnInit {
       this.source.load(this.bloqueios);
       return;
     }
-    const bloqueios = this.bloqueios.filter(e => e.consultorio === event);
+    const bloqueios = this.bloqueios.filter(e => e.consultorio.idConsultorio === event);
     this.source.load(bloqueios);
   }
 

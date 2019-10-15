@@ -97,6 +97,7 @@ export class AdicionarPacientesComponent implements OnInit {
       cidade: form.cidade || null,
       estado: form.estado || null,
       dataNascimento: form.nascimento ? moment(form.nascimento, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
+      comoConheceu: this.comoConheceu.value
     };
     this.isLoading = true;
     await this.pacienteService.adicionarPaciente(data).then(response => {

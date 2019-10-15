@@ -26,6 +26,7 @@ import { AdicionarBloqueioComponent } from './agenda/bloqueio/adicionar/adiciona
 import { PerfilBloqueioComponent } from './agenda/bloqueio/perfil/perfil.component';
 import { EditarBloqueioComponent } from './agenda/bloqueio/editar/editar.component';
 import { DeletarBloqueioComponent } from './agenda/bloqueio/deletar/deletar.component';
+import { CellAgendaTableComponent } from './agenda/cell-agenda-table.component';
 
 const PAGES = [
   UsuariosComponent,
@@ -50,6 +51,7 @@ const MODAIS = [
   AdicionarBloqueioComponent,
   EditarBloqueioComponent,
   DeletarBloqueioComponent,
+  CellAgendaTableComponent
 ];
 
 const NB_MODULES = [
@@ -81,6 +83,7 @@ const NB_MODULES = [
   declarations: [
     UserCellComponent,
     UnidadesCellComponent,
+    CellAgendaTableComponent,
     ...PAGES,
     ...MODAIS
   ],

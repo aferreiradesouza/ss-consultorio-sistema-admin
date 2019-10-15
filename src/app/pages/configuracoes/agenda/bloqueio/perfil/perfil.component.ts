@@ -5,10 +5,10 @@ import { ListagemUsuario, ListagemConsultoriosUsuario } from '../../../../../sha
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 interface Bloqueio {
-    consultorio: string;
-    datas: { dataInicio: string, dataFim: string };
+    consultorio: {nome: string, urlFoto: string, idConsultorio: number};
     id: number;
-    horas: { horaInicio: string, horaFim: string };
+    dataInicio: {dataInicio: string; horaInicio: string};
+    dataFim: {dataFim: string; horaFim: string};
     ativo: boolean;
     observacao: string;
     medico: string;
@@ -45,7 +45,7 @@ export class PerfilBloqueioComponent implements OnInit {
         protected ref: NbDialogRef<PerfilBloqueioComponent>) { }
 
     async ngOnInit() {
-        this.consultorio = this.listagemConsultorios.filter(e => e.nome === this.bloqueio.consultorio)[0];
+        this.consultorio = this.listagemConsultorios.filter(e => e.idConsultorio === this.bloqueio.consultorio.idConsultorio)[0];
         this.preencherForm();
     }
 
@@ -56,10 +56,10 @@ export class PerfilBloqueioComponent implements OnInit {
     preencherForm() {
         this.form.patchValue({
             lugar: this.consultorio.idConsultorio,
-            diaDe: moment(this.bloqueio.datas.dataInicio).toDate(),
-            horaDe: moment(this.bloqueio.horas.horaInicio).format('HH:mm'),
-            diaAte: moment(this.bloqueio.datas.dataFim).toDate(),
-            horaAte: moment(this.bloqueio.horas.horaFim).format('HH:mm'),
+            diaDe: moment(this.bloqueio.dataInicio.dataInicio).toDate(),
+            horaDe: moment(this.bloqueio.dataInicio.horaInicio).format('HH:mm'),
+            diaAte: moment(this.bloqueio.dataFim.dataFim).toDate(),
+            horaAte: moment(this.bloqueio.dataFim.horaFim).format('HH:mm'),
             observacao: this.bloqueio.observacao,
         });
     }

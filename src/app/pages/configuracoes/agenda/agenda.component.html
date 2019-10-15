@@ -83,7 +83,7 @@
                                     <nb-option value="todos">
                                         Todos
                                     </nb-option>
-                                    <nb-option [value]="lugar.nome" *ngFor="let lugar of consultorios">
+                                    <nb-option [value]="lugar.idConsultorio" *ngFor="let lugar of consultorios">
                                         {{lugar.nome}}
                                     </nb-option>
                                 </nb-select>

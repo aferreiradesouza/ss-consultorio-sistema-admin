@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
+import { CellAgendaTableComponent } from './cell-agenda-table.component';
 
 export const DATA_TABLE_CALENDARIO = {
   noDataMessage: 'Sem dados',
@@ -29,10 +30,8 @@ export const DATA_TABLE_CALENDARIO = {
   columns: {
     consultorio: {
       title: 'Consultório',
-      type: 'string',
-      valuePrepareFunction: (value) => {
-        return `${value.nome}`;
-      }
+      type: 'custom',
+      renderComponent: CellAgendaTableComponent
     },
     diaSemana: {
       title: 'Dia da semana',
@@ -41,18 +40,18 @@ export const DATA_TABLE_CALENDARIO = {
         return CalendarioService.formatarDay(value || 1).extenso;
       }
     },
-    datas: {
-      title: 'Vigência',
-      type: 'string',
-      valuePrepareFunction: (value) => {
-        return `${moment(value.dataVigenciaInicio).format('DD/MM/YYYY')} - ${moment(value.dataVigenciaFim).format('DD/MM/YYYY')}`;
-      }
-    },
     horas: {
       title: 'Horário',
       type: 'string',
       valuePrepareFunction: (value) => {
         return `${value.horaInicio} - ${value.horaFim}`;
+      }
+    },
+    datas: {
+      title: 'Vigência',
+      type: 'string',
+      valuePrepareFunction: (value) => {
+        return `${moment(value.dataVigenciaInicio).format('DD/MM/YYYY')} - ${moment(value.dataVigenciaFim).format('DD/MM/YYYY')}`;
       }
     },
   }
@@ -86,20 +85,21 @@ export const DATA_TABLE_BLOQUEIO = {
   columns: {
     consultorio: {
       title: 'Consultório',
-      type: 'string'
+      type: 'custom',
+      renderComponent: CellAgendaTableComponent
     },
-    datas: {
-      title: 'Datas',
+    dataInicio: {
+      title: 'Data início',
       type: 'string',
       valuePrepareFunction: (value) => {
-        return `${moment(value.dataInicio).format('DD/MM/YYYY')} - ${moment(value.dataFim).format('DD/MM/YYYY')}`;
+        return `${moment(value.dataInicio).format('DD/MM/YYYY')} - ${moment(value.horaInicio).format('HH:mm')}`;
       }
     },
-    horas: {
-      title: 'Horários',
+    dataFim: {
+      title: 'Data fim',
       type: 'string',
       valuePrepareFunction: (value) => {
-        return `${moment(value.horaInicio).format('HH:mm')} - ${moment(value.horaFim).format('HH:mm')}`;
+        return `${moment(value.dataFim).format('DD/MM/YYYY')} - ${moment(value.horaFim).format('HH:mm')}`;
       }
     }
   }

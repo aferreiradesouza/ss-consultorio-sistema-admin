@@ -416,4 +416,6 @@ export interface ListagemBloqueio {
     dataCadastro: string;
     ativo: boolean;
     datas: any;
+    idConsultorio: number;
+    urlFotoConsultorio: string;
 }
