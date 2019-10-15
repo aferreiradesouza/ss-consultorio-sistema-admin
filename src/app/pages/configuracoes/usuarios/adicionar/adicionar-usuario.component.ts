@@ -23,12 +23,13 @@ export class AdicionarUsuarioComponent implements OnInit {
         crm: new FormControl(''),
         senha: new FormControl(''),
         confSenha: new FormControl(''),
-        status: new FormControl(false)
+        status: new FormControl(true)
     });
 
     perfis = new FormControl([]);
 
     public isLoading: boolean;
+    public patternUrl = new RegExp(/^(ftp|https?):\/\/+(www\.)?/);
 
     @Input() id: number;
     @Input() dados: any;
@@ -54,6 +55,10 @@ export class AdicionarUsuarioComponent implements OnInit {
         this.ref.close(data);
     }
 
+    getImage() {
+        return this.patternUrl.test(this.form.value.urlFoto) ? this.form.value.urlFoto : null;
+    }
+
     async adicionar() {
         this.isLoading = true;
         const form = this.form.value;
@@ -61,6 +66,8 @@ export class AdicionarUsuarioComponent implements OnInit {
             nome: form.nome || null,
             cpf: form.cpf ? form.cpf.replace(new RegExp(/[.\-]/, 'g'), '') : null,
             ehMedico: this.perfis.value.indexOf('medico') > -1,
+            ehFinanceiro: this.perfis.value.indexOf('financeiro') > -1,
+            ehRecepcionista: this.perfis.value.indexOf('recepcionista') > -1,
             crm: form.crm || null,
             celular: form.celular || null,
             telefone: form.telefone || null,

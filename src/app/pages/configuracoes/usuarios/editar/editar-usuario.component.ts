@@ -5,10 +5,26 @@ import { ConfiguracoesService } from '../../../../shared/services/configuracoes.
 import { Usuario } from '../../../../shared/interface';
 import * as moment from 'moment';
 import { TOASTR } from '../../../../shared/constants/toastr';
+import { UtilService } from '../../../../shared/services/util.service';
 
 @Component({
     selector: 'ngx-editar-usuario',
     templateUrl: 'editar-usuario.component.html',
+    styles: [`
+    :host /deep/ nb-user div.user-container div.user-picture {
+        background-position: center;
+    }
+
+    .errorMessage {
+        color: red;
+        margin-left: 15px;
+        padding-top: 10px;
+    }
+
+    .border-right {
+        border-right: 1px solid #ccc;
+    }
+    `]
 })
 
 export class EditarUsuarioComponent implements OnInit {
@@ -22,8 +38,12 @@ export class EditarUsuarioComponent implements OnInit {
         cpf: new FormControl(''),
         idade: new FormControl({ value: '', disabled: true }),
         crm: new FormControl(''),
-        status: new FormControl(false)
+        status: new FormControl(false),
+        senha: new FormControl(''),
+        confSenha: new FormControl('')
     });
+
+    public patternUrl = new RegExp(/^(ftp|https?):\/\/+(www\.)?/);
 
     public user: Usuario;
     perfis = new FormControl([]);
@@ -35,7 +55,8 @@ export class EditarUsuarioComponent implements OnInit {
 
     constructor(
         protected ref: NbDialogRef<EditarUsuarioComponent>,
-        private configuracoesService: ConfiguracoesService) { }
+        private configuracoesService: ConfiguracoesService,
+        private utilService: UtilService) { }
 
     async ngOnInit() {
         this.isLoading = true;
@@ -75,6 +96,8 @@ export class EditarUsuarioComponent implements OnInit {
             nome: form.nome || null,
             cpf: form.cpf ? form.cpf.replace(new RegExp(/[.\-]/, 'g'), '') : null,
             ehMedico: this.perfis.value.indexOf('medico') > -1,
+            ehFinanceiro: this.perfis.value.indexOf('financeiro') > -1,
+            ehRecepcionista: this.perfis.value.indexOf('recepcionista') > -1,
             crm: form.crm || null,
             celular: form.celular || null,
             telefone: form.telefone || null,
@@ -96,6 +119,10 @@ export class EditarUsuarioComponent implements OnInit {
         });
     }
 
+    getImage() {
+        return this.patternUrl.test(this.form.value.urlFoto) ? this.form.value.urlFoto : null;
+    }
+
     preencherPasso(user: Usuario) {
         this.form.patchValue({
             nome: user.nome,
@@ -108,10 +135,14 @@ export class EditarUsuarioComponent implements OnInit {
             cpf: user.cpf,
             urlFoto: user.urlFoto,
             idade: user.dataNascimento ? moment().diff(moment(user.dataNascimento), 'y') : '-',
+            senha: null,
+            confSenha: null
         });
         const perfil = [];
         if (user.ehMedico) { perfil.push('medico'); }
         if (user.ehAdministrador) { perfil.push('administracao'); }
+        if (user.ehFinanceiro) { perfil.push('financeiro'); }
+        if (user.ehRecepcionista) { perfil.push('recepcionista'); }
         this.perfis.setValue(perfil);
     }
 

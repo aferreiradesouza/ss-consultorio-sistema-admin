@@ -42,7 +42,8 @@ export class EditarAgendaCalendarioComponent implements OnInit {
         horaInicio: new FormControl(''),
         horaFim: new FormControl(''),
         encaixes: new FormControl(''),
-        duracao: new FormControl('')
+        duracao: new FormControl(''),
+        status: new FormControl(false)
     }, { validators: this.validarForm() });
     public diasSemana = [
         { dia: 'Domingo', codigo: 0 },
@@ -202,6 +203,7 @@ export class EditarAgendaCalendarioComponent implements OnInit {
             horaFim: this.agenda.horaFim,
             encaixes: this.agenda.totalLimiteEncaixe,
             duracao: this.agenda.duracaoMinutos,
+            status: this.agenda.ativo
         });
         this.form.get('consultorio').markAsDirty();
         this.form.get('especialidade').markAsDirty();
@@ -222,7 +224,8 @@ export class EditarAgendaCalendarioComponent implements OnInit {
             horaFim: form.horaFim,
             duracaoMinutos: form.duracao,
             dataVigenciaInicio: form.inicioVigencia,
-            dataVigenciaFim: form.fimVigencia
+            dataVigenciaFim: form.fimVigencia,
+            ativo: form.status
         };
         await this.configuracoesService.alterarAgenda(obj).then(response => {
             if (response.sucesso) {

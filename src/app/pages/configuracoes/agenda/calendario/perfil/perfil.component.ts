@@ -29,7 +29,8 @@ export class PerfilAgendaCalendarioComponent implements OnInit {
         horaInicio: new FormControl({ value: null, disabled: true }),
         horaFim: new FormControl({ value: null, disabled: true }),
         encaixes: new FormControl({ value: null, disabled: true }),
-        duracao: new FormControl({ value: null, disabled: true })
+        duracao: new FormControl({ value: null, disabled: true }),
+        status: new FormControl({value: false, disabled: true})
     });
 
     @Input() id: number;
@@ -63,7 +64,6 @@ export class PerfilAgendaCalendarioComponent implements OnInit {
                 this.dismiss(false);
             }
         }).catch(err => {
-            console.log(err);
             this.toastrService.show('', TOASTR.msgErroPadrao,
                 { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
             this.dismiss(false);
@@ -83,6 +83,7 @@ export class PerfilAgendaCalendarioComponent implements OnInit {
             horaFim: this.agenda.horaFim,
             encaixes: this.agenda.totalLimiteEncaixe,
             duracao: this.agenda.duracaoMinutos,
+            status: this.agenda.ativo
         });
     }
 }

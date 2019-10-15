@@ -330,6 +330,8 @@ export interface Usuario {
     dataCadastro: string;
     dataDesativacao: string;
     ativo: boolean;
+    ehFinanceiro: boolean;
+    ehRecepcionista: boolean;
 }
 
 export interface InfoConsulta {

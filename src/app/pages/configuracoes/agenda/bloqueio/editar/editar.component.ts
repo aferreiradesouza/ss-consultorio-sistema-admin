@@ -43,7 +43,8 @@ export class EditarBloqueioComponent implements OnInit {
         horaDe: new FormControl(''),
         diaAte: new FormControl('', [Validators.required]),
         horaAte: new FormControl(''),
-        observacao: new FormControl('')
+        observacao: new FormControl(''),
+        status: new FormControl(false)
     });
 
     @Input() id: number;
@@ -99,6 +100,7 @@ export class EditarBloqueioComponent implements OnInit {
             diaAte: moment(this.bloqueio.dataFim.dataFim).toDate(),
             horaAte: moment(this.bloqueio.dataFim.horaFim).format('HH:mm'),
             observacao: this.bloqueio.observacao,
+            status: this.bloqueio.ativo
         });
     }
 
@@ -122,7 +124,7 @@ export class EditarBloqueioComponent implements OnInit {
             dataInicio: `${moment(this.formValue.diaDe).format('YYYY-MM-DD')} ${this.formValue.horaDe}:00`,
             dataFim: `${moment(this.formValue.diaAte).format('YYYY-MM-DD')} ${this.formValue.horaAte}:00`,
             observacao: this.formValue.observacao,
-            ativo: true
+            ativo: this.formValue.status
         };
         await this.recepcionistaService.alterarBloqueio(obj).then(response => {
             if (response.sucesso) {

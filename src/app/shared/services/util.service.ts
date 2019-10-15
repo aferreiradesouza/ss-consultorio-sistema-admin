@@ -28,4 +28,10 @@ export class UtilService {
             }, timer);
         });
     }
+
+    public async verificarImagem(url) {
+        return await this.ajax.get<any>(url).catch(err => {
+            return null;
+        });
+    }
 }

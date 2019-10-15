@@ -9,7 +9,7 @@
             </div>
             <div class="col-sm-6">
                 <label class="label d-block">Consultório *</label>
-                <nb-select style="max-width: 22rem" [status]="isValid('consultorio')" class="w-100"
+                <nb-select fullWidth [status]="isValid('consultorio')" class="w-100"
                     placeholder="Selecione" formControlName="consultorio">
                     <nb-option [value]="lugar.idConsultorio" *ngFor="let lugar of consultorios">{{lugar.nome}}
                     </nb-option>
@@ -19,7 +19,7 @@
         <div class="row mb-3">
             <div class="col-sm-6">
                 <label class="label d-block">Especialidade *</label>
-                <nb-select style="max-width: 22rem" [status]="isValid('especialidade')" class="w-100"
+                <nb-select fullWidth [status]="isValid('especialidade')" class="w-100"
                     placeholder="Selecione" multiple formControlName="especialidade">
                     <nb-option [value]="especialidade.id" *ngFor="let especialidade of especialidades">
                         {{especialidade.nome}}
@@ -28,7 +28,7 @@
             </div>
             <div class="col-sm-6">
                 <label class="label d-block">Dia da semana *</label>
-                <nb-select style="max-width: 22rem" [status]="isValid('diaSemana')" class="w-100"
+                <nb-select fullWidth [status]="isValid('diaSemana')" class="w-100"
                     placeholder="Selecione" formControlName="diaSemana">
                     <nb-option [value]="dia.codigo" *ngFor="let dia of diasSemana">
                         {{dia.dia}}
@@ -52,18 +52,25 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <ngx-input-mask [dropCharacters]="false" type="hora" label="Hora Início" formControlName="horaInicio" [required]="true"></ngx-input-mask>
+                <ngx-input-mask [dropCharacters]="false" type="hora" label="Hora Início" formControlName="horaInicio"
+                    [required]="true"></ngx-input-mask>
             </div>
             <div class="col-sm-6">
-                <ngx-input-mask [dropCharacters]="false" type="hora" label="Hora Fim" formControlName="horaFim" [required]="true"></ngx-input-mask>
+                <ngx-input-mask [dropCharacters]="false" type="hora" label="Hora Fim" formControlName="horaFim"
+                    [required]="true"></ngx-input-mask>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6">
-                <ngx-input-mask type="number" label="Total de encaixes" formControlName="encaixes" [required]="true"></ngx-input-mask>
+            <div class="col-sm-5">
+                <ngx-input-mask type="number" label="Total de encaixes" formControlName="encaixes" [required]="true">
+                </ngx-input-mask>
             </div>
-            <div class="col-sm-6">
-                <ngx-input-mask type="number" label="Duração (Em minutos)" formControlName="duracao" [required]="true"></ngx-input-mask>
+            <div class="col-sm-5">
+                <ngx-input-mask type="number" label="Duração (Em minutos)" formControlName="duracao" [required]="true">
+                </ngx-input-mask>
+            </div>
+            <div class="col-sm-2 align-center">
+                <nb-checkbox class="mt-2" status="primary" formControlName="status">Ativo</nb-checkbox>
             </div>
         </div>
     </nb-card-body>

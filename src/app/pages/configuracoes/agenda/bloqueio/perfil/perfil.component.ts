@@ -33,7 +33,8 @@ export class PerfilBloqueioComponent implements OnInit {
         horaDe: new FormControl({value: '', disabled: true}),
         diaAte: new FormControl({value: '', disabled: true}),
         horaAte: new FormControl({value: '', disabled: true}),
-        observacao: new FormControl({value: '', disabled: true})
+        observacao: new FormControl({value: '', disabled: true}),
+        status: new FormControl({value: false, disabled: true})
     });
 
     @Input() id: number;
@@ -61,6 +62,7 @@ export class PerfilBloqueioComponent implements OnInit {
             diaAte: moment(this.bloqueio.dataFim.dataFim).toDate(),
             horaAte: moment(this.bloqueio.dataFim.horaFim).format('HH:mm'),
             observacao: this.bloqueio.observacao,
+            status: this.bloqueio.ativo
         });
     }
 }
