@@ -74,7 +74,7 @@
             <div class="col-sm-12 col-md-6 border-right">
                 <div class="row mb-2">
                     <div class="col-sm-12 align-center py-2">
-                        <nb-user [name]="form.value.nome || '-'" [picture]="getImage()" title="Médico"></nb-user>
+                        <nb-user [name]="form.value.nome || '-'" [picture]="getImage()" [title]="getTitle()"></nb-user>
                     </div>
                 </div>
                 <div class="row">
@@ -121,7 +121,7 @@
                         </ngx-input-simple>
                     </div>
                     <div class="col-sm-12">
-                        <ngx-input-simple label="CRM" formControlName="crm" type="text">
+                        <ngx-input-simple label="CRM" formControlName="crm" type="text" [required]="requiredCrm">
                         </ngx-input-simple>
                     </div>
                     <div class="col-sm-12 mt-1 mb-3">

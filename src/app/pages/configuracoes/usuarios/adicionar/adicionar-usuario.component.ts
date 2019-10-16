@@ -26,7 +26,8 @@ export class AdicionarUsuarioComponent implements OnInit {
         status: new FormControl(true)
     });
 
-    perfis = new FormControl([]);
+    public perfis = new FormControl([]);
+    public requiredCrm = false;
 
     public isLoading: boolean;
     public patternUrl = new RegExp(/^(ftp|https?):\/\/+(www\.)?/);
@@ -49,6 +50,28 @@ export class AdicionarUsuarioComponent implements OnInit {
                 }, 0);
             }
         });
+
+        this.perfis.valueChanges.subscribe(valor => {
+            if (valor.indexOf('medico') > -1) {
+                this.requiredCrm = true;
+            } else {
+                this.requiredCrm = false;
+            }
+        });
+    }
+
+    getTitle() {
+        if (this.perfis.value.indexOf('administracao') > -1) {
+            return 'Administrador';
+        } else if (this.perfis.value.indexOf('medico') > -1) {
+            return 'Médico';
+        } else if (this.perfis.value.indexOf('recepcionista') > -1) {
+            return 'Recepcionista';
+        } else if (this.perfis.value.indexOf('financeiro') > -1) {
+            return 'Financeiro';
+        } else {
+            return '-';
+        }
     }
 
     dismiss(data: { sucesso: boolean, mensagem: string }) {
