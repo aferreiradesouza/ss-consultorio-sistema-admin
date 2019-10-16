@@ -120,5 +120,23 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
     verConsulta(dados, dia) {
         this.infoConsulta.emit({ ...dados, data: dia.diaCompleta });
     }
+
+    getTimerStatus(codigo: string, dataStatus: string) {
+        const validStatus = ['em_espera', 'em_atendimento'];
+        if (validStatus.indexOf(codigo) === -1) {
+            return '';
+        }
+        const tempo = moment.utc(moment(new Date()).diff(moment(dataStatus, 'YYYY-MM-DDTHH:mm:ss'))).format('HH:mm:ss');
+        return ` - ${tempo}`;
+    }
+
+    getCountConsultas() {
+        const count = this.getDatas(this.info.horarios).filter(e => e.consulta).length;
+        if (count === 0) {
+            return {mensagem: ``, count};
+        } else {
+            return {mensagem: `${count} consulta${count > 1 ? 's' : ''} marcada${count > 1 ? 's' : ''}`, count};
+        }
+    }
 }
 

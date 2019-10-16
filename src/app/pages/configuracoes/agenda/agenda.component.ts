@@ -43,9 +43,10 @@ export class AgendaComponent implements OnInit {
   public isLoadingCalendario = false;
   public isLoadingBloqueio = false;
   public isLoading = false;
-  public agenda: Agenda[];
+  public calendario: Agenda[];
   public consultorios: ListagemConsultoriosUsuario[];
-  public consultorioSelecionado: string;
+  public consultorioBloqueioSelecionado = 'todos';
+  public consultorioCalendarioSelecionado = 'todos';
   public medicos: ListagemUsuario[];
   public medicosFiltrado: ListagemUsuario[];
   public showContent = false;
@@ -102,11 +103,11 @@ export class AgendaComponent implements OnInit {
 
   async obterAgendaCaledario() {
     this.isLoadingCalendario = true;
-    this.agenda = [];
-    this.source.load(this.agenda);
+    this.calendario = [];
+    this.source.load(this.calendario);
     await this.configuracoesService.obterAgenda().then(async response => {
       if (response.objeto) {
-        this.agenda = response.objeto.filter(e => e.idUsuario === this.medicoSelecionado.id).map(e => {
+        this.calendario = response.objeto.filter(e => e.idUsuario === this.medicoSelecionado.id).map(e => {
           return {
             diaSemana: e.diaSemana,
             datas: { dataVigenciaInicio: e.dataVigenciaInicio, dataVigenciaFim: e.dataVigenciaFim },
@@ -116,16 +117,17 @@ export class AgendaComponent implements OnInit {
             idConsultorio: e.idConsultorio,
           } as any;
         });
-        this.source.load(this.agenda);
+        await this.obterConsultorios();
+        this.source.load(this.calendario);
       } else {
         this.toastrService.show('', response.mensagens[0],
           { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
-        this.agenda = [];
-        this.source.load(this.agenda);
+        this.calendario = [];
+        this.source.load(this.calendario);
       }
     }).catch(err => {
-      this.agenda = [];
-      this.source.load(this.agenda);
+      this.calendario = [];
+      this.source.load(this.calendario);
       this.toastrService.show('', TOASTR.msgErroPadrao,
         { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
@@ -220,25 +222,38 @@ export class AgendaComponent implements OnInit {
     this.source.load(bloqueios);
   }
 
+  async filtrarCalendario(event) {
+    this.isLoadingCalendario = true;
+    await this.utilService.loading(500, () => this.isLoadingCalendario = false);
+    if (event === 'todos') {
+      this.source.load(this.calendario);
+      return;
+    }
+    const calendario = this.calendario.filter(e => e.idConsultorio === event);
+    this.source.load(calendario);
+  }
+
   setStepCalendario(num: 1 | 2) {
+    this.consultorioCalendarioSelecionado = 'todos';
     this.stepCalendario = num;
   }
 
   setStepBloqueio(num: 1 | 2) {
-    this.consultorioSelecionado = 'todos';
+    this.consultorioBloqueioSelecionado = 'todos';
     this.stepBloqueio = num;
   }
 
   resetTabCalendario() {
     this.search = '';
-    this.agenda = null;
+    this.calendario = null;
     this.setStepCalendario(1);
+    this.consultorioCalendarioSelecionado = 'todos';
   }
 
   resetTabBloqueio() {
     this.search = '';
     this.setStepBloqueio(1);
-    this.consultorioSelecionado = 'todos';
+    this.consultorioBloqueioSelecionado = 'todos';
   }
 
   customActionCalendario(evento) {
@@ -276,6 +291,7 @@ export class AgendaComponent implements OnInit {
       }).onClose.subscribe(async e => {
         if (e) {
           await this.obterAgendaCaledario();
+          this.consultorioCalendarioSelecionado = 'todos';
         }
       });
   }
@@ -295,6 +311,7 @@ export class AgendaComponent implements OnInit {
       }).onClose.subscribe(async e => {
         if (e) {
           await this.obterAgendaCaledario();
+          this.consultorioCalendarioSelecionado = 'todos';
         }
       });
   }
@@ -328,6 +345,7 @@ export class AgendaComponent implements OnInit {
       }).onClose.subscribe(async e => {
         if (e) {
           await this.obterAgendaCaledario();
+          this.consultorioCalendarioSelecionado = 'todos';
         }
       });
   }
@@ -347,8 +365,8 @@ export class AgendaComponent implements OnInit {
       }).onClose.subscribe(async e => {
         if (e) {
           await this.obterBloqueios();
-          this.consultorioSelecionado = 'todos';
-          this.filtrarBloqueios(this.consultorioSelecionado);
+          this.consultorioBloqueioSelecionado = 'todos';
+          this.filtrarBloqueios(this.consultorioBloqueioSelecionado);
         }
       });
   }
@@ -370,8 +388,8 @@ export class AgendaComponent implements OnInit {
       }).onClose.subscribe(async e => {
         if (e) {
           await this.obterBloqueios();
-          this.consultorioSelecionado = 'todos';
-          this.filtrarBloqueios(this.consultorioSelecionado);
+          this.consultorioBloqueioSelecionado = 'todos';
+          this.filtrarBloqueios(this.consultorioBloqueioSelecionado);
         }
       });
   }
@@ -406,7 +424,7 @@ export class AgendaComponent implements OnInit {
         hasScroll: true
       }).onClose.subscribe(async e => {
         if (e) {
-          this.consultorioSelecionado = 'todos';
+          this.consultorioBloqueioSelecionado = 'todos';
           await this.obterBloqueios();
         }
       });

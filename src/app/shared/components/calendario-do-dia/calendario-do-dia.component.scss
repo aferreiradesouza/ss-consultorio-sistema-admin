@@ -4,6 +4,15 @@
   width: 100%;
   font-size: 22px;
   font-weight: bold;
+
+  > .consultas-num {
+    width: fit-content;
+    padding: 2px 10px;
+    border-radius: 4px;
+    background-color: white;
+    color: nb-theme(color-primary-500);
+    font-size: 13px;
+  }
 }
 
 .campo {

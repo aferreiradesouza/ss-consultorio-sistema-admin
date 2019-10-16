@@ -4,8 +4,7 @@
     </nb-card-header>
     <nb-card-body>
         <nb-tabset fullWidth (changeTab)="changeTab($event)">
-            <nb-tab tabTitle="Calendário" [nbSpinner]="isLoadingCalendario"
-                nbSpinnerStatus="primary">
+            <nb-tab tabTitle="Calendário" [nbSpinner]="isLoadingCalendario" nbSpinnerStatus="primary">
                 <ng-container *ngIf="showContent">
                     <ng-container *ngIf="stepCalendario === 1">
                         <div class="mb-4">
@@ -36,6 +35,15 @@
                                 {{medicoSelecionado.nome}}
                             </button>
                             <div class="ml-auto">
+                                <nb-select style="width: 13rem" class="mr-3" (ngModelChange)="filtrarCalendario($event)"
+                                    placeholder="Consultórios" [(ngModel)]="consultorioCalendarioSelecionado">
+                                    <nb-option value="todos">
+                                        Todos
+                                    </nb-option>
+                                    <nb-option [value]="lugar.idConsultorio" *ngFor="let lugar of consultorios">
+                                        {{lugar.nome}}
+                                    </nb-option>
+                                </nb-select>
                                 <button nbButton hero status="primary" (click)="adicionarCalendario()">Adicionar
                                     Agenda</button>
                             </div>
@@ -47,8 +55,7 @@
                 </ng-container>
                 <span *ngIf="!showContent && msgErro" class="msgErro">{{msgErro}}</span>
             </nb-tab>
-            <nb-tab tabTitle="Bloqueios" [nbSpinner]="isLoadingBloqueio"
-                nbSpinnerStatus="primary">
+            <nb-tab tabTitle="Bloqueios" [nbSpinner]="isLoadingBloqueio" nbSpinnerStatus="primary">
                 <ng-container *ngIf="showContent">
                     <ng-container *ngIf="stepBloqueio === 1">
                         <div class="mb-4">
@@ -79,7 +86,8 @@
                                 {{medicoSelecionado.nome}}
                             </button>
                             <div class="ml-auto">
-                                <nb-select style="width: 13rem" class="mr-3" (ngModelChange)="filtrarBloqueios($event)" placeholder="Consultórios" [(ngModel)]="consultorioSelecionado">
+                                <nb-select style="width: 13rem" class="mr-3" (ngModelChange)="filtrarBloqueios($event)"
+                                    placeholder="Consultórios" [(ngModel)]="consultorioBloqueioSelecionado">
                                     <nb-option value="todos">
                                         Todos
                                     </nb-option>

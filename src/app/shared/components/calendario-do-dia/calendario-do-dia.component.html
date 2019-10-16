@@ -1,7 +1,10 @@
 <nb-card class="mb-0" status="primary" accent="primary">
     <nb-card-header *ngIf="showHeader">
-        <div class="header">
+        <div class="header d-flex">
             {{dataExtenso}}
+            <div class="ml-auto consultas-num" *ngIf="getCountConsultas().count > 0">
+                {{getCountConsultas().mensagem}}
+            </div>
         </div>
     </nb-card-header>
     <nb-list>
@@ -38,11 +41,13 @@
                     <div class="paciente">
                         {{item.consulta.nomePaciente}}
                     </div>
-                    <div class="typeConsulta"
+                    <div class="typeConsulta cursor-pointer"
                         [ngStyle]="{'background-color': getColorAtendimento(item.consulta.codigoTipoConsulta)}">
                         {{getNomeAtendimento(item.consulta.codigoTipoConsulta)}}</div>
-                    <div class="status"
-                        [ngStyle]="{'background-color': getColorStatus(item.consulta.codigoStatusConsulta)}">
+                    <div class="status cursor-pointer"
+                        [ngStyle]="{'background-color': getColorStatus(item.consulta.codigoStatusConsulta)}"
+                        [nbTooltip]="(item.consulta.codigoStatusConsulta | status) + getTimerStatus(item.consulta.codigoStatusConsulta, item.consulta.dataStatusConsulta)"
+                        nbTooltipPlacement="right" nbTooltipStatus="basic">
                         {{getNomeStatus(item.consulta.codigoStatusConsulta)}}
                     </div>
                     <nb-actions class="ml-auto" size="small" *ngIf="verDiasLivre">
