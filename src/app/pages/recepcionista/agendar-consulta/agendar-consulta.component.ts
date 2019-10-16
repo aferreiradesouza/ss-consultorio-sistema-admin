@@ -27,8 +27,8 @@ export class AgendarConsultaComponent implements OnInit {
 
   public form = new FormGroup({
     paciente: new FormControl(''),
-    tipoAtendimento: new FormControl({ value: '', disabled: true }, [Validators.required]),
-    especialidade: new FormControl({ value: '', disabled: true }, [Validators.required]),
+    tipoAtendimento: new FormControl({ value: '', disabled: false }, [Validators.required]),
+    especialidade: new FormControl({ value: '', disabled: false }, [Validators.required]),
     nascimento: new FormControl({ value: '', disabled: true }),
     cpf: new FormControl({ value: '', disabled: true }),
     telefone: new FormControl({ value: '', disabled: true }),
@@ -76,6 +76,11 @@ export class AgendarConsultaComponent implements OnInit {
         this.form.get('observacao').setValue(this.observacao);
       }, 0);
       this.selecionarPaciente(this.person);
+    } else {
+      setTimeout(() => {
+        this.form.get('tipoAtendimento').setValue(this.tiposAtendimento[1].id);
+        this.form.get('especialidade').setValue(this.especialidades[0].id);
+      }, 0);
     }
     if (this.ehEncaixe) {
       const hora = this.calendarioService.hourToDecimal(this.data.hora);
@@ -102,7 +107,11 @@ export class AgendarConsultaComponent implements OnInit {
     await this.recepcionistaService.obterEspecialidades(this.medico.id).then(response => {
       if (response.sucesso) {
         this.especialidades = response.objeto;
+      } else {
+        this.dismiss();
       }
+    }).catch(err => {
+      this.dismiss();
     });
   }
 
@@ -311,8 +320,6 @@ export class AgendarConsultaComponent implements OnInit {
       this.form.get('celular').reset();
     } else {
       this.form.get('paciente').reset();
-      this.form.get('tipoAtendimento').reset();
-      this.form.get('especialidade').reset();
       this.form.get('observacao').reset();
       this.form.get('nascimento').reset();
       this.form.get('cpf').reset();
