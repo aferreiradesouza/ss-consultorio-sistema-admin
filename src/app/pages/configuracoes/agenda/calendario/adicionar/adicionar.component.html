@@ -11,7 +11,7 @@
                 <label class="label d-block">Consultório *</label>
                 <nb-select style="max-width: 22rem" [status]="isValid('consultorio')" class="w-100"
                     placeholder="Selecione" formControlName="consultorio">
-                    <nb-option [value]="lugar.idConsultorio" *ngFor="let lugar of consultorios">{{lugar.nome}}
+                    <nb-option [value]="lugar.id" *ngFor="let lugar of consultorios">{{lugar.nome}}
                     </nb-option>
                 </nb-select>
             </div>

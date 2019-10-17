@@ -11,7 +11,7 @@ import { NbButtonComponent } from '@nebular/theme';
 })
 export class InputMaskComponent implements OnInit, ControlValueAccessor {
     // tslint:disable-next-line: max-line-length
-    public readonly validTypes = ['password', 'currency', 'hora', 'cep', 'text', 'email', 'number', 'month', 'date', 'datetime', 'cpf', 'cnpjcpf', 'cc', 'tel', 'cel', 'ddd', 'idade'];
+    public readonly validTypes = ['password', 'crm', 'currency', 'hora', 'cep', 'text', 'email', 'number', 'month', 'date', 'datetime', 'cpf', 'cnpjcpf', 'cc', 'tel', 'cel', 'ddd', 'idade'];
     public onChangeFn!: (valid: string) => void;
     public onTouched!: () => void;
 
@@ -32,7 +32,8 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
         idade: 'Digite uma idade válida',
         cep: 'CEP inválido',
         hora: 'Hora inválida',
-        currency: 'Formato de dinheiro inválido'
+        currency: 'Formato de dinheiro inválido',
+        crm: 'CRM Inválido'
     };
 
     @Input() label?: string;
@@ -118,6 +119,7 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
         errors.idade = this.type === 'idade' ? !this.validator.isValidAge(value) : false;
         errors.cep = this.type === 'cep' ? !this.validator.isValidCep(value) : false;
         errors.hora = this.type === 'hora' ? !this.validator.isValidHour(value) : false;
+        errors.crm = this.type === 'crm' ? !this.validator.isValidCrm(value) : false;
         errors.dataNascimento = this.type === 'dataNascimento' ? !this.validator.isValidDataNascimento(value) : false;
 
         if (this.maxLength !== 0 && typeof this.maxLength === 'number') {
@@ -201,6 +203,8 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
                 return this.formatter.masks.hora;
             case 'currency':
                 return this.formatter.masks.currency;
+            case 'crm':
+                return this.formatter.masks.crm;
         }
 
         return undefined;

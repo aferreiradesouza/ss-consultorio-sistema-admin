@@ -17,6 +17,13 @@ import { AgendaHubService } from '../../../shared/services/agenda-hub.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
 import { TOASTR } from '../../../shared/constants/toastr';
 
+interface FiltroCalendario {
+  idMedico: number;
+  idConsultorio: number;
+  dataInicial: string;
+  dataFinal: string;
+}
+
 @Component({
   selector: 'ngx-calendario-recepcionista',
   templateUrl: './calendario.component.html',
@@ -74,9 +81,20 @@ export class CalendarioRecepcaoComponent implements OnInit {
   async ngOnInit() {
     this.isLoading = true;
     await this.obterDadosIniciais();
+    if (this.localStorageService.has('filtro-calendario')) {
+      const filtro = <FiltroCalendario>this.localStorageService.getJson('filtro-calendario');
+      this.medico = filtro.idMedico;
+      await this.obterConsultorios(this.medico);
+      this.lugar = filtro.idConsultorio;
+      this.diaDe = <any>moment(filtro.dataInicial).toDate();
+      this.setMinAndMaxValueAte(this.diaDe);
+      this.diaAte = <any>moment(filtro.dataFinal).toDate();
+      await this.filtrar();
+      this.isLoading = false;
+      return;
+    }
     const medicoId = this.listaMedicos[0].id;
     await this.obterConsultorios(medicoId);
-
     this.medico = medicoId;
     this.lugar = this.listaConsultorios[0].idConsultorio;
     this.diaDe = <any>moment().subtract(2, 'months').toDate();
@@ -244,6 +262,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
         this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
         // this.obterGrupoHoje();
         this.obterGrupoClick();
+        this.localStorageService.setJson('filtro-calendario', data);
       } else {
         this.toastrService.show('', response.mensagens[0],
           { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });

@@ -34,10 +34,6 @@ export const MENU_ITEMS_ADM: NbMenuItem[] = [
       {
         title: 'Listagem de pacientes',
         link: '/pacientes/listagem',
-      },
-      {
-        title: 'Adicionar paciente',
-        link: '/pacientes/adicionar',
       }
     ]
   },
@@ -46,16 +42,16 @@ export const MENU_ITEMS_ADM: NbMenuItem[] = [
     icon: 'settings-2-outline',
     children: [
       {
+        title: 'Unidades de atendimento',
+        link: '/configuracoes/unidades-de-atendimento',
+      },
+      {
         title: 'Usuários',
         link: '/configuracoes/usuarios',
       },
       {
         title: 'Agenda',
         link: '/configuracoes/agenda',
-      },
-      {
-        title: 'Unidades de atendimento',
-        link: '/configuracoes/unidades-de-atendimento',
       },
       {
         title: 'Cadastros',
@@ -155,10 +151,6 @@ export const MENU_ITEMS_RECEP: NbMenuItem[] = [
       {
         title: 'Listagem de pacientes',
         link: '/pacientes/listagem',
-      },
-      {
-        title: 'Adicionar paciente',
-        link: '/pacientes/adicionar',
       }
     ]
   },

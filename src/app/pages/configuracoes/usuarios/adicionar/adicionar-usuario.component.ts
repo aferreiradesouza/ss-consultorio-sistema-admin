@@ -7,7 +7,8 @@ import { TOASTR } from '../../../../shared/constants/toastr';
 
 @Component({
     selector: 'ngx-adicionar-usuario',
-    templateUrl: 'adicionar-usuario.component.html'
+    templateUrl: 'adicionar-usuario.component.html',
+    styleUrls: ['adicionar-usuario.component.scss']
 })
 
 export class AdicionarUsuarioComponent implements OnInit {

@@ -8,6 +8,7 @@ import { TOASTR } from '../../../../shared/constants/toastr';
 @Component({
     selector: 'ngx-editar-unidade-atendimento',
     templateUrl: 'editar-unidade-atendimento.component.html',
+    styleUrls: ['editar-unidade-atendimento.component.scss']
 })
 
 export class EditarUnidadeAtendimentoComponent implements OnInit {
@@ -27,6 +28,7 @@ export class EditarUnidadeAtendimentoComponent implements OnInit {
 
     public isLoading: boolean;
     public consultorio: Consultorio;
+    public patternUrl = new RegExp(/^(ftp|https?):\/\/+(www\.)?/);
 
     @Input() id: number;
     @Input() dados: any;
@@ -82,6 +84,10 @@ export class EditarUnidadeAtendimentoComponent implements OnInit {
             status: this.consultorio.ativo,
             urlFoto: this.consultorio.urlFoto
         });
+    }
+
+    getImage() {
+        return this.patternUrl.test(this.form.value.urlFoto) ? this.form.value.urlFoto : null;
     }
 
     async enviar() {

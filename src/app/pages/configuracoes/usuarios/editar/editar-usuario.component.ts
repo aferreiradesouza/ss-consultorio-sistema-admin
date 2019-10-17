@@ -10,21 +10,7 @@ import { UtilService } from '../../../../shared/services/util.service';
 @Component({
     selector: 'ngx-editar-usuario',
     templateUrl: 'editar-usuario.component.html',
-    styles: [`
-    :host /deep/ nb-user div.user-container div.user-picture {
-        background-position: center;
-    }
-
-    .errorMessage {
-        color: red;
-        margin-left: 15px;
-        padding-top: 10px;
-    }
-
-    .border-right {
-        border-right: 1px solid #ccc;
-    }
-    `]
+    styleUrls: ['editar-usuario.component.scss']
 })
 
 export class EditarUsuarioComponent implements OnInit {
@@ -49,6 +35,7 @@ export class EditarUsuarioComponent implements OnInit {
     perfis = new FormControl([]);
 
     public isLoading: boolean;
+    public requiredCrm = false;
 
     @Input() id: number;
     @Input() dados: any;
@@ -82,6 +69,16 @@ export class EditarUsuarioComponent implements OnInit {
                 }, 0);
             }
         });
+
+        this.perfis.valueChanges.subscribe(valor => {
+            if (valor.indexOf('medico') > -1) {
+                this.requiredCrm = true;
+            } else {
+                this.requiredCrm = false;
+            }
+        });
+
+        this.requiredCrm = this.perfis.value.indexOf('medico') > -1;
     }
 
     dismiss(status: { sucesso: boolean, mensagem: string }) {
@@ -156,6 +153,14 @@ export class EditarUsuarioComponent implements OnInit {
             }
         } else {
             return 'success';
+        }
+    }
+
+    senhaValida() {
+        if (!this.form.value.senha && !this.form.value.confSenha) {
+            return false;
+        } else {
+            return this.form.value.senha !== this.form.value.confSenha;
         }
     }
 }

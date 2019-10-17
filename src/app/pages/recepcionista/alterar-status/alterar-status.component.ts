@@ -88,7 +88,7 @@ export class AlterarStatusComponent implements OnInit {
   shouldDisabledButton() {
     return this.form.get('status').value === this.valueInicial ||
           (this.form.get('status').value === 8 && !this.form.get('motivo').value) ||
-          (this.form.get('status').value === 9 && !this.form.get('valor').value);
+          (this.form.get('status').value === 9 && (this.form.get('valor').value < 0 || this.form.get('valor').value === '' || this.form.get('valor').value === null));
   }
 
 }

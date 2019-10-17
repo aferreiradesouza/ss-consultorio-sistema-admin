@@ -1,22 +1,33 @@
 <nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary">
     <nb-card-header class="d-flex">
         <h5>{{formatarHeader()}}</h5>
-        <div class="ml-auto d-flex">
-            <nb-select (ngModelChange)="changeConsultorio($event)" fullWidth placeholder="Consultório"
-                [(ngModel)]="lugar">
+        <div class="ml-auto d-flex" *ngIf="dataEvent">
+            <div class="d-flex mr-4">
+                <button nbButton (click)="changeDia('anterior')" class="mr-2" status="primary" ghost>
+                    <nb-icon icon="chevron-left-outline"></nb-icon>
+                </button>
+                <button nbButton (click)="changeDia('proximo')" class="ml-2" status="primary" ghost>
+                    <nb-icon icon="chevron-right-outline"></nb-icon>
+                </button>
+            </div>
+            <nb-select class="align-center" style="display: flex !important" (ngModelChange)="obterConsulta($event)"
+                fullWidth placeholder="Consultório" [(ngModel)]="lugar">
                 <nb-option *ngFor="let item of listagemConsultorios" [value]="item.idConsultorio">{{item.nome}}
                 </nb-option>
             </nb-select>
-            <button class="ml-4" nbButton status="primary" (click)="obterConsulta()">Buscar</button>
         </div>
     </nb-card-header>
-    <nb-card-body *ngIf="data">
-        <!-- <ngx-calendario-do-dia [showHeader]="false" [verDiasLivre]="false" *ngIf="data" [data]="data" [dataSelecionada]="dataEvent">
-        </ngx-calendario-do-dia> -->
-        <ngx-calendario-do-dia *ngIf="showCalendario()" [data]="dataCalendarioDia" [showHeader]="false"
-            [verDiasLivre]="false" [dataSelecionada]="dataEvent" [statusConsultas]="statusConsultas"
-            [tiposAtendimentos]="tiposAtendimentos">
-        </ngx-calendario-do-dia>
-        <span class="msgError" *ngIf="!showCalendario()">Nenhuma Consulta marcada no dia.</span>
+    <nb-card-body>
+        <div *ngIf="data">
+            <ngx-calendario-do-dia *ngIf="showCalendario()" [data]="dataCalendarioDia" [showHeader]="false"
+                [verDiasLivre]="false" [dataSelecionada]="dataEvent" [statusConsultas]="statusConsultas"
+                [tiposAtendimentos]="tiposAtendimentos">
+            </ngx-calendario-do-dia>
+            <span class="msgError" *ngIf="!showCalendario()">Nenhuma Consulta marcada no dia.</span>
+        </div>
+        <div *ngIf="!dataEvent">
+            <span class="msgError">Primeiro crie uma agenda nova clicando <a
+                    routerLink="/configuracoes/agenda">aqui</a></span>
+        </div>
     </nb-card-body>
 </nb-card>

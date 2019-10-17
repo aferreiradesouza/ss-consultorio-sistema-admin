@@ -14,9 +14,9 @@ import { PerfilUsuarioComponent } from './usuarios/perfil/perfil-usuario.compone
 import { AdicionarUnidadeAtendimentoComponent } from './unidades-de-atendimento/adicionar/adicionar-unidade-atendimento.component';
 import { EditarUnidadeAtendimentoComponent } from './unidades-de-atendimento/editar/editar-unidade-atendimento.component';
 import { PerfilUnidadeAtendimentoComponent } from './unidades-de-atendimento/perfil/perfil-unidade-atendimento.component';
-import { UserCellComponent } from './usuarios/userCell.component';
+import { UserCellComponent } from './components-table/userCell.component';
 import { DeletarUsuarioComponent } from './usuarios/deletar/deletar.component';
-import { UnidadesCellComponent } from './unidades-de-atendimento/unidadesCell.component';
+import { UnidadesCellComponent } from './components-table/unidadesCell.component';
 import { DeletarUnidadeAtendimentoComponent } from './unidades-de-atendimento/deletar/deletar.component';
 import { PerfilAgendaCalendarioComponent } from './agenda/calendario/perfil/perfil.component';
 import { EditarAgendaCalendarioComponent } from './agenda/calendario/editar/editar.component';
@@ -26,12 +26,22 @@ import { AdicionarBloqueioComponent } from './agenda/bloqueio/adicionar/adiciona
 import { PerfilBloqueioComponent } from './agenda/bloqueio/perfil/perfil.component';
 import { EditarBloqueioComponent } from './agenda/bloqueio/editar/editar.component';
 import { DeletarBloqueioComponent } from './agenda/bloqueio/deletar/deletar.component';
-import { CellAgendaTableComponent } from './agenda/cell-agenda-table.component';
+import { CellAgendaTableComponent } from './components-table/cell-agenda-table.component';
+import { PerfilCellComponent } from './components-table/perfilCell.component';
+import { CellStatusTableComponent } from './components-table/cell-status-table.component';
 
 const PAGES = [
   UsuariosComponent,
   AgendaComponent,
   UnidadesDeAtendimentoComponent
+];
+
+const CELL_TABLE = [
+  UserCellComponent,
+  UnidadesCellComponent,
+  CellAgendaTableComponent,
+  CellStatusTableComponent,
+  PerfilCellComponent
 ];
 
 const MODAIS = [
@@ -51,7 +61,6 @@ const MODAIS = [
   AdicionarBloqueioComponent,
   EditarBloqueioComponent,
   DeletarBloqueioComponent,
-  CellAgendaTableComponent
 ];
 
 const NB_MODULES = [
@@ -81,13 +90,12 @@ const NB_MODULES = [
     ...NB_MODULES
   ],
   declarations: [
-    UserCellComponent,
-    UnidadesCellComponent,
-    CellAgendaTableComponent,
+    ...CELL_TABLE,
     ...PAGES,
     ...MODAIS
   ],
   entryComponents: [
+    ...CELL_TABLE,
     ...MODAIS
   ]
 })

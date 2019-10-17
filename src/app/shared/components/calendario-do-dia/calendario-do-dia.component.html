@@ -50,6 +50,12 @@
                         nbTooltipPlacement="right" nbTooltipStatus="basic">
                         {{getNomeStatus(item.consulta.codigoStatusConsulta)}}
                     </div>
+                    <!-- <button *ngIf="!verDiasLivre" class="ml-auto" nbButton shape="round" size="small" status="basic">?</button> -->
+                    <div *ngIf="!verDiasLivre" class="observacao cursor-pointer ml-auto"
+                        nbTooltip="OBSERVAÇÃO"
+                        nbTooltipPlacement="left" nbTooltipStatus="basic">
+                        ?
+                    </div>
                     <nb-actions class="ml-auto" size="small" *ngIf="verDiasLivre">
                         <nb-action class="button-encaixe"  *ngIf="showButtonEncaixe(info, i, item)">
                             <button nbButton size="tiny" status="warning"

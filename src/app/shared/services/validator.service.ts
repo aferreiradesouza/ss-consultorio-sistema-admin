@@ -17,9 +17,14 @@ export class ValidatorService {
     private monthRegex = /^\d{2}\/\d{4}/;
     private cepRegex = /^\d{2}\.\d{3}\-\d{3}$/;
     private horaRegex = /[0-9]{2}\:[0-9]{2}$/;
+    private crmRegex = /[0-9]{9}$/;
 
     public isValidEmail(email: string): boolean {
         return this.emailRegex.test(email);
+    }
+
+    public isValidCrm(crm: string): boolean {
+        return this.crmRegex.test(crm);
     }
 
     public isValidNumber(value: string): boolean {

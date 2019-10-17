@@ -58,8 +58,7 @@ export class AgendaDoDiaComponent implements OnInit {
       if (response.sucesso) {
         this.listagemConsultorios = response.resultado;
         this.lugar = this.listagemConsultorios[0].idConsultorio;
-        this.lugarEscolhido = this.lugar;
-        await this.obterConsulta();
+        await this.obterConsulta(this.lugar);
       } else {
         this.listagemConsultorios = null;
         this.toastrService.show('', response.error,
@@ -73,13 +72,13 @@ export class AgendaDoDiaComponent implements OnInit {
     });
   }
 
-  async obterConsulta(): Promise<void> {
+  async obterConsulta(event): Promise<void> {
     this.isLoading = true;
     const obj = {
       idMedico: this.medico,
-      idConsultorio: this.lugarEscolhido,
-      dataInicial: moment().subtract(1, 'month').format('YYYY-MM-DD'),
-      dataFinal: moment().add(1, 'month').format('YYYY-MM-DD')
+      idConsultorio: event,
+      dataInicial: moment().subtract(2, 'month').format('YYYY-MM-DD'),
+      dataFinal: moment().add(4, 'month').format('YYYY-MM-DD')
     };
     await this.recepcionistaService.obterConsultas(obj).then(response => {
       if (response.sucesso) {
@@ -96,13 +95,9 @@ export class AgendaDoDiaComponent implements OnInit {
     });
   }
 
-  changeConsultorio(evento: number): void {
-    this.lugarEscolhido = evento;
-  }
-
   formatarHeader() {
-    if (!this.dataEvent) {
-      return '-';
+    if (!this.dataEvent && !this.isLoading) {
+      return 'Sem dados';
     }
     return `${moment(this.dataEvent).date()} de
             ${this.calendarioService.formatarMes(moment(this.dataEvent).month()).extenso} de
@@ -170,5 +165,26 @@ export class AgendaDoDiaComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  obterIndexData(data: string) {
+    return this.data.map(e => moment(e.data).format('YYYY-MM-DD')).indexOf(moment(data).format('YYYY-MM-DD'));
+  }
+
+  changeDia(action: 'proximo' | 'anterior') {
+    const index = this.obterIndexData(this.dataEvent);
+    if (action === 'proximo') {
+      if (index + 1 > this.data.length - 1) {
+        return;
+      }
+      this.dataCalendarioDia = this.data[index + 1];
+      this.dataEvent = moment(this.data[index + 1].data).toDate();
+    } else {
+      if (index - 1 < 0) {
+        return;
+      }
+      this.dataCalendarioDia = this.data[index - 1];
+      this.dataEvent = moment(this.data[index - 1].data).toDate();
+    }
   }
 }

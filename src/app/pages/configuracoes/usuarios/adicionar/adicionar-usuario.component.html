@@ -101,14 +101,6 @@
                             formControlName="nascimento" placeholder="00/00/0000" [dropCharacters]="false">
                         </ngx-input-mask>
                     </div>
-                    <div class="col-sm-12">
-                        <ngx-input-simple label="Senha" type="password" [required]="true" formControlName="senha">
-                        </ngx-input-simple>
-                    </div>
-                    <div class="col-sm-12">
-                        <ngx-input-simple label="Confirmar senha" type="password" [required]="true"
-                            formControlName="confSenha"></ngx-input-simple>
-                    </div>
                 </div>
             </div>
             <div class="col-sm-12 col-md-6">
@@ -121,8 +113,9 @@
                         </ngx-input-simple>
                     </div>
                     <div class="col-sm-12">
-                        <ngx-input-simple label="CRM" formControlName="crm" type="text" [required]="requiredCrm">
-                        </ngx-input-simple>
+                        <ngx-input-mask label="CRM" [dropCharacters]="true" type="crm" formControlName="crm"
+                            [required]="requiredCrm">
+                        </ngx-input-mask>
                     </div>
                     <div class="col-sm-12 mt-1 mb-3">
                         <label class="label d-block">Perfil de Usuário</label>
@@ -141,6 +134,21 @@
                     <div class="col-sm-12">
                         <ngx-input-simple label="Idade" formControlName="idade"></ngx-input-simple>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3 step-senha">
+            <div class="col-sm-12 col-md-6">
+                <div class="senha">
+                    <ngx-input-simple label="Senha" [feedback]="false" type="password" formControlName="senha"
+                        [required]="true">
+                    </ngx-input-simple>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="confSenha">
+                    <ngx-input-simple label="Confirmar senha" [feedback]="false" type="password" [required]="true"
+                        formControlName="confSenha"></ngx-input-simple>
                 </div>
             </div>
         </div>

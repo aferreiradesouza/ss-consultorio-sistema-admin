@@ -1,6 +1,7 @@
 import * as moment from 'moment';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
-import { CellAgendaTableComponent } from './cell-agenda-table.component';
+import { CellAgendaTableComponent } from '../components-table/cell-agenda-table.component';
+import { CellStatusTableComponent } from '../components-table/cell-status-table.component';
 
 export const DATA_TABLE_CALENDARIO = {
   noDataMessage: 'Sem dados',
@@ -54,6 +55,11 @@ export const DATA_TABLE_CALENDARIO = {
         return `${moment(value.dataVigenciaInicio).format('DD/MM/YYYY')} - ${moment(value.dataVigenciaFim).format('DD/MM/YYYY')}`;
       }
     },
+    ativo: {
+      title: 'Status',
+      type: 'custom',
+      renderComponent: CellStatusTableComponent
+    }
   }
 };
 
@@ -101,6 +107,11 @@ export const DATA_TABLE_BLOQUEIO = {
       valuePrepareFunction: (value) => {
         return `${moment(value.dataFim).format('DD/MM/YYYY')} - ${moment(value.horaFim).format('HH:mm')}`;
       }
+    },
+    ativo: {
+      title: 'Status',
+      type: 'custom',
+      renderComponent: CellStatusTableComponent
     }
   }
 };

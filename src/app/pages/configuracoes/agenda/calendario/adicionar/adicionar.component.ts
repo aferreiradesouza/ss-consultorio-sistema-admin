@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { NbDialogRef, NbToastrService, NbDatepickerComponent } from '@nebular/theme';
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
 import * as moment from 'moment';
-import { ListagemUsuario, Especialidades, ListagemConsultoriosUsuario } from '../../../../../shared/interface';
+import { ListagemUsuario, Especialidades, ListagemConsultoriosUsuario, ListagemConsultorios } from '../../../../../shared/interface';
 import { RecepcionistaService } from '../../../../../shared/services/recepcionista.service';
 import { TOASTR } from '../../../../../shared/constants/toastr';
 import { ConfiguracoesService } from '../../../../../shared/services/configuracoes.service';
@@ -27,7 +27,7 @@ import { CalendarioService } from '../../../../../shared/services/calendarios.se
 export class AdicionarAgendaCalendarioComponent implements OnInit {
     public isLoading: boolean;
     public especialidades: Especialidades[];
-    public consultorios: ListagemConsultoriosUsuario[];
+    public consultorios: ListagemConsultorios[];
     public form = new FormGroup({
         consultorio: new FormControl('', [Validators.required]),
         especialidade: new FormControl([], [Validators.required]),
@@ -125,7 +125,7 @@ export class AdicionarAgendaCalendarioComponent implements OnInit {
     }
 
     async obterEspecialidades() {
-        await this.recepcionistaService.obterEspecialidades(this.medico.id).then(response => {
+        await this.configuracoesService.obterListagemEspecialidade().then(response => {
             if (response.sucesso) {
                 this.especialidades = response.objeto;
             } else {
@@ -141,11 +141,11 @@ export class AdicionarAgendaCalendarioComponent implements OnInit {
     }
 
     async obterConsultorios() {
-        await this.recepcionistaService.obterConsultorios(this.medico.id).then(response => {
+        await this.configuracoesService.obterListagemConsultorios().then(response => {
             if (response.sucesso) {
-                this.consultorios = response.resultado;
+                this.consultorios = response.objeto;
             } else {
-                this.toastrService.show('', response.error,
+                this.toastrService.show('', response.mensagens[0],
                     { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
                 this.dismiss(false);
             }

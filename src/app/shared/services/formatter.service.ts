@@ -30,7 +30,8 @@ export class FormatterService {
         'celDDD': '(00) 00000-0000',
         'cep': '00.000-000',
         'idade': '9*',
-        'hora': '00:00'
+        'hora': '00:00',
+        'crm': '00000000-0',
     };
 
     constructor() { }

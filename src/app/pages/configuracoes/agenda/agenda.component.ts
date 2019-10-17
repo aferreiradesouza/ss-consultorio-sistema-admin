@@ -20,7 +20,8 @@ import { EditarBloqueioComponent } from './bloqueio/editar/editar.component';
 import { PerfilBloqueioComponent } from './bloqueio/perfil/perfil.component';
 import { DeletarBloqueioComponent } from './bloqueio/deletar/deletar.component';
 import { AdicionarBloqueioComponent } from './bloqueio/adicionar/adicionar.component';
-import { CellAgendaTableComponent } from './cell-agenda-table.component';
+import { CellAgendaTableComponent } from '../components-table/cell-agenda-table.component';
+import { CellStatusTableComponent } from '../components-table/cell-status-table.component';
 
 interface Bloqueio {
   consultorio: {nome: string, urlFoto: string, idConsultorio: number};
@@ -35,8 +36,7 @@ interface Bloqueio {
 @Component({
   selector: 'ngx-agenda-configuracoes',
   templateUrl: './agenda.component.html',
-  styleUrls: ['agenda.component.scss'],
-  providers: [CellAgendaTableComponent]
+  styleUrls: ['agenda.component.scss']
 })
 export class AgendaComponent implements OnInit {
   public search = '';
@@ -114,6 +114,7 @@ export class AgendaComponent implements OnInit {
             id: e.id,
             horas: { horaInicio: e.horaInicio, horaFim: e.horaFim },
             consultorio: e.consultorio,
+            ativo: e.ativo,
             idConsultorio: e.idConsultorio,
           } as any;
         });

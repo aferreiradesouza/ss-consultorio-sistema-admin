@@ -1,0 +1,32 @@
+@import "../../../../shared/styles/themes.scss";
+
+:host /deep/ nb-user div.user-container div.user-picture {
+  background-position: center;
+}
+
+.errorMessage {
+  color: red;
+  margin-left: 15px;
+  padding-top: 10px;
+}
+
+.border-right {
+  border-right: 1px solid #ccc;
+}
+
+.step-senha {
+  padding: 1rem 0px 0px;
+  background-color: #fdfdff;
+  border-radius: 7px;
+  border: 1px solid nb-theme(color-primary-200);
+  max-width: 52vw;
+  margin: 0 auto;
+
+  > .senha {
+    margin-right: 10px;
+  }
+
+  > .confSenha {
+    margin-left: 10px;
+  }
+}

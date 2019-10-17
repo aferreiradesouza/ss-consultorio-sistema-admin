@@ -7,17 +7,18 @@ import { EditarUsuarioComponent } from './editar/editar-usuario.component';
 import { PerfilUsuarioComponent } from './perfil/perfil-usuario.component';
 import { ConfiguracoesService } from '../../../shared/services/configuracoes.service';
 import { ListagemUsuario } from '../../../shared/interface';
-import { UserCellComponent } from './userCell.component';
+import { UserCellComponent } from '../components-table/userCell.component';
 import { DeletarUsuarioComponent } from './deletar/deletar.component';
 import { TOASTR } from '../../../shared/constants/toastr';
 import { AutenticacaoService } from '../../../shared/services/autenticacao.service';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
+import { PerfilCellComponent } from '../components-table/perfilCell.component';
+import { CellStatusTableComponent } from '../components-table/cell-status-table.component';
 
 @Component({
   selector: 'ngx-usuarios',
   templateUrl: './usuarios.component.html',
-  styleUrls: ['usuarios.component.scss'],
-  entryComponents: [UserCellComponent]
+  styleUrls: ['usuarios.component.scss']
 })
 export class UsuariosComponent implements OnInit {
   public isLoading = false;
@@ -55,18 +56,14 @@ export class UsuariosComponent implements OnInit {
         renderComponent: UserCellComponent
       },
       ehAdministrador: {
-        title: 'Administrador',
-        type: 'string',
-        valuePrepareFunction: (value) => {
-          return value ? 'Sim' : 'Não';
-        }
+        title: 'Perfis',
+        type: 'custom',
+        renderComponent: PerfilCellComponent
       },
       ativo: {
         title: 'Status',
-        type: 'string',
-        valuePrepareFunction: (value) => {
-          return value ? 'Ativo' : 'Inativo';
-        }
+        type: 'custom',
+        renderComponent: CellStatusTableComponent
       },
     },
   };

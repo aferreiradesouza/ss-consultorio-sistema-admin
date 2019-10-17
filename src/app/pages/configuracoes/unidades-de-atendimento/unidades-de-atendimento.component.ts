@@ -8,15 +8,15 @@ import { EditarUnidadeAtendimentoComponent } from './editar/editar-unidade-atend
 import { AdicionarUnidadeAtendimentoComponent } from './adicionar/adicionar-unidade-atendimento.component';
 import { ConfiguracoesService } from '../../../shared/services/configuracoes.service';
 import { ListagemConsultorios } from '../../../shared/interface';
-import { UnidadesCellComponent } from './unidadesCell.component';
+import { UnidadesCellComponent } from '../components-table/unidadesCell.component';
 import { TOASTR } from '../../../shared/constants/toastr';
 import { DeletarUnidadeAtendimentoComponent } from './deletar/deletar.component';
+import { CellStatusTableComponent } from '../components-table/cell-status-table.component';
 
 @Component({
   selector: 'ngx-unidades-de-atendimento',
   templateUrl: './unidades-de-atendimento.component.html',
-  styleUrls: ['unidades-de-atendimento.component.scss'],
-  entryComponents: [UnidadesCellComponent]
+  styleUrls: ['unidades-de-atendimento.component.scss']
 })
 export class UnidadesDeAtendimentoComponent implements OnInit {
   public search = '';
@@ -64,10 +64,8 @@ export class UnidadesDeAtendimentoComponent implements OnInit {
       },
       ativo: {
         title: 'Status',
-        type: 'boolean',
-        valuePrepareFunction: (value) => {
-          return value ? 'Ativo' : 'Inativo';
-        }
+        type: 'custom',
+        renderComponent: CellStatusTableComponent
       },
     },
   };
