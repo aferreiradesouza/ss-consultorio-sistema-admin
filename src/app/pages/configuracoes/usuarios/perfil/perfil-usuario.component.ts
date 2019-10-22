@@ -8,7 +8,8 @@ import { TOASTR } from '../../../../shared/constants/toastr';
 
 @Component({
     selector: 'ngx-perfil-usuario',
-    templateUrl: 'perfil-usuario.component.html'
+    templateUrl: 'perfil-usuario.component.html',
+    styleUrls: ['../editar/editar-usuario.component.scss']
 })
 
 export class PerfilUsuarioComponent implements OnInit {
@@ -26,6 +27,7 @@ export class PerfilUsuarioComponent implements OnInit {
     });
 
     perfis = new FormControl({value: [], disabled: true});
+    public patternUrl = new RegExp(/^(ftp|https?):\/\/+(www\.)?/);
 
     public isLoading: boolean;
     public teste = [];
@@ -57,6 +59,10 @@ export class PerfilUsuarioComponent implements OnInit {
         this.ref.close(status);
     }
 
+    getImage() {
+        return this.patternUrl.test(this.form.value.urlFoto) ? this.form.value.urlFoto : null;
+    }
+
     preencherPasso(user: Usuario) {
         this.form.patchValue({
             nome: user.nome,
@@ -74,6 +80,23 @@ export class PerfilUsuarioComponent implements OnInit {
         if (user.ehMedico) { perfil.push('medico'); }
         if (user.ehAdministrador) { perfil.push('administracao'); }
         this.perfis.setValue(perfil);
+    }
+
+    getTitle() {
+        const ret = [];
+        if (this.perfis.value.indexOf('administracao') > -1) {
+            ret.push('Admistração');
+        }
+        if (this.perfis.value.indexOf('medico') > -1) {
+            ret.push('Médico');
+        }
+        if (this.perfis.value.indexOf('recepcionista') > -1) {
+            ret.push('Recepcionista');
+        }
+        if (this.perfis.value.indexOf('financeiro') > -1) {
+            ret.push('Financeiro');
+        }
+        return ret.length ? ret.map(e => ` ${e}`).join() : '-';
     }
 
     showErrorSelect() {

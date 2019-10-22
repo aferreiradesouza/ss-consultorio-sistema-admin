@@ -64,7 +64,7 @@ export class AdicionarUsuarioComponent implements OnInit {
     getTitle() {
         const ret = [];
         if (this.perfis.value.indexOf('administracao') > -1) {
-            ret.push('Adimistração');
+            ret.push('Admistração');
         }
         if (this.perfis.value.indexOf('medico') > -1) {
             ret.push('Médico');
