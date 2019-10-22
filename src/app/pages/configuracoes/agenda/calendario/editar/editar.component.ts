@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { NbDialogRef, NbToastrService, NbDatepickerComponent } from '@nebular/theme';
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
 import * as moment from 'moment';
-import { ListagemUsuario, Agenda, ListagemConsultoriosUsuario, Especialidades } from '../../../../../shared/interface';
+import { ListagemUsuario, Agenda, ListagemConsultoriosUsuario, Especialidades, ListagemConsultorios } from '../../../../../shared/interface';
 import { ConfiguracoesService } from '../../../../../shared/services/configuracoes.service';
 import { CalendarioService } from '../../../../../shared/services/calendarios.service';
 import { TOASTR } from '../../../../../shared/constants/toastr';
@@ -27,7 +27,7 @@ import { RecepcionistaService } from '../../../../../shared/services/recepcionis
 export class EditarAgendaCalendarioComponent implements OnInit {
     public isLoading = false;
     public especialidades: Especialidades[];
-    public consultorios: ListagemConsultoriosUsuario[];
+    public consultorios: ListagemConsultorios[];
 
     @Input() id: number;
     @Input() medico: ListagemUsuario;
@@ -106,11 +106,11 @@ export class EditarAgendaCalendarioComponent implements OnInit {
     }
 
     async obterConsultorios() {
-        await this.recepcionistaService.obterConsultorios(this.medico.id).then(response => {
+        await this.configuracoesService.obterListagemConsultorios().then(response => {
             if (response.sucesso) {
-                this.consultorios = response.resultado;
+                this.consultorios = response.objeto.filter(e => e.ativo);
             } else {
-                this.toastrService.show('', response.error,
+                this.toastrService.show('', response.mensagens[0],
                     { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
                 this.dismiss(false);
             }

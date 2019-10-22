@@ -8,6 +8,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { Router } from '@angular/router';
+import { Usuario } from '../../interface';
 
 @Component({
   selector: 'ngx-header',
@@ -66,7 +67,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  get user() {
+  get user(): Usuario {
     return this.usuario;
   }
 
@@ -105,6 +106,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       });
 
+  }
+
+  getPerfis() {
+    const ret = [];
+    if (this.user.ehAdministrador) {ret.push('Administrador'); }
+    if (this.user.ehMedico) {ret.push('Médico'); }
+    if (this.user.ehFinanceiro) {ret.push('Financeiro'); }
+    if (this.user.ehRecepcionista) {ret.push('Recepcionista'); }
+    return ret.map(e => ` ${e}`).join();
   }
 
   onStorageChange(ev: KeyboardEvent) {

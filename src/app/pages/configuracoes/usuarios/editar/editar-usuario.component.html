@@ -63,7 +63,7 @@
             <div class="col-sm-12 col-md-6 border-right">
                 <div class="row mb-2">
                     <div class="col-sm-12 align-center py-2">
-                        <nb-user [name]="form.value.nome || '-'" [picture]="getImage()" title="Médico"></nb-user>
+                        <nb-user [name]="form.value.nome || '-'" [picture]="getImage()" [title]="getTitle()"></nb-user>
                     </div>
                 </div>
                 <div class="row">
@@ -129,13 +129,13 @@
         <div class="row mt-3 step-senha">
             <div class="col-sm-12 col-md-6">
                 <div class="senha">
-                    <ngx-input-simple label="Senha" [feedback]="false" type="password" formControlName="senha">
+                    <ngx-input-simple label="Senha" [autocomplete]="false" [feedback]="false" type="password" formControlName="senha">
                     </ngx-input-simple>
                 </div>
             </div>
             <div class="col-sm-12 col-md-6">
                 <div class="confSenha">
-                    <ngx-input-simple label="Confirmar senha" [feedback]="false" type="password"
+                    <ngx-input-simple label="Confirmar senha" [autocomplete]="false" [feedback]="false" type="password"
                         formControlName="confSenha"></ngx-input-simple>
                 </div>
             </div>

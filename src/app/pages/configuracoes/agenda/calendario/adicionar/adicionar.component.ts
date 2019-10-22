@@ -143,7 +143,7 @@ export class AdicionarAgendaCalendarioComponent implements OnInit {
     async obterConsultorios() {
         await this.configuracoesService.obterListagemConsultorios().then(response => {
             if (response.sucesso) {
-                this.consultorios = response.objeto;
+                this.consultorios = response.objeto.filter(e => e.ativo);
             } else {
                 this.toastrService.show('', response.mensagens[0],
                     { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });

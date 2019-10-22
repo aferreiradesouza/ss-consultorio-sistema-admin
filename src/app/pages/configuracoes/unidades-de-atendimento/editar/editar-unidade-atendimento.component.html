@@ -75,9 +75,13 @@
                         <ngx-input-mask label="Telefone" type="tel" formControlName="telefone" [dropCharacters]="true">
                         </ngx-input-mask>
                     </div>
-                    <div class="col-sm-12">
-                        <ngx-input-simple label="Estado" formControlName="estado">
-                        </ngx-input-simple>
+                    <div class="col-sm-12 mb-3">
+                        <label class="label d-block mt-1 mb-2">Estado</label>
+                        <nb-select [status]="isValid('estado')" fullWidth formControlName="estado" placeholder="Selecione">
+                            <nb-option [value]="estado.value" *ngFor="let estado of estados">
+                                {{estado.label}}
+                            </nb-option>
+                        </nb-select>
                     </div>
                     <div class="col-sm-12">
                         <ngx-input-simple label="Cidade" formControlName="cidade">

@@ -52,7 +52,7 @@
                     </div>
                     <!-- <button *ngIf="!verDiasLivre" class="ml-auto" nbButton shape="round" size="small" status="basic">?</button> -->
                     <div *ngIf="!verDiasLivre" class="observacao cursor-pointer ml-auto"
-                        nbTooltip="OBSERVAÇÃO"
+                        [nbTooltip]="item.consulta.observacao || 'Nenhuma observação'"
                         nbTooltipPlacement="left" nbTooltipStatus="basic">
                         ?
                     </div>

@@ -266,6 +266,7 @@ export interface Paciente {
     dataDesativacao: string;
     ativo: boolean;
     consultas: Array<Consulta>;
+    comoConheceu: number;
 }
 
 export interface Consulta {

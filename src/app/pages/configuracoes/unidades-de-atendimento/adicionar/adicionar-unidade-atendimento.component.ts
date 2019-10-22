@@ -1,13 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RecepcionistaService } from '../../../../shared/services/recepcionista.service';
 import { ConfiguracoesService } from '../../../../shared/services/configuracoes.service';
 import { TOASTR } from '../../../../shared/constants/toastr';
 
 @Component({
     selector: 'ngx-adicionar-unidade-atendimento',
-    templateUrl: 'adicionar-unidade-atendimento.component.html'
+    templateUrl: 'adicionar-unidade-atendimento.component.html',
+    styles: [`
+        :host /deep/ nb-user div.user-container div.user-picture {
+            background-position: center;
+        }
+    `]
 })
 
 export class AdicionarUnidadeAtendimentoComponent implements OnInit {
@@ -20,11 +25,43 @@ export class AdicionarUnidadeAtendimentoComponent implements OnInit {
         complemento: new FormControl(''),
         bairro: new FormControl(''),
         cidade: new FormControl(''),
-        estado: new FormControl(''),
+        estado: new FormControl('', [Validators.required]),
         status: new FormControl(true),
         urlFoto: new FormControl('')
     });
+
+    public estados = [
+        { label: 'Acre', value: 'AC' },
+        { label: 'Alagoas', value: 'AL' },
+        { label: 'Amapá', value: 'AP' },
+        { label: 'Amazonas', value: 'AM' },
+        { label: 'Bahia', value: 'BA' },
+        { label: 'Ceará', value: 'CE' },
+        { label: 'Distrito Federal', value: 'DF' },
+        { label: 'Espírito Santo', value: 'ES' },
+        { label: 'Goiás', value: 'GO' },
+        { label: 'Maranhão', value: 'MA' },
+        { label: 'Mato Grosso', value: 'MT' },
+        { label: 'Mato Grosso do Sul', value: 'MS' },
+        { label: 'Minas Gerais', value: 'MG' },
+        { label: 'Pará', value: 'PA' },
+        { label: 'Paraíba', value: 'PB' },
+        { label: 'Paraná', value: 'PR' },
+        { label: 'Pernambuco', value: 'PE' },
+        { label: 'Piauí', value: 'PI' },
+        { label: 'Rio de Janeiro', value: 'RJ' },
+        { label: 'Rio Grande do Norte', value: 'RN' },
+        { label: 'Rio Grande do Sul', value: 'RS' },
+        { label: 'Rondônia', value: 'RO' },
+        { label: 'Roraima', value: 'RR' },
+        { label: 'Santa Catarina', value: 'SC' },
+        { label: 'São Paulo', value: 'SP' },
+        { label: 'Sergipe', value: 'SE' },
+        { label: 'Tocantins', value: 'TO' },
+    ];
+
     public isLoading: boolean;
+    public patternUrl = new RegExp(/^(ftp|https?):\/\/+(www\.)?/);
 
     @Input() id: number;
     @Input() dados: any;
@@ -39,6 +76,21 @@ export class AdicionarUnidadeAtendimentoComponent implements OnInit {
 
     dismiss(type: boolean): void {
         this.ref.close(type);
+    }
+
+    getImage() {
+        return this.patternUrl.test(this.form.value.urlFoto) ? this.form.value.urlFoto : null;
+    }
+
+    isValid(control) {
+        const valor = this.form.get(control).value;
+        if ((this.form.get(control).valid && valor) && this.form.get(control).dirty) {
+            return 'success';
+        } else if ((this.form.get(control).valid && !valor) && this.form.get(control).dirty) {
+            return 'danger';
+        } else {
+            return undefined;
+        }
     }
 
     async adicionar(): Promise<void> {
@@ -63,16 +115,16 @@ export class AdicionarUnidadeAtendimentoComponent implements OnInit {
             if (response.sucesso) {
                 this.toastrService.show('', 'Consultório adicionado com sucesso!',
                     { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
-                    this.dismiss(true);
+                this.dismiss(true);
             } else {
                 this.toastrService.show('', response.mensagens[0],
                     { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
-                    this.dismiss(false);
+                this.dismiss(false);
             }
         }).catch(err => {
             this.toastrService.show('', TOASTR.msgErroPadrao,
                 { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
-                this.dismiss(false);
+            this.dismiss(false);
         }).finally(() => {
             this.isLoading = false;
         });

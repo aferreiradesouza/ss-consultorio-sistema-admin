@@ -11,7 +11,7 @@
                 <label class="label d-block">Consultório *</label>
                 <nb-select fullWidth [status]="isValid('consultorio')" class="w-100"
                     placeholder="Selecione" formControlName="consultorio">
-                    <nb-option [value]="lugar.idConsultorio" *ngFor="let lugar of consultorios">{{lugar.nome}}
+                    <nb-option [value]="lugar.id" *ngFor="let lugar of consultorios">{{lugar.nome}}
                     </nb-option>
                 </nb-select>
             </div>
@@ -36,20 +36,6 @@
                 </nb-select>
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-sm-6">
-                <label class="label d-block mt-1">Início da vigência *</label>
-                <input nbInput fullWidth placeholder="Selecione" [nbDatepicker]="inicioVigencia"
-                    formControlName="inicioVigencia">
-                <nb-datepicker #inicioVigencia></nb-datepicker>
-            </div>
-            <div class="col-sm-6">
-                <label class="label d-block mt-1">Fim da vigência *</label>
-                <input nbInput fullWidth placeholder="Selecione" [nbDatepicker]="fimVigencia"
-                    formControlName="fimVigencia">
-                <nb-datepicker #fimVigencia></nb-datepicker>
-            </div>
-        </div>
         <div class="row">
             <div class="col-sm-6">
                 <ngx-input-mask [dropCharacters]="false" type="hora" label="Hora Início" formControlName="horaInicio"
@@ -71,6 +57,20 @@
             </div>
             <div class="col-sm-2 align-center">
                 <nb-checkbox class="mt-2" status="primary" formControlName="status">Ativo</nb-checkbox>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label class="label d-block mt-1">Início da vigência *</label>
+                <input nbInput fullWidth placeholder="Selecione" [nbDatepicker]="inicioVigencia"
+                    formControlName="inicioVigencia">
+                <nb-datepicker #inicioVigencia></nb-datepicker>
+            </div>
+            <div class="col-sm-6">
+                <label class="label d-block mt-1">Fim da vigência *</label>
+                <input nbInput fullWidth placeholder="Selecione" [nbDatepicker]="fimVigencia"
+                    formControlName="fimVigencia">
+                <nb-datepicker #fimVigencia></nb-datepicker>
             </div>
         </div>
     </nb-card-body>

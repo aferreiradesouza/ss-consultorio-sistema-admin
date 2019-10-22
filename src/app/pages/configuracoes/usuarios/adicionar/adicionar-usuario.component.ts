@@ -62,17 +62,20 @@ export class AdicionarUsuarioComponent implements OnInit {
     }
 
     getTitle() {
+        const ret = [];
         if (this.perfis.value.indexOf('administracao') > -1) {
-            return 'Administrador';
-        } else if (this.perfis.value.indexOf('medico') > -1) {
-            return 'Médico';
-        } else if (this.perfis.value.indexOf('recepcionista') > -1) {
-            return 'Recepcionista';
-        } else if (this.perfis.value.indexOf('financeiro') > -1) {
-            return 'Financeiro';
-        } else {
-            return '-';
+            ret.push('Adimistração');
         }
+        if (this.perfis.value.indexOf('medico') > -1) {
+            ret.push('Médico');
+        }
+        if (this.perfis.value.indexOf('recepcionista') > -1) {
+            ret.push('Recepcionista');
+        }
+        if (this.perfis.value.indexOf('financeiro') > -1) {
+            ret.push('Financeiro');
+        }
+        return ret.length ? ret.map(e => ` ${e}`).join() : '-';
     }
 
     dismiss(data: { sucesso: boolean, mensagem: string }) {

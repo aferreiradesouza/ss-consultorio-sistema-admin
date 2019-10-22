@@ -96,7 +96,7 @@ export class AgendaDoDiaComponent implements OnInit {
   }
 
   formatarHeader() {
-    if (!this.dataEvent && !this.isLoading) {
+    if (!this.dataEvent) {
       return 'Sem dados';
     }
     return `${moment(this.dataEvent).date()} de

@@ -46,6 +46,17 @@ export class EditarPacientesComponent implements OnInit {
     private utilService: UtilService) { }
 
   async ngOnInit() {
+    await this.pacienteService.obterInfoPaciente(this.id).then(response => {
+      if (response.sucesso) {
+        this.user = response.objeto;
+      } else {
+        this.dismiss();
+      }
+    }).catch(err => {
+      this.dismiss();
+    }).finally(() => {
+      this.isLoading = false;
+    });
     await this.preencherFormulario();
 
     this.form.get('nascimento').valueChanges.subscribe(val => {
@@ -111,12 +122,7 @@ export class EditarPacientesComponent implements OnInit {
     this.ref.close({ sucesso: true, value: user });
   }
 
-  async preencherFormulario(): Promise<void> {
-    this.isLoading = true;
-    await this.pacienteService.obterInfoPaciente(this.id).then(response => {
-      this.user = response.objeto;
-      this.isLoading = false;
-    });
+  preencherFormulario() {
     this.form.patchValue({
       nome: this.user.nome,
       nascimento: moment(this.user.dataNascimento, 'YYYY-MM-DD').format('DD/MM/YYYY'),
@@ -137,5 +143,6 @@ export class EditarPacientesComponent implements OnInit {
       uf: this.user.estado
     });
     this.sexo.setValue(this.user.sexo);
+    this.comoConheceu.setValue(this.user.comoConheceu);
   }
 }

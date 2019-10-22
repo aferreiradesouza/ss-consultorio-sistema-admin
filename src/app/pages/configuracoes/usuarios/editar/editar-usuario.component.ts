@@ -120,6 +120,23 @@ export class EditarUsuarioComponent implements OnInit {
         return this.patternUrl.test(this.form.value.urlFoto) ? this.form.value.urlFoto : null;
     }
 
+    getTitle() {
+        const ret = [];
+        if (this.perfis.value.indexOf('administracao') > -1) {
+            ret.push('Adimistração');
+        }
+        if (this.perfis.value.indexOf('medico') > -1) {
+            ret.push('Médico');
+        }
+        if (this.perfis.value.indexOf('recepcionista') > -1) {
+            ret.push('Recepcionista');
+        }
+        if (this.perfis.value.indexOf('financeiro') > -1) {
+            ret.push('Financeiro');
+        }
+        return ret.length ? ret.map(e => ` ${e}`).join() : '-';
+    }
+
     preencherPasso(user: Usuario) {
         this.form.patchValue({
             nome: user.nome,

@@ -26,6 +26,36 @@ export class EditarUnidadeAtendimentoComponent implements OnInit {
         urlFoto: new FormControl('')
     });
 
+    public estados = [
+        { label: 'Acre', value: 'AC' },
+        { label: 'Alagoas', value: 'AL' },
+        { label: 'Amapá', value: 'AP' },
+        { label: 'Amazonas', value: 'AM' },
+        { label: 'Bahia', value: 'BA' },
+        { label: 'Ceará', value: 'CE' },
+        { label: 'Distrito Federal', value: 'DF' },
+        { label: 'Espírito Santo', value: 'ES' },
+        { label: 'Goiás', value: 'GO' },
+        { label: 'Maranhão', value: 'MA' },
+        { label: 'Mato Grosso', value: 'MT' },
+        { label: 'Mato Grosso do Sul', value: 'MS' },
+        { label: 'Minas Gerais', value: 'MG' },
+        { label: 'Pará', value: 'PA' },
+        { label: 'Paraíba', value: 'PB' },
+        { label: 'Paraná', value: 'PR' },
+        { label: 'Pernambuco', value: 'PE' },
+        { label: 'Piauí', value: 'PI' },
+        { label: 'Rio de Janeiro', value: 'RJ' },
+        { label: 'Rio Grande do Norte', value: 'RN' },
+        { label: 'Rio Grande do Sul', value: 'RS' },
+        { label: 'Rondônia', value: 'RO' },
+        { label: 'Roraima', value: 'RR' },
+        { label: 'Santa Catarina', value: 'SC' },
+        { label: 'São Paulo', value: 'SP' },
+        { label: 'Sergipe', value: 'SE' },
+        { label: 'Tocantins', value: 'TO' },
+    ];
+
     public isLoading: boolean;
     public consultorio: Consultorio;
     public patternUrl = new RegExp(/^(ftp|https?):\/\/+(www\.)?/);
@@ -84,6 +114,7 @@ export class EditarUnidadeAtendimentoComponent implements OnInit {
             status: this.consultorio.ativo,
             urlFoto: this.consultorio.urlFoto
         });
+        this.form.get('estado').markAsDirty();
     }
 
     getImage() {
@@ -115,11 +146,11 @@ export class EditarUnidadeAtendimentoComponent implements OnInit {
             if (response.sucesso) {
                 this.toastrService.show('', 'Consultório alterado com sucesso!',
                     { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
-                    this.editar();
+                this.editar();
             } else {
                 this.toastrService.show('', response.mensagens[0],
                     { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
-                    this.dismiss();
+                this.dismiss();
             }
         }).catch(err => {
             this.toastrService.show('', TOASTR.msgErroPadrao,
@@ -127,5 +158,16 @@ export class EditarUnidadeAtendimentoComponent implements OnInit {
         }).finally(() => {
             this.isLoading = false;
         });
+    }
+
+    isValid(control) {
+        const valor = this.form.get(control).value;
+        if ((this.form.get(control).valid && valor) && this.form.get(control).dirty) {
+            return 'success';
+        } else if ((this.form.get(control).valid && !valor) && this.form.get(control).dirty) {
+            return 'danger';
+        } else {
+            return undefined;
+        }
     }
 }
