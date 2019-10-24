@@ -125,4 +125,7 @@
             [tiposAtendimentos]="tiposAtendimentos">
         </ngx-calendario>
     </nb-card-body>
+    <nb-card-body *ngIf="!group && !firstSearch">
+        Houve um problema, tente novamente mais tarde.
+    </nb-card-body>
 </nb-card>

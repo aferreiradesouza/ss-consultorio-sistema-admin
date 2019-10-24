@@ -56,6 +56,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
   public diaAte = '';
   public diaDeEscolhido = '';
   public diaAteEscolhido = '';
+  public firstSearch = true;
   public filter = (date) => false;
 
   @ViewChild(CalendarioComponent, { static: false }) calendario: CalendarioComponent;
@@ -165,21 +166,31 @@ export class CalendarioRecepcaoComponent implements OnInit {
   private subscribeSignalREventos(): void {
     const userCpf = this.localStorageService.getJson('login').cpf;
     this.agendaHubService.novaConsulta.subscribe((data: any) => {
-      this._ngZone.run(() => {
-        console.log('calendario novaConsulta', data);
+      this._ngZone.run(async () => {
+        if (data.cpfCriador.Cpf === userCpf) { return; }
+        const dataValida = moment(data.Data).isBetween(moment(this.diaDeEscolhido), moment(this.diaAteEscolhido));
+        const ehMesmoConsultorio = this.lugarEscolhido === data.IdConsultorio;
+        const ehMesmoMedico = this.medicoEscolhido === data.IdUsuario;
+        this.toastrService.show(`Dia: ${moment(data.Data).format('DD/MM/YYYY')} - Hora: ${data.Hora}`, `Tem uma nova consulta marcada!`,
+          { status: 'info', duration: 0, position: TOASTR.position });
+        if (dataValida && ehMesmoConsultorio && ehMesmoMedico) {
+          await this.atualizarCalendario();
+          this.obterGrupoClick();
+          this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+        }
       });
     });
     this.agendaHubService.novoBloqueio.subscribe((data: any) => {
       this._ngZone.run(async () => {
-        console.log(data);
         if (data.cpfCriador.Cpf === userCpf) { return; }
         const dataInicioValida = moment(data.DataInicio).isBetween(moment(this.diaDeEscolhido), moment(this.diaAteEscolhido));
         const dataFimValida = moment(data.DataFim).isBetween(moment(this.diaDeEscolhido), moment(this.diaAteEscolhido));
         const ehMesmoConsultorio = this.lugarEscolhido === data.IdConsultorio;
         const ehMesmoMedico = this.medicoEscolhido === data.IdMedico;
-        this.toastrService.show('', `Temos um novo bloqueio no dia
-          ${moment(data.DataInicio).format('DD/MM/YYYY')} às ${moment(data.DataInicio).format('HH:mm')}
-          até ${moment(data.DataFim).format('DD/MM/YYYY')} às ${moment(data.DataFim).format('HH:mm')}.`,
+        this.toastrService.show(`
+        ${moment(data.DataInicio).format('DD/MM/YYYY')} às ${moment(data.DataInicio).format('HH:mm')}
+        até ${moment(data.DataFim).format('DD/MM/YYYY')} às ${moment(data.DataFim).format('HH:mm')}.`,
+        `Temos um novo bloqueio nos dias!`,
           { status: 'info', duration: 0, position: <any>'bottom-right' });
         if (dataInicioValida && dataFimValida && ehMesmoConsultorio && ehMesmoMedico) {
           await this.atualizarCalendario();
@@ -189,8 +200,22 @@ export class CalendarioRecepcaoComponent implements OnInit {
       });
     });
     this.agendaHubService.mudancaBloqueio.subscribe((data: any) => {
-      this._ngZone.run(() => {
-        console.log('calendario mudancaBloqueio', data);
+      this._ngZone.run(async() => {
+        if (data.cpfCriador.Cpf === userCpf) { return; }
+        const dataInicioValida = moment(data.DataInicio).isBetween(moment(this.diaDeEscolhido), moment(this.diaAteEscolhido));
+        const dataFimValida = moment(data.DataFim).isBetween(moment(this.diaDeEscolhido), moment(this.diaAteEscolhido));
+        const ehMesmoConsultorio = this.lugarEscolhido === data.IdConsultorio;
+        const ehMesmoMedico = this.medicoEscolhido === data.IdMedico;
+        this.toastrService.show(`
+        ${moment(data.DataInicio).format('DD/MM/YYYY')} às ${moment(data.DataInicio).format('HH:mm')}
+        até ${moment(data.DataFim).format('DD/MM/YYYY')} às ${moment(data.DataFim).format('HH:mm')}.`,
+        `Temos uma alteração no bloqueio!`,
+          { status: 'info', duration: 0, position: <any>'bottom-right' });
+        if (dataInicioValida && dataFimValida && ehMesmoConsultorio && ehMesmoMedico) {
+          await this.atualizarCalendario();
+          this.obterGrupoClick();
+          this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
+        }
       });
     });
     this.agendaHubService.mudancaStatusConsulta.subscribe((data: any) => {
@@ -199,10 +224,10 @@ export class CalendarioRecepcaoComponent implements OnInit {
         const dataValida = moment(data.Data).isBetween(moment(this.diaDeEscolhido), moment(this.diaAteEscolhido));
         const ehMesmoConsultorio = this.lugarEscolhido === data.IdConsultorio;
         const ehMesmoMedico = this.medicoEscolhido === data.IdUsuario;
-        this.toastrService.show(`Dia: ${moment(data.Data).format('DD/MM/YYYY')} - Hora:${data.Hora}`, `Temos uma mudança de status.`,
+        this.toastrService.show(`Dia: ${moment(data.Data).format('DD/MM/YYYY')} - Hora: ${data.Hora}`, `Temos uma mudança de status.`,
           { status: 'info', duration: 0, position: <any>'bottom-right' });
         if (dataValida && ehMesmoMedico && ehMesmoConsultorio) {
-          await this.atualizarCalendarioSemRequest(data.Data, 'status', data);
+          await this.atualizarCalendario();
           this.obterGrupoClick();
           this.dataCalendarioDia = this.data.filter(e => moment(e.data).format('YYYY-MM-DD') === moment(this.dataEvent).format('YYYY-MM-DD'))[0];
         }
@@ -272,6 +297,7 @@ export class CalendarioRecepcaoComponent implements OnInit {
         { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     }).finally(() => {
       this.isLoading = false;
+      this.firstSearch = false;
     });
   }
 
@@ -494,6 +520,12 @@ export class CalendarioRecepcaoComponent implements OnInit {
     if (indexData === -1 || indexHora === -1) { return; }
     switch (type) {
       case 'status':
+        console.log(data, type, content);
+        if (content.IdStatusConsulta === 6) {
+          this.data[indexData].horarios[indexHora].consulta.dataStatusConsulta = content.DataStatusConsulta;
+          this.data[indexData].horarios[indexHora].consulta = null;
+          return;
+        }
         this.data[indexData].horarios[indexHora].consulta.dataStatusConsulta = content.DataStatusConsulta;
         const codigoStatus = this.statusConsultas.filter(e => e.id === content.IdStatusConsulta)[0].codigo;
         this.data[indexData].horarios[indexHora].consulta.codigoStatusConsulta = codigoStatus;
