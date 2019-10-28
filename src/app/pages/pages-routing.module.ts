@@ -32,6 +32,12 @@ const routes: Routes = [{
       canActivate: [AuthGuard]
     },
     {
+      path: 'cadastros',
+      loadChildren: () => import('./cadastros/cadastros.module')
+        .then(m => m.CadastrosModule),
+      canActivate: [AuthGuard]
+    },
+    {
       path: 'pacientes',
       loadChildren: () => import('./pacientes/pacientes.module')
         .then(m => m.PacientesModule),

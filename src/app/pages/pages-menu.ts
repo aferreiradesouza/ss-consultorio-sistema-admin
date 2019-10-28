@@ -59,7 +59,7 @@ export const MENU_ITEMS_ADM: NbMenuItem[] = [
         children: [
           {
             title: 'Prontuários',
-            link: '/configuracoes/unidades-de-atendimento',
+            link: '/cadastros/prontuarios',
           },
           {
             title: 'Modelos de documentos',

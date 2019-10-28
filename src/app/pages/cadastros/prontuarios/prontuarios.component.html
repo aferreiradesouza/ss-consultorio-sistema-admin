@@ -1,0 +1,23 @@
+<nb-card nbSpinnerStatus="primary">
+    <nb-card-header>
+        Prontuários
+    </nb-card-header>
+    <nb-card-body [formGroup]="form">
+        <ng-container *ngFor="let item of listaProntuarios">
+            <nb-card>
+                <nb-card-header>
+                    <h5>{{item.title}}</h5>
+                </nb-card-header>
+                <nb-list>
+                    <nb-list-item class="cursor-pointer" *ngFor="let subItem of item.children" (click)="setValueOfClick(subItem.control)">
+                        <div class="d-flex vertical-align">
+                            <div>{{subItem.label}}</div>
+                            <nb-checkbox class="ml-auto" status="primary" [formControlName]="subItem.control">
+                            </nb-checkbox>
+                        </div>
+                    </nb-list-item>
+                </nb-list>
+            </nb-card>
+        </ng-container>
+    </nb-card-body>
+</nb-card>
