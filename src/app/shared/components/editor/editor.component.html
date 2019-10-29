@@ -1,0 +1,6 @@
+<div class="my-3" *ngIf="showButtons">
+    <button *ngFor="let campo of camposDinamicos" nbButton status="primary" ghost
+        (click)="adicionarTexto(campo.codigo)">{{campo.label}}</button>
+</div>
+<ckeditor #myckeditor (change)="onChange(editorData)" [(ngModel)]="editorData" [readonly]="false">
+</ckeditor>

@@ -1,4 +1,4 @@
-export const prontuarios = [
+export const PRONTUARIOS = [
     {
         title: 'Introdução',
         children: [

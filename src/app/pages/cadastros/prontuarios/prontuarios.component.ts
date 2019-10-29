@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { NbDialogRef, NbToastrService, NbDatepickerComponent } from '@nebular/theme';
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
-import { prontuarios } from '../contants-cadastros';
+import { PRONTUARIOS } from '../../../shared/constants/prontuarios';
 
 @Component({
     selector: 'ngx-prontuarios',
@@ -12,10 +12,10 @@ import { prontuarios } from '../contants-cadastros';
 
 export class ProntuariosComponent implements OnInit {
 
-    public listaProntuarios = prontuarios;
+    public listaProntuarios = PRONTUARIOS;
     public form = new FormGroup({});
 
-    constructor(public fb: FormBuilder) {}
+    constructor() {}
 
     ngOnInit() {
         this.initializeForm();

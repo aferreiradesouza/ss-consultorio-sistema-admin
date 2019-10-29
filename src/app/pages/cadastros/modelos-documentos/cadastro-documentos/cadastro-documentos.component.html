@@ -1,0 +1,28 @@
+<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary">
+    <nb-card-header>
+        Cadastrar documentos
+    </nb-card-header>
+    <nb-card-body [formGroup]="form">
+        <div class="row">
+            <div class="col-sm-4">
+                <ngx-input-simple label="Nome" [required]="true" [feedback]="false" formControlName="nome"></ngx-input-simple>
+            </div>
+            <div class="col-sm-4 mt-1">
+                <label class="label d-block">Tipo *</label>
+                <nb-select fullWidth placeholder="Selecione" formControlName="tipo">
+                    <nb-option [value]="item.id" *ngFor="let item of tipos">{{item.nome}}
+                    </nb-option>
+                </nb-select>
+            </div>
+            <div class="col-sm-4 mt-1">
+                <label class="label d-block">Profissional *</label>
+                <nb-select fullWidth placeholder="Selecione" formControlName="profissional">
+                    <nb-option [value]="item.id" *ngFor="let item of listagemUsuario">{{item.nome}}
+                    </nb-option>
+                </nb-select>
+            </div>
+        </div>
+        <ngx-editor formControlName="texto"></ngx-editor>
+        <p>{{form.value | json}}</p>
+    </nb-card-body>
+</nb-card>

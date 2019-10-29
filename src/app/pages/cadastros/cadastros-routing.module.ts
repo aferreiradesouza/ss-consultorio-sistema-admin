@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProntuariosComponent } from './prontuarios/prontuarios.component';
+import { ModelosDocumentosComponent } from './modelos-documentos/modelos-documentos.component';
+import { CadastroDocumentosComponent } from './modelos-documentos/cadastro-documentos/cadastro-documentos.component';
 
 const routes: Routes = [
   {
@@ -11,6 +13,14 @@ const routes: Routes = [
   {
     path: 'prontuarios',
     component: ProntuariosComponent
+  },
+  {
+    path: 'modelos-documentos',
+    component: ModelosDocumentosComponent
+  },
+  {
+    path: 'modelos-documentos/adicionar',
+    component: CadastroDocumentosComponent
   }
 ];
 

@@ -1,0 +1,19 @@
+<nb-card>
+    <nb-card-header>
+        Modelos de Documentos
+    </nb-card-header>
+    <nb-card-body>
+        <div class="mb-4 d-flex">
+            <div class="w-100 mr-4">
+                <ngx-input-simple [feedback]="false" [(ngModel)]="search" (ngModelChange)="onSearch(search)"
+                    placeholder="Busque algo...">
+                </ngx-input-simple>
+            </div>
+            <div class="ml-auto">
+                <button nbButton hero status="primary" (click)="novoModelo()">Novo modelo de documento</button>
+            </div>
+        </div>
+        <ng2-smart-table [settings]="settings" [source]="source" (custom)="customAction($event)">
+        </ng2-smart-table>
+    </nb-card-body>
+</nb-card>

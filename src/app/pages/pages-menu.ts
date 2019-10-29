@@ -63,7 +63,7 @@ export const MENU_ITEMS_ADM: NbMenuItem[] = [
           },
           {
             title: 'Modelos de documentos',
-            link: '/configuracoes/unidades-de-atendimento',
+            link: '/cadastros/modelos-documentos',
           },
           {
             title: 'Configuração dos documentos',

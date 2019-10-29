@@ -33,7 +33,8 @@ import {
   TimeLineComponent,
   CalendarioComponent,
   InputCurrencyComponent,
-  AutoCompleteComponent
+  AutoCompleteComponent,
+  EditorComponent
 } from './components';
 import {
   CapitalizePipe,
@@ -85,6 +86,7 @@ import { RecepcionistaService } from './services/recepcionista.service';
 import { AgendaHubService } from './services/agenda-hub.service';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
+import { CKEditorModule } from 'ng2-ckeditor';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -116,7 +118,8 @@ const NB_MODULES = [
   FormsModule,
   NbCalendarRangeModule,
   NbCalendarModule,
-  NbTooltipModule
+  NbTooltipModule,
+  CKEditorModule
 ];
 const COMPONENTS = [
   HeaderComponent,
@@ -134,7 +137,8 @@ const COMPONENTS = [
   CalendarioComponent,
   CalendarioDoDiaComponent,
   InputCurrencyComponent,
-  AutoCompleteComponent
+  AutoCompleteComponent,
+  EditorComponent
 ];
 const PIPES = [
   CapitalizePipe,

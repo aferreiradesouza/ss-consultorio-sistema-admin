@@ -10,3 +10,4 @@ export * from './timeline/timeline.component';
 export * from './calendario/calendario.component';
 export * from './input-currency/input-currency.component';
 export * from './input-autocomplete/input-autocomplete.component';
+export * from './editor/editor.component';
