@@ -5,14 +5,14 @@ import { SharedModule } from '../../shared/shared.module';
 import { CadastrosRoutingModule } from './cadastros-routing.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ProntuariosComponent } from './prontuarios/prontuarios.component';
+import { AnamneseComponent } from './anamnese/anamnese.component';
 import { ModelosDocumentosComponent } from './modelos-documentos/modelos-documentos.component';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { CellStatusTableComponent } from './components-table/cell-status-table.component';
 import { CadastroDocumentosComponent } from './modelos-documentos/cadastro-documentos/cadastro-documentos.component';
 
 const PAGES = [
-  ProntuariosComponent,
+  AnamneseComponent,
   ModelosDocumentosComponent,
   CadastroDocumentosComponent
 ];

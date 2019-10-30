@@ -1,4 +1,4 @@
-export const PRONTUARIOS = [
+export const ANAMNESE = [
     {
         title: 'Introdução',
         children: [
@@ -7,7 +7,7 @@ export const PRONTUARIOS = [
             {control: 'hpp', label: 'Hpp'},
             {control: 'historicoFamiliar', label: 'Histórico Familiar'},
             {control: 'observacoes', label: 'Observações'},
-            {control: 'informacoesGeraisIntroducao', label: 'Informações Gerais'},
+            {control: 'informarcoesGerais', label: 'Informações Gerais'},
         ]
     },
     {
@@ -18,7 +18,7 @@ export const PRONTUARIOS = [
             {control: 'mmss', label: 'Mmss'},
             {control: 'abdome', label: 'Abdome'},
             {control: 'mmii', label: 'MMII'},
-            {control: 'informacoesGeraisExameFisico', label: 'Informações Gerais'},
+            {control: 'informacoesGeraisFisico', label: 'Informações Gerais'},
         ]
     },
     {
@@ -26,7 +26,7 @@ export const PRONTUARIOS = [
         children: [
             {control: 'auscultaPulmonar', label: 'Ausculta Pulmonar'},
             {control: 'auscultaCardiaca', label: 'Ausculta Cardíaca'},
-            {control: 'informacoesGeraisAparelhoCardioRespiratorio', label: 'Informações Gerais'}
+            {control: 'informacoesGeraisCardioRespiratório', label: 'Informações Gerais'}
         ]
     },
     {
@@ -36,28 +36,28 @@ export const PRONTUARIOS = [
             {control: 'fc', label: 'FC'},
             {control: 'fr', label: 'FR'},
             {control: 'tax', label: 'Táx'},
-            {control: 'informacoesGeraisSinaisVitais', label: 'Informações Gerais'}
+            {control: 'informacoesGeraisVitais', label: 'Informações Gerais'}
         ]
     },
     {
         title: 'Exame Antropométrico',
         children: [
             {control: 'pesoAltura', label: 'Peso/Altura'},
-            {control: 'ObsFinais', label: 'Obs Finais'},
+            {control: 'obsFinais', label: 'Obs Finais'},
             {control: 'cd', label: 'Cd'},
-            {control: 'informacoesGeraisExameAntropometrico', label: 'Informações Gerais'}
+            {control: 'informacoesGeraisAntropometrico', label: 'Informações Gerais'}
         ]
     },
     {
         title: 'Observações de Resultados de Exames',
         children: [
-            {control: 'informacoesGeraisObservacoesResultadosExames', label: 'Informações Gerais'}
+            {control: 'informacoesGeraisExames', label: 'Informações Gerais'}
         ]
     },
     {
         title: 'Hipótese de Diagnóstico',
         children: [
-            {control: 'informacoesGeraisHipoteseDiagnostico', label: 'Informações Gerais'}
+            {control: 'informacoesGeraisDiagnostico', label: 'Informações Gerais'}
         ]
     },
     {

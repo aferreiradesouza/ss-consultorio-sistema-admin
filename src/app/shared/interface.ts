@@ -170,6 +170,53 @@ export interface IObterListagemEspecialidades extends DefaultHttpResponse {
     objeto: Especialidades[];
 }
 
+export interface IObterAnamnese extends DefaultHttpResponse {
+    objeto: Anamnese;
+}
+
+export interface ICriarAnamnese extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface IAlterarAnamnese extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface Anamnese {
+    id: number;
+    idMedico: number;
+    queixaPrincipal: boolean;
+    hda: boolean;
+    hpp: boolean;
+    historicoFamiliar: boolean;
+    observacoes: boolean;
+    informarcoesGerais: boolean;
+    cabecaPescoco: boolean;
+    torax: boolean;
+    mmss: boolean;
+    abdome: boolean;
+    mmii: boolean;
+    informacoesGeraisFisico: boolean;
+    auscultaPulmonar: boolean;
+    auscultaCardiaca: boolean;
+    informacoesGeraisCardioRespiratório: boolean;
+    pa: boolean;
+    fc: boolean;
+    fr: boolean;
+    tax: boolean;
+    informacoesGeraisVitais: boolean;
+    pesoAltura: boolean;
+    obsFinais: boolean;
+    cd: boolean;
+    informacoesGeraisAntropometrico: boolean;
+    informacoesGeraisExames: boolean;
+    informacoesGeraisDiagnostico: boolean;
+    motivo: boolean;
+    cid: boolean;
+    resumoAtendimento: boolean;
+    tipoDoenca: boolean;
+}
+
 export interface Especialidades {
     id: number;
     nome: string;
@@ -400,12 +447,12 @@ export interface Agenda {
     dataVigenciaInicio: string;
     dataVigenciaFim: string;
     usuariosConsultoriosEspecialidades: Array<{
-        id: number,
-        idEspecialidade: number,
-        idUsuarioConsultorio: number,
+        id: number;
+        idEspecialidade: number;
+        idUsuarioConsultorio: number;
         especialidade: {
-            id: number,
-            nome: string,
+            id: number;
+            nome: string;
             descricao: string
         }
     }>;

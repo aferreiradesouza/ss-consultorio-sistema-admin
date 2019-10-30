@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AjaxService } from './ajax.service';
-import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio, IEditarConsultorio, IDeletarConsultorio, ICriarConsultorio, IObterAgenda, ICriarAgenda, IDeletarAgenda, IObterAgendaID, IObterBloqueios, IAlterarAgenda, IRemoverBloqueios, IObterListagemEspecialidades } from '../interface';
+import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio, IEditarConsultorio, IDeletarConsultorio, ICriarConsultorio, IObterAgenda, ICriarAgenda, IDeletarAgenda, IObterAgendaID, IObterBloqueios, IAlterarAgenda, IRemoverBloqueios, IObterListagemEspecialidades, IObterAnamnese, ICriarAnamnese, IAlterarAnamnese } from '../interface';
 
 @Injectable()
 export class ConfiguracoesService {
@@ -108,6 +108,24 @@ export class ConfiguracoesService {
     async obterListagemEspecialidade() {
         const url = `${environment.urlBase}admin/especialidade`;
         const response = await this.ajax.get<IObterListagemEspecialidades>(url);
+        return response;
+    }
+
+    async obterAnamnese(id: number) {
+        const url = `${environment.urlBase}admin/cadastro/obterAnamnese/${id}`;
+        const response = await this.ajax.get<IObterAnamnese>(url);
+        return response;
+    }
+
+    async criarAnamnese(data) {
+        const url = `${environment.urlBase}admin/cadastro/criarAnamnese`;
+        const response = await this.ajax.post<ICriarAnamnese>(url, data);
+        return response;
+    }
+
+    async alterarAnamnese(data) {
+        const url = `${environment.urlBase}admin/cadastro/alterarAnamnese`;
+        const response = await this.ajax.post<IAlterarAnamnese>(url, data);
         return response;
     }
 }
