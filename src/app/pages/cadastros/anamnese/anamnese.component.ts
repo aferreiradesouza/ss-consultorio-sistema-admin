@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NbDialogRef, NbToastrService, NbDatepickerComponent } from '@nebular/theme';
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
@@ -17,7 +17,7 @@ import { RecepcionistaService } from '../../../shared/services/recepcionista.ser
 export class AnamneseComponent implements OnInit {
 
     public listaAnamnese = ANAMNESE;
-    public form = new FormGroup({});
+    public form: FormGroup;
     public isLoading: boolean;
     public especialidades: Especialidades[] = [];
     public medicos: ListagemUsuario[];
@@ -35,11 +35,11 @@ export class AnamneseComponent implements OnInit {
         private recepcionistaService: RecepcionistaService) { }
 
     async ngOnInit() {
-        this.initializeForm();
         await this.obterMedico();
     }
 
     initializeForm() {
+        this.form = new FormGroup({});
         this.listaAnamnese.forEach(e => {
             e.children.forEach(f => {
                 this.addControl(f.control);
@@ -86,11 +86,15 @@ export class AnamneseComponent implements OnInit {
 
     setStep(num: 1 | 2) {
         this.step = num;
+        if (num === 1) {
+            this.form.reset();
+        }
     }
 
     async selecionarMedico(medico: Usuario) {
         this.setStep(2);
         this.medicoSelecionado = medico;
+        this.initializeForm();
         await this.obterListagemAnamnese();
     }
 
@@ -134,7 +138,7 @@ export class AnamneseComponent implements OnInit {
         const obj = {
             ...this.form.value,
             idMedico: this.medicoSelecionado.id,
-            id: this.anamnese.id || 0
+            id: this.anamnese ? this.anamnese.id : 0
         };
         this.existeAnamnese ? await this.alterarAnamnese(obj) : await this.criarAnamnese(obj);
     }

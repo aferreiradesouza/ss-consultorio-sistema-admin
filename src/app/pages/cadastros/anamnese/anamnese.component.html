@@ -31,7 +31,7 @@
                     {{medicoSelecionado.nome}}
                 </button>
             </div>
-            <div [formGroup]="form" *ngIf="!isLoading">
+            <div [formGroup]="form">
                 <nb-card *ngFor="let item of listaAnamnese">
                     <nb-card-header>
                         <h5>{{item.title}}</h5>
