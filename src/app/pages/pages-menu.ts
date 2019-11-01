@@ -64,15 +64,7 @@ export const MENU_ITEMS_ADM: NbMenuItem[] = [
           {
             title: 'Modelos de documentos',
             link: '/cadastros/modelos-documentos',
-          },
-          {
-            title: 'Configuração dos documentos',
-            link: '/configuracoes/unidades-de-atendimento',
-          },
-          {
-            title: 'Assinatura digital',
-            link: '/configuracoes/unidades-de-atendimento',
-          },
+          }
         ]
       }
     ]

@@ -5,7 +5,8 @@
     <nb-card-body [formGroup]="form">
         <div class="row">
             <div class="col-sm-4">
-                <ngx-input-simple label="Nome" [required]="true" [feedback]="false" formControlName="nome"></ngx-input-simple>
+                <ngx-input-simple label="Nome" [required]="true" [feedback]="false" formControlName="nome">
+                </ngx-input-simple>
             </div>
             <div class="col-sm-4 mt-1">
                 <label class="label d-block">Tipo *</label>
@@ -22,7 +23,10 @@
                 </nb-select>
             </div>
         </div>
-        <ngx-editor formControlName="texto"></ngx-editor>
-        <p>{{form.value | json}}</p>
+        <ngx-editor id="printarea" formControlName="texto"></ngx-editor>
+        <div class="d-flex">
+            <button class="mt-4 mr-4 ml-auto" nbButton status="info" (click)="printPreview()">Preview</button>
+            <button class="mt-4" nbButton status="primary">Cadastrar</button>
+        </div>
     </nb-card-body>
 </nb-card>

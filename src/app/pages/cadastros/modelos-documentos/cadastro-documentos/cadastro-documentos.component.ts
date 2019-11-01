@@ -5,6 +5,7 @@ import { ListagemUsuario } from '../../../../shared/interface';
 import { NbToastrService } from '@nebular/theme';
 import { TOASTR } from '../../../../shared/constants/toastr';
 import { FormGroup, FormControl } from '@angular/forms';
+import { PREVIEW, IMPRIMIR } from '../../../../shared/constants/pdf';
 
 @Component({
     selector: 'ngx-cadastro-documentos',
@@ -49,6 +50,24 @@ export class CadastroDocumentosComponent implements OnInit {
         }).finally(() => {
             this.isLoading = false;
         });
+    }
+
+    printDoc() {
+        const popupWin = window.open('', '_blank', `width=${IMPRIMIR.width},height=${IMPRIMIR.height},location=no,left=200px`);
+        popupWin.document.open();
+        popupWin.document.write('<html><title>::Preview::</title></head><body onload="window.print()">');
+        popupWin.document.write(this.form.value.texto);
+        popupWin.document.write('</html>');
+        popupWin.document.close();
+    }
+
+    printPreview() {
+        const popupWin = window.open('', '_blank', `width=${PREVIEW.width},height=${PREVIEW.height},location=no,left=200px`);
+        popupWin.document.open();
+        popupWin.document.write('<html><title>::Print Preview::</title></head><body">');
+        popupWin.document.write(this.form.value.texto);
+        popupWin.document.write('</html>');
+        popupWin.document.close();
     }
 
 
