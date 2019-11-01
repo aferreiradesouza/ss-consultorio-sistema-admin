@@ -73,6 +73,7 @@ export class CadastroDocumentosComponent implements OnInit {
         this.isLoading = true;
         const documento = {
             idMedico: this.form.value.profissional,
+            nome: this.form.value.nome,
             tipoTemplate: this.form.value.tipo,
             textoHtml: this.form.value.texto,
         };

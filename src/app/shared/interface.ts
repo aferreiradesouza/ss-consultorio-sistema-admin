@@ -197,6 +197,7 @@ export interface ListagemDocumentos {
     textoHtml: string;
     dataCadastro: string;
     ativo: boolean;
+    nome: string;
 }
 
 export interface Anamnese {

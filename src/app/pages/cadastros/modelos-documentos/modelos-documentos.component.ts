@@ -55,8 +55,8 @@ export class ModelosDocumentosComponent implements OnInit {
             delete: false
         },
         columns: {
-            profissional: {
-                title: 'Profissional',
+            nome: {
+                title: 'Nome',
                 type: 'string'
             },
             tipo: {
@@ -110,7 +110,7 @@ export class ModelosDocumentosComponent implements OnInit {
             if (resp.sucesso) {
                 const listagem = resp.objeto.map(e => {
                     return {
-                        profissional: this.medicoSelecionado.nome,
+                        nome: e.nome,
                         tipo: DocumentosEnum.obterDescricao(e.tipoTemplate),
                         status: e.ativo
                     };
