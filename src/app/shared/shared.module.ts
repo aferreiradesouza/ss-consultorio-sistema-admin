@@ -87,6 +87,7 @@ import { AgendaHubService } from './services/agenda-hub.service';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
 import { CKEditorModule } from 'ng2-ckeditor';
+import { DocumentosEnum } from './enums/documentos.enum';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -162,7 +163,8 @@ const ENUMS = [
   MedicoEnum,
   LugarEnum,
   VisaoEnum,
-  StatusAtendimentoEnum
+  StatusAtendimentoEnum,
+  DocumentosEnum
 ];
 
 @NgModule({

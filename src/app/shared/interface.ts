@@ -182,6 +182,23 @@ export interface IAlterarAnamnese extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface ICriarDocumento extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface IListarDocumento extends DefaultHttpResponse {
+    objeto: ListagemDocumentos[];
+}
+
+export interface ListagemDocumentos {
+    id: number;
+    idMedico: number;
+    tipoTemplate: number;
+    textoHtml: string;
+    dataCadastro: string;
+    ativo: boolean;
+}
+
 export interface Anamnese {
     id: number;
     idMedico: number;

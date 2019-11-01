@@ -11,7 +11,7 @@
             <div class="col-sm-4 mt-1">
                 <label class="label d-block">Tipo *</label>
                 <nb-select fullWidth placeholder="Selecione" formControlName="tipo">
-                    <nb-option [value]="item.id" *ngFor="let item of tipos">{{item.nome}}
+                    <nb-option [value]="item.id" *ngFor="let item of tiposDocumento">{{item.documento}}
                     </nb-option>
                 </nb-select>
             </div>
@@ -23,10 +23,11 @@
                 </nb-select>
             </div>
         </div>
-        <ngx-editor id="printarea" formControlName="texto"></ngx-editor>
+        <ngx-editor id="printarea" [required]="true" formControlName="texto"></ngx-editor>
         <div class="d-flex">
+            <button class="mt-4 mr-auto" nbButton status="basic" (click)="voltar()">Cancelar</button>
             <button class="mt-4 mr-4 ml-auto" nbButton status="info" (click)="printPreview()">Preview</button>
-            <button class="mt-4" nbButton status="primary">Cadastrar</button>
+            <button class="mt-4" nbButton status="primary" (click)="cadastrar()" [disabled]="!form.valid">Cadastrar documento</button>
         </div>
     </nb-card-body>
 </nb-card>

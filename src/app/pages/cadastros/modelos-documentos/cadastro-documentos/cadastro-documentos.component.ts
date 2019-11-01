@@ -4,8 +4,10 @@ import { ConfiguracoesService } from '../../../../shared/services/configuracoes.
 import { ListagemUsuario } from '../../../../shared/interface';
 import { NbToastrService } from '@nebular/theme';
 import { TOASTR } from '../../../../shared/constants/toastr';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PREVIEW, IMPRIMIR } from '../../../../shared/constants/pdf';
+import { TIPO_DOCUMENTO } from '../../../../shared/constants/tipo-documento';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'ngx-cadastro-documentos',
@@ -17,19 +19,16 @@ export class CadastroDocumentosComponent implements OnInit {
     public listagemUsuario: ListagemUsuario[] = [];
     public form = new FormGroup({
         nome: new FormControl(''),
-        tipo: new FormControl(''),
-        profissional: new FormControl(''),
+        tipo: new FormControl('', [Validators.required]),
+        profissional: new FormControl('', [Validators.required]),
         texto: new FormControl('')
     });
-    public tipos = [
-        {nome: 'Atestado', id: 1},
-        {nome: 'Laudo', id: 2},
-        {nome: 'Receita', id: 3},
-    ];
+    public tiposDocumento = TIPO_DOCUMENTO;
 
     constructor(
         public configuracoesService: ConfiguracoesService,
-        private toastrService: NbToastrService) { }
+        private toastrService: NbToastrService,
+        public router: Router) { }
 
     async ngOnInit() {
         await this.obterMedicos();
@@ -70,5 +69,33 @@ export class CadastroDocumentosComponent implements OnInit {
         popupWin.document.close();
     }
 
+    async cadastrar() {
+        this.isLoading = true;
+        const documento = {
+            idMedico: this.form.value.profissional,
+            tipoTemplate: this.form.value.tipo,
+            textoHtml: this.form.value.texto,
+        };
+
+        await this.configuracoesService.criarDocumento(documento).then(response => {
+            if (response.sucesso) {
+                this.toastrService.show('', 'Documento criado com sucesso!',
+                    { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
+                this.router.navigateByUrl('/cadastros/modelos-documentos');
+            } else {
+                this.toastrService.show('', response.mensagens[0],
+                    { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
+            }
+        }).catch(err => {
+            this.toastrService.show('', TOASTR.msgErroPadrao,
+                { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
+        }).finally(() => {
+            this.isLoading = false;
+        });
+    }
+
+    voltar() {
+        this.router.navigateByUrl('/cadastros/modelos-documentos');
+    }
 
 }

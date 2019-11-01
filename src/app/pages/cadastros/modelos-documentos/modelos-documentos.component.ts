@@ -4,6 +4,12 @@ import { CAMPOS } from '../../../shared/constants/campos-documento';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CellStatusTableComponent } from '../components-table/cell-status-table.component';
 import { Router } from '@angular/router';
+import { ConfiguracoesService } from '../../../shared/services/configuracoes.service';
+import { Usuario, ListagemUsuario } from '../../../shared/interface';
+import { NbToastrService } from '@nebular/theme';
+import { TOASTR } from '../../../shared/constants/toastr';
+import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
+import { DocumentosEnum } from '../../../shared/enums/documentos.enum';
 
 @Component({
     selector: 'ngx-modelos-documentos',
@@ -13,13 +19,13 @@ import { Router } from '@angular/router';
 
 export class ModelosDocumentosComponent implements OnInit {
     public editorData: any;
-    public search: any;
-    public dataTable = [
-        { nome: 'Atestado Teste', tipo: 'Atestado', profissional: 'Arthur', status: true },
-        { nome: 'Atestado Teste 1', tipo: 'Atestado', profissional: 'Rafael', status: true },
-        { nome: 'Atestado Teste 2', tipo: 'Atestado', profissional: 'Arthur', status: true },
-        { nome: 'Atestado Teste 3', tipo: 'Atestado', profissional: 'Rafael', status: true },
-    ];
+    public searchStep1: any;
+    public searchStep2: any;
+    public isLoading: boolean;
+    public medicos: ListagemUsuario[];
+    public medicosFiltrado: ListagemUsuario[];
+    public medicoSelecionado: ListagemUsuario;
+    public step: 1 | 2 = 1;
 
     source: LocalDataSource = new LocalDataSource();
 
@@ -49,16 +55,12 @@ export class ModelosDocumentosComponent implements OnInit {
             delete: false
         },
         columns: {
-            nome: {
-                title: 'Nome',
+            profissional: {
+                title: 'Profissional',
                 type: 'string'
             },
             tipo: {
                 title: 'Tipo',
-                type: 'string'
-            },
-            profissional: {
-                title: 'Profissional',
                 type: 'string'
             },
             status: {
@@ -69,10 +71,75 @@ export class ModelosDocumentosComponent implements OnInit {
         },
     };
 
-    constructor(public router: Router) { }
+    constructor(public router: Router,
+        private recepcionistaService: RecepcionistaService,
+        private configuracoesService: ConfiguracoesService,
+        private toastrService: NbToastrService, ) { }
 
-    ngOnInit() {
-        this.source.load(this.dataTable);
+    async ngOnInit() {
+        await this.obterMedicos();
+    }
+
+    public async obterMedicos(): Promise<void> {
+        this.isLoading = true;
+        await this.recepcionistaService.obterMedicos().then(response => {
+            if (response.sucesso) {
+                this.medicos = response.resultado;
+                this.medicosFiltrado = this.medicos;
+            } else {
+                this.toastrService.show('', response.error,
+                    { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+                this.medicos = [];
+            }
+        }).catch(err => {
+            this.toastrService.show('', TOASTR.msgErroPadrao,
+                { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+            this.medicos = [];
+        }).finally(() => {
+            this.isLoading = false;
+        });
+    }
+
+    setStep(num: 1 | 2): void {
+        this.step = num;
+    }
+
+    async obterListaDocumentos() {
+        this.isLoading = true;
+        await this.configuracoesService.listarDocumentos(this.medicoSelecionado.id).then(resp => {
+            if (resp.sucesso) {
+                const listagem = resp.objeto.map(e => {
+                    return {
+                        profissional: this.medicoSelecionado.nome,
+                        tipo: DocumentosEnum.obterDescricao(e.tipoTemplate),
+                        status: e.ativo
+                    };
+                });
+                this.source.load(listagem);
+            } else {
+                this.toastrService.show('', resp.mensagens[0],
+                    { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+            }
+        }).catch(err => {
+            this.toastrService.show('', TOASTR.msgErroPadrao,
+                { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+        }).finally(() => {
+            this.isLoading = false;
+        });
+    }
+
+    filtrarMedico(nome: string) {
+        if (!nome) {
+            this.medicosFiltrado = this.medicos;
+            return;
+        }
+        this.medicosFiltrado = this.medicos.filter(e => e.nome.toLocaleLowerCase().includes(nome.toLocaleLowerCase()));
+    }
+
+    async selecionarMedico(medico: Usuario) {
+        this.setStep(2);
+        this.medicoSelecionado = medico;
+        await this.obterListaDocumentos();
     }
 
     customAction(event) {

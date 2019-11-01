@@ -20,6 +20,7 @@ export class EditorComponent implements OnInit, ControlValueAccessor {
     @Input() showButtons = true;
 
     @Output() blur = new EventEmitter();
+    @Output() required: boolean;
 
     constructor(
         @Optional() @Self() private controlDir: NgControl) {
@@ -60,5 +61,19 @@ export class EditorComponent implements OnInit, ControlValueAccessor {
 
     adicionarTexto(texto: string) {
         this.ckeditor.instance.insertHtml(texto);
+    }
+
+    public validate(value: string) {
+        const errors: any = {};
+        errors.required = this.required ? value === '' : false;
+
+        const hasError = Object.keys(errors).some(key => errors[key]);
+        if (this.required) {
+            this.controlDir.control.setErrors(hasError ? errors : null);
+        } else {
+            if (value) {
+                this.controlDir.control.setErrors(hasError ? errors : null);
+            }
+        }
     }
 }
