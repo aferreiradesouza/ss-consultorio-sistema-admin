@@ -10,6 +10,7 @@ import { ModelosDocumentosComponent } from './modelos-documentos/modelos-documen
 import { CKEditorModule } from 'ng2-ckeditor';
 import { CellStatusTableComponent } from './components-table/cell-status-table.component';
 import { CadastroDocumentosComponent } from './modelos-documentos/cadastro-documentos/cadastro-documentos.component';
+import { EditarModelosDocumentosComponent } from './modelos-documentos/editar-documentos/editar-documentos.component';
 
 const PAGES = [
   AnamneseComponent,
@@ -22,6 +23,7 @@ const CELL_TABLE = [
 ];
 
 const MODAIS = [
+  EditarModelosDocumentosComponent
 ];
 
 const NB_MODULES = [

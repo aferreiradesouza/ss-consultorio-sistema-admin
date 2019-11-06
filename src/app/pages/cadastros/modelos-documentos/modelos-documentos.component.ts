@@ -6,10 +6,12 @@ import { CellStatusTableComponent } from '../components-table/cell-status-table.
 import { Router } from '@angular/router';
 import { ConfiguracoesService } from '../../../shared/services/configuracoes.service';
 import { Usuario, ListagemUsuario } from '../../../shared/interface';
-import { NbToastrService } from '@nebular/theme';
+import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { TOASTR } from '../../../shared/constants/toastr';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 import { DocumentosEnum } from '../../../shared/enums/documentos.enum';
+import { EditarModelosDocumentosComponent } from './editar-documentos/editar-documentos.component';
+import { PREVIEW } from '../../../shared/constants/pdf';
 
 @Component({
     selector: 'ngx-modelos-documentos',
@@ -38,16 +40,12 @@ export class ModelosDocumentosComponent implements OnInit {
             position: 'right',
             custom: [
                 {
-                    name: 'perfil',
-                    title: '<i class="nb-person"></i>'
+                    name: 'visualizar',
+                    title: '<i class="nb-search"></i>'
                 },
                 {
                     name: 'edit',
                     title: '<i class="nb-edit"></i>'
-                },
-                {
-                    name: 'delete',
-                    title: '<i class="nb-trash"></i>'
                 }
             ],
             add: false,
@@ -57,7 +55,10 @@ export class ModelosDocumentosComponent implements OnInit {
         columns: {
             nome: {
                 title: 'Nome',
-                type: 'string'
+                type: 'string',
+                valuePrepareFunction: (value) => {
+                    return value || '-';
+                }
             },
             tipo: {
                 title: 'Tipo',
@@ -74,6 +75,7 @@ export class ModelosDocumentosComponent implements OnInit {
     constructor(public router: Router,
         private recepcionistaService: RecepcionistaService,
         private configuracoesService: ConfiguracoesService,
+        public dialogService: NbDialogService,
         private toastrService: NbToastrService, ) { }
 
     async ngOnInit() {
@@ -112,7 +114,8 @@ export class ModelosDocumentosComponent implements OnInit {
                     return {
                         nome: e.nome,
                         tipo: DocumentosEnum.obterDescricao(e.tipoTemplate),
-                        status: e.ativo
+                        status: e.ativo,
+                        dados: e
                     };
                 });
                 this.source.load(listagem);
@@ -143,7 +146,36 @@ export class ModelosDocumentosComponent implements OnInit {
     }
 
     customAction(event) {
-        console.log(event);
+        if (event.action === 'visualizar') {
+            this.verTemplate(event);
+        } else if (event.action === 'edit') {
+            console.log(event);
+            this.editar(event);
+        }
+    }
+
+    verTemplate(event) {
+        const popupWin = window.open('', '_blank', `width=${PREVIEW.width},height=${PREVIEW.height},location=no,left=200px`);
+        popupWin.document.open();
+        popupWin.document.write(`<html><title>${event.data.nome || '-'}</title></head><body">`);
+        popupWin.document.write(event.data.dados.textoHtml);
+        popupWin.document.write('</html>');
+        popupWin.document.close();
+    }
+
+    editar(event) {
+        this.dialogService.open(
+            EditarModelosDocumentosComponent,
+            {
+                context: {
+                    id: event.data.id,
+                    data: event.data.dados
+                },
+                closeOnEsc: true,
+                autoFocus: false,
+                closeOnBackdropClick: false,
+                hasScroll: true
+            });
     }
 
     onSearch(query: string = '') {
