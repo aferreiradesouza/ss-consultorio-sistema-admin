@@ -175,6 +175,10 @@ export class ModelosDocumentosComponent implements OnInit {
                 autoFocus: false,
                 closeOnBackdropClick: false,
                 hasScroll: true
+            }).onClose.subscribe(async (response: boolean) => {
+                if (response) {
+                    await this.obterListaDocumentos();
+                }
             });
     }
 

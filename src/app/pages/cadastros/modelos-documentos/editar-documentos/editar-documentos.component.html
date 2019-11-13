@@ -1,12 +1,31 @@
-<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary" status="primary">
+<nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary" status="primary" size="large">
     <nb-card-header>
         Editar Template
     </nb-card-header>
-    <nb-card-body class="fix-modal" [formGroup]="form">
+    <nb-card-body class="fix-modal" style="max-width: 1000px;" [formGroup]="form">
+        <div class="row">
+            <div class="col-sm-6">
+                <ngx-input-simple label="Nome" [required]="true" [feedback]="false" formControlName="nome">
+                </ngx-input-simple>
+            </div>
+            <div class="col-sm-4 mt-1">
+                <label class="label d-block">Tipo *</label>
+                <nb-select fullWidth placeholder="Selecione" formControlName="tipo">
+                    <nb-option [value]="item.id" *ngFor="let item of tiposDocumento">{{item.documento}}
+                    </nb-option>
+                </nb-select>
+            </div>
+            <div class="col-sm-2 align-center">
+                <nb-checkbox class="mt-2" status="primary" formControlName="status">Ativo</nb-checkbox>
+            </div>
+        </div>
         <ngx-editor id="printarea" [required]="true" formControlName="texto"></ngx-editor>
     </nb-card-body>
     <nb-card-footer>
-        {{form.value | json}}
-        <button class="mr-4" nbButton status="basic" (click)="dismiss(false)">Voltar</button>
+        <div class="d-flex">
+            <button class="mt-4 mr-auto" nbButton status="basic" (click)="dismiss(false)">Voltar</button>
+            <button class="mt-4 mr-4 ml-auto" nbButton status="info" (click)="printPreview()">Preview</button>
+            <button class="mt-4" nbButton status="primary" (click)="editar()" [disabled]="!form.valid">Editar documento</button>
+        </div>
     </nb-card-footer>
 </nb-card>

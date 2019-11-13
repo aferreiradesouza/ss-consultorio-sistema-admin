@@ -186,6 +186,10 @@ export interface ICriarDocumento extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface IEditarDocumento extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
 export interface IListarDocumento extends DefaultHttpResponse {
     objeto: ListagemDocumentos[];
 }
