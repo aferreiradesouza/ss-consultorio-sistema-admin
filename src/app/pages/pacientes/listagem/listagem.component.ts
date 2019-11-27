@@ -40,6 +40,10 @@ export class ListagemPacientesComponent implements OnInit {
         {
           name: 'delete',
           title: '<i class="nb-trash"></i>'
+        },
+        {
+          name: 'atendimento',
+          title: '<i class="nb-compose"></i>'
         }
       ],
       add: false,

@@ -27,6 +27,10 @@
   color: #059b00 !important;
 }
 
+:host ::ng-deep ng2-st-tbody-custom a.ng2-smart-action .nb-compose:hover {
+  color: #b9b606 !important;
+}
+
 :host ::ng-deep ng2-smart-table td.ng2-smart-actions {
   height: auto !important;
 }

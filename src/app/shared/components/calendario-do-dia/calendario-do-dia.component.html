@@ -51,10 +51,15 @@
                         {{getNomeStatus(item.consulta.codigoStatusConsulta)}}
                     </div>
                     <!-- <button *ngIf="!verDiasLivre" class="ml-auto" nbButton shape="round" size="small" status="basic">?</button> -->
-                    <div *ngIf="!verDiasLivre" class="observacao cursor-pointer ml-auto"
-                        [nbTooltip]="item.consulta.observacao || 'Nenhuma observação'"
-                        nbTooltipPlacement="left" nbTooltipStatus="basic">
-                        ?
+                    <div class="tooltipsDia ml-auto d-flex" *ngIf="!verDiasLivre">
+                        <div class="iniciarAtendimento cursor-pointer">
+                            Iniciar Atendimento
+                        </div>
+                        <div class="observacao cursor-pointer"
+                            [nbTooltip]="item.consulta.observacao || 'Nenhuma observação'"
+                            nbTooltipPlacement="left" nbTooltipStatus="basic">
+                            ?
+                        </div>
                     </div>
                     <nb-actions class="ml-auto" size="small" *ngIf="verDiasLivre">
                         <nb-action class="button-encaixe"  *ngIf="showButtonEncaixe(info, i, item)">
