@@ -232,6 +232,8 @@ export class ListagemPacientesComponent implements OnInit {
       this.editar(event);
     } else if (event.action === 'delete') {
       this.deletar(event);
+    } else if (event.action === 'atendimento') {
+      this.router.navigateByUrl('medico/atendimento');
     } else {
       this.verPerfil(event);
     }

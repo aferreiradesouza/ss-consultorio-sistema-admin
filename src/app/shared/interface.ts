@@ -194,6 +194,10 @@ export interface IListarDocumento extends DefaultHttpResponse {
     objeto: ListagemDocumentos[];
 }
 
+export interface IObterAnamnese extends DefaultHttpResponse {
+    objeto: Anamnese;
+}
+
 export interface ListagemDocumentos {
     id: number;
     idMedico: number;

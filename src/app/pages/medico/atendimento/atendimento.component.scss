@@ -1,0 +1,24 @@
+@import "../../../shared/styles/themes.scss";
+
+.title {
+    font-size: 20px;
+}
+
+.tempo {
+    padding: 2px 16px;
+    background-color: nb-theme(color-basic-500);
+    border-radius: 6px;
+    font-size: 21px;
+}
+
+nb-list-item:first-child {
+  border-top: none;
+}
+
+nb-list-item {
+  border: none;
+}
+
+nb-list-item:last-child {
+  border-bottom: none;
+}
