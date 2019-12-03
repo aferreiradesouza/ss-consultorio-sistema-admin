@@ -4,7 +4,7 @@ import { NbButtonModule, NbCardModule, NbSpinnerModule, NbSelectModule, NbIconMo
 import { SharedModule } from '../../shared/shared.module';
 import { AgendaDoDiaComponent } from './agenda-do-dia/agenda-do-dia.component';
 import { MedicoRoutingModule } from './medico-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AtendimentoComponent } from './atendimento/atendimento.component';
 
 const MODULES = [
@@ -21,7 +21,8 @@ const MODULES = [
     MedicoRoutingModule,
     NbSpinnerModule,
     ...MODULES,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     AgendaDoDiaComponent,

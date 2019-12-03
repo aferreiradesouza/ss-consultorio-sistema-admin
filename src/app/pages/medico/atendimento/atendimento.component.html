@@ -20,10 +20,17 @@
                     </nb-card-body>
                 </nb-card>
             </div>
-            <div class="col-sm-8">
-                <nb-card class="mb-0">
+            <div class="col-sm-8" [formGroup]="form" *ngIf="lista">
+                <nb-card class="mb-0 group-form" *ngFor="let item of lista">
+                    <nb-card-header>{{item.title}}</nb-card-header>
                     <nb-card-body>
-                        2
+                        <nb-list>
+                            <nb-list-item class="cursor-pointer" *ngFor="let subItem of item.children">
+                                <ngx-input-simple [feedback]="false" [label]="subItem.label" type="text"
+                                    [formControlName]="subItem.control">
+                                </ngx-input-simple>
+                            </nb-list-item>
+                        </nb-list>
                     </nb-card-body>
                 </nb-card>
             </div>

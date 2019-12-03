@@ -40,6 +40,7 @@ export class AnamneseComponent implements OnInit {
 
     initializeForm() {
         this.form = new FormGroup({});
+        console.log(ANAMNESE);
         this.listaAnamnese.forEach(e => {
             e.children.forEach(f => {
                 this.addControl(f.control);
@@ -115,7 +116,6 @@ export class AnamneseComponent implements OnInit {
                     { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
             }
         }).catch(err => {
-            console.log(err);
             this.toastrService.show('', TOASTR.msgErroPadrao,
                 { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
         }).finally(() => {

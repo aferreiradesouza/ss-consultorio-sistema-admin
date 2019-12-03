@@ -22,3 +22,11 @@ nb-list-item {
 nb-list-item:last-child {
   border-bottom: none;
 }
+
+.group-form {
+    margin-top: 20px;
+
+    &:first-child {
+        margin-top: 0px;
+    }
+}
