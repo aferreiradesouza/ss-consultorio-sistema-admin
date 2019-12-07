@@ -3,8 +3,14 @@
         <div class="mr-auto title">
             Atendimento
         </div>
-        <div class="ml-auto tempo">
-            {{tempo}}
+        <div class="ml-auto d-flex">
+            <div class="mr-4">
+                <button type="submit" [disabled]="disabledIniciarAtendimento" (click)="iniciarAtendimento()" nbButton
+                    status="primary">Iniciar atendimento</button>
+            </div>
+            <div class="tempo align-center">
+                {{tempo}}
+            </div>
         </div>
     </nb-card-header>
     <nb-card-body>
@@ -13,7 +19,8 @@
                 <nb-card class="mb-0">
                     <nb-card-body class="p-0">
                         <nb-list>
-                            <nb-list-item *ngFor="let item of menu">
+                            <nb-list-item (click)="setTabActive(item.value)" class="subMenu" *ngFor="let item of menu"
+                                [ngClass]="{'active' : tabActive === item.value}">
                                 {{ item.label }}
                             </nb-list-item>
                         </nb-list>
@@ -21,18 +28,24 @@
                 </nb-card>
             </div>
             <div class="col-sm-8" [formGroup]="form" *ngIf="lista">
-                <nb-card class="mb-0 group-form" *ngFor="let item of lista">
-                    <nb-card-header>{{item.title}}</nb-card-header>
-                    <nb-card-body>
-                        <nb-list>
-                            <nb-list-item class="cursor-pointer" *ngFor="let subItem of item.children">
-                                <ngx-input-simple [feedback]="false" [label]="subItem.label" type="text"
-                                    [formControlName]="subItem.control">
-                                </ngx-input-simple>
-                            </nb-list-item>
-                        </nb-list>
-                    </nb-card-body>
-                </nb-card>
+                    {{form.value | json}}
+                <ng-container *ngIf="tabActive === 'anamnese'">
+                        <nb-card class="mb-0 group-form" *ngFor="let item of lista">
+                            <nb-card-header>{{item.title}}</nb-card-header>
+                            <nb-card-body>
+                                <nb-list>
+                                    <nb-list-item *ngFor="let subItem of item.children">
+                                        <ngx-input-simple [feedback]="false" [label]="subItem.label" type="text"
+                                            [formControlName]="subItem.control" [disabled]="formDisabled">
+                                        </ngx-input-simple>
+                                    </nb-list-item>
+                                </nb-list>
+                            </nb-card-body>
+                        </nb-card>
+                </ng-container>
+                <ng-container *ngIf="tabActive === 'prescricao'">
+                    <ngx-editor formControlName="prescricao"></ngx-editor>
+                </ng-container>
             </div>
         </div>
     </nb-card-body>

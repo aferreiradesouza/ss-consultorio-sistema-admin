@@ -10,7 +10,8 @@ import { AtendimentoComponent } from './atendimento/atendimento.component';
 const MODULES = [
   NbSelectModule,
   NbIconModule,
-  NbListModule
+  NbListModule,
+  NbButtonModule
 ];
 
 @NgModule({

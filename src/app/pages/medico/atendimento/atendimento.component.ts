@@ -19,11 +19,16 @@ export class AtendimentoComponent implements OnInit {
     public isLoading = false;
     public tempo = '00:00:00';
     public form: FormGroup;
+    public formDisabled = true;
+    public tabActive = 'anamnese';
+    public disabledIniciarAtendimento = false;
     public menu = [
-        {label: '1', value: '1'},
-        {label: '2', value: '2'},
-        {label: '3', value: '3'},
-        {label: '4', value: '4'},
+        {label: 'Anamnese', value: 'anamnese'},
+        {label: 'Prescrição', value: 'prescricao'},
+        {label: 'Pedidos de exames', value: 'pedidosExames'},
+        {label: 'Laudos de exames', value: 'laudoExames'},
+        {label: 'Atestados', value: 'atestado'},
+        {label: 'Imagens e documentos', value: 'imgDoc'},
     ];
     public lista: any;
 
@@ -35,7 +40,6 @@ export class AtendimentoComponent implements OnInit {
 
     async ngOnInit() {
         await this.obterAnamnese();
-        this.startCount();
     }
 
     async obterAnamnese() {
@@ -78,8 +82,9 @@ export class AtendimentoComponent implements OnInit {
     }
 
     initializeForm() {
-        this.form = new FormGroup({});
-        console.log(this.lista);
+        this.form = new FormGroup({
+            prescricao: new FormControl(null)
+        });
         this.lista.forEach(e => {
             e.children.forEach(f => {
                 this.addControl(f.control);
@@ -88,7 +93,7 @@ export class AtendimentoComponent implements OnInit {
     }
 
     addControl(control: string) {
-        this.form.addControl(control, new FormControl(null));
+        this.form.addControl(control, new FormControl({value: null, disabled: true}));
     }
 
     startCount() {
@@ -97,5 +102,20 @@ export class AtendimentoComponent implements OnInit {
             const tempo = moment.utc(moment(new Date()).diff(dataAtual)).format('HH:mm:ss');
             this.tempo = tempo;
         }, 1000);
+    }
+
+    habilitarFormulario() {
+        this.form.enable();
+        this.formDisabled = false;
+    }
+
+    iniciarAtendimento() {
+        this.startCount();
+        this.habilitarFormulario();
+        this.disabledIniciarAtendimento = true;
+    }
+
+    setTabActive(tab: string) {
+        this.tabActive = tab;
     }
 }
