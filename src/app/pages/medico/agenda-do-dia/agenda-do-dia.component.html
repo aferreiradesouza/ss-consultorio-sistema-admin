@@ -21,7 +21,7 @@
         <div *ngIf="data">
             <ngx-calendario-do-dia *ngIf="showCalendario()" [data]="dataCalendarioDia" [showHeader]="false"
                 [verDiasLivre]="false" [dataSelecionada]="dataEvent" [statusConsultas]="statusConsultas"
-                [tiposAtendimentos]="tiposAtendimentos">
+                [tiposAtendimentos]="tiposAtendimentos" (iniciarAtendimento)="iniciarAtendimento($event)">
             </ngx-calendario-do-dia>
             <span class="msgError" *ngIf="!showCalendario()">Nenhuma Consulta marcada no dia.</span>
         </div>

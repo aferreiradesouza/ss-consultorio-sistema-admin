@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AgendaDoDiaComponent } from './agenda-do-dia/agenda-do-dia.component';
 import { AtendimentoComponent } from './atendimento/atendimento.component';
+import { AtendimentoGuard } from '../../shared/guard/atendimento.guard';
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'atendimento',
-    component: AtendimentoComponent
+    component: AtendimentoComponent,
+    canActivate: [AtendimentoGuard]
   }
 ];
 

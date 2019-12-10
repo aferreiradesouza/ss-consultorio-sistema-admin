@@ -198,6 +198,10 @@ export interface IObterAnamnese extends DefaultHttpResponse {
     objeto: Anamnese;
 }
 
+export interface IObterDocumentoFormatado extends DefaultHttpResponse {
+    objeto: string;
+}
+
 export interface ListagemDocumentos {
     id: number;
     idMedico: number;

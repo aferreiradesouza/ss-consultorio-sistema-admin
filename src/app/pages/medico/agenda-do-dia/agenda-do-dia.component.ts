@@ -7,6 +7,8 @@ import { LocalStorageService } from '../../../shared/services/local-storage.serv
 import { ListagemConsultoriosUsuario, StatusConsulta, TiposAtendimento } from '../../../shared/interface';
 import { NbToastrService } from '@nebular/theme';
 import { TOASTR } from '../../../shared/constants/toastr';
+import { StorageService } from '../../../shared/services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-agenda-do-dia',
@@ -48,7 +50,9 @@ export class AgendaDoDiaComponent implements OnInit {
     public calendarioService: CalendarioService,
     public recepcionistaService: RecepcionistaService,
     public localStorage: LocalStorageService,
-    private toastrService: NbToastrService, ) { }
+    private toastrService: NbToastrService,
+    private storageService: StorageService,
+    private router: Router) { }
 
   async ngOnInit() {
     this.medico = this.localStorage.getJson('login').id;
@@ -186,5 +190,10 @@ export class AgendaDoDiaComponent implements OnInit {
       this.dataCalendarioDia = this.data[index - 1];
       this.dataEvent = moment(this.data[index - 1].data).toDate();
     }
+  }
+
+  iniciarAtendimento(event: number) {
+    this.storageService.storage.consulta = event;
+    this.router.navigateByUrl('/medico/atendimento');
   }
 }

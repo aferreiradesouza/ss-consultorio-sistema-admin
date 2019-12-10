@@ -26,6 +26,7 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
     @Output() alterarStatus = new EventEmitter();
     @Output() marcarConsulta = new EventEmitter();
     @Output() infoConsulta = new EventEmitter();
+    @Output() iniciarAtendimento = new EventEmitter();
 
     constructor(public calendarioService: CalendarioService, iconsLibrary: NbIconLibraries) {
         iconsLibrary.registerFontPack('fa', { packClass: 'fa', iconClassPrefix: 'fa' });
@@ -137,6 +138,10 @@ export class CalendarioDoDiaComponent implements OnInit, OnChanges {
         } else {
             return {mensagem: `${count} consulta${count > 1 ? 's' : ''} marcada${count > 1 ? 's' : ''}`, count};
         }
+    }
+
+    iniciarAtendimentoEvent(id: string | number) {
+        this.iniciarAtendimento.emit(id);
     }
 }
 

@@ -88,6 +88,9 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { DocumentosEnum } from './enums/documentos.enum';
+import { StorageService } from './services/storage.service';
+import { AtendimentoGuard } from './guard/atendimento.guard';
+import { AtendimentoService } from './services/atendimento.service';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -195,8 +198,11 @@ export class SharedModule {
         SessionStorageService,
         ConfiguracoesService,
         RecepcionistaService,
+        AtendimentoService,
         UtilService,
         AuthGuard,
+        AtendimentoGuard,
+        StorageService,
         { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
         ...ENUMS,
         ...NbThemeModule.forRoot(

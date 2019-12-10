@@ -2,7 +2,7 @@ enum Documentos {
     'laudo' = 1,
     'atestado' = 2,
     'pedidoDeExame' = 3,
-    'receita' = 4,
+    'receita' = 4
 }
 
 export class DocumentosEnum {
