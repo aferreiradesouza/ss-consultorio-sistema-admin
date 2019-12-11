@@ -193,7 +193,6 @@ export class AgendaDoDiaComponent implements OnInit {
   }
 
   iniciarAtendimento(event: number) {
-    this.storageService.storage.consulta = event;
-    this.router.navigateByUrl('/medico/atendimento');
+    this.router.navigateByUrl(`/medico/atendimento/${event}`);
   }
 }

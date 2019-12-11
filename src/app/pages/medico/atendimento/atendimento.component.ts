@@ -12,6 +12,9 @@ import { RecepcionistaService } from '../../../shared/services/recepcionista.ser
 import { StorageService } from '../../../shared/services/storage.service';
 import { AtendimentoService } from '../../../shared/services/atendimento.service';
 import { EditorComponent } from '../../../shared/components';
+import { DomSanitizer } from '@angular/platform-browser';
+import { PREVIEW } from '../../../shared/constants/pdf';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'ngx-atendimento',
@@ -36,7 +39,10 @@ export class AtendimentoComponent implements OnInit {
     public lista: any;
     public consulta: InfoConsulta;
     public templates: ListagemDocumentos[];
-    public templatePrescricao = null;
+
+    listagemDocumentos: { [key: string]: string[] } = {
+        listaPrescricao: []
+    };
 
     @ViewChild(EditorComponent, {static: false}) editor: EditorComponent;
 
@@ -47,7 +53,9 @@ export class AtendimentoComponent implements OnInit {
         private toastrService: NbToastrService,
         public recepcionistaService: RecepcionistaService,
         public storageService: StorageService,
-        private atendimentoService: AtendimentoService) { }
+        private atendimentoService: AtendimentoService,
+        private domSanitizer: DomSanitizer,
+        private route: ActivatedRoute) { }
 
     async ngOnInit() {
         await this.obterDadosIniciais();
@@ -64,7 +72,8 @@ export class AtendimentoComponent implements OnInit {
     }
 
     async obterConsultaId(): Promise<void> {
-        await this.recepcionistaService.obterConsultaId(this.storageService.storage.consulta).then(response => {
+        const id = parseInt(this.route.snapshot.paramMap.get('idConsulta'), 10);
+        await this.recepcionistaService.obterConsultaId(id).then(response => {
             if (response.sucesso) {
                 this.consulta = response.objeto;
             } else {
@@ -210,5 +219,29 @@ export class AtendimentoComponent implements OnInit {
 
     getTemplaterPerFilter(id) {
         return this.templates.filter(e => e.tipoTemplate === id);
+    }
+
+    salvarDocumento(type: string) {
+        if (type === 'prescricao') {
+            this.listagemDocumentos.listaPrescricao.push(this.form.get('prescricao').value);
+        }
+        console.log(this.listagemDocumentos);
+    }
+
+    getSanitazer(html) {
+        return this.domSanitizer.bypassSecurityTrustHtml(html);
+    }
+
+    printPreview(titulo: string, texto: string, type: 'print' | 'preview') {
+        const popupWin = window.open('', '_blank', `width=${PREVIEW.width},height=${PREVIEW.height},location=no,left=200px`);
+        popupWin.document.open();
+        popupWin.document.write(`<html><title>${titulo || '-'}</title></head><body ${type === 'print' ? 'onload="window.print()"' : ''}>`);
+        popupWin.document.write(texto);
+        popupWin.document.write('</html>');
+        popupWin.document.close();
+    }
+
+    excluirDoc(index: number) {
+        this.listagemDocumentos.listaPrescricao.splice(index, 1);
     }
 }

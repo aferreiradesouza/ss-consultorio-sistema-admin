@@ -1,14 +1,14 @@
 @import "../../../shared/styles/themes.scss";
 
 .title {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .tempo {
-    padding: 2px 16px;
-    background-color: nb-theme(color-basic-500);
-    border-radius: 6px;
-    font-size: 21px;
+  padding: 2px 16px;
+  background-color: nb-theme(color-basic-500);
+  border-radius: 6px;
+  font-size: 21px;
 }
 
 nb-list-item:first-child {
@@ -35,9 +35,34 @@ nb-list-item:last-child {
 }
 
 .group-form {
-    margin-top: 20px;
+  margin-top: 20px;
 
-    &:first-child {
-        margin-top: 0px;
-    }
+  &:first-child {
+    margin-top: 0px;
+  }
+}
+
+.container-documentos {
+  border: 1px solid #ccc;
+  height: 330px;
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 0px;
+  right: 15px;
+  height: 30px;
+  display: flex;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+  width: 102px;
+  border: 1px solid #ccc;
+  padding-right: 6px;
+
+  > nb-icon {
+    margin-left: 10px;
+    cursor: pointer;
+  }
 }
