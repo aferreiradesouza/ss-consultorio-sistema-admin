@@ -40,19 +40,17 @@ export class AtendimentoComponent implements OnInit {
     ];
 
     public documentos = [
-        { item: 'laudoExames', id: 1, tab1: 'Novo laudo', tab2: 'Laudo emitidas' },
-        { item: 'atestado', id: 2, tab1: 'Novo atestado', tab2: 'Atestados emitidos' },
-        { item: 'pedidosExames', id: 3, tab1: 'Novo pedido de exame', tab2: 'Pedido de exames emitidos' },
-        { item: 'prescricao', id: 4, tab1: 'Nova Prescrição', tab2: 'Prescrições emitidas' },
+        { item: 'laudoExames', id: 1, tab1: 'Novo laudo', tab2: 'Laudo emitidas', print: 'Laudo de exames' },
+        { item: 'atestado', id: 2, tab1: 'Novo atestado', tab2: 'Atestados emitidos', print: 'Atestados' },
+        { item: 'pedidosExames', id: 3, tab1: 'Novo pedido de exame', tab2: 'Pedido de exames emitidos', print: 'Pedidos de exames' },
+        { item: 'prescricao', id: 4, tab1: 'Nova Prescrição', tab2: 'Prescrições emitidas', print: 'Prescrição' },
     ];
 
     public lista: any;
     public consulta: ConsultaAtendimento;
     public templates: ListagemDocumentos[];
 
-    listagemDocumentos: { [key: string]: string[] } = {
-        listaPrescricao: []
-    };
+    public listagemDocumentos: any[] = [];
 
     @ViewChild(EditorComponent, { static: false }) editor: EditorComponent;
 
@@ -72,6 +70,9 @@ export class AtendimentoComponent implements OnInit {
         if (this.consulta.idStatusConsulta === 4) {
             this.startCount();
             this.habilitarFormulario();
+            setTimeout(() => {
+                this.preencherAnamnese();
+            }, 0);
         }
     }
 
@@ -171,6 +172,7 @@ export class AtendimentoComponent implements OnInit {
         });
         this.form.get('template').valueChanges.subscribe(async e => {
             if (!e) { return; }
+            this.editor.removerTexto();
             await this.obterDocumentoFormatado(e);
         });
     }
@@ -249,6 +251,7 @@ export class AtendimentoComponent implements OnInit {
     }
 
     async salvarDocumento(id: number, documento: string) {
+        this.editor.removerTexto();
         await this.criarTemplate(id, this.form.get(documento).value);
     }
 
@@ -288,8 +291,24 @@ export class AtendimentoComponent implements OnInit {
         popupWin.document.close();
     }
 
-    excluirDoc(index: number) {
-        this.listagemDocumentos.listaPrescricao.splice(index, 1);
+    excluirDoc(id: number, idDoc: number) {
+        this.isLoadingTab = true;
+        this.atendimentoService.removerTemplate(id).then(async response => {
+            if (response.sucesso) {
+                await this.obterConsultaId();
+                this.atualizarListagemDocumentos(idDoc);
+                this.toastrService.show('', 'Template removido com sucesso',
+                    { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
+            } else {
+                this.toastrService.show('', response.mensagens[0],
+                    { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+            }
+        }).catch(err => {
+            this.toastrService.show('', TOASTR.msgErroPadrao,
+                { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+        }).finally(() => {
+            this.isLoadingTab = false;
+        });
     }
 
     async changeTab(event, idDocumento) {
@@ -302,9 +321,15 @@ export class AtendimentoComponent implements OnInit {
         if (tabValid.indexOf(event.tabTitle) > -1) {
             this.isLoadingTab = true;
             await this.obterConsultaId();
-            this.listagemDocumentos.listaPrescricao = this.consulta.consultasTemplatesDocumentos.filter(e => e.tipoTemplate === idDocumento).map(e => e.textoHtml);
+            this.listagemDocumentos = this.consulta.consultasTemplatesDocumentos
+                .filter(e => e.tipoTemplate === idDocumento);
             this.isLoadingTab = false;
         }
+    }
+
+    atualizarListagemDocumentos(idDocumento) {
+        this.listagemDocumentos = this.consulta.consultasTemplatesDocumentos
+            .filter(e => e.tipoTemplate === idDocumento);
     }
 
     async registrarAnamnese() {
@@ -330,6 +355,18 @@ export class AtendimentoComponent implements OnInit {
                 { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
         }).finally(() => {
             this.isLoading = false;
+        });
+    }
+
+    preencherAnamnese() {
+        const arr = ANAMNESE;
+        const consulta = Object.keys(this.consulta.consultaAnamnese);
+        arr.forEach(e => {
+            e.children.forEach(c => {
+                if (consulta.indexOf(c.control) > -1, this.consulta.consultaAnamnese[c.control]) {
+                    this.form.get(c.control).setValue(this.consulta.consultaAnamnese[c.control]);
+                }
+            });
         });
     }
 }

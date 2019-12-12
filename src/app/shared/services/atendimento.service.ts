@@ -27,4 +27,9 @@ export class AtendimentoService {
         const url = `${environment.urlBase}admin/agenda/obterConsultaMedico/${id}`;
         return await this.ajax.get<IObterConsultaMedico>(url);
     }
+
+    async removerTemplate(id) {
+        const url = `${environment.urlBase}admin/agenda/consulta/removerTemplateDocumento/${id}`;
+        return await this.ajax.delete<IObterConsultaMedico>(url);
+    }
 }

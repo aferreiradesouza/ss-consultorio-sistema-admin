@@ -63,6 +63,10 @@ export class EditorComponent implements OnInit, ControlValueAccessor {
         this.ckeditor.instance.insertHtml(texto);
     }
 
+    removerTexto() {
+        this.ckeditor.instance.setData('');
+    }
+
     public validate(value: string) {
         const errors: any = {};
         errors.required = this.required ? value === '' : false;

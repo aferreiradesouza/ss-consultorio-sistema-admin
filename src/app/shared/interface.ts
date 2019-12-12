@@ -214,6 +214,10 @@ export interface IObterConsultaMedico extends DefaultHttpResponse {
     objeto: ConsultaAtendimento;
 }
 
+export interface IRemoverTemplateConsulta extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
 export interface ListagemDocumentos {
     id: number;
     idMedico: number;

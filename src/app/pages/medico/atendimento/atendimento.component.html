@@ -1,7 +1,7 @@
 <nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary">
     <nb-card-header class="d-flex vertical-align">
         <div class="mr-auto title">
-            {{consulta?.usuario?.nome || '-'}}
+            {{consulta?.paciente?.nome || '-'}}
         </div>
         <div class="ml-auto d-flex">
             <div class="mr-4">
@@ -55,7 +55,7 @@
                                         <div class="mb-3">
                                             <label class="label d-block">Selecione um template</label>
                                             <nb-select formControlName="template" style="min-width: 14rem"
-                                                placeholder="Selecione" [attr.disabled]="!getTemplaterPerFilter(item.id).length ? true : undefined">
+                                                placeholder="Selecione" [disabled]="!getTemplaterPerFilter(item.id).length">
                                                 <nb-option *ngFor="let template of getTemplaterPerFilter(item.id)"
                                                     [value]="template.id">{{template.nome || '-'}}</nb-option>
                                             </nb-select>
@@ -67,26 +67,26 @@
                                         </div>
                                     </nb-tab>
                                     <nb-tab [tabTitle]="item.tab2" [nbSpinner]="isLoadingTab" nbSpinnerStatus="primary">
-                                        <div class="row" *ngIf="listagemDocumentos.listaPrescricao.length">
+                                        <div class="row" *ngIf="listagemDocumentos.length">
                                             <div class="col-12 col-md-6 col-sm-12 col-lg-6 position-relative"
-                                                *ngFor="let subItem of listagemDocumentos.listaPrescricao;let i = index">
+                                                *ngFor="let subItem of listagemDocumentos;let i = index">
                                                 <div class="container-documentos mb-4"
-                                                    [innerHtml]="getSanitazer(subItem)">
+                                                    [innerHtml]="getSanitazer(subItem.textoHtml)">
                                                 </div>
                                                 <div class="icon d-flex">
-                                                    <nb-icon (click)="printPreview('Prescrição', subItem, 'print')"
+                                                    <nb-icon (click)="printPreview(item.print, subItem.textoHtml, 'print')"
                                                         nbTooltip="Imprimir" nbTooltipStatus="primary"
                                                         icon="printer-outline" status="primary"></nb-icon>
-                                                    <nb-icon (click)="printPreview('Prescrição', subItem, 'preview')"
+                                                    <nb-icon (click)="printPreview(item.print, subItem.textoHtml, 'preview')"
                                                         nbTooltip="Visualizar" nbTooltipStatus="success"
                                                         icon="eye-outline" status="success"></nb-icon>
-                                                    <nb-icon (click)="excluirDoc(i)" nbTooltip="Excluir"
+                                                    <nb-icon (click)="excluirDoc(subItem.id, item.id)" nbTooltip="Excluir"
                                                         nbTooltipStatus="danger" icon="trash-2-outline" status="danger">
                                                     </nb-icon>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div *ngIf="!listagemDocumentos.listaPrescricao.length">
+                                        <div *ngIf="!listagemDocumentos.length">
                                             Não há nenhum documento salvo
                                         </div>
                                     </nb-tab>
@@ -98,7 +98,7 @@
             </div>
         </div>
     </nb-card-body>
-    <nb-card-footer class="d-flex">
+    <nb-card-footer class="d-flex" *ngIf="tabActive === 'anamnese'">
         <button (click)="registrarAnamnese()" class="ml-auto" type="submit" nbButton status="primary">Registrar
             Anamnese</button>
     </nb-card-footer>
