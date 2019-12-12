@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
 import { ConfiguracoesService } from '../../../shared/services/configuracoes.service';
 import { UtilService } from '../../../shared/services/util.service';
-import { Anamnese, Consulta, InfoConsulta, ListagemDocumentos } from '../../../shared/interface';
+import { Anamnese, Consulta, InfoConsulta, ListagemDocumentos, ConsultaAtendimento } from '../../../shared/interface';
 import { NbToastrService } from '@nebular/theme';
 import { TOASTR } from '../../../shared/constants/toastr';
 import { ANAMNESE } from '../../../shared/constants/anamnese';
@@ -38,8 +38,16 @@ export class AtendimentoComponent implements OnInit {
         { label: 'Laudos de exames', value: 'laudoExames' },
         { label: 'Atestados', value: 'atestado' }
     ];
+
+    public documentos = [
+        { item: 'laudoExames', id: 1, tab1: 'Novo laudo', tab2: 'Laudo emitidas' },
+        { item: 'atestado', id: 2, tab1: 'Novo atestado', tab2: 'Atestados emitidos' },
+        { item: 'pedidosExames', id: 3, tab1: 'Novo pedido de exame', tab2: 'Pedido de exames emitidos' },
+        { item: 'prescricao', id: 4, tab1: 'Nova Prescrição', tab2: 'Prescrições emitidas' },
+    ];
+
     public lista: any;
-    public consulta: InfoConsulta;
+    public consulta: ConsultaAtendimento;
     public templates: ListagemDocumentos[];
 
     listagemDocumentos: { [key: string]: string[] } = {
@@ -83,7 +91,7 @@ export class AtendimentoComponent implements OnInit {
 
     async obterConsultaId(): Promise<void> {
         const id = parseInt(this.route.snapshot.paramMap.get('idConsulta'), 10);
-        await this.recepcionistaService.obterConsultaId(id).then(response => {
+        await this.atendimentoService.obterConsultaMedico(id).then(response => {
             if (response.sucesso) {
                 this.consulta = response.objeto;
                 this.verificarConsulta();
@@ -151,14 +159,17 @@ export class AtendimentoComponent implements OnInit {
     initializeForm() {
         this.form = new FormGroup({
             prescricao: new FormControl(null),
-            templatePrescricao: new FormControl(null)
+            template: new FormControl(null),
+            laudoExames: new FormControl(null),
+            atestado: new FormControl(null),
+            pedidosExames: new FormControl(null),
         });
         this.lista.forEach(e => {
             e.children.forEach(f => {
                 this.addControl(f.control);
             });
         });
-        this.form.get('templatePrescricao').valueChanges.subscribe(async e => {
+        this.form.get('template').valueChanges.subscribe(async e => {
             if (!e) { return; }
             await this.obterDocumentoFormatado(e);
         });
@@ -187,7 +198,7 @@ export class AtendimentoComponent implements OnInit {
     }
 
     startCount() {
-        const dataAtual = moment(this.consulta.dataCadastro);
+        const dataAtual = moment(this.consulta.dataStatusConsulta);
         setInterval(() => {
             const tempo = moment.utc(moment(new Date()).diff(dataAtual)).format('HH:mm:ss');
             this.tempo = tempo;
@@ -237,12 +248,8 @@ export class AtendimentoComponent implements OnInit {
         return this.templates.filter(e => e.tipoTemplate === id);
     }
 
-    async salvarDocumento(type: string) {
-        const id = DocumentosEnum.obterNumerador(type);
-        if (id === 4) {
-            await this.criarTemplate(id, this.form.get('prescricao').value);
-        }
-        console.log(id);
+    async salvarDocumento(id: number, documento: string) {
+        await this.criarTemplate(id, this.form.get(documento).value);
     }
 
     async criarTemplate(tipoTemplate, textoHtml) {
@@ -285,9 +292,18 @@ export class AtendimentoComponent implements OnInit {
         this.listagemDocumentos.listaPrescricao.splice(index, 1);
     }
 
-    changeTab(event) {
-        if (event.tabTitle === 'Prescrições emitidas') {
-            console.log('lista documentos');
+    async changeTab(event, idDocumento) {
+        const tabValid = [
+            'Laudo emitidas',
+            'Atestados emitidos',
+            'Pedido de exames emitidos',
+            'Prescrições emitidas'
+        ];
+        if (tabValid.indexOf(event.tabTitle) > -1) {
+            this.isLoadingTab = true;
+            await this.obterConsultaId();
+            this.listagemDocumentos.listaPrescricao = this.consulta.consultasTemplatesDocumentos.filter(e => e.tipoTemplate === idDocumento).map(e => e.textoHtml);
+            this.isLoadingTab = false;
         }
     }
 

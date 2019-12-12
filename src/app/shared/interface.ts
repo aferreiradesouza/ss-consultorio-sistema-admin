@@ -210,6 +210,10 @@ export interface IRegistrarAnamnese extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface IObterConsultaMedico extends DefaultHttpResponse {
+    objeto: ConsultaAtendimento;
+}
+
 export interface ListagemDocumentos {
     id: number;
     idMedico: number;
@@ -510,4 +514,35 @@ export interface ListagemBloqueio {
     datas: any;
     idConsultorio: number;
     urlFotoConsultorio: string;
+}
+
+export interface ConsultaAtendimento {
+    id: number;
+    idPaciente: number;
+    idUsuario: number;
+    idConsultorio: number;
+    idEspecialidade: number;
+    idTipoConsulta: number;
+    idStatusConsulta: number;
+    dataStatusConsulta: string;
+    data: string;
+    hora: string;
+    observacao: string;
+    ehEncaixe: boolean;
+    dataCadastro: string;
+    valor: number;
+    consultorio: Consultorio;
+    especialidade: Especialidades;
+    paciente: Paciente;
+    statusConsulta: StatusConsulta;
+    tipoConsulta: TiposAtendimento;
+    usuario: Usuario;
+    consultaAnamnese: Anamnese;
+    consultasTemplatesDocumentos: Array<{
+        id: number,
+        idConsulta: number,
+        tipoTemplate: number,
+        textoHtml: string,
+        dataCadastro: string
+    }>;
 }

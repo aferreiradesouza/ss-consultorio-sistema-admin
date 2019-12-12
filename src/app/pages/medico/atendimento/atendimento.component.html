@@ -44,42 +44,54 @@
                         </nb-card-body>
                     </nb-card>
                 </ng-container>
-                <ng-container *ngIf="tabActive === 'prescricao'">
+                <ng-container *ngIf="tabActive !== 'anamnese'">
                     <nb-card class="mb-0 group-form">
                         <nb-card-body class="p-0 pt-3">
-                            <nb-tabset fullWidth (changeTab)="changeTab($event)">
-                                <nb-tab tabTitle="Nova Prescrição" class="p-3" [nbSpinner]="isLoadingTab" nbSpinnerStatus="primary">
-                                    <div class="mb-3">
-                                        <label class="label d-block">Selecione um template</label>
-                                        <nb-select formControlName="templatePrescricao" style="min-width: 14rem"
-                                            *ngFor="let item of getTemplaterPerFilter(4)" placeholder="Selecione">
-                                            <nb-option [value]="item.id">{{item.nome}}</nb-option>
-                                        </nb-select>
-                                    </div>
-                                    <ngx-editor [showButtons]="false" formControlName="prescricao"></ngx-editor>
-                                    <div class="d-flex mt-3">
-                                        <button type="submit" class="ml-auto" nbButton status="primary"
-                                        (click)="salvarDocumento('receita')">Salvar</button>
-                                    </div>
-                                </nb-tab>
-                                <nb-tab tabTitle="Prescrições emitidas" [nbSpinner]="isLoadingTab" nbSpinnerStatus="primary">
-                                    <div class="row" *ngIf="listagemDocumentos.listaPrescricao.length">
-                                        <div class="col-12 col-md-6 col-sm-12 col-lg-6 position-relative"
-                                            *ngFor="let item of listagemDocumentos.listaPrescricao;let i = index">
-                                            <div class="container-documentos mb-4" [innerHtml]="getSanitazer(item)">
-                                            </div>
-                                            <div class="icon d-flex">
-                                                <nb-icon (click)="printPreview('Prescrição', item, 'print')" nbTooltip="Imprimir" nbTooltipStatus="primary" icon="printer-outline" status="primary"></nb-icon>
-                                                <nb-icon (click)="printPreview('Prescrição', item, 'preview')" nbTooltip="Visualizar" nbTooltipStatus="success" icon="eye-outline" status="success"></nb-icon>
-                                                <nb-icon (click)="excluirDoc(i)" nbTooltip="Excluir" nbTooltipStatus="danger" icon="trash-2-outline" status="danger"></nb-icon>
+                            <ng-container *ngFor="let item of documentos">
+                                <nb-tabset fullWidth (changeTab)="changeTab($event, item.id)"
+                                    *ngIf="tabActive === item.item">
+                                    <nb-tab [tabTitle]="item.tab1" class="p-3" [nbSpinner]="isLoadingTab"
+                                        nbSpinnerStatus="primary">
+                                        <div class="mb-3">
+                                            <label class="label d-block">Selecione um template</label>
+                                            <nb-select formControlName="template" style="min-width: 14rem"
+                                                placeholder="Selecione" [attr.disabled]="!getTemplaterPerFilter(item.id).length ? true : undefined">
+                                                <nb-option *ngFor="let template of getTemplaterPerFilter(item.id)"
+                                                    [value]="template.id">{{template.nome || '-'}}</nb-option>
+                                            </nb-select>
+                                        </div>
+                                        <ngx-editor [showButtons]="false" [formControlName]="item.item"></ngx-editor>
+                                        <div class="d-flex mt-3">
+                                            <button type="submit" class="ml-auto" nbButton status="primary"
+                                                (click)="salvarDocumento(item.id, item.item)">Salvar</button>
+                                        </div>
+                                    </nb-tab>
+                                    <nb-tab [tabTitle]="item.tab2" [nbSpinner]="isLoadingTab" nbSpinnerStatus="primary">
+                                        <div class="row" *ngIf="listagemDocumentos.listaPrescricao.length">
+                                            <div class="col-12 col-md-6 col-sm-12 col-lg-6 position-relative"
+                                                *ngFor="let subItem of listagemDocumentos.listaPrescricao;let i = index">
+                                                <div class="container-documentos mb-4"
+                                                    [innerHtml]="getSanitazer(subItem)">
+                                                </div>
+                                                <div class="icon d-flex">
+                                                    <nb-icon (click)="printPreview('Prescrição', subItem, 'print')"
+                                                        nbTooltip="Imprimir" nbTooltipStatus="primary"
+                                                        icon="printer-outline" status="primary"></nb-icon>
+                                                    <nb-icon (click)="printPreview('Prescrição', subItem, 'preview')"
+                                                        nbTooltip="Visualizar" nbTooltipStatus="success"
+                                                        icon="eye-outline" status="success"></nb-icon>
+                                                    <nb-icon (click)="excluirDoc(i)" nbTooltip="Excluir"
+                                                        nbTooltipStatus="danger" icon="trash-2-outline" status="danger">
+                                                    </nb-icon>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div *ngIf="!listagemDocumentos.listaPrescricao.length">
-                                        Não há nenhum documento salvo
-                                    </div>
-                                </nb-tab>
-                            </nb-tabset>
+                                        <div *ngIf="!listagemDocumentos.listaPrescricao.length">
+                                            Não há nenhum documento salvo
+                                        </div>
+                                    </nb-tab>
+                                </nb-tabset>
+                            </ng-container>
                         </nb-card-body>
                     </nb-card>
                 </ng-container>
@@ -87,6 +99,7 @@
         </div>
     </nb-card-body>
     <nb-card-footer class="d-flex">
-        <button (click)="registrarAnamnese()" class="ml-auto" type="submit" nbButton status="primary">Registrar Anamnese</button>
+        <button (click)="registrarAnamnese()" class="ml-auto" type="submit" nbButton status="primary">Registrar
+            Anamnese</button>
     </nb-card-footer>
 </nb-card>

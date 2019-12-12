@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { AjaxService } from './ajax.service';
-import { IListagemUsuario, IInfoUsuario, Usuario, IAlterarUsuario, IAdicionarUsuario, IDeletarUsuario, IListagemConsultoriosUsuario, IListagemConsultorio, IConsultorio, IEditarConsultorio, IDeletarConsultorio, ICriarConsultorio, IObterAgenda, ICriarAgenda, IDeletarAgenda, IObterAgendaID, IObterBloqueios, IAlterarAgenda, IRemoverBloqueios, IObterListagemEspecialidades, IObterAnamnese, ICriarAnamnese, IAlterarAnamnese, ICriarDocumento, ListagemDocumentos, IListarDocumento, IEditarDocumento, IObterDocumentoFormatado, ICriarTemplateConsulta } from '../interface';
+import { IObterDocumentoFormatado, ICriarTemplateConsulta, IObterConsultaMedico } from '../interface';
 
 @Injectable()
 export class AtendimentoService {
@@ -21,5 +21,10 @@ export class AtendimentoService {
     async registrarAnamnese(data) {
         const url = `${environment.urlBase}admin/agenda/consulta/registrarAnamnese`;
         return await this.ajax.post<ICriarTemplateConsulta>(url, data);
+    }
+
+    async obterConsultaMedico(id) {
+        const url = `${environment.urlBase}admin/agenda/obterConsultaMedico/${id}`;
+        return await this.ajax.get<IObterConsultaMedico>(url);
     }
 }
