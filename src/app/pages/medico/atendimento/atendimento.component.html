@@ -5,8 +5,9 @@
         </div>
         <div class="ml-auto d-flex">
             <div class="mr-4">
-                <button type="submit" [disabled]="disabledIniciarAtendimento" (click)="iniciarAtendimento()" nbButton
-                    status="primary">Iniciar atendimento</button>
+                <button type="submit"
+                    (click)="atendimento === 'nao_iniciado' ? iniciarAtendimento() : finalizarAtendimento()" nbButton
+                    [status]="atendimento === 'nao_iniciado' ? 'primary' : 'warning'">{{atendimento === 'nao_iniciado' ? 'Iniciar atendimento' : 'Finalizar atendimento'}}</button>
             </div>
             <div class="tempo align-center">
                 {{tempo}}
@@ -28,7 +29,7 @@
                 </nb-card>
             </div>
             <div class="col-sm-8" [formGroup]="form" *ngIf="lista">
-                {{form.value | json}}
+                <!-- {{form.value | json}} -->
                 <ng-container *ngIf="tabActive === 'anamnese'">
                     <nb-card class="mb-0 group-form" *ngFor="let item of lista">
                         <nb-card-header>{{item.title}}</nb-card-header>
@@ -46,8 +47,8 @@
                 <ng-container *ngIf="tabActive === 'prescricao'">
                     <nb-card class="mb-0 group-form">
                         <nb-card-body class="p-0 pt-3">
-                            <nb-tabset fullWidth>
-                                <nb-tab tabTitle="Nova Prescrição" class="p-3">
+                            <nb-tabset fullWidth (changeTab)="changeTab($event)">
+                                <nb-tab tabTitle="Nova Prescrição" class="p-3" [nbSpinner]="isLoadingTab" nbSpinnerStatus="primary">
                                     <div class="mb-3">
                                         <label class="label d-block">Selecione um template</label>
                                         <nb-select formControlName="templatePrescricao" style="min-width: 14rem"
@@ -58,10 +59,10 @@
                                     <ngx-editor [showButtons]="false" formControlName="prescricao"></ngx-editor>
                                     <div class="d-flex mt-3">
                                         <button type="submit" class="ml-auto" nbButton status="primary"
-                                        (click)="salvarDocumento('prescricao')">Salvar</button>
+                                        (click)="salvarDocumento('receita')">Salvar</button>
                                     </div>
                                 </nb-tab>
-                                <nb-tab tabTitle="Prescrições emitidas">
+                                <nb-tab tabTitle="Prescrições emitidas" [nbSpinner]="isLoadingTab" nbSpinnerStatus="primary">
                                     <div class="row" *ngIf="listagemDocumentos.listaPrescricao.length">
                                         <div class="col-12 col-md-6 col-sm-12 col-lg-6 position-relative"
                                             *ngFor="let item of listagemDocumentos.listaPrescricao;let i = index">
@@ -85,4 +86,7 @@
             </div>
         </div>
     </nb-card-body>
+    <nb-card-footer class="d-flex">
+        <button (click)="registrarAnamnese()" class="ml-auto" type="submit" nbButton status="primary">Registrar Anamnese</button>
+    </nb-card-footer>
 </nb-card>

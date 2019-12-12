@@ -15,6 +15,7 @@ import { EditorComponent } from '../../../shared/components';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PREVIEW } from '../../../shared/constants/pdf';
 import { ActivatedRoute } from '@angular/router';
+import { DocumentosEnum } from '../../../shared/enums/documentos.enum';
 
 @Component({
     selector: 'ngx-atendimento',
@@ -24,11 +25,12 @@ import { ActivatedRoute } from '@angular/router';
 
 export class AtendimentoComponent implements OnInit {
     public isLoading = false;
+    public isLoadingTab = false;
     public tempo = '00:00:00';
     public form: FormGroup;
     public formDisabled = true;
     public tabActive = 'anamnese';
-    public disabledIniciarAtendimento = false;
+    public atendimento: 'nao_iniciado' | 'em_andamento' = 'nao_iniciado';
     public menu = [
         { label: 'Anamnese', value: 'anamnese' },
         { label: 'Prescrição', value: 'prescricao' },
@@ -44,7 +46,7 @@ export class AtendimentoComponent implements OnInit {
         listaPrescricao: []
     };
 
-    @ViewChild(EditorComponent, {static: false}) editor: EditorComponent;
+    @ViewChild(EditorComponent, { static: false }) editor: EditorComponent;
 
     constructor(
         public localStorage: LocalStorageService,
@@ -59,6 +61,14 @@ export class AtendimentoComponent implements OnInit {
 
     async ngOnInit() {
         await this.obterDadosIniciais();
+        if (this.consulta.idStatusConsulta === 4) {
+            this.startCount();
+            this.habilitarFormulario();
+        }
+    }
+
+    verificarConsulta() {
+        this.atendimento = this.consulta.idStatusConsulta === 4 ? 'em_andamento' : 'nao_iniciado';
     }
 
     async obterDadosIniciais() {
@@ -76,6 +86,7 @@ export class AtendimentoComponent implements OnInit {
         await this.recepcionistaService.obterConsultaId(id).then(response => {
             if (response.sucesso) {
                 this.consulta = response.objeto;
+                this.verificarConsulta();
             } else {
                 this.toastrService.show('', response.mensagens[0],
                     { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
@@ -148,6 +159,7 @@ export class AtendimentoComponent implements OnInit {
             });
         });
         this.form.get('templatePrescricao').valueChanges.subscribe(async e => {
+            if (!e) { return; }
             await this.obterDocumentoFormatado(e);
         });
     }
@@ -200,7 +212,7 @@ export class AtendimentoComponent implements OnInit {
                 await this.obterConsultaId();
                 this.startCount();
                 this.habilitarFormulario();
-                this.disabledIniciarAtendimento = true;
+                this.verificarConsulta();
             } else {
                 this.toastrService.show('', response.mensagens[0],
                     { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
@@ -213,6 +225,10 @@ export class AtendimentoComponent implements OnInit {
         });
     }
 
+    async finalizarAtendimento() {
+        console.log('atendimento finalizado');
+    }
+
     setTabActive(tab: string) {
         this.tabActive = tab;
     }
@@ -221,11 +237,35 @@ export class AtendimentoComponent implements OnInit {
         return this.templates.filter(e => e.tipoTemplate === id);
     }
 
-    salvarDocumento(type: string) {
-        if (type === 'prescricao') {
-            this.listagemDocumentos.listaPrescricao.push(this.form.get('prescricao').value);
+    async salvarDocumento(type: string) {
+        const id = DocumentosEnum.obterNumerador(type);
+        if (id === 4) {
+            await this.criarTemplate(id, this.form.get('prescricao').value);
         }
-        console.log(this.listagemDocumentos);
+        console.log(id);
+    }
+
+    async criarTemplate(tipoTemplate, textoHtml) {
+        this.isLoadingTab = true;
+        const data = {
+            idConsulta: this.consulta.id,
+            tipoTemplate,
+            textoHtml
+        };
+        await this.atendimentoService.criarTemplate(data).then(response => {
+            if (response.sucesso) {
+                this.toastrService.show('', 'Template criado com sucesso',
+                    { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
+            } else {
+                this.toastrService.show('', response.mensagens[0],
+                    { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+            }
+        }).catch(err => {
+            this.toastrService.show('', TOASTR.msgErroPadrao,
+                { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+        }).finally(() => {
+            this.isLoadingTab = false;
+        });
     }
 
     getSanitazer(html) {
@@ -243,5 +283,37 @@ export class AtendimentoComponent implements OnInit {
 
     excluirDoc(index: number) {
         this.listagemDocumentos.listaPrescricao.splice(index, 1);
+    }
+
+    changeTab(event) {
+        if (event.tabTitle === 'Prescrições emitidas') {
+            console.log('lista documentos');
+        }
+    }
+
+    async registrarAnamnese() {
+        this.isLoading = true;
+        const data = {
+            idConsulta: this.consulta.id,
+        };
+        this.lista.forEach(e => {
+            e.children.forEach(f => {
+                data[f.control] = this.form.get(f.control).value;
+            });
+        });
+        await this.atendimentoService.registrarAnamnese(data).then(response => {
+            if (response.sucesso) {
+                this.toastrService.show('', 'Anamnese registrada com sucesso',
+                    { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
+            } else {
+                this.toastrService.show('', response.mensagens[0],
+                    { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+            }
+        }).catch(err => {
+            this.toastrService.show('', TOASTR.msgErroPadrao,
+                { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+        }).finally(() => {
+            this.isLoading = false;
+        });
     }
 }

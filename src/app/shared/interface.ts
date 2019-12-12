@@ -202,6 +202,14 @@ export interface IObterDocumentoFormatado extends DefaultHttpResponse {
     objeto: string;
 }
 
+export interface ICriarTemplateConsulta extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
+export interface IRegistrarAnamnese extends DefaultHttpResponse {
+    objeto: boolean;
+}
+
 export interface ListagemDocumentos {
     id: number;
     idMedico: number;
