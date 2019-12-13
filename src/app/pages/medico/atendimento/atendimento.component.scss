@@ -91,3 +91,41 @@ nb-list-item:last-child {
     }
   }
 }
+
+.warning {
+  animation: warning 5s infinite;
+  animation-fill-mode: backwards;
+}
+
+.danger {
+  animation: danger 5s infinite;
+  animation-fill-mode: backwards;
+}
+
+@keyframes warning {
+  0% {
+    background-color: nb-theme(color-basic-500);
+  }
+
+  50% {
+    background-color: nb-theme(color-warning-500);
+  }
+
+  100% {
+    background-color: nb-theme(color-basic-500);
+  }
+}
+
+@keyframes danger {
+  0% {
+    background-color: nb-theme(color-basic-500);
+  }
+
+  50% {
+    background-color: red;
+  }
+
+  100% {
+    background-color: nb-theme(color-basic-500);
+  }
+}

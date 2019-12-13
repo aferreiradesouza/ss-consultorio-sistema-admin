@@ -1,5 +1,5 @@
 <nb-card [nbSpinner]="isLoading" nbSpinnerStatus="primary">
-    <nb-card-header class="d-flex vertical-align">
+    <nb-card-header class="d-flex vertical-align" style="height: 130px;">
         <div class="mr-auto title">
             {{consulta?.paciente?.nome || '-'}}
         </div>
@@ -9,7 +9,7 @@
                     (click)="atendimento === 'nao_iniciado' ? iniciarAtendimento() : finalizarAtendimento()" nbButton
                     [status]="atendimento === 'nao_iniciado' ? 'primary' : 'warning'">{{atendimento === 'nao_iniciado' ? 'Iniciar atendimento' : 'Finalizar atendimento'}}</button>
             </div>
-            <div class="tempo align-center">
+            <div class="tempo align-center" [ngClass]="obterStatusTime()">
                 {{tempo}}
             </div>
         </div>

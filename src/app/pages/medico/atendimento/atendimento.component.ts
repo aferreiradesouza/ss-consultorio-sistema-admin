@@ -16,6 +16,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { PREVIEW } from '../../../shared/constants/pdf';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentosEnum } from '../../../shared/enums/documentos.enum';
+import { CalendarioService } from '../../../shared/services/calendarios.service';
 
 @Component({
     selector: 'ngx-atendimento',
@@ -63,7 +64,8 @@ export class AtendimentoComponent implements OnInit {
         public storageService: StorageService,
         private atendimentoService: AtendimentoService,
         private domSanitizer: DomSanitizer,
-        private route: ActivatedRoute) { }
+        private route: ActivatedRoute,
+        private calendarioService: CalendarioService) { }
 
     async ngOnInit() {
         await this.obterDadosIniciais();
@@ -368,5 +370,16 @@ export class AtendimentoComponent implements OnInit {
                 }
             });
         });
+    }
+
+    obterStatusTime() {
+        const decimal = this.calendarioService.hourToDecimal(this.tempo);
+        if (isNaN(decimal) || decimal < 0.33) {
+            return [];
+        } else if (decimal >= 0.33 && decimal < 0.5) {
+            return ['warning'];
+        } else if (decimal > 0.5) {
+            return ['danger'];
+        }
     }
 }
