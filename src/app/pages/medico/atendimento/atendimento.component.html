@@ -15,8 +15,14 @@
         </div>
     </nb-card-header>
     <nb-card-body>
+        <div class="row tabs-card">
+            <div class="col-sm align-center tab" (click)="setTabActive(item.value)"
+                [ngClass]="{'active' : tabActive === item.value}" *ngFor="let item of menu">
+                {{ item.label }}
+            </div>
+        </div>
         <div class="row">
-            <div class="col-sm-4">
+            <!-- <div class="col-sm-4">
                 <nb-card class="mb-0">
                     <nb-card-body class="p-0">
                         <nb-list>
@@ -27,20 +33,27 @@
                         </nb-list>
                     </nb-card-body>
                 </nb-card>
-            </div>
-            <div class="col-sm-8" [formGroup]="form" *ngIf="lista">
+            </div> -->
+            <div class="col-sm-12" [formGroup]="form" *ngIf="lista">
                 <!-- {{form.value | json}} -->
                 <ng-container *ngIf="tabActive === 'anamnese'">
                     <nb-card class="mb-0 group-form" *ngFor="let item of lista">
                         <nb-card-header>{{item.title}}</nb-card-header>
                         <nb-card-body>
-                            <nb-list>
+                            <!-- <nb-list>
                                 <nb-list-item *ngFor="let subItem of item.children">
                                     <ngx-input-simple [feedback]="false" [label]="subItem.label" type="text"
                                         [formControlName]="subItem.control" [disabled]="formDisabled">
                                     </ngx-input-simple>
                                 </nb-list-item>
-                            </nb-list>
+                            </nb-list> -->
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-lg-6 col-md-6" *ngFor="let subItem of item.children">
+                                    <ngx-input-simple [feedback]="false" [label]="subItem.label" type="text"
+                                        [formControlName]="subItem.control" [disabled]="formDisabled">
+                                    </ngx-input-simple>
+                                </div>
+                            </div>
                         </nb-card-body>
                     </nb-card>
                 </ng-container>
@@ -55,7 +68,8 @@
                                         <div class="mb-3">
                                             <label class="label d-block">Selecione um template</label>
                                             <nb-select formControlName="template" style="min-width: 14rem"
-                                                placeholder="Selecione" [disabled]="!getTemplaterPerFilter(item.id).length">
+                                                placeholder="Selecione"
+                                                [disabled]="!getTemplaterPerFilter(item.id).length">
                                                 <nb-option *ngFor="let template of getTemplaterPerFilter(item.id)"
                                                     [value]="template.id">{{template.nome || '-'}}</nb-option>
                                             </nb-select>
@@ -74,14 +88,17 @@
                                                     [innerHtml]="getSanitazer(subItem.textoHtml)">
                                                 </div>
                                                 <div class="icon d-flex">
-                                                    <nb-icon (click)="printPreview(item.print, subItem.textoHtml, 'print')"
+                                                    <nb-icon
+                                                        (click)="printPreview(item.print, subItem.textoHtml, 'print')"
                                                         nbTooltip="Imprimir" nbTooltipStatus="primary"
                                                         icon="printer-outline" status="primary"></nb-icon>
-                                                    <nb-icon (click)="printPreview(item.print, subItem.textoHtml, 'preview')"
+                                                    <nb-icon
+                                                        (click)="printPreview(item.print, subItem.textoHtml, 'preview')"
                                                         nbTooltip="Visualizar" nbTooltipStatus="success"
                                                         icon="eye-outline" status="success"></nb-icon>
-                                                    <nb-icon (click)="excluirDoc(subItem.id, item.id)" nbTooltip="Excluir"
-                                                        nbTooltipStatus="danger" icon="trash-2-outline" status="danger">
+                                                    <nb-icon (click)="excluirDoc(subItem.id, item.id)"
+                                                        nbTooltip="Excluir" nbTooltipStatus="danger"
+                                                        icon="trash-2-outline" status="danger">
                                                     </nb-icon>
                                                 </div>
                                             </div>

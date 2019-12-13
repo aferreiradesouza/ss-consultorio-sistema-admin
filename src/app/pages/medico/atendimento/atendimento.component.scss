@@ -66,3 +66,28 @@ nb-list-item:last-child {
     cursor: pointer;
   }
 }
+
+.tabs-card {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eaeaea; 
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+
+  > .tab {
+    padding: 20px 0px;
+    transform: translate(0px, 2px);
+    font-weight: bold;
+    border-bottom: 4px solid transparent;
+
+    &.active {
+      border-bottom: 4px solid nb-theme(color-primary-500);
+      color: nb-theme(color-primary-500);
+    }
+
+    &:hover {
+      color: nb-theme(color-primary-500);
+      border-bottom: 4px solid nb-theme(color-primary-300);
+      cursor: pointer;
+    }
+  }
+}
