@@ -4,7 +4,7 @@ import { LocalStorageService } from '../../../shared/services/local-storage.serv
 import { ConfiguracoesService } from '../../../shared/services/configuracoes.service';
 import { UtilService } from '../../../shared/services/util.service';
 import { Anamnese, Consulta, InfoConsulta, ListagemDocumentos, ConsultaAtendimento } from '../../../shared/interface';
-import { NbToastrService } from '@nebular/theme';
+import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { TOASTR } from '../../../shared/constants/toastr';
 import { ANAMNESE } from '../../../shared/constants/anamnese';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -14,9 +14,10 @@ import { AtendimentoService } from '../../../shared/services/atendimento.service
 import { EditorComponent } from '../../../shared/components';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PREVIEW } from '../../../shared/constants/pdf';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentosEnum } from '../../../shared/enums/documentos.enum';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
+import { HistoricoPacienteComponent } from '../historico/historico.component';
 
 @Component({
     selector: 'ngx-atendimento',
@@ -65,7 +66,9 @@ export class AtendimentoComponent implements OnInit {
         private atendimentoService: AtendimentoService,
         private domSanitizer: DomSanitizer,
         private route: ActivatedRoute,
-        private calendarioService: CalendarioService) { }
+        private calendarioService: CalendarioService,
+        private dialogService: NbDialogService,
+        private router: Router) { }
 
     async ngOnInit() {
         await this.obterDadosIniciais();
@@ -202,6 +205,7 @@ export class AtendimentoComponent implements OnInit {
     }
 
     startCount() {
+        console.log(this.consulta.dataStatusConsulta);
         const dataAtual = moment(this.consulta.dataStatusConsulta);
         setInterval(() => {
             const tempo = moment.utc(moment(new Date()).diff(dataAtual)).format('HH:mm:ss');
@@ -214,20 +218,24 @@ export class AtendimentoComponent implements OnInit {
         this.formDisabled = false;
     }
 
-    async iniciarAtendimento() {
+    async alterarAtendimento(id: 4 | 5) {
         this.isLoading = true;
         const data = {
-            idStatusConsulta: 4,
+            idStatusConsulta: id,
             idConsulta: this.consulta.id,
             valor: null,
             formaPagamento: null
         };
         await this.recepcionistaService.alterarStatus(data).then(async response => {
             if (response.sucesso) {
-                await this.obterConsultaId();
-                this.startCount();
-                this.habilitarFormulario();
-                this.verificarConsulta();
+                if (id === 4) {
+                    await this.obterConsultaId();
+                    this.startCount();
+                    this.habilitarFormulario();
+                    this.verificarConsulta();
+                } else {
+                    this.router.navigateByUrl('medico/agenda-do-dia');
+                }
             } else {
                 this.toastrService.show('', response.mensagens[0],
                     { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
@@ -238,10 +246,6 @@ export class AtendimentoComponent implements OnInit {
         }).finally(() => {
             this.isLoading = false;
         });
-    }
-
-    async finalizarAtendimento() {
-        console.log('atendimento finalizado');
     }
 
     setTabActive(tab: string) {
@@ -361,6 +365,7 @@ export class AtendimentoComponent implements OnInit {
     }
 
     preencherAnamnese() {
+        if (!this.consulta.consultaAnamnese) { return; }
         const arr = ANAMNESE;
         const consulta = Object.keys(this.consulta.consultaAnamnese);
         arr.forEach(e => {
@@ -381,5 +386,35 @@ export class AtendimentoComponent implements OnInit {
         } else if (decimal > 0.5) {
             return ['danger'];
         }
+    }
+
+    getIdade(data: string) {
+        if (!data) {
+            return '-';
+        }
+        const hoje = moment();
+        const dataNascimento = moment(data);
+        const idade = hoje.diff(dataNascimento, 'years', false);
+        return idade;
+    }
+
+    async verHistorico() {
+        this.dialogService.open(
+            HistoricoPacienteComponent,
+            {
+                context: {
+                    id: 1
+                },
+                closeOnEsc: true,
+                autoFocus: false,
+                closeOnBackdropClick: false,
+                hasScroll: true
+            }).onClose.subscribe(async (response) => {
+                console.log('foi');
+            });
+    }
+
+    verPerfil() {
+        this.router.navigateByUrl(`/pacientes/perfil?id=${this.consulta.paciente.id}`);
     }
 }

@@ -1,0 +1,18 @@
+<ul class="timeline" *ngIf="data.length > 0">
+    <li *ngFor="let item of data">
+        <nb-card status="basic">
+            <nb-card-header>
+                dawdad
+            </nb-card-header>
+            <nb-card-body>
+                <ng-container *ngTemplateOutlet="headerTemplate">
+
+                </ng-container>
+            </nb-card-body>
+        </nb-card>
+    </li>
+</ul>
+
+<ng-container *ngIf="data.length === 0">
+    Não tem nenhum histórico
+</ng-container>

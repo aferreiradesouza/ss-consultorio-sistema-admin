@@ -34,7 +34,8 @@ import {
   CalendarioComponent,
   InputCurrencyComponent,
   AutoCompleteComponent,
-  EditorComponent
+  EditorComponent,
+  TimeLineConsultasComponent
 } from './components';
 import {
   CapitalizePipe,
@@ -141,7 +142,8 @@ const COMPONENTS = [
   CalendarioDoDiaComponent,
   InputCurrencyComponent,
   AutoCompleteComponent,
-  EditorComponent
+  EditorComponent,
+  TimeLineConsultasComponent
 ];
 const PIPES = [
   CapitalizePipe,

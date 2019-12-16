@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { SmartTableData } from '../../../@core/data/smart-table';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { StatusConsulta } from '../../../shared/interface';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
@@ -32,10 +32,18 @@ export class AlterarStatusComponent implements OnInit {
   public isLoading: boolean;
   public valueInicial: number;
 
+  public formasPagamento = [
+    'Dinheiro',
+    'Crédito',
+    'Débito',
+    'Cheque'
+  ];
+
   public form = new FormGroup({
     status: new FormControl(null),
     motivo: new FormControl(null),
-    valor: new FormControl(null)
+    valor: new FormControl(null),
+    formaPagamento: new FormControl(null),
   });
 
   @Input() data: DiaConsulta;
@@ -61,7 +69,8 @@ export class AlterarStatusComponent implements OnInit {
     const data = {
       idStatusConsulta: this.form.get('status').value,
       idConsulta: this.data.consulta.id,
-      valor: null
+      valor: this.form.get('valor').value,
+      formaPagamento: this.form.get('formaPagamento').value
     };
     if (this.form.get('status').value === 8) {
       data.valor = this.form.get('motivo').value;
@@ -87,8 +96,9 @@ export class AlterarStatusComponent implements OnInit {
 
   shouldDisabledButton() {
     return this.form.get('status').value === this.valueInicial ||
-          (this.form.get('status').value === 8 && !this.form.get('motivo').value) ||
-          (this.form.get('status').value === 9 && (this.form.get('valor').value < 0 || this.form.get('valor').value === '' || this.form.get('valor').value === null));
+      (this.form.get('status').value === 8 && !this.form.get('motivo').value) ||
+      (this.form.get('status').value === 9 && (this.form.get('valor').value < 0 || this.form.get('valor').value === '' || this.form.get('valor').value === null) ||
+      (this.form.get('status').value === 9 && (!this.form.get('formaPagamento').value || this.form.get('valor').value < 0 || this.form.get('valor').value === '' || this.form.get('valor').value === null)));
   }
 
 }

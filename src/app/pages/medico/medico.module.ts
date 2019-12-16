@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbSpinnerModule, NbSelectModule, NbIconModule, NbListModule, NbTabsetModule, NbTooltipModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbSpinnerModule, NbSelectModule, NbIconModule, NbListModule, NbTabsetModule, NbTooltipModule, NbDialogModule } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { AgendaDoDiaComponent } from './agenda-do-dia/agenda-do-dia.component';
 import { MedicoRoutingModule } from './medico-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AtendimentoComponent } from './atendimento/atendimento.component';
+import { HistoricoPacienteComponent } from './historico/historico.component';
 
 const MODULES = [
   NbSelectModule,
@@ -13,7 +14,8 @@ const MODULES = [
   NbListModule,
   NbButtonModule,
   NbTabsetModule,
-  NbTooltipModule
+  NbTooltipModule,
+  NbDialogModule.forRoot(),
 ];
 
 @NgModule({
@@ -29,7 +31,11 @@ const MODULES = [
   ],
   declarations: [
     AgendaDoDiaComponent,
-    AtendimentoComponent
+    AtendimentoComponent,
+    HistoricoPacienteComponent
+  ],
+  entryComponents: [
+    HistoricoPacienteComponent
   ]
 })
 export class MedicoModule { }

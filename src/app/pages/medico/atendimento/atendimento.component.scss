@@ -105,27 +105,33 @@ nb-list-item:last-child {
 @keyframes warning {
   0% {
     background-color: nb-theme(color-basic-500);
+    transform: scale(1.0);
   }
 
   50% {
     background-color: nb-theme(color-warning-500);
+    transform: scale(1.1);
   }
 
   100% {
     background-color: nb-theme(color-basic-500);
+    transform: scale(1.0);
   }
 }
 
 @keyframes danger {
   0% {
     background-color: nb-theme(color-basic-500);
+    transform: scale(1.0);
   }
 
   50% {
     background-color: red;
+    transform: scale(1.1);
   }
 
   100% {
     background-color: nb-theme(color-basic-500);
+    transform: scale(1.0);
   }
 }

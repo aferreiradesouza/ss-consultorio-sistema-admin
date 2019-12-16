@@ -9,16 +9,23 @@
         </nb-select>
         <div class="row mt-3" *ngIf="form.value.status === 8">
           <div class="col-sm-12">
-            <ngx-input-simple label="Motivo" [feedback]="false" [required]="true"
-              formControlName="motivo">
+            <ngx-input-simple label="Motivo" [feedback]="false" [required]="true" formControlName="motivo">
             </ngx-input-simple>
           </div>
         </div>
         <div class="row mt-3" *ngIf="form.value.status === 9">
           <div class="col-sm-12">
-            <ngx-input-currency label="Valor" [feedback]="false" [required]="true"
-              formControlName="valor">
+            <ngx-input-currency label="Valor" [feedback]="false" [required]="true" formControlName="valor">
             </ngx-input-currency>
+          </div>
+        </div>
+        <div class="row mt-1" *ngIf="form.value.status === 9">
+          <div class="col-sm-12">
+            <label class="label d-block">Forma de Pagemento *</label>
+            <nb-select class="align-center" style="min-width: 259px;" formControlName="formaPagamento">
+              <nb-option *ngFor="let item of formasPagamento" [value]="item">{{item}}
+              </nb-option>
+            </nb-select>
           </div>
         </div>
       </form>
