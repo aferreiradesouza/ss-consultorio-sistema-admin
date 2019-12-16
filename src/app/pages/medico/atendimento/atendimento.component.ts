@@ -403,7 +403,7 @@ export class AtendimentoComponent implements OnInit {
             HistoricoPacienteComponent,
             {
                 context: {
-                    id: 1
+                    id: this.consulta.paciente.id
                 },
                 closeOnEsc: true,
                 autoFocus: false,

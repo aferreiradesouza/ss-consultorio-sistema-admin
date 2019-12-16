@@ -1,12 +1,8 @@
-<nb-card size="large">
+<nb-card size="large" [nbSpinner]="isLoading" nbSpinnerStatus="primary">
   <nb-card-header>
     dawd
   </nb-card-header>
   <nb-card-body>
-    <ngx-timeline-consultas [data]="data" [template]="loading"></ngx-timeline-consultas>
+    <ngx-timeline-consultas [data]="data" [consultaAnamnese]=""></ngx-timeline-consultas>
   </nb-card-body>
 </nb-card>
-
-<ng-template #loading>
-dawda
-</ng-template>

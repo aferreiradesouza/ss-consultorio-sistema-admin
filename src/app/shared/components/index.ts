@@ -12,3 +12,4 @@ export * from './input-currency/input-currency.component';
 export * from './input-autocomplete/input-autocomplete.component';
 export * from './editor/editor.component';
 export * from './timeline-consultas/timeline-consultas.component';
+export * from './collapsible/collapsible.component';

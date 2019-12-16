@@ -53,7 +53,7 @@
                     <!-- <button *ngIf="!verDiasLivre" class="ml-auto" nbButton shape="round" size="small" status="basic">?</button> -->
                     <div class="tooltipsDia ml-auto d-flex" *ngIf="!verDiasLivre">
                         <div class="iniciarAtendimento cursor-pointer" (click)="iniciarAtendimentoEvent(item.consulta.id)">
-                            Iniciar Atendimento
+                            Ver Atendimento
                         </div>
                         <div class="observacao cursor-pointer"
                             [nbTooltip]="item.consulta.observacao || 'Nenhuma observação'"

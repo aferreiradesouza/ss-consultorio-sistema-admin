@@ -5,14 +5,19 @@
                 dawdad
             </nb-card-header>
             <nb-card-body>
-                <ng-container *ngTemplateOutlet="headerTemplate">
-
-                </ng-container>
+                <ngx-collapsible [displayLabel]="false">
+                    <div header class="cursor-pointer header-collapsible">
+                        Detalhes
+                    </div>
+                    <div body>
+                        <div class="row">
+                            <div class="col-sm">Body</div>
+                            <div class="col-sm">Body</div>
+                            <div class="col-sm">Body</div>
+                        </div>
+                    </div>
+                </ngx-collapsible>
             </nb-card-body>
         </nb-card>
     </li>
 </ul>
-
-<ng-container *ngIf="data.length === 0">
-    Não tem nenhum histórico
-</ng-container>

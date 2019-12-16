@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { Anamnese } from '../../interface';
 
 @Component({
     selector: 'ngx-timeline-consultas',
@@ -9,9 +10,11 @@ import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 export class TimeLineConsultasComponent implements OnInit {
 
     @Input() data: any[];
-    @Input() template: TemplateRef<any>;
+    @Input() consultaAnamnese: Anamnese;
 
     constructor() { }
 
-    ngOnInit() { console.log(this.template); }
+    ngOnInit() {
+
+    }
 }

@@ -360,6 +360,8 @@ export interface Paciente {
     ativo: boolean;
     consultas: Array<Consulta>;
     comoConheceu: number;
+    consultaAnamnese: Anamnese;
+    consultasTemplatesDocumentos: Array<ConsultasTemplatesDocumentos>;
 }
 
 export interface Consulta {
@@ -542,11 +544,13 @@ export interface ConsultaAtendimento {
     tipoConsulta: TiposAtendimento;
     usuario: Usuario;
     consultaAnamnese: Anamnese;
-    consultasTemplatesDocumentos: Array<{
-        id: number,
-        idConsulta: number,
-        tipoTemplate: number,
-        textoHtml: string,
-        dataCadastro: string
-    }>;
+    consultasTemplatesDocumentos: Array<ConsultasTemplatesDocumentos>;
+}
+
+export interface ConsultasTemplatesDocumentos {
+    id: number;
+    idConsulta: number;
+    tipoTemplate: number;
+    textoHtml: string;
+    dataCadastro: string;
 }
