@@ -1,19 +1,35 @@
 <ul class="timeline" *ngIf="data.length > 0">
-    <li *ngFor="let item of data">
+    <li *ngFor="let item of consulta.consultas">
         <nb-card status="basic">
             <nb-card-header>
-                dawdad
+                {{item.medico}}
             </nb-card-header>
-            <nb-card-body>
+            <nb-card-body style="max-width: 500px;">
                 <ngx-collapsible [displayLabel]="false">
                     <div header class="cursor-pointer header-collapsible">
-                        Detalhes
+                        Anamnese
                     </div>
                     <div body>
-                        <div class="row">
-                            <div class="col-sm">Body</div>
-                            <div class="col-sm">Body</div>
-                            <div class="col-sm">Body</div>
+                        <ng-container *ngIf="item.consultaAnamnese">
+                            <div *ngFor="let anamense of getAnamnesia(item.consultaAnamnese)">
+                                <h5>{{anamense.title}}</h5>
+                                <ng-container *ngFor="let subAnamnese of anamense.children">
+                                    <div>{{subAnamnese.label}} - {{subAnamnese.value}}</div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="!item.consultaAnamnese">
+                            Não tem nenhuma anamnese cadastrada
+                        </ng-container>
+                    </div>
+                </ngx-collapsible>
+                <ngx-collapsible [displayLabel]="false">
+                    <div header class="cursor-pointer header-collapsible">
+                        Documentos
+                    </div>
+                    <div body>
+                        <div *ngIf="!item.consultasTemplatesDocumentos.length">
+                            Não tem nenhum documento anexado
                         </div>
                     </div>
                 </ngx-collapsible>

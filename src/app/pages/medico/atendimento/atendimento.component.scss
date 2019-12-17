@@ -69,7 +69,7 @@ nb-list-item:last-child {
 
 .tabs-card {
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid #eaeaea; 
+  border-bottom: 1px solid #eaeaea;
   margin-left: 0px !important;
   margin-right: 0px !important;
 
@@ -87,7 +87,6 @@ nb-list-item:last-child {
     &:hover {
       color: nb-theme(color-primary-500);
       border-bottom: 4px solid nb-theme(color-primary-300);
-      cursor: pointer;
     }
   }
 }
@@ -105,7 +104,7 @@ nb-list-item:last-child {
 @keyframes warning {
   0% {
     background-color: nb-theme(color-basic-500);
-    transform: scale(1.0);
+    transform: scale(1);
   }
 
   50% {
@@ -115,14 +114,14 @@ nb-list-item:last-child {
 
   100% {
     background-color: nb-theme(color-basic-500);
-    transform: scale(1.0);
+    transform: scale(1);
   }
 }
 
 @keyframes danger {
   0% {
     background-color: nb-theme(color-basic-500);
-    transform: scale(1.0);
+    transform: scale(1);
   }
 
   50% {
@@ -132,6 +131,11 @@ nb-list-item:last-child {
 
   100% {
     background-color: nb-theme(color-basic-500);
-    transform: scale(1.0);
+    transform: scale(1);
   }
+}
+
+.disabled-tab {
+  opacity: .5;
+  cursor: no-drop;
 }

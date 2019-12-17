@@ -360,8 +360,6 @@ export interface Paciente {
     ativo: boolean;
     consultas: Array<Consulta>;
     comoConheceu: number;
-    consultaAnamnese: Anamnese;
-    consultasTemplatesDocumentos: Array<ConsultasTemplatesDocumentos>;
 }
 
 export interface Consulta {
@@ -373,6 +371,8 @@ export interface Consulta {
     formaPagamento: string;
     valor: string;
     especialidade: string;
+    consultaAnamnese: Anamnese;
+    consultasTemplatesDocumentos: Array<ConsultasTemplatesDocumentos>;
 }
 
 export interface ListagemUsuario {

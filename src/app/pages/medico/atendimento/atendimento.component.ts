@@ -249,6 +249,7 @@ export class AtendimentoComponent implements OnInit {
     }
 
     setTabActive(tab: string) {
+        if (this.formDisabled) { return; }
         this.tabActive = tab;
     }
 

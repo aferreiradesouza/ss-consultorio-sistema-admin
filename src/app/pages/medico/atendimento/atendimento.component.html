@@ -21,9 +21,9 @@
         </div>
     </nb-card-header>
     <nb-card-body>
-        <div class="row tabs-card">
+        <div class="row tabs-card" [ngClass]="{'disabled-tab': formDisabled}">
             <div class="col-sm align-center tab" (click)="setTabActive(item.value)"
-                [ngClass]="{'active' : tabActive === item.value}" *ngFor="let item of menu">
+                [ngClass]="{'active' : tabActive === item.value, 'cursor-pointer': !formDisabled}" *ngFor="let item of menu">
                 {{ item.label }}
             </div>
         </div>

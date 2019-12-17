@@ -3,6 +3,6 @@
     dawd
   </nb-card-header>
   <nb-card-body>
-    <ngx-timeline-consultas [data]="data" [consultaAnamnese]=""></ngx-timeline-consultas>
+    <ngx-timeline-consultas *ngIf="consulta" [data]="data" [consulta]="consulta"></ngx-timeline-consultas>
   </nb-card-body>
 </nb-card>
