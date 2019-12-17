@@ -2,7 +2,10 @@
   <nb-card-header>
     dawd
   </nb-card-header>
-  <nb-card-body>
-    <ngx-timeline-consultas *ngIf="consulta" [data]="data" [consulta]="consulta"></ngx-timeline-consultas>
+  <nb-card-body style="width: 500px;">
+    <ngx-timeline-consultas *ngIf="paciente" [paciente]="paciente"></ngx-timeline-consultas>
   </nb-card-body>
+  <nb-card-footer>
+    <button nbButton status="basic" (click)="dismiss()">Voltar</button>
+  </nb-card-footer>
 </nb-card>

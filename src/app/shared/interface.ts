@@ -372,7 +372,7 @@ export interface Consulta {
     valor: string;
     especialidade: string;
     consultaAnamnese: Anamnese;
-    consultasTemplatesDocumentos: Array<ConsultasTemplatesDocumentos>;
+    consultasTemplatesDocumentos: Array<ConsultasTemplatesDocumentos> | Array<{titulo: number, templates: Array<ConsultasTemplatesDocumentos>}>;
 }
 
 export interface ListagemUsuario {

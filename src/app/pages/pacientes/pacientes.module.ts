@@ -26,6 +26,7 @@ import { EditarPacientesComponent } from './editar/editar.component';
 import { LinkColComponent } from '../../shared/components/custom-table/link-col.component';
 import { DeletarPacientesComponent } from './deletar/deletar.component';
 import { PerfilPacientesComponent } from './perfil/perfil.component';
+import { TimeLineConsultasComponent } from '../../shared/components';
 
 const NB_MODULES = [
   NbCardModule,

@@ -34,8 +34,8 @@ export class AlterarStatusComponent implements OnInit {
 
   public formasPagamento = [
     'Dinheiro',
-    'Crédito',
-    'Débito',
+    'Cartão de Crédito',
+    'Cartão de Débito',
     'Cheque'
   ];
 

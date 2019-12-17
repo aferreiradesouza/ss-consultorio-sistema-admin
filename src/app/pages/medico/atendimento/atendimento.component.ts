@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
 import { ConfiguracoesService } from '../../../shared/services/configuracoes.service';
 import { UtilService } from '../../../shared/services/util.service';
-import { Anamnese, Consulta, InfoConsulta, ListagemDocumentos, ConsultaAtendimento } from '../../../shared/interface';
+import { ListagemDocumentos, ConsultaAtendimento } from '../../../shared/interface';
 import { NbToastrService, NbDialogService } from '@nebular/theme';
 import { TOASTR } from '../../../shared/constants/toastr';
 import { ANAMNESE } from '../../../shared/constants/anamnese';
@@ -15,7 +15,6 @@ import { EditorComponent } from '../../../shared/components';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PREVIEW } from '../../../shared/constants/pdf';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DocumentosEnum } from '../../../shared/enums/documentos.enum';
 import { CalendarioService } from '../../../shared/services/calendarios.service';
 import { HistoricoPacienteComponent } from '../historico/historico.component';
 
@@ -75,10 +74,10 @@ export class AtendimentoComponent implements OnInit {
         if (this.consulta.idStatusConsulta === 4) {
             this.startCount();
             this.habilitarFormulario();
-            setTimeout(() => {
-                this.preencherAnamnese();
-            }, 0);
         }
+        setTimeout(() => {
+            this.preencherAnamnese();
+        }, 0);
     }
 
     verificarConsulta() {
@@ -410,8 +409,6 @@ export class AtendimentoComponent implements OnInit {
                 autoFocus: false,
                 closeOnBackdropClick: false,
                 hasScroll: true
-            }).onClose.subscribe(async (response) => {
-                console.log('foi');
             });
     }
 

@@ -48,10 +48,10 @@ export class PerfilPacientesComponent implements OnInit {
   };
 
   public formaPagamentos: any[] = [
-    {data: '01/09/2019', forma: 'Cartão'},
-    {data: '01/08/2019', forma: 'Dinheiro'},
-    {data: '01/07/2019', forma: 'Dinheiro'},
-    {data: '01/06/2019', forma: 'Cartão'},
+    { data: '01/09/2019', forma: 'Cartão' },
+    { data: '01/08/2019', forma: 'Dinheiro' },
+    { data: '01/07/2019', forma: 'Dinheiro' },
+    { data: '01/06/2019', forma: 'Cartão' },
   ];
 
   constructor(public route: ActivatedRoute,
@@ -72,7 +72,15 @@ export class PerfilPacientesComponent implements OnInit {
   async obterUsuario() {
     const id = parseInt(this.route.snapshot.queryParams.id, 10);
     await this.pacienteService.obterInfoPaciente(id).then(response => {
-      this.user = response.objeto;
+      if (response.sucesso) {
+        this.user = response.objeto;
+      } else {
+        this.toastrService.show('', response.mensagens[0],
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+      }
+    }).catch(err => {
+      this.toastrService.show('', TOASTR.msgErroPadrao,
+        { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
     });
   }
 
@@ -91,7 +99,6 @@ export class PerfilPacientesComponent implements OnInit {
       }).onClose.subscribe(async response => {
         if (response.sucesso) {
           this.isLoading = true;
-          const position: any = 'bottom-right';
           const resp = await this.editarPaciente(response.value);
           if (resp.sucesso) {
             this.toastrService.show('', `Paciente alterado com sucesso`,
@@ -106,10 +113,10 @@ export class PerfilPacientesComponent implements OnInit {
       });
   }
 
-  async editarPaciente(data): Promise<{sucesso: boolean, mensagem?: string[] | boolean}> {
+  async editarPaciente(data): Promise<{ sucesso: boolean, mensagem?: string[] | boolean }> {
     return await this.pacienteService.editarPacientes(data)
       .then(response => {
-        return {sucesso: response.sucesso, mensagem: response.sucesso ? null : response.objeto };
+        return { sucesso: response.sucesso, mensagem: response.sucesso ? null : response.objeto };
       });
   }
 

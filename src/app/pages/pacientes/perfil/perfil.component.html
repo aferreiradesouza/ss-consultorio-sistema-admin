@@ -81,6 +81,11 @@
         </nb-tabset>
       </div>
     </div>
+    <div class="row">
+      <div class="col-12">
+        <ngx-timeline-consultas *ngIf="user" [paciente]="user"></ngx-timeline-consultas>
+      </div>
+    </div>
   </nb-card-body>
 </nb-card>
 

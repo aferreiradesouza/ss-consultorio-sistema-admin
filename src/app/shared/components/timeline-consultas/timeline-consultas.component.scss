@@ -1,3 +1,5 @@
+@import '../../styles/themes.scss';
+
 ul.timeline {
     list-style-type: none;
     position: relative;
@@ -42,5 +44,28 @@ ul.timeline > li:before {
 
 .header-collapsible {
     padding: 10px 0px;
-    border-bottom: 1px solid #ccc;
+}
+
+.titulo-documento {
+    width: fit-content;
+    padding: 2px 6px;
+    background-color: nb-theme(color-primary-500);
+    margin: 9px 0px 0px 9px;
+    font-size: 13px;
+    color: white;
+    border-radius: 6px;
+}
+
+.corpo-documento {
+    margin: 8px 0px 0px 39px;
+}
+
+.icon:hover {
+    color: nb-theme(color-primary-500);
+}
+
+.titulo-anamnese {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 15px 0px 0px;
 }

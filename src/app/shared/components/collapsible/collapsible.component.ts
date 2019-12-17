@@ -26,10 +26,6 @@ export class CollapsibleComponent implements OnInit {
     }
 
     public toggle() {
-        // if (!this.disableIcon) {
-        //     this.openPage.emit('123');
-        //     return;
-        // }
         this.isOpen ? this.close() : this.open();
     }
 
@@ -41,14 +37,12 @@ export class CollapsibleComponent implements OnInit {
     }
 
     public close() {
-        console.log('close');
         const content: HTMLDivElement = this.content.nativeElement;
         content.style.maxHeight = '0px';
         this.isOpen = false;
     }
 
     public open() {
-        console.log('open');
         this.isOpen = true;
         this.updateHeight();
     }
