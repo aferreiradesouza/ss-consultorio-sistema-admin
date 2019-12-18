@@ -8,6 +8,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { PacientesService } from '../../../shared/services/pacientes.service';
 import { Paciente } from '../../../shared/interface';
 import { TOASTR } from '../../../shared/constants/toastr';
+import { UtilService } from '../../../shared/services/util.service';
 
 
 @Component({
@@ -67,6 +68,10 @@ export class PerfilPacientesComponent implements OnInit {
     await this.obterUsuario();
     this.source.load(this.formaPagamentos);
     this.isLoading = false;
+  }
+
+  get ehMedicouOuAdministrador() {
+    return UtilService.EhMedico() || UtilService.EhAdministrador();
   }
 
   async obterUsuario() {

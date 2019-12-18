@@ -8,6 +8,14 @@ export class UtilService {
 
     constructor(private ajax: AjaxService) { }
 
+    public static EhMedico(): boolean {
+        return JSON.parse(localStorage.getItem('login')).ehMedico;
+    }
+
+    public static EhAdministrador(): boolean {
+        return JSON.parse(localStorage.getItem('login')).ehAdministrador;
+    }
+
     public async buscarCep(cep: string) {
         const url = `${environment.urlBase}admin/endereco/${cep}`;
         return await this.ajax.get<IInfoEndereco>(url);

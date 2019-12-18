@@ -43,7 +43,7 @@ export class InputSimpleComponent implements OnInit, ControlValueAccessor {
     @Output() blur = new EventEmitter();
 
     @ViewChild(NbInputDirective, {static: false}) nbInput: NbInputDirective;
-    @ViewChild('input', {static: false}) input: any
+    @ViewChild('input', {static: false}) input: any;
 
     public _model = new FormControl();
 

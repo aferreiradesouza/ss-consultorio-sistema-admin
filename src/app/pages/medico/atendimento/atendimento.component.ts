@@ -29,7 +29,10 @@ export class AtendimentoComponent implements OnInit {
     public isLoadingTab = false;
     public tempo = '00:00:00';
     public form: FormGroup;
+    public timeout: any;
+    public timerRegistroAnamnese = 5000;
     public formDisabled = true;
+    public horaAnamneseRegistrada: string = null;
     public tabActive = 'anamnese';
     public atendimento: 'nao_iniciado' | 'em_andamento' = 'nao_iniciado';
     public menu = [
@@ -92,6 +95,13 @@ export class AtendimentoComponent implements OnInit {
         }).finally(async () => {
             await this.util.loading(400, () => this.isLoading = false);
         });
+    }
+
+    salvarAnamnese() {
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            this.registrarAnamnese();
+        }, this.timerRegistroAnamnese);
     }
 
     async obterConsultaId(): Promise<void> {
@@ -339,7 +349,6 @@ export class AtendimentoComponent implements OnInit {
     }
 
     async registrarAnamnese() {
-        this.isLoading = true;
         const data = {
             idConsulta: this.consulta.id,
         };
@@ -350,6 +359,7 @@ export class AtendimentoComponent implements OnInit {
         });
         await this.atendimentoService.registrarAnamnese(data).then(response => {
             if (response.sucesso) {
+                this.horaAnamneseRegistrada = moment().format('HH:mm');
                 this.toastrService.show('', 'Anamnese registrada com sucesso',
                     { status: 'success', duration: TOASTR.timer, position: TOASTR.position });
             } else {
@@ -359,8 +369,6 @@ export class AtendimentoComponent implements OnInit {
         }).catch(err => {
             this.toastrService.show('', TOASTR.msgErroPadrao,
                 { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
-        }).finally(() => {
-            this.isLoading = false;
         });
     }
 

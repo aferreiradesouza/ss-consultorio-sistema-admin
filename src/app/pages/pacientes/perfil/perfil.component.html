@@ -81,7 +81,10 @@
         </nb-tabset>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="ehMedicouOuAdministrador">
+      <div class="col-12">
+        <h5>Histórico de prontuários</h5>
+      </div>
       <div class="col-12">
         <ngx-timeline-consultas *ngIf="user" [paciente]="user"></ngx-timeline-consultas>
       </div>
