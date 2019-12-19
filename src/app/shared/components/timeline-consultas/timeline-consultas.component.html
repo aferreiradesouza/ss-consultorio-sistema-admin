@@ -37,7 +37,7 @@
                                 <div class="corpo-documento"
                                     *ngFor="let subTemplate of template.templates; let i = index">
                                     <div class="d-flex">
-                                        <div class="mr-auto">Documento - {{i}}</div>
+                                        <div class="mr-auto">Documento - {{i + 1}}</div>
                                         <nb-icon class="ml-auto mr-2 icon cursor-pointer" (click)="printDoc(subTemplate.textoHtml)" icon="printer-outline"></nb-icon>
                                     </div>
                                 </div>
