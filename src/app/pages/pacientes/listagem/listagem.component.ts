@@ -40,10 +40,6 @@ export class ListagemPacientesComponent implements OnInit {
         {
           name: 'delete',
           title: '<i class="nb-trash"></i>'
-        },
-        {
-          name: 'atendimento',
-          title: '<i class="nb-compose"></i>'
         }
       ],
       add: false,
@@ -232,8 +228,6 @@ export class ListagemPacientesComponent implements OnInit {
       this.editar(event);
     } else if (event.action === 'delete') {
       this.deletar(event);
-    } else if (event.action === 'atendimento') {
-      this.router.navigateByUrl('medico/atendimento');
     } else {
       this.verPerfil(event);
     }

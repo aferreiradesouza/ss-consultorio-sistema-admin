@@ -7,36 +7,37 @@
             <nb-card-body>
                 <nb-list>
                     <nb-list-item class="p-2 center">
-                        <nb-icon icon="calendar-outline"
-                        nbTooltip="Data e hora da consulta"
-                        nbTooltipPlacement="top" nbTooltipStatus="basic"></nb-icon>
-                        <span class="item">{{ item.data | date:'YYYY-MM-DD' }}, {{item.hora}}</span>
+                        <nb-icon icon="calendar-outline" nbTooltip="Data e hora da consulta" nbTooltipPlacement="top"
+                            nbTooltipStatus="basic"></nb-icon>
+                        <div>
+                            <div class="item">
+                                {{ item.data | date:'YYYY-MM-DD' }}, {{item.hora}}
+                            </div>
+                            <div class="statusConsulta"
+                                [ngStyle]="{'background-color': getColorAtendimento(item.codigoStatusConsulta)}">{{getNomeStatus(item.codigoStatusConsulta)}}</div>
+                        </div>
                     </nb-list-item>
                     <nb-list-item class="p-2 center">
-                        <nb-icon icon="pin-outline"
-                        nbTooltip="Consultório"
-                        nbTooltipPlacement="top" nbTooltipStatus="basic"></nb-icon>
+                        <nb-icon icon="pin-outline" nbTooltip="Consultório" nbTooltipPlacement="top"
+                            nbTooltipStatus="basic"></nb-icon>
                         <span class="item">{{ item.consultorio }}</span>
                     </nb-list-item>
                     <nb-list-item class="p-2 center">
-                        <nb-icon icon="briefcase-outline"
-                        nbTooltip="Especialidade"
-                        nbTooltipPlacement="top" nbTooltipStatus="basic"></nb-icon>
+                        <nb-icon icon="briefcase-outline" nbTooltip="Especialidade" nbTooltipPlacement="top"
+                            nbTooltipStatus="basic"></nb-icon>
                         <span class="item">{{ item.especialidade }}</span>
                     </nb-list-item>
                     <nb-list-item class="p-2 center">
-                        <nb-icon icon="credit-card-outline"
-                        nbTooltip="Forma de pagamento e valor"
-                        nbTooltipPlacement="top" nbTooltipStatus="basic"></nb-icon>
+                        <nb-icon icon="credit-card-outline" nbTooltip="Forma de pagamento e valor"
+                            nbTooltipPlacement="top" nbTooltipStatus="basic"></nb-icon>
                         <span class="item">
                             {{ item.formaPagamento ? item.formaPagamento + ' - ' : '' }}
                             {{ item.valor | currency: 'R$' }}
                             {{ !item.valor && !item.formaPagamento ? '-' : ''}}</span>
                     </nb-list-item>
                     <nb-list-item class="p-2 center">
-                        <nb-icon icon="clock-outline"
-                        nbTooltip="Tipo da consulta"
-                        nbTooltipPlacement="top" nbTooltipStatus="basic"></nb-icon>
+                        <nb-icon icon="clock-outline" nbTooltip="Tipo da consulta" nbTooltipPlacement="top"
+                            nbTooltipStatus="basic"></nb-icon>
                         <span class="item">{{ item.tipoConsulta || '-' }}</span>
                     </nb-list-item>
                 </nb-list>

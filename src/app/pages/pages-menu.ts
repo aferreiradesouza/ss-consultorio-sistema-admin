@@ -104,15 +104,7 @@ export const MENU_ITEMS_MED: NbMenuItem[] = [
           {
             title: 'Modelos de documentos',
             link: '/configuracoes/unidades-de-atendimento',
-          },
-          {
-            title: 'Configuração dos documentos',
-            link: '/configuracoes/unidades-de-atendimento',
-          },
-          {
-            title: 'Assinatura digital',
-            link: '/configuracoes/unidades-de-atendimento',
-          },
+          }
         ]
       }
     ]

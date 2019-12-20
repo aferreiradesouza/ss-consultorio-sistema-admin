@@ -23,7 +23,7 @@ export class TimeLineConsultasComponent implements OnInit {
           return <any>moment(b.data).toDate() - <any>moment(a.data).toDate();
         });
         this.paciente.consultas.forEach((e: any) => {
-            if (e.consultasTemplatesDocumentos.length) {
+            if (e.consultasTemplatesDocumentos && e.consultasTemplatesDocumentos.length) {
                 e.consultasTemplatesDocumentos = this.formatarTemplates(e.consultasTemplatesDocumentos);
             }
         });

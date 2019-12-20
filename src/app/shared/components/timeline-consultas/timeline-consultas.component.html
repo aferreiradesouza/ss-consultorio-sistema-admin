@@ -28,10 +28,10 @@
                         Documentos
                     </div>
                     <div body>
-                        <ng-container *ngIf="!item.consultasTemplatesDocumentos.length">
+                        <ng-container *ngIf="!item?.consultasTemplatesDocumentos || !item?.consultasTemplatesDocumentos?.length">
                             Não tem nenhum documento anexado
                         </ng-container>
-                        <ng-container *ngIf="item.consultasTemplatesDocumentos.length">
+                        <ng-container *ngIf="item.consultasTemplatesDocumentos && item.consultasTemplatesDocumentos.length">
                             <ng-container *ngFor="let template of item.consultasTemplatesDocumentos">
                                 <div class="titulo-documento">{{obterNomeDocumento(template.titulo)}}</div>
                                 <div class="corpo-documento"

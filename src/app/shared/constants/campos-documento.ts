@@ -5,6 +5,5 @@ export const CAMPOS = [
     { label: 'Cidade', codigo: '#cidade#' },
     { label: 'Nome do médico', codigo: '#nome_medico#' },
     { label: 'CRM do médico', codigo: '#crm_medico#' },
-    { label: 'Conselho do médico', codigo: '#conselho_medico#' },
     { label: 'Nome do exame', codigo: '#nome_exame#' },
 ] as Array<{ label: string, codigo: string }>;

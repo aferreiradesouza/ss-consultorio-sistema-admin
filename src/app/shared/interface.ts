@@ -372,6 +372,9 @@ export interface Consulta {
     valor: string;
     especialidade: string;
     consultaAnamnese: Anamnese;
+    statusConsulta: string;
+    codigoStatusConsulta: string;
+    tipoConsulta: string;
     consultasTemplatesDocumentos: Array<ConsultasTemplatesDocumentos> | Array<{titulo: number, templates: Array<ConsultasTemplatesDocumentos>}>;
 }
 

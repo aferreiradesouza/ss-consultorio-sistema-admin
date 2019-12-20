@@ -11,7 +11,8 @@
             Histórico de atendimento
           </nb-card-header>
           <nb-card-body>
-            <ngx-timeline *ngIf="user" [data]="user.consultas"></ngx-timeline>
+            <ngx-timeline *ngIf="user && tiposAtendimentos && statusConsultas" [data]="user.consultas"
+              [tiposAtendimentos]="tiposAtendimentos" [statusConsultas]="statusConsultas"></ngx-timeline>
           </nb-card-body>
         </nb-card>
       </div>
@@ -81,12 +82,13 @@
         </nb-tabset>
       </div>
     </div>
-    <div class="row" *ngIf="ehMedicouOuAdministrador">
+    <div class="row"
+      *ngIf="ehMedicouOuAdministrador && userConsultaFiltrado?.consultas && userConsultaFiltrado?.consultas.length">
       <div class="col-12">
         <h5>Histórico de prontuários</h5>
       </div>
       <div class="col-12">
-        <ngx-timeline-consultas *ngIf="user" [paciente]="user"></ngx-timeline-consultas>
+        <ngx-timeline-consultas *ngIf="userConsultaFiltrado" [paciente]="userConsultaFiltrado"></ngx-timeline-consultas>
       </div>
     </div>
   </nb-card-body>

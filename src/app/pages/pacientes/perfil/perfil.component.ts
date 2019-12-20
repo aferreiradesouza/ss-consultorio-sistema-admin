@@ -6,9 +6,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EditarPacientesComponent } from '../editar/editar.component';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PacientesService } from '../../../shared/services/pacientes.service';
-import { Paciente } from '../../../shared/interface';
+import { Paciente, StatusConsulta, TiposAtendimento } from '../../../shared/interface';
 import { TOASTR } from '../../../shared/constants/toastr';
 import { UtilService } from '../../../shared/services/util.service';
+import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 
 
 @Component({
@@ -26,6 +27,9 @@ export class PerfilPacientesComponent implements OnInit {
 
   public isLoading: boolean;
   public user: Paciente;
+  public userConsultaFiltrado: Paciente;
+  public statusConsultas: StatusConsulta[];
+  public tiposAtendimentos: TiposAtendimento[];
   source: LocalDataSource = new LocalDataSource();
   settings = {
     noDataMessage: 'Sem dados',
@@ -60,12 +64,15 @@ export class PerfilPacientesComponent implements OnInit {
     private dialogService: NbDialogService,
     private toastrService: NbToastrService,
     private pacienteService: PacientesService,
-    public router: Router) { }
+    public router: Router,
+    private recepcionistaService: RecepcionistaService) { }
 
   async ngOnInit() {
     this.isLoading = true;
     this.menuService.collapseAll();
     await this.obterUsuario();
+    await this.obterStatusConsulta();
+    await this.obterTiposAtendimento();
     this.source.load(this.formaPagamentos);
     this.isLoading = false;
   }
@@ -79,6 +86,7 @@ export class PerfilPacientesComponent implements OnInit {
     await this.pacienteService.obterInfoPaciente(id).then(response => {
       if (response.sucesso) {
         this.user = response.objeto;
+        this.userConsultaFiltrado = this.getConsultasFiltrado(response.objeto);
       } else {
         this.toastrService.show('', response.mensagens[0],
           { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
@@ -86,6 +94,28 @@ export class PerfilPacientesComponent implements OnInit {
     }).catch(err => {
       this.toastrService.show('', TOASTR.msgErroPadrao,
         { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+    });
+  }
+
+  async obterStatusConsulta() {
+    await this.recepcionistaService.obterStatusConsulta().then(response => {
+      if (response.sucesso) {
+        this.statusConsultas = response.objeto;
+      } else {
+        this.toastrService.show('', response.mensagens[0],
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+      }
+    });
+  }
+
+  async obterTiposAtendimento() {
+    await this.recepcionistaService.obterTiposAtendimento().then(response => {
+      if (response.sucesso) {
+        this.tiposAtendimentos = response.objeto;
+      } else {
+        this.toastrService.show('', response.mensagens[0],
+          { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
+      }
     });
   }
 
@@ -152,5 +182,20 @@ export class PerfilPacientesComponent implements OnInit {
   getIdade() {
     if (!this.user) { return; }
     return moment().diff(moment(this.user.dataNascimento), 'y');
+  }
+
+  getConsultasFiltrado(user: Paciente) {
+    const usuario: Paciente = this.clone(user);
+    usuario.consultas = usuario.consultas.filter(e => e.codigoStatusConsulta === 'atendimento_finalizado');
+    return usuario;
+  }
+
+  clone(obj) {
+    if (null == obj || 'object' !== typeof obj) return obj;
+    const copy = obj.constructor();
+    for (const attr in obj) {
+      if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
   }
 }
