@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AjaxService } from './ajax.service';
 import { IInfoEndereco } from '../interface';
 import { environment } from '../../../environments/environment';
+import * as moment from 'moment';
 
 @Injectable()
 export class UtilService {
@@ -41,5 +42,9 @@ export class UtilService {
         return await this.ajax.get<any>(url).catch(err => {
             return null;
         });
+    }
+
+    formatarData(data: string, type = 'YYYY-MM-DD', target: string) {
+        return moment(data, type).format(target);
     }
 }

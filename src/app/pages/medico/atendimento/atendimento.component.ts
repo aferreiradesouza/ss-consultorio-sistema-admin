@@ -243,6 +243,10 @@ export class AtendimentoComponent implements OnInit {
                     this.habilitarFormulario();
                     this.verificarConsulta();
                 } else {
+                    clearTimeout(this.timeout);
+                    this.isLoading = true;
+                    await this.registrarAnamnese();
+                    this.isLoading = false;
                     this.router.navigateByUrl('medico/agenda-do-dia');
                 }
             } else {
@@ -421,6 +425,15 @@ export class AtendimentoComponent implements OnInit {
     }
 
     verPerfil() {
-        this.router.navigateByUrl(`/pacientes/perfil?id=${this.consulta.paciente.id}`);
+        window.open(`/pacientes/perfil?id=${this.consulta.paciente.id}`, '_blank');
+    }
+
+    getFormaterData(data, target) {
+        return this.util.formatarData(data, null, target);
+    }
+
+    getTimerConsultaStatus() {
+        if (!this.consulta) {return '-'; }
+        return 'Começou ' + this.getFormaterData(this.consulta.dataStatusConsulta, 'DD/MM/YYYY') + ' às ' + this.getFormaterData(this.consulta.dataStatusConsulta, 'HH:mm');
     }
 }

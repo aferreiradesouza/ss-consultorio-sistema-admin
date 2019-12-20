@@ -13,9 +13,11 @@
         </div>
         <div class="ml-auto d-flex counter">
             <div class="mr-4">
-                <button type="submit"
-                    (click)="atendimento === 'nao_iniciado' ? alterarAtendimento(4) : alterarAtendimento(5)" nbButton
-                    [status]="atendimento === 'nao_iniciado' ? 'primary' : 'warning'">{{atendimento === 'nao_iniciado' ? 'Iniciar atendimento' : 'Finalizar atendimento'}}</button>
+                <button *ngIf="atendimento === 'nao_iniciado'" type="submit" (click)="alterarAtendimento(4)" nbButton
+                    status="primary">Iniciar atendimento</button>
+                <button *ngIf="atendimento === 'em_andamento'" type="submit" [nbTooltip]="getTimerConsultaStatus()"
+                    nbTooltipStatus="basic" (click)="alterarAtendimento(5)" nbButton status="warning">Finalizar
+                    atendimento</button>
             </div>
             <div class="tempo align-center" [ngClass]="obterStatusTime()">
                 {{tempo}}

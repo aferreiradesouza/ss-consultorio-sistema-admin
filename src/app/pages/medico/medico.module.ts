@@ -16,6 +16,7 @@ const MODULES = [
   NbTabsetModule,
   NbTooltipModule,
   NbDialogModule.forRoot(),
+  NbTooltipModule
 ];
 
 @NgModule({
