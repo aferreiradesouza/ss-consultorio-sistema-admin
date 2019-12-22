@@ -57,7 +57,7 @@
             "production": {
               "optimization": true,
               "outputHashing": "all",
-              "baseHref": "https://aferreiradesouza.github.io/ss-consultorio-sistema-admin/",
+              "baseHref": "http://rafaelsilveiradesouza.com.br/",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
