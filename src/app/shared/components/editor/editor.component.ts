@@ -1,7 +1,6 @@
 import { Component, OnInit, Optional, Self, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { CAMPOS } from '../../constants/campos-documento';
-import { CKEditorComponent } from 'ng2-ckeditor';
 
 @Component({
     selector: 'ngx-editor',
@@ -15,7 +14,7 @@ export class EditorComponent implements OnInit, ControlValueAccessor {
     public editorData: any;
 
     ckeConfig: any;
-    @ViewChild('myckeditor', { static: false }) ckeditor: CKEditorComponent;
+    @ViewChild('myckeditor', { static: false }) ckeditor: any;
 
     @Input() showButtons = true;
 

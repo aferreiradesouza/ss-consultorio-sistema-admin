@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CKEditorComponent } from 'ng2-ckeditor';
-import { CAMPOS } from '../../../shared/constants/campos-documento';
 import { LocalDataSource } from 'ng2-smart-table';
 import { CellStatusTableComponent } from '../components-table/cell-status-table.component';
 import { Router } from '@angular/router';

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MENU_ITEMS_ADM, MENU_ITEMS_MED, MENU_ITEMS_RECEP } from './pages-menu';
+import { MENU_ITEMS_ADM, MENU_ITEMS_MED, MENU_ITEMS_RECEP, MENU_ITEMS_DEFAULT } from './pages-menu';
 import { LocalStorageService } from '../shared/services/local-storage.service';
 import { Usuario } from '../shared/interface';
+import { NbMenuItem } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-pages',
@@ -20,25 +21,58 @@ export class PagesComponent implements OnInit {
 
   ngOnInit() {
     const user = <Usuario>this.localStorage.getJson('login');
-    let type;
+    let types = [];
     if (user.ehAdministrador) {
-      type = 'adm';
-    } else if (user.ehMedico) {
-      type = 'med';
-    } else {
-      type = 'recep';
+      types.push('adm');
+    } 
+    if (user.ehMedico) {
+      types.push('med');
+    } 
+    if (user.ehRecepcionista) {
+      types.push('recep');
     }
-    this.menu = this.obterMenu(type);
+    this.menu = this.obterMenu(types);
   }
 
-  obterMenu(type: 'adm' | 'med' | 'recep') {
-    switch (type) {
-      case 'adm':
-        return MENU_ITEMS_ADM;
-      case 'med':
-        return MENU_ITEMS_MED;
-      case 'recep':
-        return MENU_ITEMS_RECEP;
+  obterMenu(types) {
+    let listaMenus: any[] = [];
+
+    listaMenus.push(...MENU_ITEMS_DEFAULT);
+
+    types.forEach(type => {
+      switch (type) {
+        case 'adm':
+          listaMenus.push(...MENU_ITEMS_ADM);
+          break;
+        case 'med':
+          listaMenus.push(...MENU_ITEMS_MED);
+          break;
+        case 'recep':
+          listaMenus.push(...MENU_ITEMS_RECEP);
+          break;
+      }
+    });
+
+    const result = [];
+    const map = new Map();
+    for (const item of listaMenus) {
+        if(!map.has(item.title)){
+            map.set(item.title, true);    
+            result.push(item);
+        }
     }
+
+    result.sort(function (a, b) {
+      if (a.order > b.order) {
+        return 1;
+      }
+      if (a.order < b.order) {
+        return -1;
+      }
+      return 0;
+    });
+
+    console.log('menus',result);
+    return result;
   }
 }

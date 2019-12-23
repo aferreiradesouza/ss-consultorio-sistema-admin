@@ -1,13 +1,15 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const MENU_ITEMS_ADM: NbMenuItem[] = [
+export const MENU_ITEMS_DEFAULT: any[] = [
   {
+    order: 1,
     title: 'Início',
     icon: 'home-outline',
     link: '/home',
     home: true,
   },
   {
+    order: 2,
     title: 'Pacientes',
     icon: 'person-outline',
     children: [
@@ -16,8 +18,12 @@ export const MENU_ITEMS_ADM: NbMenuItem[] = [
         link: '/pacientes/listagem',
       }
     ]
-  },
+  }
+];
+
+export const MENU_ITEMS_ADM: any[] = [
   {
+    order: 6,
     title: 'Configurações',
     icon: 'settings-2-outline',
     children: [
@@ -32,33 +38,29 @@ export const MENU_ITEMS_ADM: NbMenuItem[] = [
       {
         title: 'Agenda',
         link: '/configuracoes/agenda',
-      },
-      {
-        title: 'Cadastros',
-        link: '/configuracoes/unidades-de-atendimento',
-        children: [
-          {
-            title: 'Anamnese',
-            link: '/cadastros/anamnese',
-          },
-          {
-            title: 'Modelos de documentos',
-            link: '/cadastros/modelos-documentos',
-          }
-        ]
       }
     ]
   },
+  {
+    order: 5,
+    title: 'Cadastros',
+    icon: 'file-text-outline',
+    children: [
+      {
+        title: 'Anamnese',
+        link: '/cadastros/anamnese',
+      },
+      {
+        title: 'Modelos de documentos',
+        link: '/cadastros/modelos-documentos',
+      }
+    ]
+  }
 ];
 
-export const MENU_ITEMS_MED: NbMenuItem[] = [
+export const MENU_ITEMS_MED: any[] = [
   {
-    title: 'Início',
-    icon: 'home-outline',
-    link: '/home',
-    home: true,
-  },
-  {
+    order: 3,
     title: 'Médico',
     icon: 'activity-outline',
     children: [
@@ -69,55 +71,25 @@ export const MENU_ITEMS_MED: NbMenuItem[] = [
     ]
   },
   {
-    title: 'Recepcionista',
-    icon: 'book-outline',
+    order: 5,
+    title: 'Cadastros',
+    icon: 'file-text-outline',
     children: [
       {
-        title: 'Calendário',
-        link: '/recepcionista/calendario',
+        title: 'Anamnese',
+        link: '/cadastros/anamnese',
       },
-    ]
-  },
-  {
-    title: 'Pacientes',
-    icon: 'person-outline',
-    children: [
       {
-        title: 'Listagem de pacientes',
-        link: '/pacientes/listagem',
+        title: 'Modelos de documentos',
+        link: '/cadastros/modelos-documentos',
       }
     ]
-  },
-  {
-    title: 'Configurações',
-    icon: 'settings-2-outline',
-    children: [
-      {
-        title: 'Cadastros',
-        link: '/configuracoes/unidades-de-atendimento',
-        children: [
-          {
-            title: 'Anamnese',
-            link: '/cadastros/anamnese',
-          },
-          {
-            title: 'Modelos de documentos',
-            link: '/cadastros/modelos-documentos',
-          }
-        ]
-      }
-    ]
-  },
+  }
 ];
 
-export const MENU_ITEMS_RECEP: NbMenuItem[] = [
+export const MENU_ITEMS_RECEP: any[] = [
   {
-    title: 'Início',
-    icon: 'home-outline',
-    link: '/home',
-    home: true,
-  },
-  {
+    order: 4,
     title: 'Recepcionista',
     icon: 'book-outline',
     children: [
@@ -126,43 +98,5 @@ export const MENU_ITEMS_RECEP: NbMenuItem[] = [
         link: '/recepcionista/calendario',
       },
     ]
-  },
-  {
-    title: 'Pacientes',
-    icon: 'person-outline',
-    children: [
-      {
-        title: 'Listagem de pacientes',
-        link: '/pacientes/listagem',
-      }
-    ]
-  },
-  {
-    title: 'Configurações',
-    icon: 'settings-2-outline',
-    children: [
-      {
-        title: 'Unidades de atendimento',
-        link: '/configuracoes/unidades-de-atendimento',
-      },
-      {
-        title: 'Agenda',
-        link: '/configuracoes/agenda',
-      },
-      {
-        title: 'Cadastros',
-        link: '/configuracoes/unidades-de-atendimento',
-        children: [
-          {
-            title: 'Anamnese',
-            link: '/cadastros/anamnese',
-          },
-          {
-            title: 'Modelos de documentos',
-            link: '/cadastros/modelos-documentos',
-          }
-        ]
-      }
-    ]
-  },
+  }
 ];
