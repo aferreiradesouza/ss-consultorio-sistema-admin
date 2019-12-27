@@ -77,6 +77,16 @@ export class AtendimentoComponent implements OnInit {
         if (this.consulta.idStatusConsulta === 4) {
             this.startCount();
             this.habilitarFormulario();
+            this.form.get('altura').valueChanges.subscribe(val => {
+                if (val && this.form.get('peso').value) {
+                    this.form.get('imc').setValue(this.calculoImc(this.form.get('peso').value, val));
+                }
+            });
+            this.form.get('peso').valueChanges.subscribe(val => {
+                if (val && this.form.get('altura').value) {
+                    this.form.get('imc').setValue(this.calculoImc(val, this.form.get('altura').value));
+                }
+            });
         }
         setTimeout(() => {
             this.preencherAnamnese();
@@ -225,6 +235,20 @@ export class AtendimentoComponent implements OnInit {
     habilitarFormulario() {
         this.form.enable();
         this.formDisabled = false;
+        this.lista.forEach(e => {
+            e.children.forEach(f => {
+                if (f.disabled) {
+                    this.form.get(f.control).disable();
+                }
+            });
+        });
+    }
+
+    calculoImc(peso, altura) {
+        peso = parseFloat(peso);
+        altura = parseFloat(altura);
+        const imc = peso / (altura * altura);
+        return imc.toFixed(2);
     }
 
     async alterarAtendimento(id: 4 | 5) {
@@ -355,6 +379,7 @@ export class AtendimentoComponent implements OnInit {
     async registrarAnamnese() {
         const data = {
             idConsulta: this.consulta.id,
+            imc: this.form.get('imc').value || null
         };
         this.lista.forEach(e => {
             e.children.forEach(f => {
