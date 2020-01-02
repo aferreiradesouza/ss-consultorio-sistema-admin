@@ -57,7 +57,7 @@
             "production": {
               "optimization": true,
               "outputHashing": "all",
-              "baseHref": "http://rafaelsilveiradesouza.com.br/",
+              "baseHref": "/",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
