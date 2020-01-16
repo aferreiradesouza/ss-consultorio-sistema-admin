@@ -53,6 +53,7 @@ export class AtendimentoComponent implements OnInit {
     public lista: any;
     public consulta: ConsultaAtendimento;
     public templates: ListagemDocumentos[];
+    public imc = '-';
 
     public listagemDocumentos: any[] = [];
 
@@ -79,12 +80,12 @@ export class AtendimentoComponent implements OnInit {
             this.habilitarFormulario();
             this.form.get('altura').valueChanges.subscribe(val => {
                 if (val && this.form.get('peso').value) {
-                    this.form.get('imc').setValue(this.calculoImc(this.form.get('peso').value, val));
+                    this.imc = this.calculoImc(this.form.get('peso').value, val);
                 }
             });
             this.form.get('peso').valueChanges.subscribe(val => {
                 if (val && this.form.get('altura').value) {
-                    this.form.get('imc').setValue(this.calculoImc(val, this.form.get('altura').value));
+                    this.imc = this.calculoImc(val, this.form.get('altura').value);
                 }
             });
         }
@@ -246,8 +247,8 @@ export class AtendimentoComponent implements OnInit {
 
     calculoImc(peso, altura) {
         peso = parseFloat(peso);
-        altura = parseFloat(altura);
-        const imc = peso / (altura * altura);
+        const alturaM = parseFloat(altura) / 100;
+        const imc = peso / (alturaM * alturaM);
         return imc.toFixed(2);
     }
 

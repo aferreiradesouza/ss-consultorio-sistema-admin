@@ -65,7 +65,8 @@ export class PerfilPacientesComponent implements OnInit {
     private toastrService: NbToastrService,
     private pacienteService: PacientesService,
     public router: Router,
-    private recepcionistaService: RecepcionistaService) { }
+    private recepcionistaService: RecepcionistaService,
+    private utilService: UtilService) { }
 
   async ngOnInit() {
     this.isLoading = true;
@@ -185,17 +186,8 @@ export class PerfilPacientesComponent implements OnInit {
   }
 
   getConsultasFiltrado(user: Paciente) {
-    const usuario: Paciente = this.clone(user);
+    const usuario: Paciente = this.utilService.clone(user);
     usuario.consultas = usuario.consultas.filter(e => e.codigoStatusConsulta === 'atendimento_finalizado');
     return usuario;
-  }
-
-  clone(obj) {
-    if (null == obj || 'object' !== typeof obj) return obj;
-    const copy = obj.constructor();
-    for (const attr in obj) {
-      if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-    }
-    return copy;
   }
 }

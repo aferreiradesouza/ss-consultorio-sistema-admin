@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { PacientesService } from '../../../shared/services/pacientes.service';
 import { TOASTR } from '../../../shared/constants/toastr';
 import { Anamnese, ConsultasTemplatesDocumentos, Paciente } from '../../../shared/interface';
+import { UtilService } from '../../../shared/services/util.service';
 @Component({
   selector: 'ngx-historico-paciente',
   templateUrl: 'historico.component.html'
@@ -18,7 +19,8 @@ export class HistoricoPacienteComponent implements OnInit {
   constructor(
     protected ref: NbDialogRef<HistoricoPacienteComponent>,
     private pacienteService: PacientesService,
-    private toastrService: NbToastrService) { }
+    private toastrService: NbToastrService,
+    private utilService: UtilService) { }
 
   async ngOnInit() {
     await this.obterPaciente();
@@ -28,8 +30,7 @@ export class HistoricoPacienteComponent implements OnInit {
     this.isLoading = true;
     await this.pacienteService.obterInfoPaciente(this.id).then(response => {
       if (response.sucesso) {
-        this.paciente = response.objeto;
-        console.log(this.paciente);
+        this.paciente = this.getConsultasFiltrado(response.objeto);
       } else {
         this.toastrService.show('', response.mensagens[0],
           { status: 'danger', duration: TOASTR.timer, position: TOASTR.position });
@@ -44,5 +45,11 @@ export class HistoricoPacienteComponent implements OnInit {
 
   dismiss() {
     this.ref.close(false);
+  }
+
+  getConsultasFiltrado(user: Paciente) {
+    const usuario: Paciente = this.utilService.clone(user);
+    usuario.consultas = usuario.consultas.filter(e => e.codigoStatusConsulta === 'atendimento_finalizado');
+    return usuario;
   }
 }

@@ -47,4 +47,13 @@ export class UtilService {
     formatarData(data: string, type = 'YYYY-MM-DD', target: string) {
         return moment(data, type).format(target);
     }
+
+    clone(obj) {
+      if (null == obj || 'object' !== typeof obj) return obj;
+      const copy = obj.constructor();
+      for (const attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+      }
+      return copy;
+    }
 }

@@ -43,10 +43,13 @@
                         <nb-card-body>
                             <div class="row">
                                 <div class="col-12 col-sm-12 col-lg-6 col-md-6" *ngFor="let subItem of item.children">
-                                    <ngx-input-simple (blur)="salvarAnamnese()" [feedback]="false"
+                                    <ngx-input-simple *ngIf="!subItem.onlyLabel" (blur)="salvarAnamnese()" [feedback]="false"
                                         [label]="subItem.label" type="text" [formControlName]="subItem.control"
                                         [disabled]="formDisabled">
                                     </ngx-input-simple>
+                                    <div *ngIf="subItem.onlyLabel" class="pt-3">
+                                        <ngx-item label="IMC" [value]="imc"></ngx-item>
+                                    </div>
                                 </div>
                             </div>
                         </nb-card-body>

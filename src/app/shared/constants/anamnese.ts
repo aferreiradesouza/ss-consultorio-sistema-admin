@@ -42,9 +42,9 @@ export const ANAMNESE = [
     {
         title: 'Exame Antropométrico',
         children: [
-            {control: 'peso', label: 'Peso'},
-            {control: 'altura', label: 'Altura'},
-            {control: 'imc', label: 'IMC', disabled: true},
+            {control: 'peso', label: 'Peso (KG)'},
+            {control: 'altura', label: 'Altura (CM)'},
+            {control: 'imc', label: 'IMC', disabled: true, onlyLabel: true},
             {control: 'percentualGordura', label: 'Percentual de gordura'},
             {control: 'informacoesGeraisAntropometrico', label: 'Informações Gerais'}
         ]
@@ -70,4 +70,4 @@ export const ANAMNESE = [
             {control: 'tipoDoenca', label: 'Tipo de Doença'}
         ]
     },
-] as Array<{ title: string; children: Array<{ control: string; label: string, disabled?: boolean }> }>;
+] as Array<{ title: string; children: Array<{ control: string; label: string, disabled?: boolean, onlyLabel: boolean }> }>;
