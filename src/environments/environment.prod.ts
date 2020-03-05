@@ -1,6 +1,6 @@
 export const environment = {
-  urlBase: 'http://54.165.201.177:2001/api/',
-  urlSignalR: 'http://54.165.201.177:2001/',
+  urlBase: 'http://api.ssistema.com.br/api/',
+  urlSignalR: 'http://api.ssistema.com.br/',
   production: true,
   version: '0.0.1'
 };
