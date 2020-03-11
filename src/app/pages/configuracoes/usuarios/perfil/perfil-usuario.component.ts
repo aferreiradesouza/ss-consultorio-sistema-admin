@@ -79,6 +79,8 @@ export class PerfilUsuarioComponent implements OnInit {
         const perfil = [];
         if (user.ehMedico) { perfil.push('medico'); }
         if (user.ehAdministrador) { perfil.push('administracao'); }
+        if (user.ehFinanceiro) { perfil.push('financeiro'); }
+        if (user.ehRecepcionista) { perfil.push('recepcionista'); }
         this.perfis.setValue(perfil);
     }
 
