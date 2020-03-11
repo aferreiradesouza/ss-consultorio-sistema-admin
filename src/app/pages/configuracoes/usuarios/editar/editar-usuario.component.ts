@@ -88,7 +88,7 @@ export class EditarUsuarioComponent implements OnInit {
     async editar() {
         this.isLoading = true;
         const form = this.form.value;
-        const dados = {
+        const dados: any = {
             id: this.user.id,
             nome: form.nome || null,
             cpf: form.cpf ? form.cpf.replace(new RegExp(/[.\-]/, 'g'), '') : null,
@@ -102,8 +102,12 @@ export class EditarUsuarioComponent implements OnInit {
             urlFoto: form.urlFoto || null,
             ehAdministrador: this.perfis.value.indexOf('administracao') > -1,
             dataNascimento: form.nascimento ? moment(form.nascimento, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
-            ativo: form.status,
+            ativo: form.status
         };
+
+        if (this.form.value.senha) {
+            dados.senha = this.form.value.senha;
+        }
 
         await this.configuracoesService.alterarUsuario(dados).then(response => {
             if (response.sucesso) {
