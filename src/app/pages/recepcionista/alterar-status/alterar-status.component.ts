@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { StatusConsulta } from '../../../shared/interface';
 import { RecepcionistaService } from '../../../shared/services/recepcionista.service';
 import { TOASTR } from '../../../shared/constants/toastr';
+import { FORMA_PAGAMENTO } from '../../../shared/constants/forma-pagamento';
 
 interface DiaConsulta {
   bloqueado: boolean;
@@ -32,12 +33,7 @@ export class AlterarStatusComponent implements OnInit {
   public isLoading: boolean;
   public valueInicial: number;
 
-  public formasPagamento = [
-    'Dinheiro',
-    'Cartão de Crédito',
-    'Cartão de Débito',
-    'Cheque'
-  ];
+  public formasPagamento = FORMA_PAGAMENTO;
 
   public form = new FormGroup({
     status: new FormControl(null),

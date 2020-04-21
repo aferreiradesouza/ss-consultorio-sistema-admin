@@ -218,6 +218,62 @@ export interface IRemoverTemplateConsulta extends DefaultHttpResponse {
     objeto: boolean;
 }
 
+export interface IGraficoInformacoesSistema extends DefaultHttpResponse {
+    objeto: {
+        totalPacientes: number,
+        totalConsultas: number,
+        totalMedicos: number,
+        totalRecepcionista: number,
+        totalDiasAtendimento: number,
+        totalConsultorios: number,
+        totalArrecadado: number
+    };
+}
+
+export interface ITiposPacientesConsultorios extends DefaultHttpResponse {
+    objeto: {
+        nomeConsultorio: string,
+        totalPacientesNovos: number,
+        totalPacientesFrequentes: number
+    }[];
+}
+
+export interface IArrecadacaoPorConsultorio extends DefaultHttpResponse {
+    objeto: {
+        nomeConsultorio: string,
+        totalRecebido: number,
+        totalConsulta: number
+    }[];
+}
+
+export interface IDesistenciaPorConsultorio extends DefaultHttpResponse {
+    objeto: {
+        nomeConsultorio: string,
+        total: number
+    }[];
+}
+
+export interface ICancelamentoPorConsultorio extends DefaultHttpResponse {
+    objeto: {
+        nomeConsultorio: string,
+        total: number
+    }[];
+}
+
+export interface IAtendimentoPorConsultorio extends DefaultHttpResponse {
+    objeto: {
+        nomeConsultorio: string,
+        totalAtendimento: number
+    }[];
+}
+
+export interface IFormasPagamentoPorConsultorio extends DefaultHttpResponse {
+    objeto: {
+        nomeConsultorio: string,
+        formasPagamentos: string[]
+    }[];
+}
+
 export interface ListagemDocumentos {
     id: number;
     idMedico: number;
@@ -317,6 +373,8 @@ export interface Login {
     email: string;
     urlFoto: string;
     ehAdministrador: boolean;
+    ehFinanceiro: boolean;
+    ehRecepcionista: boolean;
     dataNascimento: string;
     dataCadastro: string;
     dataDesativacao: string;

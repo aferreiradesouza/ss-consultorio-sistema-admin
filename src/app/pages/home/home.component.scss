@@ -1,0 +1,59 @@
+
+apx-chart {
+    width: 100%;
+}
+
+.header-graph {
+    display: flex;
+
+    .title {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        height: 40px;
+    }
+
+    .options {
+        width: 100%;
+        margin-left: auto;
+        width: 191px;
+    }
+}
+
+.content-infoGerais {
+    display: flex;
+
+    > .icon {
+        height: 80px;
+        width: 100%;
+        max-width: 80px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+
+        > nb-icon {
+            font-size: 30px;
+        }
+    }
+
+    > .description {
+        width: 100%;
+        position: relative;
+
+        > .title {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 13px;
+        }
+
+        > .value {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-size: 23px;
+        }
+    }
+}

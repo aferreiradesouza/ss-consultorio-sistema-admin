@@ -225,7 +225,6 @@ export class AtendimentoComponent implements OnInit {
     }
 
     startCount() {
-        console.log(this.consulta.dataStatusConsulta);
         const dataAtual = moment(this.consulta.dataStatusConsulta);
         setInterval(() => {
             const tempo = moment.utc(moment(new Date()).diff(dataAtual)).format('HH:mm:ss');

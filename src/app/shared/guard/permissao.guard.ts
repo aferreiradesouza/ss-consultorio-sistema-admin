@@ -24,7 +24,6 @@ export class PermissaoGuard implements CanActivate {
 
     temPermissao(route: string, menu: NbMenuItem[]): boolean {
         const a = this.avaliarRota(menu, route);
-        console.log(a);
         return a;
     }
 

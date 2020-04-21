@@ -520,7 +520,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
     if (indexData === -1 || indexHora === -1) { return; }
     switch (type) {
       case 'status':
-        console.log(data, type, content);
         if (content.IdStatusConsulta === 6) {
           this.data[indexData].horarios[indexHora].consulta.dataStatusConsulta = content.DataStatusConsulta;
           this.data[indexData].horarios[indexHora].consulta = null;
@@ -597,7 +596,6 @@ export class CalendarioRecepcaoComponent implements OnInit {
   }
 
   infoConsulta(data) {
-    console.log(data);
     this.dialogService.open(
       DetalhesConsultaComponent,
       {

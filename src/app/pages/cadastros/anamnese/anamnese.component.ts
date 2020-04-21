@@ -40,7 +40,6 @@ export class AnamneseComponent implements OnInit {
 
     initializeForm() {
         this.form = new FormGroup({});
-        console.log(ANAMNESE);
         this.listaAnamnese.forEach(e => {
             e.children.forEach(f => {
                 this.addControl(f.control);

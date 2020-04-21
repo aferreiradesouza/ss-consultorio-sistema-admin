@@ -119,6 +119,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onStorageChange(ev: KeyboardEvent) {
     // do something meaningful with it
-    console.log(`Localstorage change/updated!`, ev);
   }
 }
