@@ -373,6 +373,8 @@ export interface Login {
     email: string;
     urlFoto: string;
     ehAdministrador: boolean;
+    ehFinanceiro: boolean;
+    ehRecepcionista: boolean;
     dataNascimento: string;
     dataCadastro: string;
     dataDesativacao: string;

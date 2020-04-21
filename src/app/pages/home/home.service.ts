@@ -13,28 +13,11 @@ export class HomeService {
 
     public graphs = [
         {
-            nome: 'infoSistema',
-            grid: {
-                sm: '12',
-                md: '5',
-                lg: '5'
-            },
-            grafico: 'pie',
-            titulo: 'Infomações gerais',
-            series: null,
-            labels: ['Total Pacientes', 'Total Consultas', 'Total Medicos', 'Total Recepcionista', 'Total DiasAtendimento', 'Total Consultorios', 'Total Arrecadado'],
-            isLoading: true,
-            error: false,
-            xaxis: null,
-            noData: false,
-            interval: '4'
-        },
-        {
             nome: 'tiposPacientesPorConsultorio',
             grid: {
                 sm: '12',
-                md: '7',
-                lg: '7'
+                md: '6',
+                lg: '6'
             },
             grafico: 'bar',
             titulo: 'Tipos pacientes por consultório',
@@ -44,7 +27,8 @@ export class HomeService {
             error: false,
             xaxis: null,
             noData: false,
-            interval: '4'
+            interval: '2',
+            guard: null
         },
         {
             nome: 'arrecadacaoPorConsultorio',
@@ -61,7 +45,8 @@ export class HomeService {
             error: false,
             xaxis: null,
             noData: false,
-            interval: '4'
+            interval: '2',
+            guard: null
         },
         {
             nome: 'desistenciaPorConsultorio',
@@ -78,7 +63,8 @@ export class HomeService {
             error: false,
             xaxis: null,
             noData: false,
-            interval: '4'
+            interval: '2',
+            guard: null
         },
         {
             nome: 'cancelamentosPorConsultorio',
@@ -95,7 +81,8 @@ export class HomeService {
             error: false,
             xaxis: null,
             noData: false,
-            interval: '4'
+            interval: '2',
+            guard: null
         },
         {
             nome: 'atendimentosPorConsultorio',
@@ -112,7 +99,8 @@ export class HomeService {
             error: false,
             xaxis: null,
             noData: false,
-            interval: '4'
+            interval: '2',
+            guard: null
         },
         {
             nome: 'formasPagamentoPorConsultorio',
@@ -129,7 +117,8 @@ export class HomeService {
             error: false,
             xaxis: null,
             noData: false,
-            interval: '4'
+            interval: '2',
+            guard: ['Financeiro', 'Administrador']
         },
     ];
 
@@ -177,7 +166,7 @@ export class HomeService {
                 if (!cancelado) {
                     return util.loading(400, () => {
                         if (response.sucesso) {
-                            return Object.values(response.objeto);
+                            return response;
                         } else {
                             return null;
                         }

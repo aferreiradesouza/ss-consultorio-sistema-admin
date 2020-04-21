@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbAlertModule, NbSpinnerModule, NbSelectModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbAlertModule, NbSpinnerModule, NbSelectModule, NbIconModule } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
@@ -18,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     NgApexchartsModule,
     NbSpinnerModule,
     NbSelectModule,
-    FormsModule
+    FormsModule,
+    NbIconModule
   ],
   declarations: [
     HomeComponent,

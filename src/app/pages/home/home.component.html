@@ -3,6 +3,27 @@
         <nb-alert class="w-100 mb-0" status="basic">Em breve, página em construção...</nb-alert>
     </nb-card-body>
 </nb-card> -->
+<div class="row" *ngIf="showInfoGeral()">
+    <div *ngFor="let item of infoGerais" [ngClass]="getGrids(item.col)">
+        <nb-card [nbSpinner]="loadingInfoGerais" nbSpinnerStatus="primary">
+            <nb-card-body>
+                <div class="content-infoGerais">
+                    <div class="icon" [style.backgroundColor]="item.color">
+                        <nb-icon [icon]=" item.icon"></nb-icon>
+                    </div>
+                    <div class="description">
+                        <div class="title">
+                            {{item.title}}
+                        </div>
+                        <div class="value">
+                            {{item.data}}
+                        </div>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
 <div class="row">
     <div *ngFor="let item of graphs" [ngClass]="getGrids(item.grid)">
         <nb-card [nbSpinner]="item.isLoading" nbSpinnerStatus="primary">
