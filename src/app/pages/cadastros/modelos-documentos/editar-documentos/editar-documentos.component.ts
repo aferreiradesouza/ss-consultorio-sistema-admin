@@ -38,7 +38,6 @@ export class EditarModelosDocumentosComponent implements OnInit {
         public utilService: UtilService) { }
 
     async ngOnInit() {
-        console.log(this.data);
         this.isLoading = true;
         await this.utilService.loading(500, () => this.isLoading = false);
         setTimeout(() => {

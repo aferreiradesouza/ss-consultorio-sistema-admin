@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
-import { NbButtonModule, NbCardModule, NbAlertModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbAlertModule, NbSpinnerModule, NbSelectModule } from '@nebular/theme';
 
 import { SharedModule } from '../../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { HomeService } from './home.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -11,10 +14,17 @@ import { HomeComponent } from './home.component';
     NbCardModule,
     NbButtonModule,
     HomeRoutingModule,
-    NbAlertModule
+    NbAlertModule,
+    NgApexchartsModule,
+    NbSpinnerModule,
+    NbSelectModule,
+    FormsModule
   ],
   declarations: [
     HomeComponent,
   ],
+  providers: [
+    HomeService
+  ]
 })
 export class HomeModule { }

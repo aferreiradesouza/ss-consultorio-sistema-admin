@@ -147,7 +147,6 @@ export class ModelosDocumentosComponent implements OnInit {
         if (event.action === 'visualizar') {
             this.verTemplate(event);
         } else if (event.action === 'edit') {
-            console.log(event);
             this.editar(event);
         }
     }

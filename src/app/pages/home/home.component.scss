@@ -1,0 +1,21 @@
+
+apx-chart {
+    width: 100%;
+}
+
+.header-graph {
+    display: flex;
+
+    .title {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        height: 40px;
+    }
+
+    .options {
+        width: 100%;
+        margin-left: auto;
+        width: 191px;
+    }
+}

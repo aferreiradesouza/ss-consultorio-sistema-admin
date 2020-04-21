@@ -71,8 +71,6 @@ export class PagesComponent implements OnInit {
       }
       return 0;
     });
-
-    console.log('menus',result);
     return result;
   }
 }

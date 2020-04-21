@@ -1,5 +1,46 @@
-<nb-card>
+<!-- <nb-card>
     <nb-card-body>
         <nb-alert class="w-100 mb-0" status="basic">Em breve, página em construção...</nb-alert>
     </nb-card-body>
-</nb-card>
+</nb-card> -->
+<div class="row">
+    <div *ngFor="let item of graphs" [ngClass]="getGrids(item.grid)">
+        <nb-card [nbSpinner]="item.isLoading" nbSpinnerStatus="primary">
+            <nb-card-header>
+                <div class="header-graph">
+                    <div class="title">
+                        {{item.titulo}}
+                    </div>
+                    <div class="options" *ngIf="item.grafico !== 'pie'">
+                        <nb-select fullWidth placeholder="Selecione" [(ngModel)]="item.interval" (ngModelChange)="obterDataEspecifico(item.nome, item.interval)">
+                            <nb-option [value]="item.value" *ngFor="let item of interval">{{item.label}}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+                </div>
+            </nb-card-header>
+            <nb-card-body>
+                <div style="height: 397px; display: flex; align-items: center; width: 100%;">
+                    <ng-container *ngIf="!item.isLoading && !item.noData && !item.error">
+                        <ng-container *ngIf="item.grafico === 'pie'">
+                            <apx-chart [series]="item.series" [labels]="item.labels" [chart]="pieObject.chart"></apx-chart>
+                        </ng-container>
+                        <ng-container *ngIf="item.grafico === 'bar'">
+                            <apx-chart [series]="item.series" [chart]="barObject.chart" [xaxis]="item.xaxis"></apx-chart>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="item.noData && !item.error">
+                        <div style="text-align: center; width: 100%;">
+                            Não há nenhum dado para ser apresentado no momento.
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="item.error">
+                        <div style="text-align: center; width: 100%;">
+                            Não foi possível carregar o gráfico no momento.
+                        </div>
+                    </ng-container>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
