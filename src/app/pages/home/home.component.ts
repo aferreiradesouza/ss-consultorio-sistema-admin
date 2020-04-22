@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   public loadingInfoGerais = false;
 
   public infoGerais = [
-    { name: 'totalPacientes', icon: 'people-outline', color: '#f39c12', title: 'Total de pacientes', col: { sm: '6', md: '3', lg: '3' }, data: '-', formatter: null },
+    { name: 'totalPacientes', icon: 'people-outline', color: '#f39c12', title: 'Total de pacientes atendidos', col: { sm: '6', md: '3', lg: '3' }, data: '-', formatter: null },
     { name: 'totalConsultas', icon: 'file-text-outline', color: '#d35400', title: 'Total de consultas', col: { sm: '6', md: '3', lg: '3' }, data: '-', formatter: null },
     { name: 'totalMedicos', icon: 'activity-outline', color: '#c0392b', title: 'Total de médicos', col: { sm: '6', md: '3', lg: '3' }, data: '-', formatter: null },
     { name: 'totalRecepcionista', icon: 'person-outline', color: '#2980b9', title: 'Total de recepcionista', col: { sm: '6', md: '3', lg: '3' }, data: '-', formatter: null },
