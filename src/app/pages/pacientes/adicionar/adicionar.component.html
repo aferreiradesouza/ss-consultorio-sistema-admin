@@ -14,11 +14,11 @@
                         placeholder="Fulano">
                     </ngx-input-simple>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-5">
                     <ngx-input-mask label="CPF" formControlName="cpf" type="cpf" [required]="true"
                         placeholder="000.000.000-00" [dropCharacters]="false"></ngx-input-mask>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                     <ngx-input-mask label="Data de nascimento" type="date" formControlName="nascimento"
                         placeholder="00/00/0000" [dropCharacters]="false"></ngx-input-mask>
                 </div>
@@ -26,6 +26,8 @@
                     <ngx-input-mask label="Idade" type="idade" formControlName="idade" placeholder="00">
                     </ngx-input-mask>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-3">
                     <label class="label d-block">Sexo</label>
                     <nb-select fullWidth placeholder="Selecione" [status]="getStatusSexo()" [formControl]="sexo">
@@ -33,6 +35,16 @@
                         <nb-option value="F">Feminino</nb-option>
                         <nb-option value="O">Outros</nb-option>
                     </nb-select>
+                </div>
+                <div class="col-sm-3">
+                    <ngx-input-simple label="RG" formControlName="rg" [required]="true"
+                        placeholder="00.000.000-00">
+                    </ngx-input-simple>
+                </div>
+                <div class="col-sm-6">
+                    <ngx-input-simple label="Orgão expedidor" formControlName="orgaoExpedidor" [required]="true"
+                        placeholder="DETRAN">
+                    </ngx-input-simple>
                 </div>
             </div>
             <div class="row">

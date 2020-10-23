@@ -12,7 +12,7 @@ import { RecepcionistaService } from '../../../../../shared/services/recepcionis
     selector: 'ngx-editar-agenda-calendario',
     templateUrl: 'editar.component.html',
     styles: [`
-    :host /deep/ nb-user div.user-container div.user-picture {
+    :host nb-user div.user-container div.user-picture {
         background-position: center;
     }
 

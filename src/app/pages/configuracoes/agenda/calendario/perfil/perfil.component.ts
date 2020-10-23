@@ -12,7 +12,7 @@ import { CalendarioService } from '../../../../../shared/services/calendarios.se
     selector: 'ngx-perfil-agenda-calendario',
     templateUrl: 'perfil.component.html',
     styles: [`
-    :host /deep/ nb-user div.user-container div.user-picture {
+    :host nb-user div.user-container div.user-picture {
         background-position: center;
     }
     `]

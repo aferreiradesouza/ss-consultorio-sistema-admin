@@ -9,7 +9,7 @@ import { TOASTR } from '../../../../shared/constants/toastr';
     selector: 'ngx-adicionar-unidade-atendimento',
     templateUrl: 'adicionar-unidade-atendimento.component.html',
     styles: [`
-        :host /deep/ nb-user div.user-container div.user-picture {
+        :host nb-user div.user-container div.user-picture {
             background-position: center;
         }
     `]

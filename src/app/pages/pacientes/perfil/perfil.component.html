@@ -40,6 +40,12 @@
                 <ngx-item label="Sexo" [value]="user?.sexo === 'M' ? 'Masculino' : 'Feminino'"></ngx-item>
               </div>
               <div class="col-sm-6">
+                <ngx-item label="RG" [value]="user?.rg"></ngx-item>
+              </div>
+              <div class="col-sm-6">
+                <ngx-item label="Orgão expedidor" [value]="user?.orgaoExpedidorRg"></ngx-item>
+              </div>
+              <div class="col-sm-6">
                 <ngx-item label="Data de nascimento" [value]="user?.dataNascimento | date:'YYYY-MM-DD'"></ngx-item>
               </div>
               <div class="col-sm-6">

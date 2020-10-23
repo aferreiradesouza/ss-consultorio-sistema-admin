@@ -415,6 +415,8 @@ export interface Paciente {
     dataNascimento: string;
     dataCadastro: string;
     dataDesativacao: string;
+    rg: string;
+    orgaoExpedidorRg: string;
     ativo: boolean;
     consultas: Array<Consulta>;
     comoConheceu: number;

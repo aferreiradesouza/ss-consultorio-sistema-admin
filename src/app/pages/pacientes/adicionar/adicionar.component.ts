@@ -14,6 +14,8 @@ export class AdicionarPacientesComponent implements OnInit {
 
   public form = new FormGroup({
     nome: new FormControl(''),
+    rg: new FormControl(''),
+    orgaoExpedidor: new FormControl(''),
     nascimento: new FormControl(''),
     cpf: new FormControl(''),
     sexo: new FormControl(''),
@@ -96,6 +98,8 @@ export class AdicionarPacientesComponent implements OnInit {
       bairro: form.bairro || null,
       cidade: form.cidade || null,
       estado: form.estado || null,
+      orgaoExpedidorRg: form.orgaoExpedidor || null,
+      rg: form.rg || null,
       dataNascimento: form.nascimento ? moment(form.nascimento, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
       comoConheceu: this.comoConheceu.value
     };

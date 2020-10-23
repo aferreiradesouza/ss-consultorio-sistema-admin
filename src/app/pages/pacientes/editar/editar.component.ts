@@ -28,6 +28,8 @@ export class EditarPacientesComponent implements OnInit {
     numero: new FormControl(''),
     bairro: new FormControl(''),
     cidade: new FormControl(''),
+    rg: new FormControl(''),
+    orgaoExpedidor: new FormControl(''),
     uf: new FormControl(''),
     idade: new FormControl({ value: '', disabled: true }),
     status: new FormControl(false),
@@ -115,6 +117,8 @@ export class EditarPacientesComponent implements OnInit {
       bairro: form.bairro || null,
       cidade: form.cidade || null,
       estado: form.uf || null,
+      rg: form.rg || null,
+      orgaoExpedidorRg: form.orgaoExpedidor || null,
       dataNascimento: form.nascimento ? moment(form.nascimento, 'DD/MM/YYYY').format('YYYY-MM-DD') : null,
       ativo: form.status,
       comoConheceu: this.comoConheceu.value
@@ -140,6 +144,8 @@ export class EditarPacientesComponent implements OnInit {
       cidade: this.user.cidade,
       idade: this.user.dataNascimento ? moment().diff(moment(this.user.dataNascimento), 'y') : '00',
       status: this.user.ativo,
+      rg: this.user.rg,
+      orgaoExpedidor: this.user.orgaoExpedidorRg,
       uf: this.user.estado
     });
     this.sexo.setValue(this.user.sexo);

@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
   selector: 'ngx-channel-attribute-renderer',
   template: `<nb-user [picture]="rowData.consultorio.urlFoto" [name]="rowData.consultorio.nome"></nb-user>`,
   styles: [`
-    :host /deep/ nb-user div.user-container div.user-picture {
+    :host nb-user div.user-container div.user-picture {
       background-position: center;
     }
   `]

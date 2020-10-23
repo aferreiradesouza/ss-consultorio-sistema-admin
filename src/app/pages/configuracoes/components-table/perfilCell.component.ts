@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
   selector: 'ngx-channel-attribute-renderer',
   template: `{{this.getPerfil()}}`,
   styles: [`
-    :host /deep/ nb-user div.user-container div.user-picture {
+    :host nb-user div.user-container div.user-picture {
       background-position: center;
     }
   `]
